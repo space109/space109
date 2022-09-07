@@ -1,0 +1,15 @@
+{
+  "short_name": "SSAFY NFT",
+  "name": "SSAFY NFT",
+  "icons": [
+    {
+      "src": "favicon/logo.png",
+      "sizes": "139x100",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
