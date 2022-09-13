@@ -1,13 +1,61 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-style: normal;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  margin: 0;
+  font-family: "Pretendard-Regular";
+  color: #1d1d1d;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --main-bg: #1d1d1d;
+  --grey-100: white;
+  --grey-150: #f4f4f4;
+  --grey-200: #f0f0f0;
+  --grey-250: #d9d9d9;
+  --grey-300: #cccccc;
+  --grey-350: #b3b3b3;
+  --grey-400: #878787;
+  --grey-450: #666666;
+  --grey-500: #4d4d4d;
+  --grey-550: #333333;
+  --grey-600: #1e1e1e;
+  --grey-650: #1d1d1d;
+  --grey-700: #1c1c1c;
+  --grey-750: black;
+  --carmine-100: #d73838;
+  --carmine-200: #a20e22;
+  --carmine-300: #7d0328;
+  --mandarin-100: #f5d417;
+  --mandarin-200: #ecb237;
+  --mandarin-300: #db7137;
+  --matcha-100: #859e22;
+  --matcha-200: #343a22;
+  --matcha-300: #00190f;
+  --ocean-100: #a5d1d3;
+  --ocean-200: #00b2b2;
+  --ocean-300: #0a576c;
+  --navy-100: #0a6588;
+  --navy-200: #183245;
+  --navy-300: #1b2d47;
+  --grape-100: #434967;
+  --grape-200: #4a2e6b;
+  --grape-300: #301e45;
+  --wine-100: #673241;
+  --wine-200: #45212b;
+  --wine-300: #29141a;
+  --milk-coffee-100: #9a8961;
+  --milk-coffee-200: #6e6145;
+  --milk-coffee-100: #3f3827;
+  --spinach-100: #648f82;
+  --spinach-200: #019168;
+  --spinach-300: #016549;
+  --modal-bg: rgba(0, 0, 0, 0.6);
 }
