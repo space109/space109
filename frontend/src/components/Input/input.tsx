@@ -4,14 +4,12 @@ import styled, { css } from "styled-components";
 
 interface Props {
   width?: any,
-  height?: any,
   fontSize?: any,
-  color?: any,
   fontWeight?: any,
   isBorder?: any,
+  borderColor?: any,
   isReadOnly?: any,
   placeholder?: any,
-  borderColor?: any,
   value?: any,
 };
 
