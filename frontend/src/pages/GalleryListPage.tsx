@@ -1,12 +1,13 @@
 import React from "react";
-import NaviButton from "../components/Button/NaviButton";
+import GalleryCard from "../components/Card/GalleryCard";
+
 
 // type Props = {};
 
 function GalleryListPage() {
   return (
     <div>
-      <NaviButton></NaviButton>
+      <GalleryCard/>
     </div>
   );
 }
