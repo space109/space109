@@ -36,4 +36,12 @@ router.get("/display", async function(req, res){
   res.send(responseBody);
 });
 
+router.delete("/sell", async function(req, res){
+  const { statusCode, responseBody } = await nftService.deleteSoldNft(
+    req.body.nftId
+  );
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
 module.exports = router;

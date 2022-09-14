@@ -71,7 +71,6 @@ class NftRepository {
   };
   async getDisplayedNftList(galleryId){
     const sql = `SELECT * FROM SELL WHERE GALLERY_ID = ${galleryId};`;
-    let returnBool = true;
     const result=await connection.query(sql)
             .then(data=>data[0])
             .catch((e)=>{
@@ -79,6 +78,19 @@ class NftRepository {
             })
 
             return result;
+  };
+  async deleteSoldNft(nftId){
+    const sql = `DELETE FROM SELL WHERE NFT_ID = ${nftId};`;
+    let returnBool = true;
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        console.error(e);
+        returnBool = false;
+      });
+    console.log(result);
+    return returnBool;
   };
 
 

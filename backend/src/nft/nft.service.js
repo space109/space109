@@ -41,5 +41,17 @@ class NftService {
     }
   };
 
+  async deleteSoldNft(nftId){
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await nftRepository.deleteSoldNft(
+          nftId
+        )
+      },
+    }
+  };
+
 }
 module.exports = NftService;
