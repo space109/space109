@@ -84,13 +84,19 @@ class NftRepository {
     let returnBool = true;
     const result = await connection
       .query(sql)
-      .then((data) => data[0])
+      .then((data) => {returnBool = data[0].affectedRows;})
       .catch((e) => {
         console.error(e);
-        returnBool = false;
+        returnBool = 0;
       });
-    console.log(result);
-    return returnBool;
+      if(returnBool === 0){
+        return false;
+      }
+      else{
+        return true;
+      }
+    // console.log(result);
+    // return returnBool;
   };
 
 
