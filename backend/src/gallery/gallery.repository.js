@@ -45,7 +45,7 @@ class GalleryRepository {
 
     const result = await connection
       .query(sql)
-      .then((data) => data[0])
+      .then((data) => data[0].affectedRows)
       .catch((e) => {
         console.error(e);
       });
