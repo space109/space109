@@ -70,7 +70,7 @@ class NftRepository {
     return returnBool;
   };
   async getDisplayedNftList(galleryId){
-    const sql = `SELECT * FROM GALLERY WHERE GALLERY_ID = ${galleryId};`;
+    const sql = `SELECT * FROM SELL WHERE GALLERY_ID = ${galleryId};`;
     let returnBool = true;
     const result=await connection.query(sql)
             .then(data=>data[0])
