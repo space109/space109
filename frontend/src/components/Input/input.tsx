@@ -32,7 +32,6 @@ const StyledInput = styled.input<Props>`
   }}
 `;
 
-// 패딩을 폰트 크기에 맞춰서 비율로 줘야할 것 같음
 const BorderDiv = styled.div<Props>`
   box-sizing: border-box;
   
