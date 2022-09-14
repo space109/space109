@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import MainPage from "./pages/MainPage";
+import { MainPage, MonthlyThemePage } from "./pages";
 
 function App() {
   return (
@@ -8,6 +8,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
+          <Route path="monthlyTheme/" element={<MonthlyThemePage />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
