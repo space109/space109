@@ -16,7 +16,7 @@ class NftService {
         ),
       },
     };
-  }
+  };
   async updateDisplayInfo(nftId, scale, position){
     return {
       statusCode: 200,
@@ -27,6 +27,19 @@ class NftService {
         )
       },
     }
-  }
+  };
+
+  async getDisplayedNftList(galleryId){
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await nftRepository.getDisplayedNftList(
+          galleryId
+        )
+      },
+    }
+  };
+
 }
 module.exports = NftService;

@@ -24,6 +24,16 @@ router.put("/display/change", async function(req, res){
   console.log(req.body);
   res.statusCode = statusCode;
   res.send(responseBody);
-})
+});
+
+router.get("/display", async function(req, res){
+  // console.log("들어옴");
+  // console.log(req.query.galleryId);
+  const { statusCode, responseBody } = await nftService.getDisplayedNftList(
+    req.query.galleryId
+  );
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
 
 module.exports = router;

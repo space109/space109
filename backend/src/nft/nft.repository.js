@@ -23,7 +23,7 @@ class NftRepository {
     return returnBool;
     // if (result.length == 1) return true;
     // else return false;
-  }
+  };
 
   async updateDisplayInfo(nftId, scale, position){
     // scale, position 둘 다 undefined일경우 무조건 return false를 넣어줘야함
@@ -68,6 +68,19 @@ class NftRepository {
       });
     console.log(result);
     return returnBool;
-  }
+  };
+  async getDisplayedNftList(galleryId){
+    const sql = `SELECT * FROM GALLERY WHERE GALLERY_ID = ${galleryId};`;
+    let returnBool = true;
+    const result=await connection.query(sql)
+            .then(data=>data[0])
+            .catch((e)=>{
+                console.error(e);
+            })
+
+            return result;
+  };
+
+
 }
 module.exports = NftRepository;
