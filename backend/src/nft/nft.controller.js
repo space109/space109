@@ -14,4 +14,16 @@ router.post("/sell", async function (req, res) {
   res.statusCode = statusCode;
   res.send(responseBody);
 });
+
+router.put("/display/change", async function(req, res){
+  const { statusCode, responseBody } = await nftService.updateDisplayInfo(
+    req.body.nftId, 
+    req.body.scale, 
+    req.body.position
+    );
+  console.log(req.body);
+  res.statusCode = statusCode;
+  res.send(responseBody);
+})
+
 module.exports = router;

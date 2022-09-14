@@ -17,5 +17,16 @@ class NftService {
       },
     };
   }
+  async updateDisplayInfo(nftId, scale, position){
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await nftRepository.updateDisplayInfo(
+          nftId, scale, position
+        )
+      },
+    }
+  }
 }
 module.exports = NftService;
