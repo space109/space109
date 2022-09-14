@@ -2,8 +2,7 @@ const connection = require("../../config/connection").promise();
 
 class WalletRepository {
   async searchWallet(oa) {
-    const sql =
-      `select user_id,oa,nickname from user where oa=` + '"' + oa + '"';
+    const sql = `select user_id,oa,nickname from user where oa='${oa}'`;
 
     const result = await connection
       .query(sql)
@@ -16,8 +15,7 @@ class WalletRepository {
   }
 
   async checkNickname(nickname) {
-    const sql =
-      `select nickname from user where nickname=` + '"' + nickname + '"';
+    const sql = `select nickname from user where nickname='${nickname}'`;
 
     const result = await connection
       .query(sql)
@@ -31,13 +29,7 @@ class WalletRepository {
   }
 
   async insert(oa, nickname) {
-    const sql =
-      `insert into user (oa,nickname) values ` +
-      '("' +
-      oa +
-      '","' +
-      nickname +
-      '")';
+    const sql = `insert into user (oa,nickname) values ('${oa}','${nickname}')`;
 
     const result = await connection
       .query(sql)
