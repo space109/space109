@@ -3,11 +3,10 @@ const connection = require("../../config/connection").promise();
 class NftRepository {
   async sellMyNft(toeknId, scale, position, galleryId, oa) {
     const getCategoryId = `(select category_id from gallery where gallery_id = ${galleryId})`;
-    const sql = `INSERT INTO SELL(GALLERY_ID, OA, CATEGORY_ID, TOKEN_ID, SCALE, POSITION) 
+    const sql = `INSERT INTO SELL(GALLERY_ID, OA,  TOKEN_ID, SCALE, POSITION) 
             VALUES(
                 ${galleryId},
                 '${oa}',
-                (${getCategoryId}),
                 '${toeknId}',
                 ${scale},
                 ${position}
