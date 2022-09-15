@@ -17,6 +17,7 @@ const Nav = styled.div`
 
   & svg {
     margin-left: 110px;
+    cursor: pointer;
   }
 `;
 
@@ -41,16 +42,19 @@ const MenuItem = styled.div`
 
 function NavBar() {
   const navigate = useNavigate();
-  const goGallery = () => {
-    navigate("/monthlyTheme");
+  const goHome = () => {
+    navigate("/");
   };
   const goTheme = () => {
+    navigate("/monthlyTheme");
+  };
+  const goGallery = () => {
     navigate("/gallery");
   };
 
   return (
     <Nav>
-      <Logo></Logo>
+      <Logo onClick={goHome}></Logo>
       <Menu>
         <MenuItem onClick={goTheme}>월간테마</MenuItem>
         <MenuItem onClick={goGallery}>갤러리</MenuItem>
