@@ -37,7 +37,7 @@ const BorderDiv = styled.div<Props>`
   box-sizing: border-box;
   
   ${({fontSize}) => {
-    return css`padding: calc(var(${fontSize}) / 2) calc(var(${fontSize}) / 1.5);`
+    return css`padding: calc(var(${fontSize}) / 1.5) calc(var(${fontSize}) / 1.5);`
   }}
 
   width: ${({width}) => width};

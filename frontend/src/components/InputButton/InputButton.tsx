@@ -1,7 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { Div } from "../../styles/BaseStyles";
-import { mdiCloseOutline } from '@mdi/js';
 
 interface Props {
   width?: any,
@@ -12,7 +11,6 @@ interface Props {
   isReadOnly?: any,
   placeholder?: any,
   value?: any,
-  btnColor?: any,
 };
 
 const StyledInput = styled.input<Props>`
@@ -31,7 +29,7 @@ const BorderDiv = styled.div<Props>`
   display: flex;
   justify-content: space-between;
   ${({fontSize}) => {
-    return css`padding: calc(var(${fontSize}) / 2) calc(var(${fontSize}) / 1.5);`
+    return css`padding: calc(var(${fontSize}) / 1.5) calc(var(${fontSize}) / 1.5);`
   }}
 
   ${({isBorder, borderColor}) => {
@@ -46,50 +44,41 @@ const BorderDiv = styled.div<Props>`
 
 const ButtonDiv = styled.div<Props>`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
   ${({fontSize}) => {
-    return css`padding: calc(var(${fontSize}) / 2) calc(var(${fontSize}) / 1.5);`
+    return css`padding: calc(var(${fontSize}) / 1.5) calc(var(${fontSize}) / 1.5);`
   }}
-  background-color: var(${({btnColor}) => btnColor});
-  color: var(--grey-100);
-`
-
-const ButtonContent = styled.div<Props>`
-  box-sizing: border-box;
   font-size: var(${({fontSize}) => fontSize});
   font-weight: var(${({fontWeight}) => fontWeight});
-  background-color: var(${({btnColor}) => btnColor});
+  background-color: var(${({borderColor}) => borderColor});
   color: var(--grey-100);
 `
 
-function InputButton({width, fontSize, fontWeight, borderColor, placeholder, value, btnColor}: Props) {
+function InputButton({fontSize, fontWeight, borderColor, placeholder, value}: Props) {
   return (
     <Div display="flex">
-      <BorderDiv width={width} fontSize={fontSize} isBorder={true } borderColor={borderColor}>
+      <BorderDiv fontSize={fontSize} isBorder={true} borderColor={borderColor}>
         <StyledInput 
           fontSize={fontSize} fontWeight={fontWeight}
           placeholder={placeholder}
           value={value}
         />
       </BorderDiv>
-      <ButtonDiv fontSize={fontSize} fontWeight={fontWeight} btnColor={btnColor}>
-        중복확인
+      <ButtonDiv fontSize={fontSize} fontWeight={fontWeight} borderColor={borderColor}>
+          중복확인
       </ButtonDiv>
     </Div>
   );
 };
 
 InputButton.defaultProps = {
-  width: "100%",
   fontSize: "--body",
   fontWeight: "--regular",
   isBorder: true,
   borderColor: "--grey-650",
-  isReadOnly: false,
   placeholder: "메세지를 입력해주세요.",
-  btnColor: "--grey-650",
 }
 
 export default InputButton;
