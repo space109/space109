@@ -60,8 +60,8 @@ const Square = styled.button<PropStyle>`
 const TextBox = styled.div<TextStyle>`
   font-family: "Pretendard Variable";
   font-style: normal;
-  font-weight: ${(props) => props.fontWeight};
-  font-size: ${(props) => props.fontSize};
+  font-weight: var(${(props) => props.fontWeight});
+  font-size: var(${(props) => props.fontSize});
   line-height: 140%;
   /* or 22px */
 
@@ -80,8 +80,8 @@ function SharpButton({
   borderRadius = "2px",
   borderWidth = "0px",
   borderColor = "--grey-750",
-  fontWeight = "600",
-  fontSize = "16px",
+  fontWeight = "--semi-bold",
+  fontSize = "--body",
 }: Props) {
   return (
     <Square

@@ -90,8 +90,8 @@ const Area = styled.div`
 const TextBox = styled.div<TextStyle>`
   font-family: "Pretendard Variable";
   font-style: normal;
-  font-weight: ${(props) => props.fontWeight};
-  font-size: ${(props) => props.fontSize};
+  font-weight: var(${(props) => props.fontWeight});
+  font-size: var(${(props) => props.fontSize});
   line-height: 140%;
   /* identical to box height, or 28px */
 
@@ -111,8 +111,8 @@ function NaviButton({
   borderRadius = "0px",
   borderWidth = "1px",
   borderColor = "--grey-750",
-  fontWeight = "700",
-  fontSize = "20px",
+  fontWeight = "--bold",
+  fontSize = "--h6",
 }: Props) {
   return (
     <Square
