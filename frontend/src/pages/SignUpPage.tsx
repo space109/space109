@@ -60,6 +60,7 @@ function SignUpPage({helpMsg}: Props) {
         </Div>
         <CheckButton fontSize="--h5" fontWeight="--regular">ss</CheckButton>
       </Div>
+      <SharpButton></SharpButton>
     </Div>
   );
 }
