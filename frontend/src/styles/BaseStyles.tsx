@@ -64,6 +64,7 @@ export interface PropStyle {
   flex?: any;
   flexWrap?: any;
   objectFit?: any;
+  zIndex?: any;
 }
 
 export const Div = styled.div<PropStyle>`
@@ -115,6 +116,7 @@ export const Div = styled.div<PropStyle>`
   cursor: ${(props) => (props.cursor ? props.cursor : "")};
   flex: ${(props) => (props.flex ? props.flex : "")};
   flex-wrap: ${(props) => (props.flexWrap ? props.flexWrap : "")};
+  z-index: ${(props) => (props.zIndex ? props.zIndex : "")};
 
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
   }
@@ -215,5 +217,5 @@ export const Image = styled.img<PropStyle>`
   cursor: ${(props) => (props.cursor ? props.cursor : "")};
   background-size: ${(props) => (props.bgSize ? props.bgSize : "")};
   object-fit: ${(props) => (props.objectFit ? props.objectFit : "")};
-  
+  z-index: ${(props) => (props.zIndex ? props.zIndex : "")};
 `;
