@@ -5,26 +5,40 @@
 ### style option
 
 - width
-  
-  ​	default: "130px"
+
+  ​ default: "130px"
+
 - height
-  
-  ​	default: "42px"
+
+  ​ default: "42px"
+
 - bg
 
-  ​	default: "--grey-750"
+  ​ default: "--grey-750"
+
 - color
 
-  ​	default: "--grey-100"
+  ​ default: "--grey-100"
+
 - borderRadius
 
-  ​	default: "2px"
+  ​ default: "2px"
+
 - borderWidth
 
-  ​	default: "0px"
+  ​ default: "0px"
+
 - borderColor
 
-  ​	default: "--grey-750"
+  ​ default: "--grey-750"
+
+- fontWeight
+
+  ​ default: "--semi-bold"
+
+- fontSize
+
+  ​ default: "--body"
 
 <br>
 
@@ -32,18 +46,15 @@ ex)
 
 ```tsx
 <Button
-        width="150px"
-        height="150px"
-        bg="--grey-300"
-        color="--grey-400"
-        borderRadius="10px"
-        borderWidth="2px"
-        borderColor="--grey-750"
-      >  
-</Button>
+  width="150px"
+  height="150px"
+  bg="--grey-300"
+  color="--grey-400"
+  borderRadius="10px"
+  borderWidth="2px"
+  borderColor="--grey-750"
+></Button>
 ```
-
-
 
 <br><br>
 
@@ -104,4 +115,3 @@ const goGallery = () => {
   Gallery
 </Button>
 ```
-

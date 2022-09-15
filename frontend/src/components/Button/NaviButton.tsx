@@ -12,6 +12,8 @@ interface Props {
   borderRadius?: string;
   borderWidth?: string;
   borderColor?: string;
+  fontWeight?: string;
+  fontSize?: string;
 }
 
 interface PropStyle {
@@ -24,6 +26,11 @@ interface PropStyle {
   borderColor: string;
 }
 
+interface TextStyle {
+  fontWeight: string;
+  fontSize: string;
+}
+
 const Square = styled.button<PropStyle>`
   background: var(${(props) => props.bg});
   color: var(${(props) => props.color});
@@ -33,10 +40,9 @@ const Square = styled.button<PropStyle>`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0s;
+  transition: 0.3s;
 
   font-size: 2rem;
-  margin: 2rem auto;
   padding: 0px, 16px;
   gap: 16px;
   border-radius: ${(props) => props.borderRadius};
@@ -81,11 +87,11 @@ const Area = styled.div`
   }
 `;
 
-const TextBox = styled.div`
+const TextBox = styled.div<TextStyle>`
   font-family: "Pretendard Variable";
   font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
+  font-weight: var(${(props) => props.fontWeight});
+  font-size: var(${(props) => props.fontSize});
   line-height: 140%;
   /* identical to box height, or 28px */
 
@@ -105,6 +111,8 @@ function NaviButton({
   borderRadius = "0px",
   borderWidth = "1px",
   borderColor = "--grey-750",
+  fontWeight = "--bold",
+  fontSize = "--h6",
 }: Props) {
   return (
     <Square
@@ -118,7 +126,9 @@ function NaviButton({
       borderColor={borderColor}
     >
       <Area>
-        <TextBox>{children ? children : "제목"}</TextBox>
+        <TextBox fontWeight={fontWeight} fontSize={fontSize}>
+          {children ? children : "제목"}
+        </TextBox>
         <div>
           <Go></Go>
         </div>
