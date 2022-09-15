@@ -18,6 +18,7 @@ const Card = styled.div<PropStyle>`
   height: 625px;
   background-color: var(--spinach-200);
   color: var(--grey-100);
+  position: relative;
 `;
 
 const CardMain = styled.div<PropStyle>`
