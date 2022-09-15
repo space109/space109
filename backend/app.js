@@ -8,6 +8,8 @@ const cors = require("cors");
 const itemsRouter = require("./src/items/items.controller");
 const salesRouter = require("./src/sales/sales.controller");
 const walletRouter = require("./src/wallet/wallet.controller");
+const nftRouter = require("./src/nft/nft.controller");
+const galleryRouter = require("./src/gallery/gallery.controller");
 
 const app = express();
 
@@ -21,6 +23,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/items", itemsRouter);
 app.use("/sales", salesRouter);
 app.use("/wallet", walletRouter);
+app.use("/nft", nftRouter);
+app.use("/gallery", galleryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res) {
