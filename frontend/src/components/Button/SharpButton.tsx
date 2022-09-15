@@ -77,7 +77,7 @@ function SharpButton({
   height = "42px",
   bg = "--grey-750",
   color = "--grey-100",
-  borderRadius = "2px",
+  borderRadius = "4px",
   borderWidth = "0px",
   borderColor = "--grey-750",
   fontWeight = "--semi-bold",
