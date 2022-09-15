@@ -37,6 +37,7 @@ export interface PropStyle {
   textAlign?: any;
   borderRadius?: any;
   border?: any;
+  gap?: any;
   flexDirection?: any;
   top?: any;
   left?: any;
@@ -75,7 +76,6 @@ export const Div = styled.div<PropStyle>`
   padding-right: ${(props) => (props.pr ? props.pr : "0px")};
   padding-top: ${(props) => (props.pt ? props.pt : "0px")};
   padding-bottom: ${(props) => (props.pb ? props.pb : "0px")};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "")};
   width: ${(props) => (props.w ? props.w : "")};
   height: ${(props) => (props.h ? props.h : "")};
   display: ${(props) => (props.display ? props.display : "block")};
@@ -86,6 +86,7 @@ export const Div = styled.div<PropStyle>`
   position: ${(props) => (props.position ? props.position : "relative")};
   border-radius: ${(props) => (props.borderRadius ? props.borderRadius : "")};
   border: ${(props) => (props.border ? props.border : "")};
+  gap: ${(props) => (props.gap ? props.gap : "")};
   flex-direction: ${(props) =>
     props.flexDirection ? props.flexDirection : "row"};
   top: ${(props) => (props.top ? props.top : "")};
@@ -93,9 +94,10 @@ export const Div = styled.div<PropStyle>`
   bottom: ${(props) => (props.bottom ? props.bottom : "")};
   right: ${(props) => (props.right ? props.right : "")};
   color: var(${(props) => (props.color ? props.color : "")});
-  background-color: ${(props) => (props.bgColor ? props.bgColor : "")};
+  background-color: var(${(props) => (props.bgColor ? props.bgColor : "")});
   background: ${(props) => (props.bg ? props.bg : "")};
-  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "")};
+  font-size: var(${(props) => (props.fontSize ? props.fontSize : "")});
+  font-weight: var(${(props) => (props.fontWeight ? props.fontWeight : "")});
   font-style: ${(props) => (props.fontStyle ? props.fontStyle : "")};
   font-family: ${(props) => (props.fontFamily ? props.fontFamily : "")};
   line-height: ${(props) => (props.lineHeight ? props.lineHeight : "")};
@@ -138,7 +140,6 @@ export const Button = styled.button<PropStyle>`
   padding-right: ${(props) => (props.pr ? props.pr : "0px")};
   padding-top: ${(props) => (props.pt ? props.pt : "0px")};
   padding-bottom: ${(props) => (props.pb ? props.pb : "0px")};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "0px")};
   width: ${(props) => (props.w ? props.w : "auto")};
   height: ${(props) => (props.h ? props.h : "auto")};
   display: ${(props) => (props.display ? props.display : "block")};
@@ -155,10 +156,11 @@ export const Button = styled.button<PropStyle>`
   left: ${(props) => (props.left ? props.left : "")};
   bottom: ${(props) => (props.bottom ? props.bottom : "")};
   right: ${(props) => (props.right ? props.right : "")};
-  color: ${(props) => (props.color ? props.color : "")};
-  background-color: ${(props) => (props.bgColor ? props.bgColor : "")};
+  color: var(${(props) => (props.color ? props.color : "")});
+  background-color: var(${(props) => (props.bgColor ? props.bgColor : "")});
   background: ${(props) => (props.bg ? props.bg : "")};
-  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "")};
+  font-size: var(${(props) => (props.fontSize ? props.fontSize : "")});
+  font-weight: var(${(props) => (props.fontWeight ? props.fontWeight : "")});
   font-style: ${(props) => (props.fontStyle ? props.fontStyle : "")};
   font-family: ${(props) => (props.fontFamily ? props.fontFamily : "")};
   line-height: ${(props) => (props.lineHeight ? props.lineHeight : "")};
@@ -180,7 +182,6 @@ export const Image = styled.img<PropStyle>`
   padding-right: ${(props) => (props.pr ? props.pr : "0px")};
   padding-top: ${(props) => (props.pt ? props.pt : "0px")};
   padding-bottom: ${(props) => (props.pb ? props.pb : "0px")};
-  font-size: ${(props) => (props.fontSize ? props.fontSize : "")};
   width: ${(props) => (props.w ? props.w : "auto")};
   height: ${(props) => (props.h ? props.h : "auto")};
   display: ${(props) => (props.display ? props.display : "block")};
@@ -197,10 +198,11 @@ export const Image = styled.img<PropStyle>`
   left: ${(props) => (props.left ? props.left : "")};
   bottom: ${(props) => (props.bottom ? props.bottom : "")};
   right: ${(props) => (props.right ? props.right : "")};
-  color: ${(props) => (props.color ? props.color : "")};
-  background-color: ${(props) => (props.bgColor ? props.bgColor : "")};
+  color: var(${(props) => (props.color ? props.color : "")});
+  background-color: var(${(props) => (props.bgColor ? props.bgColor : "")});
   background: ${(props) => (props.bg ? props.bg : "")};
-  font-weight: ${(props) => (props.fontWeight ? props.fontWeight : "")};
+  font-size: var(${(props) => (props.fontSize ? props.fontSize : "")});
+  font-weight: var(${(props) => (props.fontWeight ? props.fontWeight : "")});
   font-style: ${(props) => (props.fontStyle ? props.fontStyle : "")};
   font-family: ${(props) => (props.fontFamily ? props.fontFamily : "")};
   line-height: ${(props) => (props.lineHeight ? props.lineHeight : "")};
