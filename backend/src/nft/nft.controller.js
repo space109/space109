@@ -15,18 +15,18 @@ router.post("/sell", async function (req, res) {
   res.send(responseBody);
 });
 
-router.put("/display/change", async function(req, res){
+router.put("/display/change", async function (req, res) {
   const { statusCode, responseBody } = await nftService.updateDisplayInfo(
-    req.body.nftId, 
-    req.body.scale, 
+    req.body.nftId,
+    req.body.scale,
     req.body.position
-    );
+  );
   console.log(req.body);
   res.statusCode = statusCode;
   res.send(responseBody);
 });
 
-router.get("/display", async function(req, res){
+router.get("/display", async function (req, res) {
   // console.log("들어옴");
   // console.log(req.query.galleryId);
   const { statusCode, responseBody } = await nftService.getDisplayedNftList(
@@ -36,7 +36,7 @@ router.get("/display", async function(req, res){
   res.send(responseBody);
 });
 
-router.delete("/sell", async function(req, res){
+router.delete("/sell", async function (req, res) {
   const { statusCode, responseBody } = await nftService.deleteSoldNft(
     req.body.nftId
   );

@@ -16,42 +16,35 @@ class NftService {
         ),
       },
     };
-  };
-  async updateDisplayInfo(nftId, scale, position){
+  }
+  async updateDisplayInfo(nftId, scale, position) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.updateDisplayInfo(
-          nftId, scale, position
-        )
+        data: await nftRepository.updateDisplayInfo(nftId, scale, position),
       },
-    }
-  };
+    };
+  }
 
-  async getDisplayedNftList(galleryId){
+  async getDisplayedNftList(galleryId) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.getDisplayedNftList(
-          galleryId
-        )
+        data: await nftRepository.getDisplayedNftList(galleryId),
       },
-    }
-  };
+    };
+  }
 
-  async deleteSoldNft(nftId){
+  async deleteSoldNft(nftId) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.deleteSoldNft(
-          nftId
-        )
+        data: await nftRepository.deleteSoldNft(nftId),
       },
-    }
-  };
-
+    };
+  }
 }
 module.exports = NftService;
