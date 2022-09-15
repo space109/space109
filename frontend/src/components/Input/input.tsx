@@ -14,6 +14,7 @@ interface Props {
 };
 
 const StyledInput = styled.input<Props>`
+  box-sizing: border-box;
   border: none;
   background-color: transparent;
   width: 100%;
@@ -32,12 +33,11 @@ const StyledInput = styled.input<Props>`
   }}
 `;
 
-// 패딩을 폰트 크기에 맞춰서 비율로 줘야할 것 같음
 const BorderDiv = styled.div<Props>`
   box-sizing: border-box;
   
   ${({fontSize}) => {
-    return css`padding: calc(var(${fontSize}) / 2.5) calc(var(${fontSize}) / 1.5);`
+    return css`padding: calc(var(${fontSize}) / 2) calc(var(${fontSize}) / 1.5);`
   }}
 
   width: ${({width}) => width};
