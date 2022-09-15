@@ -15,7 +15,7 @@ export const screenSizes: MediaQueryTypes = {
   md: 768,
   lg: 992,
   xl: 1366,
-  xxl: 1600,
+  xxl: 1920,
 };
 export interface PropStyle {
   m?: any;
@@ -59,6 +59,10 @@ export interface PropStyle {
   bgAttach?: any;
   bgImage?: any;
   bgSize?: any;
+  cursor?: any;
+  flex?: any;
+  flexWrap?: any;
+  objectFit?: any;
 }
 
 export const Div = styled.div<PropStyle>`
@@ -107,6 +111,9 @@ export const Div = styled.div<PropStyle>`
   background-attachment: ${(props) => (props.bgAttach ? props.bgAttach : "")};
   background-image: url(${(props) => (props.bgImage ? props.bgImage : "")});
   background-size: ${(props) => (props.bgSize ? props.bgSize : "")};
+  cursor: ${(props) => (props.cursor ? props.cursor : "")};
+  flex: ${(props) => (props.flex ? props.flex : "")};
+  flex-wrap: ${(props) => (props.flexWrap ? props.flexWrap : "")};
 
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
   }
@@ -204,4 +211,8 @@ export const Image = styled.img<PropStyle>`
   box-shadow: ${(props) => (props.boxShadow ? props.boxShadow : "")};
   max-width: ${(props) => (props.maxWidth ? props.maxWidth : "")};
   max-height: ${(props) => (props.maxHeight ? props.maxHeight : "")};
+  cursor: ${(props) => (props.cursor ? props.cursor : "")};
+  background-size: ${(props) => (props.bgSize ? props.bgSize : "")};
+  object-fit: ${(props) => (props.objectFit ? props.objectFit : "")};
+  
 `;
