@@ -1,4 +1,4 @@
-export {}
+export {};
 // import React, { useState, useEffect } from 'react';
 // import { Div } from '../styles/BaseStyles';
 // import Button from "../components/Button";
@@ -6,7 +6,7 @@ export {}
 
 // const MyNftPage = () => {
 //   const [myNft, setMyNft] = useState([]); // 요청하여 nft 목록 받아올것
-  
+
 //   // const [firstRow, setFirstRow] = React.useState([]);
 //   // const [secondRow, setSecondRow] = React.useState([]);
 //   // const [thirdRow, setThirdRow] = React.useState([]);
@@ -40,8 +40,6 @@ export {}
 //     thirdRow = tempThird;
 //     forthRow = tempForth;
 //   }, [myNft])
-
-
 
 //   return (
 //     <div>
@@ -84,6 +82,5 @@ export {}
 //     </div>
 //   );
 // };
-
 
 // export default MyNftPage;

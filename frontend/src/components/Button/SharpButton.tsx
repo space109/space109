@@ -11,6 +11,8 @@ interface Props {
   borderRadius?: string;
   borderWidth?: string;
   borderColor?: string;
+  fontWeight?: string;
+  fontSize?: string;
 }
 
 interface PropStyle {
@@ -23,6 +25,11 @@ interface PropStyle {
   borderColor: string;
 }
 
+interface TextStyle {
+  fontWeight: string;
+  fontSize: string;
+}
+
 const Square = styled.button<PropStyle>`
   background: var(${(props) => props.bg});
   color: var(${(props) => props.color});
@@ -32,9 +39,9 @@ const Square = styled.button<PropStyle>`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.3s;
 
   font-size: 2rem;
-  margin: 2rem auto;
   padding: 0px, 16px;
   gap: 16px;
   border-radius: ${(props) => props.borderRadius};
@@ -50,11 +57,11 @@ const Square = styled.button<PropStyle>`
   }
 `;
 
-const TextBox = styled.div`
+const TextBox = styled.div<TextStyle>`
   font-family: "Pretendard Variable";
   font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: var(${(props) => props.fontWeight});
+  font-size: var(${(props) => props.fontSize});
   line-height: 140%;
   /* or 22px */
 
@@ -73,6 +80,8 @@ function SharpButton({
   borderRadius = "2px",
   borderWidth = "0px",
   borderColor = "--grey-750",
+  fontWeight = "--semi-bold",
+  fontSize = "--body",
 }: Props) {
   return (
     <Square
@@ -85,7 +94,9 @@ function SharpButton({
       borderWidth={borderWidth}
       borderColor={borderColor}
     >
-      <TextBox>{children ? children : "제목"}</TextBox>
+      <TextBox fontWeight={fontWeight} fontSize={fontSize}>
+        {children ? children : "제목"}
+      </TextBox>
     </Square>
   );
 }
