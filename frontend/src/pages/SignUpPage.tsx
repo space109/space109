@@ -44,12 +44,13 @@ function SignUpPage({} : Props) {
   const dupCheck = () => {
     console.log(nickname);
   }
-  
+
   return (
+    <>
     <Div 
       display="flex"
       alignItems="center" justifyContent="center"
-      h="100vh"
+      h="calc(100vh - 120px)"
     >      
       <DivWidth 
         display="flex" flexDirection="column" gap="2rem"
@@ -93,6 +94,7 @@ function SignUpPage({} : Props) {
         </SharpButton>
       </DivWidth>
     </Div>
+    </>
   );
 }
 
