@@ -16,6 +16,7 @@ import bg12 from "../assets/12.jpg";
 import bg13 from "../assets/13.jpg";
 import scrollIcon from "../assets/scrollIcon.png";
 import moment from "moment";
+import { DropDown } from "../components";
 
 type Props = {};
 
@@ -36,24 +37,24 @@ interface CardObjType {
 const GradientDiv = styled(Div)<PropStyle>`
   background: linear-gradient(
     360deg,
-    rgba(0, 0, 0, 0.95) 0%,
-    rgba(64, 64, 64, 0.36) 30%,
-    rgba(255, 255, 255, 0) 38%
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 1) 5%,
+    rgba(255, 255, 255, 0) 10%
   );
 `;
 
 const GradientCard = styled(GradientDiv)<PropStyle>`
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(255, 255, 255, 0) 50%,
-    rgba(0, 0, 0, 0.45) 100%
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0) 90%,
+    rgba(0, 0, 0, 0.7) 100%
   );
 `;
 
 const HoverDiv = styled(Div)<PropStyle>`
   transition: 0.5s ease;
-
   &:hover {
     opacity: 0;
   }
@@ -67,21 +68,14 @@ const ScrollDownDiv = styled(Div)<PropStyle>`
     bottom: 22px;
   }
 `;
-const responsiveCard = keyframes`
-  0% { 
-    opacity: 0;
-  }
-  80% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
 
 const CardDiv = styled(Div)<PropStyle>`
   background-color: var(${(props) => (props.bgColor ? props.bgColor : "")});
   transition: 0.7s ease all;
+  @media screen and (max-width: 2560px) {
+    width: 33.333333vw;
+    height: 50vh;
+  }
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
     width: 33.333333vw;
     height: 50vh;
@@ -120,13 +114,11 @@ const FadeIn = keyframes`
     opacity: 1;
     transform: translateX(0px);
   }
-`
-
-
+`;
 
 const AnimatedTextDiv = styled(Div)<PropStyle>`
   animation: ${FadeIn} 0.65s ease-in alternate;
-`
+`;
 
 export default function MonthlyThemePage({}: Props) {
   const ref = useRef<any>(null);
@@ -345,23 +337,26 @@ export default function MonthlyThemePage({}: Props) {
       bgSize="cover"
     >
       <GradientDiv w="100vw" h="100vh">
-        <Div h="70vh"></Div>
+        <Div h="67vh">
+          <DropDown />
+        </Div>
         <AnimatedTextDiv ml="40px" w="80vw">
-          <Div display="flex" alignItems="center">
-            <Div fontSize="60px" color="--grey-200" cursor="default">
-              {backgroundDetail[parseInt(moment().format("MM"))].bgTitle}
-            </Div>
-            <Div fontSize="1.4em" color="--grey-200" mt="30px" cursor="default" ml="20px">
-              {
-                backgroundDetail[parseInt(moment().format("MM"))]
-                  .bgDescription[0]
-              }
-            </Div>
+          <Div fontSize="--title" color="--grey-200" cursor="default">
+            {backgroundDetail[parseInt(moment().format("MM"))].bgTitle}
           </Div>
-          <Div fontSize="1rem" color="--grey-200" mt="30px" cursor="default">
+          <Div
+            fontSize="--h3"
+            color="--grey-200"
+            cursor="default"
+            ml="200px"
+            mb="50px"
+          >
+            {backgroundDetail[parseInt(moment().format("MM"))].bgDescription[0]}
+          </Div>
+          <Div fontSize="--h4" color="--grey-200" mt="30px" cursor="default">
             {backgroundDetail[parseInt(moment().format("MM"))].bgDescription[1]}
           </Div>
-          <Div fontSize="1rem" color="--grey-200" mt="2px" cursor="default">
+          <Div fontSize="--h4" color="--grey-200" mt="2px" cursor="default">
             {backgroundDetail[parseInt(moment().format("MM"))].bgDescription[2]}
           </Div>
         </AnimatedTextDiv>
@@ -377,8 +372,8 @@ export default function MonthlyThemePage({}: Props) {
           <Image src={scrollIcon} w="35px"></Image>
         </ScrollDownDiv>
       </GradientDiv>
-      <Div w="100vw" h="100vh" bgColor="black" ref={ref}>
-        <Div fontSize="50px" color="--grey-200" ml="20px" pt="40px">
+      <Div w="100vw" h="100vh" bgColor="--grey-750" ref={ref}>
+        <Div fontSize="--h1" color="--grey-200" ml="20px" pt="100px">
           특별전 갤러리
         </Div>
         <Div display="flex" flexWrap="wrap" mt="20px">
@@ -395,32 +390,45 @@ export default function MonthlyThemePage({}: Props) {
                       zIndex="3"
                       position="absolute"
                     >
-                      <Div ml="5%" pt="5%" fontSize="2em">
+                      <GradientCard
+                        w="100%"
+                        h="100%"
+                        zIndex="2"
+                        position="absolute"
+                      ></GradientCard>
+                      <Div ml="5%" pt="5%" fontSize="--h6" zIndex="3">
                         {dataGallery[index].title}
                       </Div>
-                      <Div ml="5%" pt="2%" fontSize="1em">
+                      <Div
+                        ml="5%"
+                        pt="2%"
+                        fontSize="--body-small"
+                        w="70%"
+                        zIndex="3"
+                      >
                         {dataGallery[index].description}
                       </Div>
                       <Div
                         ml="5%"
-                        bottom="20px"
-                        fontSize="1.3em"
+                        bottom="10px"
+                        fontSize="--h7"
                         position="absolute"
+                        zIndex="3"
                       >
                         {dataGallery[index].oa}
                       </Div>
                     </HoverDiv>
                     <GradientCard w="100%" h="100%" zIndex="2">
-                      <Div ml="5%" pt="5%" fontSize="2em">
+                      <Div ml="5%" pt="5%" fontSize="--h6">
                         {dataGallery[index].title}
                       </Div>
-                      <Div ml="5%" pt="2%" fontSize="1em">
+                      <Div ml="5%" pt="2%" fontSize="--body-small" w="70%">
                         {dataGallery[index].description}
                       </Div>
                       <Div
                         ml="5%"
-                        bottom="20px"
-                        fontSize="1.3em"
+                        bottom="10px"
+                        fontSize="--h7"
                         position="absolute"
                       >
                         {dataGallery[index].oa}
@@ -432,6 +440,7 @@ export default function MonthlyThemePage({}: Props) {
             );
           })}
         </Div>
+        <Div h="150px" bgColor="--grey-750"></Div>
       </Div>
     </Div>
   );
