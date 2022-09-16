@@ -17,6 +17,7 @@ export const screenSizes: MediaQueryTypes = {
   xl: 1366,
   xxl: 1920,
 };
+
 export interface PropStyle {
   m?: any;
   p?: any;

@@ -6,11 +6,15 @@ interface Props {
   width?: any,
   fontSize?: any,
   fontWeight?: any,
-  isBorder?: any,
+  borderWidth?: any,
+  borderStyle?: any,
   borderColor?: any,
+  borderRadius?: any,
   isReadOnly?: any,
   placeholder?: any,
   value?: any,
+  onChange?: any,
+  setValue?: any,
 };
 
 const StyledInput = styled.input<Props>`
@@ -42,14 +46,6 @@ const BorderDiv = styled.div<Props>`
 
   width: ${({width}) => width};
 
-  ${({isBorder, borderColor}) => {
-    if (isBorder) {
-      return css`border: 3px solid var(${borderColor});`
-    } else {
-      return css`border: 3px solid transparent);`
-    }
-  }}
-
   ${({isReadOnly}) => {
     if (isReadOnly) {
       return css`background-color: var(--grey-650);`
@@ -57,16 +53,25 @@ const BorderDiv = styled.div<Props>`
       return css`background-color: var(--grey-100);`
     }
   }}
+  border-width: ${({borderWidth}) => borderWidth}; 
+  border-style: ${({borderStyle}) => borderStyle};
+  border-color: var(${({borderColor}) => borderColor});
+  border-radius: ${({borderRadius}) => borderRadius};
 `
 
-function Input({width, fontSize, fontWeight, isBorder, borderColor, isReadOnly, placeholder, value}: Props) {
+function Input({width, fontSize, fontWeight, borderWidth, borderStyle, borderColor, borderRadius, isReadOnly, placeholder, value, setValue}: Props) {
+  const onChangeHandler = (e: any) => {
+    setValue &&
+    setValue(e.target.value);
+  }
+
   return (
     <>
-      <BorderDiv width={width} fontSize={fontSize} isBorder={isBorder} borderColor={borderColor} isReadOnly={isReadOnly}>
+      <BorderDiv width={width} fontSize={fontSize} borderWidth={borderWidth} borderStyle={borderStyle} borderColor={borderColor} borderRadius={borderRadius} isReadOnly={isReadOnly}>
         <StyledInput 
           fontSize={fontSize} fontWeight={fontWeight}
           isReadOnly={isReadOnly} readOnly={isReadOnly} placeholder={placeholder}
-          value={value}
+          value={value} onChange={onChangeHandler}
         />
       </BorderDiv>
     </>
@@ -77,8 +82,10 @@ Input.defaultProps = {
   width: "100%",
   fontSize: "--body",
   fontWeight: "--regular",
-  isBorder: true,
+  borderWidth: "0px",
+  borderStyle: "solid",
   borderColor: "--grey-650",
+  borderRadius: "4px",
   isReadOnly: false,
   placeholder: "메세지를 입력해주세요.",
 }
