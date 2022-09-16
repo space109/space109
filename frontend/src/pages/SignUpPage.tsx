@@ -36,8 +36,34 @@ function SignUpPage({} : Props) {
   const [ helpMsg, setHelpMsg ] = useState("\u00A0");
   const [ color, setColor] = useState("--grey-650");
 
+  const [account, setAccount] = useState("");
+
   const dupCheck = () => {
     console.log(nickname);
+  }
+
+  const EXTENSION_DOWNLOAD_URL = 'https://metamask.io';
+  
+  const walletConnect = async () => {
+    try {
+      if (typeof window.ethereum !== 'undefined') {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        setAccount(accounts[0]);
+      } else {
+        if(window.confirm("노 메타마스크. 설치 고?")) {
+          window.open(EXTENSION_DOWNLOAD_URL, '_blank');
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  // 계정이 바뀌면 account의 상태 업데이트 
+  if (typeof window.ethereum !== 'undefined') {
+    window.ethereum.on('accountsChanged', function (accounts : any) {
+      setAccount(accounts[0]);
+    });
   }
 
   return (
@@ -92,6 +118,8 @@ function SignUpPage({} : Props) {
           회원가입
         </SharpButton>
       </DivWidth>
+      <SharpButton onClick={walletConnect}>지갑연결</SharpButton>
+      <SharpButton onClick={() => console.log(account)}>계정출력</SharpButton>
     </Div>
     </>
   );
