@@ -8,11 +8,6 @@ interface PropsStyle {
   color?: any,
 }
 
-const VerticalLine = styled.div<PropsStyle>`
-  border-left: 3px solid var(${({color}) => color});
-  height: auto;
-`
-
 const DivWidth = styled(Div)`
   max-width: 600px;
 
@@ -71,11 +66,14 @@ function SignUpPage({} : Props) {
           display="flex" flexDirection="column"
           gap="0.5rem"
         >
-          <Div display="flex" border={`3px solid var(${color})`} borderRadius="4px">
-            <Input fontSize="--h5" fontWeight="--regular" borderRadius="4px" setValue={setNickname}/>
-            <VerticalLine color={color}/>
+          <Div display="flex"  borderRadius="4px">
+            <Input fontSize="--h5" fontWeight="--regular" borderRadius="4px 0 0 4px"
+              borderWidth="3px" borderColor={color} borderStyle="solid none solid solid"
+              placeholder="닉네임을 입력해주세요." setValue={setNickname}
+            />
             <SharpButton 
-              fontSize="--h5" width="150px" height="auto" borderRadius="0px" bg={color}
+              fontSize="--h5" width="150px" height="auto" borderRadius="0 4px 4px 0" bg={color}
+              borderWidth="3px" borderColor={color}
               onClick={dupCheck}
             >
               중복확인
@@ -89,6 +87,7 @@ function SignUpPage({} : Props) {
           fontSize="--h5" fontWeight="--bold"
           width="100%" height="69px" 
           borderWidth="3px" borderRadius="4px" bg="--grey-650"
+          borderColor="--grey-650"
         >
           회원가입
         </SharpButton>

@@ -7,6 +7,7 @@ interface Props {
   fontSize?: any,
   fontWeight?: any,
   borderWidth?: any,
+  borderStyle?: any,
   borderColor?: any,
   borderRadius?: any,
   isReadOnly?: any,
@@ -52,12 +53,13 @@ const BorderDiv = styled.div<Props>`
       return css`background-color: var(--grey-100);`
     }
   }}
-  border: ${({borderWidth}) => borderWidth} solid
-  var(${({borderColor}) => borderColor});
+  border-width: ${({borderWidth}) => borderWidth}; 
+  border-style: ${({borderStyle}) => borderStyle};
+  border-color: var(${({borderColor}) => borderColor});
   border-radius: ${({borderRadius}) => borderRadius};
 `
 
-function Input({width, fontSize, fontWeight, borderWidth, borderColor, borderRadius, isReadOnly, placeholder, value, setValue}: Props) {
+function Input({width, fontSize, fontWeight, borderWidth, borderStyle, borderColor, borderRadius, isReadOnly, placeholder, value, setValue}: Props) {
   const onChangeHandler = (e: any) => {
     setValue &&
     setValue(e.target.value);
@@ -65,7 +67,7 @@ function Input({width, fontSize, fontWeight, borderWidth, borderColor, borderRad
 
   return (
     <>
-      <BorderDiv width={width} fontSize={fontSize} borderWidth={borderWidth} borderColor={borderColor} borderRadius={borderRadius} isReadOnly={isReadOnly}>
+      <BorderDiv width={width} fontSize={fontSize} borderWidth={borderWidth} borderStyle={borderStyle} borderColor={borderColor} borderRadius={borderRadius} isReadOnly={isReadOnly}>
         <StyledInput 
           fontSize={fontSize} fontWeight={fontWeight}
           isReadOnly={isReadOnly} readOnly={isReadOnly} placeholder={placeholder}
@@ -81,6 +83,7 @@ Input.defaultProps = {
   fontSize: "--body",
   fontWeight: "--regular",
   borderWidth: "0px",
+  borderStyle: "solid",
   borderColor: "--grey-650",
   borderRadius: "4px",
   isReadOnly: false,
