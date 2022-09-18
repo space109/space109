@@ -13,12 +13,13 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <NavBar />
         <Routes>
-          <Route path="/" element={<MainPage />}></Route>
-          <Route path="/monthlyTheme" element={<MonthlyThemePage />}></Route>
-          <Route path="/gallery" element={<GalleryListPage />} />
-          <Route path="/signUp" element={<SignUpPage />} />
+          <Route element={<NavBar />}>
+            <Route path="/" element={<MainPage />}></Route>
+            <Route path="/monthlyTheme" element={<MonthlyThemePage />}></Route>
+            <Route path="/gallery" element={<GalleryListPage />} />
+            <Route path="/signUp" element={<SignUpPage />} />
+          </Route>
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
