@@ -30,7 +30,7 @@ class WalletRepository {
 
   async insert(oa, nickname) {
     const sql1 = `insert into user (oa,nickname) values ('${oa}','${nickname}')`;
-    const sql2 = `insert into gallery(oa,category_id,description, title, thumbnail) values('${oa}',13,'${nickname}님의 갤러리입니다.', '${nickname}님의 갤러리','기본 썸네일 주소')`;
+    const sql2 = `insert into gallery(oa,category_id,description, title, thumbnail) values('${oa}',13,'${nickname}님의 갤러리입니다.', '${nickname}님의 갤러리','/thumbnail/윈터.jpg')`;
 
     const result = [];
 

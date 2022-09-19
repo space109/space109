@@ -15,7 +15,7 @@ class GalleryRepository {
   }
 
   async listAll() {
-    const sql = `select gallery_id, oa, category_id, description, title, thumbnail from gallery where isopen=1`;
+    const sql = `select gallery_id, oa, category_id, description, title, thumbnail from gallery where is_open=1`;
 
     const result = await connection
       .query(sql)
@@ -28,7 +28,7 @@ class GalleryRepository {
   }
 
   async listByCategory(category_id) {
-    const sql = `select gallery_id, oa, category_id, description, title, thumbnail from gallery where category_id=${category_id} and isopen=1`;
+    const sql = `select gallery_id, oa, category_id, description, title, thumbnail from gallery where category_id=${category_id} and is_open=1`;
 
     const result = await connection
       .query(sql)
@@ -59,7 +59,7 @@ class GalleryRepository {
     if (category_id != "null") sql += `, category_id= ${category_id}`;
     if (description != "null") sql += `, description= '${description}'`;
     if (title != "null") sql += `, title= '${title}'`;
-    if (isOpen != "null") sql += `, is_open= '${isOpenBool}'`;
+    if (isOpen != "null") sql += `, IS_OPEN= '${isOpenBool}'`;
 
     sql += sqlTail;
     // console.log(sql);
