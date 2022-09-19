@@ -1,9 +1,8 @@
 const connection = require("../../config/connection").promise();
 
 class NftRepository {
-  async sellMyNft(toeknId, scale, position, galleryId, oa) {
-    const getCategoryId = `(select category_id from gallery where gallery_id = ${galleryId})`;
-    const sql = `INSERT INTO SELL(GALLERY_ID, OA,  TOKEN_ID, SCALE, POSITION) 
+  async displayMyNft(toeknId, scale, position, galleryId, oa) {
+    const sql = `INSERT INTO NFT(GALLERY_ID, OA,  TOKEN_ID, SCALE, POSITION) 
             VALUES(
                 ${galleryId},
                 '${oa}',
@@ -41,15 +40,15 @@ class NftRepository {
     if (scale != null && position == null) {
       // scale에 값이 있다.
       console.log("scale에 값이 있다.");
-      sql = `UPDATE SELL SET SCALE = ${scale} WHERE NFT_ID = ${nftId}`;
+      sql = `UPDATE NFT SET SCALE = ${scale} WHERE NFT_ID = ${nftId}`;
     } else if (scale == null && position != null) {
       // position에 값이 있다.
       console.log("position에 값이 있다.");
-      sql = `UPDATE SELL SET POSITION = ${position} WHERE NFT_ID = ${nftId}`;
+      sql = `UPDATE NFT SET POSITION = ${position} WHERE NFT_ID = ${nftId}`;
     } else if (scale != null && position != null) {
       // 둘 다 값이 있다.
       console.log("둘 다 값이 있다.");
-      sql = `UPDATE SELL SET SCALE = ${scale}, POSITION = ${position} WHERE NFT_ID = ${nftId}`;
+      sql = `UPDATE NFT SET SCALE = ${scale}, POSITION = ${position} WHERE NFT_ID = ${nftId}`;
     } else {
       // 둘 다 값이 없다.
       console.log("둘 다 값이 없다.");
@@ -67,7 +66,7 @@ class NftRepository {
     return returnBool;
   }
   async getDisplayedNftList(galleryId) {
-    const sql = `SELECT * FROM SELL WHERE GALLERY_ID = ${galleryId};`;
+    const sql = `SELECT * FROM NFT WHERE GALLERY_ID = ${galleryId};`;
     const result = await connection
       .query(sql)
       .then((data) => data[0])
@@ -77,8 +76,8 @@ class NftRepository {
 
     return result;
   }
-  async deleteSoldNft(nftId) {
-    const sql = `DELETE FROM SELL WHERE NFT_ID = ${nftId};`;
+  async deleteNft(nftId) {
+    const sql = `DELETE FROM NFT WHERE NFT_ID = ${nftId};`;
     let returnBool = true;
     const result = await connection
       .query(sql)

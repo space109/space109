@@ -38,8 +38,15 @@ class GallerysService {
     description,
     title,
     thumbnail,
+<<<<<<< HEAD
     isopen
   ) {
+=======
+    isOpen
+  ) {
+    // console.log("updateMyGallery");
+
+>>>>>>> a6b032efb47a7847e3f6e81e9ec77ee64f9822a5
     return {
       statusCode: 200,
       responseBody: {
@@ -50,7 +57,11 @@ class GallerysService {
           description,
           title,
           thumbnail,
+<<<<<<< HEAD
           isopen
+=======
+          isOpen
+>>>>>>> a6b032efb47a7847e3f6e81e9ec77ee64f9822a5
         ),
       },
     };
