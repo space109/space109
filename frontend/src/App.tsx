@@ -14,7 +14,6 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <NavBar />
         <Routes>
           <Route path="/" element={<MainPage />}/>
           <Route path="/monthlyTheme" element={<MonthlyThemePage />}/>

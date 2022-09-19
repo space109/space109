@@ -40,6 +40,7 @@ const Square = styled.button<PropStyle>`
   justify-content: center;
   align-items: center;
   transition: 0.3s;
+  cursor: pointer;
 
   font-size: 2rem;
   padding: 0px, 16px;
