@@ -16,6 +16,7 @@ import bg12 from "../assets/12.jpg";
 import bg13 from "../assets/13.jpg";
 import scrollIcon from "../assets/scrollIcon.png";
 import moment from "moment";
+import { DropDown } from "../components";
 
 type Props = {};
 
@@ -36,24 +37,25 @@ interface CardObjType {
 const GradientDiv = styled(Div)<PropStyle>`
   background: linear-gradient(
     360deg,
-    rgba(0, 0, 0, 0.95) 0%,
-    rgba(64, 64, 64, 0.36) 30%,
-    rgba(255, 255, 255, 0) 38%
+    rgba(0, 0, 0, 1) 0%,
+    rgba(255, 255, 255, 0) 45%,
+    rgba(255, 255, 255, 0) 98%,
+    rgba(0, 0, 0, 0.7) 100%
   );
 `;
 
 const GradientCard = styled(GradientDiv)<PropStyle>`
   background: linear-gradient(
     180deg,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(255, 255, 255, 0) 50%,
-    rgba(0, 0, 0, 0.45) 100%
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0) 80%,
+    rgba(0, 0, 0, 0.7) 100%
   );
 `;
 
 const HoverDiv = styled(Div)<PropStyle>`
   transition: 0.5s ease;
-
   &:hover {
     opacity: 0;
   }
@@ -64,24 +66,17 @@ const ScrollDownDiv = styled(Div)<PropStyle>`
   transition: 0.5s ease;
   &:hover {
     padding-top: 22px;
-    bottom: 22px;
-  }
-`;
-const responsiveCard = keyframes`
-  0% { 
-    opacity: 0;
-  }
-  80% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
+    bottom: -15px;
   }
 `;
 
 const CardDiv = styled(Div)<PropStyle>`
   background-color: var(${(props) => (props.bgColor ? props.bgColor : "")});
   transition: 0.7s ease all;
+  @media screen and (max-width: 2560px) {
+    width: 33.333333vw;
+    height: 50vh;
+  }
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
     width: 33.333333vw;
     height: 50vh;
@@ -117,16 +112,14 @@ const FadeIn = keyframes`
     opacity: 0.5;
   }
   100% {
-    opacity: 1;
+    opacity: 0.9;
     transform: translateX(0px);
   }
-`
-
-
+`;
 
 const AnimatedTextDiv = styled(Div)<PropStyle>`
-  animation: ${FadeIn} 0.65s ease-in alternate;
-`
+  animation: ${FadeIn} 0.85s ease-in alternate;
+`;
 
 export default function MonthlyThemePage({}: Props) {
   const ref = useRef<any>(null);
@@ -316,6 +309,10 @@ export default function MonthlyThemePage({}: Props) {
         "https://cdn.imweb.me/upload/S201906191c3595f104fd6/4dacf6c8274de.jpg",
     },
   ]);
+  // const [optionData, setOptionData] = useState<string>('')
+  // const dataFunc = (data:string):void => {
+  //   setOptionData(data)
+  // }
 
   const clickToScrollDown = () => {
     window.scrollTo({ behavior: "smooth", top: ref.current.offsetTop });
@@ -345,43 +342,48 @@ export default function MonthlyThemePage({}: Props) {
       bgSize="cover"
     >
       <GradientDiv w="100vw" h="100vh">
-        <Div h="70vh"></Div>
-        <AnimatedTextDiv ml="40px" w="80vw">
-          <Div display="flex" alignItems="center">
-            <Div fontSize="60px" color="--grey-200" cursor="default">
-              {backgroundDetail[parseInt(moment().format("MM"))].bgTitle}
-            </Div>
-            <Div fontSize="1.4em" color="--grey-200" mt="30px" cursor="default" ml="20px">
-              {
-                backgroundDetail[parseInt(moment().format("MM"))]
-                  .bgDescription[0]
-              }
-            </Div>
+        <Div h="55vh">
+          {/* <DropDown options={["ON", "OFF"]} dataFunc={dataFunc}/> */}
+        </Div>
+        <AnimatedTextDiv ml="40px" w="80vw" h="32vh">
+          <Div fontSize="--title" color="--grey-200" cursor="default">
+            {backgroundDetail[parseInt(moment().format("MM"))].bgTitle}
           </Div>
-          <Div fontSize="1rem" color="--grey-200" mt="30px" cursor="default">
+          <Div
+            fontSize="--h3"
+            color="--grey-200"
+            cursor="default"
+            ml="200px"
+            mb="50px"
+          >
+            {backgroundDetail[parseInt(moment().format("MM"))].bgDescription[0]}
+          </Div>
+          <Div fontSize="--h4" color="--grey-200" mt="30px" cursor="default">
             {backgroundDetail[parseInt(moment().format("MM"))].bgDescription[1]}
           </Div>
-          <Div fontSize="1rem" color="--grey-200" mt="2px" cursor="default">
+          <Div fontSize="--h4" color="--grey-200" mt="2px" cursor="default">
             {backgroundDetail[parseInt(moment().format("MM"))].bgDescription[2]}
           </Div>
+          <ScrollDownDiv
+            color="--grey-100"
+            display="flex"
+            position="absolute"
+            justifyContent="center"
+            left="50vw"
+            onClick={clickToScrollDown}
+            bottom="0"
+          >
+            <Image src={scrollIcon} w="35px"></Image>
+          </ScrollDownDiv>
         </AnimatedTextDiv>
-        <ScrollDownDiv
-          color="--grey-100"
-          display="flex"
-          position="absolute"
-          justifyContent="center"
-          left="50vw"
-          bottom="30px"
-          onClick={clickToScrollDown}
-        >
-          <Image src={scrollIcon} w="35px"></Image>
-        </ScrollDownDiv>
       </GradientDiv>
-      <Div w="100vw" h="100vh" bgColor="black" ref={ref}>
-        <Div fontSize="50px" color="--grey-200" ml="20px" pt="40px">
+      <Div bgColor="--grey-750" pt="200px">
+        <Div fontSize="--h1" color="--grey-200" ml="50px" pb="50px">
           특별전 갤러리
         </Div>
-        <Div display="flex" flexWrap="wrap" mt="20px">
+      </Div>
+      <Div w="100vw" h="100vh" bgColor="--grey-750" ref={ref}>
+        <Div display="flex" flexWrap="wrap">
           {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((data, index) => {
             return (
               <CardDiv key={index} color="--grey-100" bgColor={cardColor[data]}>
@@ -395,32 +397,50 @@ export default function MonthlyThemePage({}: Props) {
                       zIndex="3"
                       position="absolute"
                     >
-                      <Div ml="5%" pt="5%" fontSize="2em">
+                      <GradientCard
+                        w="100%"
+                        h="100%"
+                        zIndex="2"
+                        position="absolute"
+                      ></GradientCard>
+                      <Div
+                        ml="5%"
+                        pt="5%"
+                        fontSize="--h2"
+                        zIndex="3"
+                        fontWeight="--semi-bold"
+                      >
                         {dataGallery[index].title}
                       </Div>
-                      <Div ml="5%" pt="2%" fontSize="1em">
+                      <Div ml="5%" pt="2%" fontSize="--h6" w="70%" zIndex="3">
                         {dataGallery[index].description}
                       </Div>
                       <Div
                         ml="5%"
-                        bottom="20px"
-                        fontSize="1.3em"
+                        bottom="10px"
+                        fontSize="--h4"
                         position="absolute"
+                        zIndex="3"
                       >
                         {dataGallery[index].oa}
                       </Div>
                     </HoverDiv>
                     <GradientCard w="100%" h="100%" zIndex="2">
-                      <Div ml="5%" pt="5%" fontSize="2em">
+                      <Div
+                        ml="5%"
+                        pt="5%"
+                        fontSize="--h2"
+                        fontWeight="--semi-bold"
+                      >
                         {dataGallery[index].title}
                       </Div>
-                      <Div ml="5%" pt="2%" fontSize="1em">
+                      <Div ml="5%" pt="2%" fontSize="--h6" w="70%">
                         {dataGallery[index].description}
                       </Div>
                       <Div
                         ml="5%"
-                        bottom="20px"
-                        fontSize="1.3em"
+                        bottom="10px"
+                        fontSize="--h4"
                         position="absolute"
                       >
                         {dataGallery[index].oa}
@@ -432,6 +452,7 @@ export default function MonthlyThemePage({}: Props) {
             );
           })}
         </Div>
+        <Div h="150px" bgColor="--grey-750"></Div>
       </Div>
     </Div>
   );
