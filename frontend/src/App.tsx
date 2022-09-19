@@ -8,6 +8,7 @@ import {
   SignUpPage,
   NotFoundPage,
   ProfilePage,
+  VirtualGallery,
 } from "./pages";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/signUp" element={<SignUpPage />}/>
           <Route path="/profile" element={<ProfilePage />}/>
           <Route path="/*" element={<NotFoundPage />}/>
+          <Route path="/virtual-gallery" element={<VirtualGallery />}/>
         </Routes>
       </BrowserRouter>
     </div>
