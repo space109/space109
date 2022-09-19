@@ -32,7 +32,14 @@ class GallerysService {
     };
   }
 
-  async updateMyGallery(oa, category_id, description, title, thumbnail) {
+  async updateMyGallery(
+    oa,
+    category_id,
+    description,
+    title,
+    thumbnail,
+    isopen
+  ) {
     return {
       statusCode: 200,
       responseBody: {
@@ -42,7 +49,8 @@ class GallerysService {
           category_id,
           description,
           title,
-          thumbnail
+          thumbnail,
+          isopen
         ),
       },
     };

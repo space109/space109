@@ -32,7 +32,8 @@ router.put("/my", async function (req, res) {
     req.body.category_id,
     req.body.description,
     req.body.title,
-    req.body.thumbnail
+    req.body.thumbnail,
+    req.body.isopen
   );
 
   res.statusCode = statusCode;
