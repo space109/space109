@@ -2,12 +2,12 @@ const NftRepository = require("./nft.repository");
 const nftRepository = new NftRepository();
 
 class NftService {
-  async sellMyNft(toeknId, scale, position, galleryId, oa) {
+  async displayMyNft(toeknId, scale, position, galleryId, oa) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.sellMyNft(
+        data: await nftRepository.displayMyNft(
           toeknId,
           scale,
           position,
@@ -37,12 +37,12 @@ class NftService {
     };
   }
 
-  async deleteSoldNft(nftId) {
+  async deleteNft(nftId) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.deleteSoldNft(nftId),
+        data: await nftRepository.deleteNft(nftId),
       },
     };
   }
