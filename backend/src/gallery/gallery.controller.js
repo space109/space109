@@ -81,16 +81,6 @@ router.get("/:theme", async function (req, res) {
 });
 
 router.put("/my", async function (req, res) {
-<<<<<<< HEAD
-  const { statusCode, responseBody } = await GalleryService.updateMyGallery(
-    req.body.oa,
-    req.body.category_id,
-    req.body.description,
-    req.body.title,
-    req.body.thumbnail,
-    req.body.isopen
-  );
-=======
   // 이미지가 들어와있지않으면
   // [Object: null prototype] {
   //   oa: '0xa15492067B5858d6B99E85E097dc30232b06854b',
@@ -126,7 +116,6 @@ router.put("/my", async function (req, res) {
       const thumbnailPath =
         "/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg";
       // console.log(thumbnailPath);
->>>>>>> a6b032efb47a7847e3f6e81e9ec77ee64f9822a5
 
       const { statusCode, responseBody } = await GalleryService.updateMyGallery(
         req.body.oa,
