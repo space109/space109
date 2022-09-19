@@ -4,6 +4,8 @@ const path = require("path");
 const helmet = require("helmet");
 const logger = require("morgan");
 const cors = require("cors");
+// 이미지가 저장될 기본 경로
+const BASE_THUMBNAIL_PATH = "/tmp/space109";
 
 const itemsRouter = require("./src/items/items.controller");
 const salesRouter = require("./src/sales/sales.controller");
@@ -19,6 +21,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/thumbnail", express.static(BASE_THUMBNAIL_PATH));
 
 app.use("/items", itemsRouter);
 app.use("/sales", salesRouter);
