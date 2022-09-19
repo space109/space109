@@ -15,5 +15,11 @@ RUN npm install --save --legacy-peer-deps
 # 앱 소스 추가
 COPY . .
 
+RUN npm run build
+
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
 EXPOSE 3000
-CMD [ "node", "./bin/www" ]
+CMD ["nginx", "-g", "daemon off;"]
+
