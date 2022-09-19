@@ -3,8 +3,8 @@ const router = express.Router();
 const NftService = require("./nft.service");
 const nftService = new NftService();
 
-router.post("/sell", async function (req, res) {
-  const { statusCode, responseBody } = await nftService.sellMyNft(
+router.post("/display", async function (req, res) {
+  const { statusCode, responseBody } = await nftService.displayMyNft(
     req.body.toeknId,
     req.body.scale,
     req.body.position,
@@ -36,8 +36,8 @@ router.get("/display", async function (req, res) {
   res.send(responseBody);
 });
 
-router.delete("/sell", async function (req, res) {
-  const { statusCode, responseBody } = await nftService.deleteSoldNft(
+router.delete("/display", async function (req, res) {
+  const { statusCode, responseBody } = await nftService.deleteNft(
     req.body.nftId
   );
   res.statusCode = statusCode;
