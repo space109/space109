@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:16 as build-stage
 
 # 앱 디렉터리 생성
 WORKDIR /var/jenkins_home/workspace/SPACE109/frontend 
