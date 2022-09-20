@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from "react";
 import { useGLTF, PerspectiveCamera } from "@react-three/drei";
-import { useBox, useConvexPolyhedron } from '@react-three/cannon';
+import { useBox, useConvexPolyhedron } from "@react-three/cannon";
 import { Geometry } from "three-stdlib";
 
 function toConvexProps(bufferGeometry) {
@@ -13,110 +13,217 @@ function toConvexProps(bufferGeometry) {
 
 export function GalleryMap(props) {
   const { nodes, materials } = useGLTF("/GalleryMap.glb");
-  // const geo1 = useMemo(() => toConvexProps(nodes.Line002_1.geometry), [nodes])
-  const geo2 = useMemo(() => toConvexProps(nodes.Line002_2.geometry), [nodes])
-  const [ref, api] = useConvexPolyhedron(() => ({mass: 0, position:[ 71.39, -20.32, -55.33], args: geo2 }))
-  console.log(geo2)
+  const line1_1 = useMemo(
+    () => toConvexProps(nodes.Line001_1.geometry),
+    [nodes]
+  );
+  const line1_2 = useMemo(
+    () => toConvexProps(nodes.Line001_2.geometry),
+    [nodes]
+  );
+  const line1_3 = useMemo(
+    () => toConvexProps(nodes.Line001_3.geometry),
+    [nodes]
+  );
+  const line1_4 = useMemo(
+    () => toConvexProps(nodes.Line001_4.geometry),
+    [nodes]
+  );
+  const line2_1 = useMemo(
+    () => toConvexProps(nodes.Line002_1.geometry),
+    [nodes]
+  );
+  const line2_2 = useMemo(
+    () => toConvexProps(nodes.Line002_2.geometry),
+    [nodes]
+  );
+  const line2_3 = useMemo(
+    () => toConvexProps(nodes.Line002_3.geometry),
+    [nodes]
+  );
+  const line2_4 = useMemo(
+    () => toConvexProps(nodes.Line002_4.geometry),
+    [nodes]
+  );
+  const line3_1 = useMemo(
+    () => toConvexProps(nodes.Line003_1.geometry),
+    [nodes]
+  );
+  const line3_2 = useMemo(
+    () => toConvexProps(nodes.Line003_2.geometry),
+    [nodes]
+  );
+
   return (
     <group {...props} dispose={null}>
-      <PerspectiveCamera
-        makeDefault={false}
-        far={10000}
-        fov={37.25}
-        position={[35.47, 12.76, -13.43]}
-        rotation={[-1.63, 1.55, 1.63]}
-      />
-      <PerspectiveCamera
-        makeDefault={false}
-        far={10000}
-        fov={37.25}
-        position={[113.34, 13.74, -17.37]}
-        rotation={[-3.05, 0, -Math.PI]}
-      />
-      <PerspectiveCamera
-        makeDefault={false}
-        far={10000}
-        fov={37.25}
-        position={[90.55, 14.48, -51.02]}
-        rotation={[-0.46, 1.53, 0.46]}
-      />
-      <group position={[71.39, 0, -55.33]}>
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line001_1.geometry}
-          material={materials["Material #24"]}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line001_2.geometry}
-          material={materials["Material #25"]}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line001_3.geometry}
-          material={materials["Material #26"]}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line001_4.geometry}
-          material={materials["Material #27"]}
-        />
+      <group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line1_1,
+              position: [71.39, 0, -55.33],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line001_1.geometry}
+            material={materials["Material #24"]}
+          />
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line1_2,
+              position: [71.39, 0, -55.33],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line001_2.geometry}
+            material={materials["Material #25"]}
+          />
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line1_3,
+              position: [71.39, 0, -55.33],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line001_3.geometry}
+            material={materials["Material #26"]}
+          />
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line1_4,
+              position: [71.39, 0, -55.33],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line001_4.geometry}
+            material={materials["Material #27"]}
+          />
+        </group>
       </group>
-      <group position={[71.39, -20.32, -55.33]} ref={ref} api={api}>
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line002_1.geometry}
-          material={materials["Material #24"]}
+      <group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line2_1,
+              position: [71.39, -20.32, -55.33],
+            }))[0]
+          }
         >
-          {/* <planeGeometry /> */}
-          {/* <meshStandardMaterial /> */}
-        </mesh>
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line002_2.geometry}
-          material={materials["Material #25"]}
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line002_1.geometry}
+            material={materials["Material #24"]}
+          >
+            {/* <planeGeometry /> */}
+            {/* <meshStandardMaterial /> */}
+          </mesh>
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line2_2,
+              position: [71.39, -20.32, -55.33],
+            }))[0]
+          }
         >
-          {/* <planeGeometry /> */}
-          {/* <meshStandardMaterial /> */}
-        </mesh>
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line002_3.geometry}
-          material={materials["Material #26"]}
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line002_2.geometry}
+            material={materials["Material #25"]}
+          ></mesh>
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line2_3,
+              position: [71.39, -20.32, -55.33],
+            }))[0]
+          }
         >
-          {/* <planeGeometry /> */}
-          {/* <meshStandardMaterial /> */}
-        </mesh>
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line002_4.geometry}
-          material={materials["Material #27"]}
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line002_3.geometry}
+            material={materials["Material #26"]}
+          ></mesh>
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line2_4,
+              position: [71.39, -20.32, -55.33],
+            }))[0]
+          }
         >
-          {/* <planeGeometry /> */}
-          {/* <meshStandardMaterial /> */}
-        </mesh>
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line002_4.geometry}
+            material={materials["Material #27"]}
+          ></mesh>
+        </group>
       </group>
-      <group position={[16.28, 0, -73.36]}>
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line003_1.geometry}
-          material={materials["Material #24"]}
-        />
-        <mesh
-          castShadow
-          receiveShadow
-          geometry={nodes.Line003_2.geometry}
-          material={materials["Material #25"]}
-        />
+      <group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line3_1,
+              position: [16.28, 0, -73.36],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line003_1.geometry}
+            material={materials["Material #24"]}
+          />
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: line3_2,
+              position: [16.28, 0, -73.36],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Line003_2.geometry}
+            material={materials["Material #25"]}
+          />
+        </group>
       </group>
       <group position={[53.36, 0, -0.21]}>
         <mesh
@@ -252,4 +359,3 @@ export function GalleryMap(props) {
 }
 
 useGLTF.preload("/GalleryMap.glb");
-

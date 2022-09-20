@@ -21,20 +21,7 @@ const Floor = (props) => {
   );
 };
 
-const Box = (props) => {
-  const [ref] = useBox(() => ({
-    mass: 1,
-    position: [0, 5, 0],
-    rotation: [0.4, 0.2, 0.5],
-    ...props,
-  }));
-  return (
-    <mesh receiveShadow castShadow ref={ref}>
-      <boxGeometry />
-      <meshLambertMaterial color="hotpink" />
-    </mesh>
-  );
-};
+
 
 const VirtualGallery = () => {
   return (
@@ -42,24 +29,17 @@ const VirtualGallery = () => {
       <Canvas camera={{ position: [0, 10, 10] }}>
         {/* <ambientLight /> */}
         <pointLight position={[0, 100, 0]} />
+        {/* <ambientLight/> */}
         <axesHelper />
         {/* <OrbitControls /> */}
         <Physics gravity={[0, -40, 0]}>
           {/* <Sky /> */}
           {/* <Box /> */}
           <Floor position={[0, 10.15, 0]} rotation={[-Math.PI / 2, 0, 0]}/>
-          <Floor position={[100, 30, 14]} rotation={[Math.PI, 0, 0]} />
           <Suspense fallback={null}>
             <GalleryMap position={[0, 0, 0]} />
-            {/* <MapBoundary
-              visible
-              position={[0, 0, 0]}
-              dims={[140, 20.3, 140]}
-              offset={[-71.5, -10, 55]}
-            >
-            </MapBoundary> */}
           </Suspense>
-          <Player position={[50,50, 0]}/>
+          <Player position={[0,10.5, 0]}/>
         </Physics>
       </Canvas>
     </Div>
