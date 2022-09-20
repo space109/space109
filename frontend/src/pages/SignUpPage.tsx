@@ -4,6 +4,10 @@ import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input } from "../components";
 import SharpButton from "../components/Button/SharpButton";
 
+import { useAccount } from "../hooks";
+import { isMetaMaskInstalled, isWalletConnected, getAddress } from "../common/metamask";
+import login from "./login";
+
 interface PropsStyle {
   color?: any,
 }
@@ -19,7 +23,7 @@ const DivWidth = styled(Div)`
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
   }
   @media screen and (max-width: ${screenSizes.md + "px"}) {
-    width: 80%;
+    width: 76%;
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
     width: 92%;
@@ -36,35 +40,21 @@ function SignUpPage({} : Props) {
   const [ helpMsg, setHelpMsg ] = useState("\u00A0");
   const [ color, setColor] = useState("--grey-650");
 
-  const [account, setAccount] = useState("");
-
   const dupCheck = () => {
     console.log(nickname);
   }
 
-  const EXTENSION_DOWNLOAD_URL = 'https://metamask.io';
-  
-  const walletConnect = async () => {
-    try {
-      if (typeof window.ethereum !== 'undefined') {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        setAccount(accounts[0]);
-      } else {
-        if(window.confirm("노 메타마스크. 설치 고?")) {
-          window.open(EXTENSION_DOWNLOAD_URL, '_blank');
-        }
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  login()
 
-  // 계정이 바뀌면 account의 상태 업데이트 
-  if (typeof window.ethereum !== 'undefined') {
-    window.ethereum.on('accountsChanged', function (accounts : any) {
-      setAccount(accounts[0]);
-    });
-  }
+  const [ account ] = useAccount();
+  console.log(isMetaMaskInstalled(), isWalletConnected(), getAddress())
+  console.log("zzz", account)
+  // const EXTENSION_DOWNLOAD_URL = 'https://metamask.io';
+  // if (!window.ethereum) {
+  //   if(window.confirm("메타마스크가 설치되어 있지 않습니다. 설치하시겠습니까?")) {
+  //     window.open(EXTENSION_DOWNLOAD_URL, '_blank');
+  //   }
+  // }
 
   return (
     <>
@@ -118,8 +108,8 @@ function SignUpPage({} : Props) {
           회원가입
         </SharpButton>
       </DivWidth>
-      <SharpButton onClick={walletConnect}>지갑연결</SharpButton>
-      <SharpButton onClick={() => console.log(account)}>계정출력</SharpButton>
+      {/* <SharpButton onClick={walletConnect}>지갑연결</SharpButton>
+      <SharpButton onClick={() => console.log(account)}>계정출력</SharpButton> */}
     </Div>
     </>
   );
