@@ -1,5 +1,5 @@
 import React from "react";
-import { Div, Image } from "../styles/BaseStyles";
+import { Div, Image } from "../../styles/BaseStyles";
 
 function NftCard(props: any) {
   return (

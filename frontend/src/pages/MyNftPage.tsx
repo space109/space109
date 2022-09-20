@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Div } from "../styles/BaseStyles";
 import SharpButton from "../components/Button/SharpButton";
-import NftCard from "../components/NftCard";
+import NftCard from "../components/NftCard/NftCard";
 
 const MyNftPage = () => {
   const [myNft, setMyNft] = useState([]); // 요청하여 nft 목록 받아올것
+  const [myContent, setMyContent] = useState();
+
+  const handleClickButton = (e: { target: { name: any; }; }) => {
+    const { name } = e.target;
+    setMyContent(name);
+  }
 
   // const [firstRow, setFirstRow] = React.useState([]);
   // const [secondRow, setSecondRow] = React.useState([]);
