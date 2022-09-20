@@ -99,6 +99,7 @@ const TextBox = styled.div<TextStyle>`
   align-items: center;
   text-align: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 function NaviButton({
