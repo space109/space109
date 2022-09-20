@@ -13,6 +13,7 @@ export const FPVControls = (props) => {
     document.addEventListener("click", () => {
       controls.current.lock();
     });
+    console.log(controls.current)
   }, []);
 
   return (

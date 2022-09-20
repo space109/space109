@@ -5,7 +5,7 @@ import { FPVControls } from './FPVControls';
 import { useKeyboardControls } from '../../hooks/useKeyboardControls';
 import { Vector3 } from 'three';
 
-const SPEED = 20;
+const SPEED = 15;
 
 export const Player = (props) => {
   const { camera } = useThree();
@@ -51,7 +51,7 @@ export const Player = (props) => {
     api.velocity.set(direction.x, velocity.current[1], direction.z);
 
     if (jump) {
-      api.velocity.set(velocity.current[0], 50, velocity.current[2]);
+      api.velocity.set(velocity.current[0], 10, velocity.current[2]);
     }
   });
   return (
