@@ -7,7 +7,6 @@ import { Player } from "../components/3DModels/Player";
 import { Div } from "../styles/BaseStyles";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import InfoModal from "./../components/3DModels/InfoModal";
-import { Button } from "./../styles/BaseStyles";
 
 const Floor = (props) => {
   const [ref] = usePlane(() => ({
@@ -47,18 +46,18 @@ const VirtualGallery = () => {
   return (
     <Div w="100vw" h="100vh">
       <InfoModal toggleModal={toggleModal} toggle={toggle} />
-      <Canvas camera={{ position: [10, 50, 10] }}>
+      <Canvas camera={{ position: [50, 10, -50] }}>
         <pointLight position={[0, 100, 0]} intensity={0.4} />
         <ambientLight intensity={0.2} />
         {/* <OrbitControls /> */}
-        <Physics gravity={[0, -100, 0]}>
+        <Physics gravity={[0, -70, 0]}>
           {/* <Sky /> */}
           <Box toggleModal={toggleModal} />
           <Floor position={[0, 10.15, 0]} rotation={[-Math.PI / 2, 0, 0]} />
           <Suspense fallback={null}>
             <GalleryMap position={[0, 0, 0]} />
           </Suspense>
-          <Player position={[20, 14.5, 0]} lockControl={toggle}/>
+          <Player position={[50, 10, -50]}/>
         </Physics>
       </Canvas>
     </Div>

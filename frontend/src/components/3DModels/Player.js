@@ -5,7 +5,7 @@ import { FPVControls } from './FPVControls';
 import { useKeyboardControls } from '../../hooks/useKeyboardControls';
 import { Vector3 } from 'three';
 
-const SPEED = 15;
+const SPEED = 25;
 
 export const Player = (props) => {
   const { camera } = useThree();
@@ -14,7 +14,7 @@ export const Player = (props) => {
   const [ref, api] = useSphere(() => ({
     mass: 1,
     type: 'Dynamic',
-    ...props.position,
+    ...props,
   }));
 
   const velocity = useRef([0, 0, 0]);
@@ -56,7 +56,7 @@ export const Player = (props) => {
   });
   return (
     <>
-      <FPVControls lockControl={props.lockControl}/>
+      <FPVControls/>
       <mesh ref={ref}>
         <planeBufferGeometry attach="geometry" args={[0, 0]} />
         <meshStandardMaterial attach="material" opacity={1} />
