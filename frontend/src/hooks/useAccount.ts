@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
+import { login } from "../apis";
 
-// 계정 주소 가져오는 hook (추후 닉네임도 추가)
+/* 
+계정 주소와 닉네임을 가져오는 hook
+account가 undefined 값이 반환되면 계정 연결이 안되어있고, 
+name이 undefined으로 반환되면 회원가입을 하지 않은 것.
+*/
 const useAccount = () => {
   const [ account, setAccount ] = useState();
   const [ nickname, setNickname ] = useState();
@@ -16,12 +21,17 @@ const useAccount = () => {
     return chainId;
   };
 
-  const getUsedAccount = async () => {
+  const getAccountnName = async () => {
     try {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
       setAccount(accounts[0]);
+
+      const nameData = await login(accounts[0]);
+      if (nameData.length) {
+        setNickname(nameData.nickname);
+      }
     } 
     catch (error) {
       console.error(error);
@@ -75,7 +85,7 @@ const useAccount = () => {
             // addSSFNetwork();
         }
 
-        getUsedAccount();
+        getAccountnName();
       } catch (error) {
         console.error(error);
       }
@@ -83,7 +93,7 @@ const useAccount = () => {
 
     if (window.ethereum) {
       init();
-      window.ethereum.on("accountsChanged", getUsedAccount);
+      window.ethereum.on("accountsChanged", getAccountnName);
     }
   }, []);
 
@@ -91,11 +101,11 @@ const useAccount = () => {
   useEffect(() => {
     return () => {
       if (window.ethereum) {
-        window.ethereum.removeListener("accountsChanged", getUsedAccount);
+        window.ethereum.removeListener("accountsChanged", getAccountnName);
       }}
   } ,[]);
 
-  return [account];
+  return [account, nickname];
 };
 
 export default useAccount;

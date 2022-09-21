@@ -1,12 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input } from "../components";
 import SharpButton from "../components/Button/SharpButton";
-
-import { useAccount } from "../hooks";
-import { isMetaMaskInstalled, isWalletConnected, getAddress } from "../common/metamask";
-import login from "./login";
+import { dupCheck, join, login } from "../apis";
 
 interface PropsStyle {
   color?: any,
@@ -33,28 +30,42 @@ const DivWidth = styled(Div)`
 `
 
 interface Props {
+  account?: any,
 };
 
-function SignUpPage({} : Props) {
+function SignUpPage({account} : Props) {
   const [ nickname, setNickname ] = useState("");
   const [ helpMsg, setHelpMsg ] = useState("\u00A0");
   const [ color, setColor] = useState("--grey-650");
 
-  const dupCheck = () => {
+  const dupCheckClick = async () => {
     console.log(nickname);
+    const isDup = await dupCheck(nickname);
+    if (isDup === 'true') {
+      setColor("--carmine-100");
+      setHelpMsg("중복된 닉네임 입니다.");
+    } else if (isDup === 'false') {
+      setColor("--spinach-300");
+      setHelpMsg("사용 가능한 닉네임 입니다.");
+    }
   }
 
-  login()
+  useEffect(() => {
+    setColor("--grey-650");
+    setHelpMsg("\u00A0");
+  }, [nickname])
 
-  const [ account ] = useAccount();
-  console.log(isMetaMaskInstalled(), isWalletConnected(), getAddress())
-  console.log("zzz", account)
-  // const EXTENSION_DOWNLOAD_URL = 'https://metamask.io';
-  // if (!window.ethereum) {
-  //   if(window.confirm("메타마스크가 설치되어 있지 않습니다. 설치하시겠습니까?")) {
-  //     window.open(EXTENSION_DOWNLOAD_URL, '_blank');
-  //   }
-  // }
+  const signUpClick = async () => {
+    if (helpMsg === "사용 가능한 닉네임 입니다.") {
+      const isJoin = await join(account, nickname);
+      if (isJoin) {
+        console.log('성공했당');
+        // 메인으로 이동시키기 이전꺼 기억 가넝.,.?
+      } else {
+        console.log('회원가입실패');
+      }
+    }
+  }
 
   return (
     <>
@@ -90,12 +101,12 @@ function SignUpPage({} : Props) {
             <SharpButton 
               fontSize="--h5" width="150px" height="auto" borderRadius="0 4px 4px 0" bg={color}
               borderWidth="3px" borderColor={color}
-              onClick={dupCheck}
+              onClick={dupCheckClick}
             >
               중복확인
             </SharpButton>
           </Div>
-          <Div fontSize="--h7" fontWeight="--thin" color="--carmine-100" pl="calc(calc(var(--h5) / 1.5) + 3px)">
+          <Div fontSize="--h7" fontWeight="--thin" color={color} pl="calc(calc(var(--h5) / 1.5) + 3px)">
             {helpMsg}
           </Div>
         </Div>
@@ -104,12 +115,11 @@ function SignUpPage({} : Props) {
           width="100%" height="69px" 
           borderWidth="3px" borderRadius="4px" bg="--grey-650"
           borderColor="--grey-650"
+          onClick={signUpClick}
         >
           회원가입
         </SharpButton>
       </DivWidth>
-      {/* <SharpButton onClick={walletConnect}>지갑연결</SharpButton>
-      <SharpButton onClick={() => console.log(account)}>계정출력</SharpButton> */}
     </Div>
     </>
   );
