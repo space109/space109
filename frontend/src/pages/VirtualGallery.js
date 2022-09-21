@@ -39,6 +39,7 @@ const Box = (props) => {
 const VirtualGallery = () => {
   return (
     <Div w="100vw" h="100vh">
+      <Div id="modal-root"></Div>
       <Canvas>
         <pointLight position={[0, 100, 0]} intensity={0.4}/>
         <ambientLight intensity={0.2}/>

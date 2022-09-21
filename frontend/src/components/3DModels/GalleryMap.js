@@ -183,7 +183,9 @@ export function GalleryMap(props) {
           geometry={nodes.Line010_1.geometry}
           material={materials["Material #24"]}
         />
+        {/* target */}
         <mesh
+          onClick={(e) => console.log("click")}
           geometry={nodes.Line010_2.geometry}
           material={materials["Material #27"]}
         />
