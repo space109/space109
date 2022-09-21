@@ -18,7 +18,8 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "mysql2": "^2.3.3",
-    "vary": "^1.1.2"
+    "vary": "^1.1.2",
+    "multer": "1.4.5-lts.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
