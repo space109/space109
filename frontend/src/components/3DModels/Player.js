@@ -14,7 +14,7 @@ export const Player = (props) => {
   const [ref, api] = useSphere(() => ({
     mass: 1,
     type: 'Dynamic',
-    ...props,
+    ...props.position,
   }));
 
   const velocity = useRef([0, 0, 0]);
@@ -56,7 +56,7 @@ export const Player = (props) => {
   });
   return (
     <>
-      <FPVControls />
+      <FPVControls lockControl={props.lockControl}/>
       <mesh ref={ref}>
         <planeBufferGeometry attach="geometry" args={[0, 0]} />
         <meshStandardMaterial attach="material" opacity={1} />

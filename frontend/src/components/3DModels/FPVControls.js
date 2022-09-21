@@ -11,7 +11,7 @@ export const FPVControls = (props) => {
 
   useEffect(() => {
     document.addEventListener("click", () => {
-      controls.current.lock();
+        controls.current.lock();
     });
     console.log(controls.current)
   }, []);
@@ -20,7 +20,6 @@ export const FPVControls = (props) => {
     <pointerLockControlsImpl
       ref={controls}
       args={[camera, gl.domElement]}
-      {...props}
     />
   );
 };

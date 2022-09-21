@@ -1,6 +1,9 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import closeIcon from '../../assets/close-icon.png'
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import closeIcon from "../../assets/close-icon.png";
+import { Div } from "../../styles/BaseStyles";
+import ReactDOM from "react-dom";
+
 const BackDropDiv = styled.div`
   position: fixed;
   bottom: 0;
@@ -20,7 +23,7 @@ const ModalDiv = styled.div`
   top: 30vh;
   left: 10%;
   width: 80%;
-  z-index: 100;
+  z-index: 101;
   overflow: hidden;
   height: 30%;
   background: white;
@@ -39,56 +42,32 @@ const Img = styled.img`
 `;
 
 const Backdrop = (props) => {
-  if (!props.open) return null;
+  if (!props.toggle) return null;
   return <BackDropDiv onClick={props.toggleModal}></BackDropDiv>;
 };
 
 const ModalOverlay = (props) => {
-  if (!props.open) return null;
+  if (!props.toggle) return null;
   return (
     <ModalDiv className="modal-active">
       <Img src={closeIcon} alt="" onClick={props.toggleModal} />
-      <h2
-        style={{
-          textAlign: "center",
-          marginBottom: "-2.3em",
-          color: "#5a5a5a",
-          marginTop: "1em",
-        }}
-      >
-        {props.title}
-      </h2>
-      <h5
-        style={{
-          marginBottom: "-2.3em",
-          color: "#5a5a5a",
-          marginTop: "1em",
-          marginLeft: "6em",
-        }}
-      >
-        <b style={{ color: "#8DA1FF" }}>◼</b> 회원님 기록
-      </h5>
-      <h5
-        style={{
-          marginBottom: "-5em",
-          color: "#5a5a5a",
-          marginTop: "3em",
-          marginLeft: "6em",
-        }}
-      >
-        <b style={{ color: "#f06875" }}>◼</b> 20대 남성 권장 운동량
-      </h5>
+      <Div fontSize="40px">HELLLOOO</Div>
     </ModalDiv>
   );
 };
 
-
-
-const InfoModal = () => {
+const InfoModal = ({ toggleModal, toggle }) => {
   return (
-    <div>
-      
-    </div>
+    <>
+      {ReactDOM.createPortal(
+        <Backdrop toggleModal={toggleModal} toggle={toggle} />,
+        document.getElementById("backdrop-root")
+      )}
+      {ReactDOM.createPortal(
+        <ModalOverlay toggleModal={toggleModal} toggle={toggle}/>,
+        document.getElementById("overlay-root")
+      )}
+    </>
   );
 };
 
