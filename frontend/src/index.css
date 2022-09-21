@@ -1,7 +1,8 @@
 @font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-style: normal;
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-style: normal;
 }
 
 body {
@@ -57,5 +58,23 @@ body {
   --spinach-100: #648f82;
   --spinach-200: #019168;
   --spinach-300: #016549;
-  --modal-bg: rgba(0, 0, 0, 0.6);
+  --modal-bg: rgba(0, 0, 0, 0.8);
+
+  --title: 96px;
+  --h1: 60px;
+  --h2: 48px;
+  --h3: 36px;
+  --h4: 30px;
+  --h5: 24px;
+  --h6: 20px;
+  --h7: 18px;
+  --body: 16px;
+  --body-small: 12px;
+
+  --bold: 700;
+  --semi-bold: 600;
+  --medium: 500;
+  --regular: 400;
+  --light: 300;
+  --thin: 100;
 }
