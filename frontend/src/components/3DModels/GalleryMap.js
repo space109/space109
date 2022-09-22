@@ -1,8 +1,16 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useGLTF, PerspectiveCamera } from "@react-three/drei";
 
 export function GalleryMap(props) {
   const { nodes, materials } = useGLTF("/GalleryMap.glb");
+  const [onPoint, setOnPoint] = useState(false);
+  const togglePoint = (value) => {
+    setOnPoint(value);
+  };
+
+  if (onPoint) {
+  }
+
   return (
     <group {...props} dispose={null}>
       <PerspectiveCamera
@@ -185,7 +193,17 @@ export function GalleryMap(props) {
         />
         {/* target */}
         <mesh
-          onClick={(e) => console.log("click")}
+          // onClick={(e) => {
+          //   console.log("click");
+          // }}
+          // onPointerEnter={(e) => {
+          //   togglePoint(true);
+          //   console.log("onPoint");
+          // }}
+          // onPointerLeave={(e) => {
+          //   togglePoint(false);
+          //   console.log("leavePoint");
+          // }}
           geometry={nodes.Line010_2.geometry}
           material={materials["Material #27"]}
         />

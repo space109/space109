@@ -27,21 +27,27 @@ const Box = ({ toggleModal }) => {
   const img = useLoader(TextureLoader, "/Thug_life.png");
   const [ref] = useBox(() => ({
     mass: 0,
-    position: [1.6, 50, -13],
+    position: [127, 25, 5.2],
     args: [1, 15, 15],
   }));
   return (
     <mesh receiveShadow castShadow ref={ref} onClick={toggleModal}>
-      <boxGeometry args={[0.1, 15, 15]} />
+      <boxGeometry args={[15, 15, 0.1]} />
       <meshLambertMaterial map={img} />
     </mesh>
   );
 };
 
 const VirtualGallery = () => {
-  const [toggle, setToggle] = useState(false);
-  const toggleModal = () => {
+  const [toggle, setToggle] = useState(false); // 모달 on/off
+  const toggleModal = () => { // 모달 토글 함수
     setToggle((state) => !state);
+  };
+  const getPlayerPosition = (playerPosition) => {
+    console.log(playerPosition);
+  };
+  const handleKeyDown = (e) => {
+    console.log(e.target.value);
   };
 
   return (
@@ -54,11 +60,20 @@ const VirtualGallery = () => {
         <Physics gravity={[0, -100, 0]}>
           {/* <Sky /> */}
           <Box toggleModal={toggleModal} />
+          {/* 토글 적용 */}
           <Floor position={[0, 10.15, 0]} rotation={[-Math.PI / 2, 0, 0]} />
           <Suspense fallback={null}>
             <GalleryMap position={[0, 0, 0]} />
           </Suspense>
-          <Player position={[20, 14.5, 0]} lockControl={toggle}/>
+          <Player
+            position={[20, 14.5, 0]}
+            getPosition={getPlayerPosition}
+            lockControl={toggle}
+            onKeyDown={handleKeyDown}
+            toggleModal={toggleModal}
+            toggle={toggle}
+            setToggle={setToggle}
+          />
         </Physics>
       </Canvas>
     </Div>

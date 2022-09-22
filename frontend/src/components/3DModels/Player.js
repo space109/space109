@@ -1,21 +1,36 @@
-import React, { useEffect, useRef } from 'react';
-import { useSphere } from '@react-three/cannon';
-import { useThree, useFrame } from '@react-three/fiber';
-import { FPVControls } from './FPVControls';
-import { useKeyboardControls } from '../../hooks/useKeyboardControls';
-import { Vector3 } from 'three';
+import React, { useEffect, useRef, useState } from "react";
+import { useSphere } from "@react-three/cannon";
+import { useThree, useFrame } from "@react-three/fiber";
+import { FPVControls } from "./FPVControls";
+import { useKeyboardControls } from "../../hooks/useKeyboardControls";
+import { Vector3 } from "three";
 
 const SPEED = 15;
 
 export const Player = (props) => {
   const { camera } = useThree();
-  const { moveForward, moveBackward, moveLeft, moveRight, jump } =
+  const { moveForward, moveBackward, moveLeft, moveRight, activeButton, jump } =
     useKeyboardControls();
   const [ref, api] = useSphere(() => ({
     mass: 1,
-    type: 'Dynamic',
+    type: "Dynamic",
     ...props.position,
   }));
+  const [readyTotoggle, setReadyTotoggle] = useState(true); // 모달 상태 변화 준비 확인
+
+  const objectDistance = (objectPosition) => {
+    // 물체와의 거리 함수
+    const deltaX = objectPosition[0] - pos.current[0];
+    const deltaZ = objectPosition[2] - pos.current[2];
+
+    const rangelimit = 100; // 물체와의 거리 경계 값
+
+    if (deltaX ** 2 + deltaZ ** 2 < rangelimit) {
+      return true; // 내부일 경우 true
+    } else {
+      return false; // 외부일 경우 false
+    }
+  };
 
   const velocity = useRef([0, 0, 0]);
   useEffect(() => {
@@ -23,7 +38,10 @@ export const Player = (props) => {
   }, [api.velocity]);
 
   const pos = useRef([0, 0, 0]);
-  useEffect(() => api.position.subscribe((v) => (pos.current = v)), [api.position]);
+  useEffect(
+    () => api.position.subscribe((v) => (pos.current = v)),
+    [api.position]
+  );
 
   useFrame(() => {
     camera.position.copy(
@@ -50,13 +68,32 @@ export const Player = (props) => {
 
     api.velocity.set(direction.x, velocity.current[1], direction.z);
 
+    // activeButton으로 위치값 호출
+    // pos.current = [왼오, 높이, 앞뒤]
+
+    if (activeButton) {
+      // console.log(camera.position);
+      if (objectDistance([127, 25, 5.2]) && !props.toggle && readyTotoggle) {
+        // toggle off 상태일때 e를 누르면
+        props.setToggle(true);
+        setReadyTotoggle(false); // 활성화 키 true 유지시 상태 변화 불가 상태로 변경
+      }
+      if (props.toggle && readyTotoggle) {
+        props.setToggle(false);
+        setReadyTotoggle(false);
+      }
+    } else {
+      // 활성화 키 비 활성시 상태 변화 준비 상태로 변경
+      setReadyTotoggle(true);
+    }
+
     if (jump) {
       api.velocity.set(velocity.current[0], 10, velocity.current[2]);
     }
   });
   return (
     <>
-      <FPVControls lockControl={props.lockControl}/>
+      <FPVControls lockControl={props.lockControl} />
       <mesh ref={ref}>
         <planeBufferGeometry attach="geometry" args={[0, 0]} />
         <meshStandardMaterial attach="material" opacity={1} />

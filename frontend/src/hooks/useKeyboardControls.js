@@ -6,6 +6,7 @@ function actionByKey(key) {
     KeyS: "moveBackward",
     KeyA: "moveLeft",
     KeyD: "moveRight",
+    KeyE: "activeButton", // 상호작용 키
     Space: "jump",
   };
   return keys[key];
@@ -17,6 +18,7 @@ export const useKeyboardControls = () => {
     moveBackward: false,
     moveLeft: false,
     moveRight: false,
+    activeButton: false, // 상호작용 키
     jump: false,
   });
 
@@ -46,6 +48,7 @@ export const useKeyboardControls = () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
     };
+    
   }, []);
 
   return movement;
