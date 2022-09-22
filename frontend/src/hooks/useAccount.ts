@@ -5,7 +5,7 @@ import { login } from "../apis";
 /* 
 계정 주소와 닉네임을 가져오는 hook
 account가 undefined 값이 반환되면 계정 연결이 안되어있고, 
-name이 undefined으로 반환되면 회원가입을 하지 않은 것.
+name이 undefined으로 반환되면 회원가입이 되어있지 않은 것.
 */
 const useAccount = () => {
   const [ account, setAccount ] = useState();

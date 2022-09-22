@@ -4,6 +4,7 @@ import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input } from "../components";
 import SharpButton from "../components/Button/SharpButton";
 import { dupCheck, join, login } from "../apis";
+import { TestContract } from "../web3Config";
 
 interface PropsStyle {
   color?: any,
@@ -38,6 +39,27 @@ function SignUpPage({account} : Props) {
   const [ helpMsg, setHelpMsg ] = useState("\u00A0");
   const [ color, setColor] = useState("--grey-650");
 
+  const [ text, setText ] = useState("ㅋㅋ");
+
+  useEffect(() => {
+    (async function () {
+      console.log("있나?")
+      const text = await TestContract.methods.current().call();
+      setText(text);
+    })();
+  }, [])
+
+  const textClick = async () => {
+    console.log('테스트', window.ethereum.selectedAddress);
+    const result = await TestContract.methods.write(nickname).send({from: window.ethereum.selectedAddress});
+    if (!result) {
+      console.log('안됐대');
+      return;
+    }
+    const text = await TestContract.methods.current().call();
+    setText(text);
+  }
+
   const dupCheckClick = async () => {
     console.log(nickname);
     const isDup = await dupCheck(nickname);
@@ -50,11 +72,6 @@ function SignUpPage({account} : Props) {
     }
   }
 
-  useEffect(() => {
-    setColor("--grey-650");
-    setHelpMsg("\u00A0");
-  }, [nickname])
-
   const signUpClick = async () => {
     if (helpMsg === "사용 가능한 닉네임 입니다.") {
       const isJoin = await join(account, nickname);
@@ -66,6 +83,11 @@ function SignUpPage({account} : Props) {
       }
     }
   }
+
+  useEffect(() => {
+    setColor("--grey-650");
+    setHelpMsg("\u00A0");
+  }, [nickname])
 
   return (
     <>
@@ -121,6 +143,7 @@ function SignUpPage({account} : Props) {
         </SharpButton>
       </DivWidth>
     </Div>
+    <SharpButton onClick={textClick}>{text}</SharpButton>
     </>
   );
 }
