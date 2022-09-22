@@ -34,6 +34,8 @@ interface Props {
   account?: any,
 };
 
+// account가 없을 시 return 해버리기
+// account가 이미 있는 회원가입 되어있는 애도 return 해주기.
 function SignUpPage({account} : Props) {
   const [ nickname, setNickname ] = useState("");
   const [ helpMsg, setHelpMsg ] = useState("\u00A0");
@@ -61,12 +63,11 @@ function SignUpPage({account} : Props) {
   }
 
   const dupCheckClick = async () => {
-    console.log(nickname);
     const isDup = await dupCheck(nickname);
-    if (isDup === 'true') {
+    if (isDup) {
       setColor("--carmine-100");
       setHelpMsg("중복된 닉네임 입니다.");
-    } else if (isDup === 'false') {
+    } else {
       setColor("--spinach-300");
       setHelpMsg("사용 가능한 닉네임 입니다.");
     }
@@ -74,13 +75,17 @@ function SignUpPage({account} : Props) {
 
   const signUpClick = async () => {
     if (helpMsg === "사용 가능한 닉네임 입니다.") {
-      const isJoin = await join(account, nickname);
+      const isJoin = await join(window.ethereum.selectedAddress, nickname);
+      // const isJoin = await join(account, nickname);
       if (isJoin) {
         console.log('성공했당');
         // 메인으로 이동시키기 이전꺼 기억 가넝.,.?
       } else {
         console.log('회원가입실패');
       }
+    } else if (helpMsg === "\u00A0") {
+      setColor("--carmine-100");
+      setHelpMsg("닉네임 중복 확인을 해주세요.");
     }
   }
 
