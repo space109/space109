@@ -32,7 +32,7 @@ const TestAbi: AbiItem[] = [
 ];
 
 
-export const TestCA = "0x267e6473730128966501CcdDb50A16e4bA66b315";
+export const TestCA = "0xCB43dC542705F22C4e31808A1D1952c1C7Ca6aE6";
 
 export const web3 = new Web3(window.ethereum); // provider window.ehtereum으로 진행해도 되나?
 

@@ -23,10 +23,10 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+require('dotenv').config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const mnemonic = [
-  "0xfdc731bd8b69fc427fe95812407392b9654f0b1f08b6881788be5857d5015f35", // Admin account
-];
+const privateKeys = [process.env.MNEMONIC,];
+const APIKEY = process.env.SSAFY_HTTP;
 
 module.exports = {
   /**
@@ -52,7 +52,7 @@ module.exports = {
       network_id: "*",       // Any network (default: none)
      },
      ssafy: {
-      provider: () => new HDWalletProvider(mnemonic, "http://20.196.209.2:8545"),
+      provider: () => new HDWalletProvider(privateKeys, APIKEY),
       network_id: "*",
       chainId: 31221,
      }
