@@ -3,8 +3,8 @@ import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input } from "../components";
 import SharpButton from "../components/Button/SharpButton";
-import { dupCheck, join, login } from "../apis";
-import { TestContract } from "../web3Config";
+import { dupCheck, join } from "../apis";
+// import { TestContract } from "../web3Config";
 
 interface PropsStyle {
   color?: any,
@@ -36,33 +36,38 @@ interface Props {
 
 // account가 없을 시 return 해버리기
 // account가 이미 있는 회원가입 되어있는 애도 return 해주기.
-function SignUpPage({account} : Props) {
+function SignUpPage() {
   const [ nickname, setNickname ] = useState("");
   const [ helpMsg, setHelpMsg ] = useState("\u00A0");
   const [ color, setColor] = useState("--grey-650");
 
-  const [ text, setText ] = useState("ㅋㅋ");
+  // const [ text, setText ] = useState("ㅋㅋ");
 
-  useEffect(() => {
-    (async function () {
-      console.log("있나?")
-      const text = await TestContract.methods.current().call();
-      setText(text);
-    })();
-  }, [])
+  // useEffect(() => {
+  //   (async function () {
+  //     console.log("있나?")
+  //     const text = await TestContract.methods.current().call();
+  //     setText(text);
+  //   })();
+  // }, [])
 
-  const textClick = async () => {
-    console.log('테스트', window.ethereum.selectedAddress);
-    const result = await TestContract.methods.write(nickname).send({from: window.ethereum.selectedAddress});
-    if (!result) {
-      console.log('안됐대');
-      return;
-    }
-    const text = await TestContract.methods.current().call();
-    setText(text);
-  }
+  // const textClick = async () => {
+  //   console.log('테스트', window.ethereum.selectedAddress);
+  //   const result = await TestContract.methods.write(nickname).send({from: window.ethereum.selectedAddress});
+  //   if (!result) {
+  //     console.log('안됐대');
+  //     return;
+  //   }
+  //   const text = await TestContract.methods.current().call();
+  //   setText(text);
+  // }
 
   const dupCheckClick = async () => {
+    if (!nickname) {
+      setColor("--carmine-100");
+      setHelpMsg("닉네임은 비어있을 수 없습니다.");
+      return;
+    }
     const isDup = await dupCheck(nickname);
     if (isDup) {
       setColor("--carmine-100");
@@ -148,7 +153,7 @@ function SignUpPage({account} : Props) {
         </SharpButton>
       </DivWidth>
     </Div>
-    <SharpButton onClick={textClick}>{text}</SharpButton>
+    {/* <SharpButton onClick={textClick}>{text}</SharpButton> */}
     </>
   );
 }

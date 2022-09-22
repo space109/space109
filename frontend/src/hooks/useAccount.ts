@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Web3 from "web3";
 import { login } from "../apis";
+import { useNavigate } from "react-router-dom";
 
 /* 
 계정 주소와 닉네임을 가져오는 hook
@@ -10,6 +11,8 @@ name이 undefined으로 반환되면 회원가입이 되어있지 않은 것.
 const useAccount = () => {
   const [ account, setAccount ] = useState();
   const [ nickname, setNickname ] = useState();
+
+  const navigate = useNavigate();
 
   const SSAFY_CHAIN_ID = '0x79f5'
 
@@ -31,6 +34,10 @@ const useAccount = () => {
       const nameData = await login(accounts[0]);
       if (nameData.length) {
         setNickname(nameData.nickname);
+      } else {
+        if(window.confirm("메타마스크가 설치되어 있지 않습니다. 설치하시겠습니까?")) {
+          navigate("/signUp");
+        }
       }
     } 
     catch (error) {
