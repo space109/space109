@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useGLTF, PerspectiveCamera } from "@react-three/drei";
 import { Geometry } from "three-stdlib";
 import { useConvexPolyhedron } from "@react-three/cannon";
@@ -28,6 +28,14 @@ function toConvexProps(bufferGeometry) {
 
 export function GalleryMap(props) {
   const { nodes, materials } = useGLTF("/GalleryMap.glb");
+  const [onPoint, setOnPoint] = useState(false);
+  const togglePoint = (value) => {
+    setOnPoint(value);
+  };
+
+  if (onPoint) {
+  }
+
   const CenterWall_1 = useMemo(
     () => toConvexProps(nodes.CenterWall_1.geometry),
     [nodes]
@@ -828,6 +836,204 @@ export function GalleryMap(props) {
             material={materials.Dark}
           />
         </group>
+      </group>
+<<<<<<< HEAD
+      <group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: Plane001_1,
+              position: [134.58, 0, -137.61],
+            }))[0]
+          }
+        >
+          <mesh
+            geometry={nodes.Plane001_1.geometry}
+            material={materials["Material #408"]}
+          />
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: Plane001_2,
+              position: [134.58, 0, -137.61],
+            }))[0]
+          }
+        >
+          <mesh
+            geometry={nodes.Plane001_2.geometry}
+            material={materials.Light}
+          />
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: Plane001_3,
+              position: [134.58, 0, -137.61],
+            }))[0]
+          }
+        >
+          <mesh
+            geometry={nodes.Plane001_3.geometry}
+            material={materials.Grey}
+          />
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: Plane001_4,
+              position: [134.58, 0, -137.61],
+            }))[0]
+          }
+        >
+          <mesh
+            geometry={nodes.Plane001_4.geometry}
+            material={materials.Dark}
+          />
+        </group>
+=======
+      <group position={[53.36, 0, 15.03]}>
+        <mesh
+          geometry={nodes.Line004_1.geometry}
+          material={materials["Material #24"]}
+        />
+        <mesh
+          geometry={nodes.Line004_2.geometry}
+          material={materials["Material #27"]}
+        />
+        <mesh
+          geometry={nodes.Line004_3.geometry}
+          material={materials["Material #25"]}
+        />
+      </group>
+      <group position={[141.75, 0, -37.3]}>
+        <mesh
+          geometry={nodes.Line005_1.geometry}
+          material={materials["Material #24"]}
+        />
+        <mesh
+          geometry={nodes.Line005_2.geometry}
+          material={materials["Material #26"]}
+        />
+        <mesh
+          geometry={nodes.Line005_3.geometry}
+          material={materials["Material #27"]}
+        />
+      </group>
+      <group position={[89.43, 0, -110.45]}>
+        <mesh
+          geometry={nodes.Line006_1.geometry}
+          material={materials["Material #24"]}
+        />
+        <mesh
+          geometry={nodes.Line006_2.geometry}
+          material={materials["Material #26"]}
+        />
+      </group>
+      <group position={[0.91, 0, -55.33]}>
+        <mesh
+          geometry={nodes.Box001_1.geometry}
+          material={materials["Material #24"]}
+        />
+        <mesh
+          geometry={nodes.Box001_2.geometry}
+          material={materials["Material #25"]}
+        />
+      </group>
+      <group position={[157.12, -0.1, -55.33]}>
+        <mesh
+          geometry={nodes.Box002_1.geometry}
+          material={materials["Material #24"]}
+        />
+        <mesh
+          geometry={nodes.Box002_2.geometry}
+          material={materials["Material #26"]}
+        />
+      </group>
+      <mesh
+        geometry={nodes.Box003.geometry}
+        material={materials["Material #24"]}
+        position={[71.39, 0, -126.45]}
+      />
+      <group position={[71.39, 0, 31.03]}>
+        <mesh
+          geometry={nodes.Box004_1.geometry}
+          material={materials["Material #24"]}
+        />
+        <mesh
+          geometry={nodes.Box004_2.geometry}
+          material={materials["Material #27"]}
+        />
+      </group>
+      <group position={[71.39, 0, -55.33]}>
+        <mesh
+          geometry={nodes.Line007_1.geometry}
+          material={materials["Material #25"]}
+        />
+        <mesh
+          geometry={nodes.Line007_2.geometry}
+          material={materials["Material #27"]}
+        />
+        <mesh
+          geometry={nodes.Line007_3.geometry}
+          material={materials["Material #26"]}
+        />
+        <mesh
+          geometry={nodes.Line007_4.geometry}
+          material={materials["Material #24"]}
+        />
+      </group>
+      <mesh
+        geometry={nodes.Line008.geometry}
+        material={materials["Material #24"]}
+        position={[29.48, 0, -117.94]}
+      />
+      <group position={[149.25, 0, -97.24]}>
+        <mesh
+          geometry={nodes.Line009_1.geometry}
+          material={materials["Material #24"]}
+        />
+        <mesh
+          geometry={nodes.Line009_2.geometry}
+          material={materials["Material #26"]}
+        />
+      </group>
+      <group position={[128.54, 0, 22.52]}>
+        <mesh
+          geometry={nodes.Line010_1.geometry}
+          material={materials["Material #24"]}
+        />
+        {/* target */}
+        <mesh
+          // onClick={(e) => {
+          //   console.log("click");
+          // }}
+          // onPointerEnter={(e) => {
+          //   togglePoint(true);
+          //   console.log("onPoint");
+          // }}
+          // onPointerLeave={(e) => {
+          //   togglePoint(false);
+          //   console.log("leavePoint");
+          // }}
+          geometry={nodes.Line010_2.geometry}
+          material={materials["Material #27"]}
+        />
+      </group>
+      <group position={[8.78, 0, 1.82]}>
+        <mesh
+          geometry={nodes.Line011_1.geometry}
+          material={materials["Material #24"]}
+        />
+        <mesh
+          geometry={nodes.Line011_2.geometry}
+          material={materials["Material #25"]}
+        />
+>>>>>>> 이원우_박재현
       </group>
     </group>
   );

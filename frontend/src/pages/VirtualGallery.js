@@ -28,7 +28,7 @@ const Box = ({ toggleModal }) => {
   const img = useLoader(TextureLoader, "/Thug_life.png");
   const [ref] = useBox(() => ({
     mass: 0,
-    position: [1.6, 50, -13],
+    position: [127, 25, 5.2],
     args: [1, 15, 15],
   }));
   return (
@@ -74,9 +74,15 @@ const LightHelper = (props) => {
 };
 
 const VirtualGallery = () => {
-  const [toggle, setToggle] = useState(false);
-  const toggleModal = () => {
+  const [toggle, setToggle] = useState(false); // 모달 on/off
+  const toggleModal = () => { // 모달 토글 함수
     setToggle((state) => !state);
+  };
+  const getPlayerPosition = (playerPosition) => {
+    console.log(playerPosition);
+  };
+  const handleKeyDown = (e) => {
+    console.log(e.target.value);
   };
 
   return (
@@ -211,7 +217,15 @@ const VirtualGallery = () => {
           <Suspense fallback={null}>
             <GalleryMap position={[0, 0, 0]} />
           </Suspense>
-          <Player position={[33, 13, -35]} />
+          <Player
+            position={[33, 13, -35]}
+            getPosition={getPlayerPosition}
+            lockControl={toggle}
+            onKeyDown={handleKeyDown}
+            toggleModal={toggleModal}
+            toggle={toggle}
+            setToggle={setToggle}
+          />
         </Physics>
       </Canvas>
     </Div>
