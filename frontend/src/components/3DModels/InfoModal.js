@@ -51,7 +51,6 @@ const ModalOverlay = (props) => {
   return (
     <ModalDiv className="modal-active">
       <Img src={closeIcon} alt="" onClick={props.toggleModal} />
-      <Div fontSize="40px">HELLLOOO</Div>
     </ModalDiv>
   );
 };
