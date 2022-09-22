@@ -14,7 +14,7 @@ router.post("/", async function (req, res) {
 
 router.get("/check", async function (req, res) {
   const { statusCode, responseBody } = await walletService.checkNickname(
-    req.body.nickname
+    req.query["nickname"]
   );
 
   res.statusCode = statusCode;
