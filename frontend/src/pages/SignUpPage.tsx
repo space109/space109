@@ -4,7 +4,7 @@ import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input } from "../components";
 import SharpButton from "../components/Button/SharpButton";
 import { dupCheck, join } from "../apis";
-// import { TestContract } from "../web3Config";
+import { TestContract, MintTestContract } from "../web3Config";
 
 interface PropsStyle {
   color?: any,
@@ -43,6 +43,20 @@ function SignUpPage() {
 
   // const [ text, setText ] = useState("ㅋㅋ");
 
+  const textClick = async () => {
+    const response = await MintTestContract.methods.create(
+      window.ethereum.selectedAddress, 
+      "https://skywalker.infura-ipfs.io/ipfs/QmZN1tGPjx8kLpMBEUjxhfGwW3qphu49i5KuBLeF2tiMzM"
+    ).send({from: window.ethereum.selectedAddress});
+
+    console.log(response);
+  }
+
+  const aaaa = async () => {
+    const response = await MintTestContract.methods.current().call();
+
+    console.log(response);
+  }
   // useEffect(() => {
   //   (async function () {
   //     console.log("있나?")
@@ -153,7 +167,8 @@ function SignUpPage() {
         </SharpButton>
       </DivWidth>
     </Div>
-    {/* <SharpButton onClick={textClick}>{text}</SharpButton> */}
+    <SharpButton onClick={textClick}>버튼</SharpButton>
+    <SharpButton onClick={aaaa}>보기</SharpButton>
     </>
   );
 }
