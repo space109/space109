@@ -218,7 +218,7 @@ const VirtualGallery = () => {
             <GalleryMap position={[0, 0, 0]} />
           </Suspense>
           <Player
-            position={[33, 13, -35]}
+            position={[33, 13, -40]}
             getPosition={getPlayerPosition}
             lockControl={toggle}
             onKeyDown={handleKeyDown}

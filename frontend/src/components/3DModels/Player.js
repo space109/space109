@@ -14,7 +14,7 @@ export const Player = (props) => {
   const [ref, api] = useSphere(() => ({
     mass: 1,
     type: "Dynamic",
-    ...props.position,
+    position: props.position,
   }));
   const [readyTotoggle, setReadyTotoggle] = useState(true); // 모달 상태 변화 준비 확인
 
