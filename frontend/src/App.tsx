@@ -8,6 +8,7 @@ import {
   SignUpPage,
   NotFoundPage,
   ProfilePage,
+  VirtualGallery,
 } from "./pages";
 
 function App() {
@@ -15,12 +16,13 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/monthlyTheme" element={<MonthlyThemePage />} />
-          <Route path="/gallery" element={<GalleryListPage />} />
-          <Route path="/signUp" element={<SignUpPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/*" element={<NotFoundPage />} />
+          <Route path="/" element={<MainPage />}/>
+          <Route path="/monthlyTheme" element={<MonthlyThemePage />}/>
+          <Route path="/gallery" element={<GalleryListPage />}/>
+          <Route path="/signUp" element={<SignUpPage />}/>
+          <Route path="/profile" element={<ProfilePage />}/>
+          <Route path="/*" element={<NotFoundPage />}/>
+          <Route path="/virtual-gallery" element={<VirtualGallery />}/>
         </Routes>
       </BrowserRouter>
     </div>
