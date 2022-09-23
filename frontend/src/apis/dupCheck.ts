@@ -1,11 +1,13 @@
 import axios from 'axios';
+import apiPath from '../common/apiPath';
 
 const dupCheck = async (nickname: any) => {
   console.log(nickname)
+  console.log(apiPath.wallet.dupCheck())
   try {
     const { data: { result, data } } : any = await axios({
       method: 'GET',
-      url: "http://j7b109.p.ssafy.io:8080/wallet/check", 
+      url: apiPath.wallet.dupCheck(), 
       params: {
         nickname,
       }

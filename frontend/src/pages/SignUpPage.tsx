@@ -109,6 +109,9 @@ function SignUpPage() {
     if (isDup) {
       setColor("--carmine-100");
       setHelpMsg("중복된 닉네임 입니다.");
+    } else if (isDup === undefined) {
+      console.log("통신 에러");
+      return;
     } else {
       setColor("--spinach-300");
       setHelpMsg("사용 가능한 닉네임 입니다.");
