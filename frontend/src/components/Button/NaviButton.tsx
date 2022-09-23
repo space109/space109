@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { ReactComponent as Go } from "../../assets/Icon/go.svg";
 
 interface Props {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -40,7 +41,6 @@ const Square = styled.button<PropStyle>`
   justify-content: center;
   align-items: center;
   transition: 0.3s;
-  cursor: pointer;
 
   font-size: 2rem;
   padding: 0px, 16px;
@@ -55,6 +55,35 @@ const Square = styled.button<PropStyle>`
     color: var(${(props) => props.bg});
     border: ${(props) => props.borderWidth} solid
       var(${(props) => props.borderColor});
+
+    & div div svg {
+      transform: scale(1.3);
+    }
+
+    & div div svg rect {
+      fill: var(${(props) => props.bg});
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    & div div svg path {
+      fill: var(${(props) => props.color});
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  }
+`;
+
+const Area = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px 16px;
+  gap: 16px;
+
+  & svg {
+    transform: scale(1.3);
   }
 `;
 
@@ -64,25 +93,27 @@ const TextBox = styled.div<TextStyle>`
   font-weight: var(${(props) => props.fontWeight});
   font-size: var(${(props) => props.fontSize});
   line-height: 140%;
-  /* or 22px */
+  /* identical to box height, or 28px */
 
   display: flex;
   align-items: center;
   text-align: center;
+  justify-content: center;
+  cursor: pointer;
 `;
 
-function SharpButton({
+function NaviButton({
   onClick,
   children,
-  width = "130px",
-  height = "42px",
+  width = "334px",
+  height = "52px",
   bg = "--grey-750",
   color = "--grey-100",
-  borderRadius = "4px",
-  borderWidth = "0px",
+  borderRadius = "0px",
+  borderWidth = "1px",
   borderColor = "--grey-750",
-  fontWeight = "--semi-bold",
-  fontSize = "--body",
+  fontWeight = "--bold",
+  fontSize = "--h6",
 }: Props) {
   return (
     <Square
@@ -95,11 +126,16 @@ function SharpButton({
       borderWidth={borderWidth}
       borderColor={borderColor}
     >
-      <TextBox fontWeight={fontWeight} fontSize={fontSize}>
-        {children ? children : "제목"}
-      </TextBox>
+      <Area>
+        <TextBox fontWeight={fontWeight} fontSize={fontSize}>
+          {children ? children : "제목"}
+        </TextBox>
+        <div>
+          <Go></Go>
+        </div>
+      </Area>
     </Square>
   );
 }
 
-export default SharpButton;
+export default NaviButton;
