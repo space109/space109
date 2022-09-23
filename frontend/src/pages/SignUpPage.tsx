@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
-import { Input } from "../components";
-import SharpButton from "../components/Button/SharpButton";
+import { Input, SharpButton } from "../components";
 import { dupCheck, join, getMetadata } from "../apis";
 import { TestContract, MintTestContract } from "../web3Config";
 

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { Div, Image } from "../styles/BaseStyles";
-import SharpButton from "../components/Button/SharpButton";
-import { Input } from "../components";
-import NftCard from "../components/NftCard/NftCard";
+import { Input, SharpButton, NftCard } from "../components";
 import ReactDOM from "react-dom";
 
 const ModalBackgroundDiv = styled.div`

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { DropDown } from "../components";
-import SharpButton from "../components/Button/SharpButton";
+import { DropDown, SharpButton } from "../components";
 import { Div } from "../styles/BaseStyles";
 
 interface Props {}
