@@ -10,6 +10,9 @@ import InfoModal from "./../components/3DModels/InfoModal";
 import { SpotLightHelper, PointLightHelper } from "three";
 import * as THREE from "three";
 
+const artPositionList = [
+];
+
 const Floor = (props) => {
   const [ref] = usePlane(() => ({
     mass: 0,
@@ -78,6 +81,10 @@ const VirtualGallery = () => {
   const toggleModal = () => { // 모달 토글 함수
     setToggle((state) => !state);
   };
+
+  const [room, setRoom] = useState(0);
+  const [index, setIndex] = useState(0);
+
   const getPlayerPosition = (playerPosition) => {
     console.log(playerPosition);
   };
@@ -85,9 +92,17 @@ const VirtualGallery = () => {
     console.log(e.target.value);
   };
 
+  const targetRoom = (e) => {
+    setRoom(e);
+  };
+
+  const targetIndex = (e) => {
+    setIndex(e);
+  };
+
   return (
     <Div w="100vw" h="100vh">
-      <InfoModal toggleModal={toggleModal} toggle={toggle} />
+      <InfoModal toggleModal={toggleModal} toggle={toggle} room={room} />
       <Canvas style={{ background: "grey" }}>
         <LightHelper />
 
@@ -225,6 +240,8 @@ const VirtualGallery = () => {
             toggleModal={toggleModal}
             toggle={toggle}
             setToggle={setToggle}
+            targetRoom={targetRoom}
+            targetIndex={targetIndex}
           />
         </Physics>
       </Canvas>

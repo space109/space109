@@ -51,6 +51,8 @@ const ModalOverlay = (props) => {
   return (
     <ModalDiv className="modal-active">
       <Img src={closeIcon} alt="" onClick={props.toggleModal} />
+      <Div>{props.targetRoom}</Div>
+      <Div>{props.targetIndex}</Div>
     </ModalDiv>
   );
 };
