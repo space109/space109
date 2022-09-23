@@ -5,10 +5,9 @@ import { Input } from "../components";
 import SharpButton from "../components/Button/SharpButton";
 import { dupCheck, join, getMetadata } from "../apis";
 import { TestContract, MintTestContract } from "../web3Config";
-import { create as ipfsHttpClient } from "ipfs-http-client";
 
 interface PropsStyle {
-  color?: any,
+  imgURL?: any,
 }
 
 const DivWidth = styled(Div)`
@@ -31,16 +30,16 @@ const DivWidth = styled(Div)`
   }
 `
 
+const Img = styled.div<PropsStyle>`
+  border: 3px solid black;
+  width: 100px;
+  height: 100px;
+  background-image: url('${({imgURL}) => imgURL}');
+`
+
 interface Props {
   account?: any,
 };
-
-//----
-interface Ipfs {
-  cid: object;
-  path: string;
-}
-//---
 
 // account가 없을 시 return 해버리기
 // account가 이미 있는 회원가입 되어있는 애도 return 해주기.
@@ -50,70 +49,13 @@ function SignUpPage() {
   const [ color, setColor] = useState("--grey-650");
 
   // const [ text, setText ] = useState("ㅋㅋ");
-  //-------------------------
-  const projectId = "2F6WFaN05FMtbO93ODOLhwvE6EY";
-  const projectSecretKey = "1998e51a7c7b5c7a15c51d493138c943";
-  const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
 
-  const [image, setImage] = useState<Ipfs | any>("");
-  const [json, setJson] = useState<Ipfs | string>("");
-  const ipfs = ipfsHttpClient({
-    url: "https://ipfs.infura.io:5001/api/v0",
-    headers: {
-      authorization,
-    },
-  });
-  const [file, setFile] = useState("");
+  const [ metaDatas, setMetadatas ] = useState<any>();
 
-  const onSubmitHandler = async (event: any) => {
-    event.preventDefault();
-    const form = event.target;
-    const files = form[0].files;
-
-    if (!files || files.length === 0) {
-      return alert("No files selected");
-    }
-
-    const file = files[0];
-    // upload files
-    const result = await ipfs.add(file);
-
-    setImage({
-      cid: result.cid,
-      path: result.path,
-    });
-
-    form.reset();
-
-    const Json = await ipfs.add(
-      JSON.stringify({
-        fileName: `${result.path}.json`,
-        name: "NFT name",
-        author: "imukyee",
-        description: "설명",
-        image: "https://skywalker.infura-ipfs.io/ipfs/" + result.path,
-      })
-    );
-    setJson(Json.path);
-
-
-    const response = await MintTestContract.methods.create(
-      window.ethereum.selectedAddress, 
-      "https://skywalker.infura-ipfs.io/ipfs/" + Json.path
-    ).send({from: window.ethereum.selectedAddress});
-
-    console.log(response);
-  };
-
-  const onChange = async (e: any) => {
-    const file = e.target.files[0];
-    setFile(URL.createObjectURL(file));
-  };
-  //-------------------
   const textClick = async () => {
     const response = await MintTestContract.methods.create(
       window.ethereum.selectedAddress, 
-      "https://skywalker.infura-ipfs.io/ipfs/QmZN1tGPjx8kLpMBEUjxhfGwW3qphu49i5KuBLeF2tiMzM"
+      "https://skywalker.infura-ipfs.io/ipfs/QmWwMm2e5KQfq6sPVfHrmu39Xzs3nYEetcqNP7BprCc1Mp"
     ).send({from: window.ethereum.selectedAddress});
 
     console.log(response);
@@ -122,13 +64,17 @@ function SignUpPage() {
 
   const aaaa = async () => {
     const totalNum = await MintTestContract.methods.balanceOf(window.ethereum.selectedAddress).call();
-    console.log("myTotalNum: ",totalNum);
     const total = await MintTestContract.methods.totalSupply().call();
-    console.log(total);
     const tokenIds = await MintTestContract.methods.tokenIDsofWallet(window.ethereum.selectedAddress).call();
     console.log(tokenIds);
     const tokenURIs = await MintTestContract.methods.tokenURIsofWallet(window.ethereum.selectedAddress).call();
-    console.log(tokenURIs);
+    const Metas = [];
+    for (let i = 0; i < tokenURIs.length; i++) {
+      const Meta = await getMetadata(tokenURIs[i]);
+      Metas.push(Meta);
+    }
+    console.log('zzz',Metas)
+    setMetadatas(Metas);
     // for (let i = 1; i < totalNum+1; i++) {
     //   const tokenId = await MintTestContract.methods.tokenOfOwnerByIndex(window.ethereum.selectedAddress, i).call();
     //   console.log(tokenId);
@@ -244,57 +190,13 @@ function SignUpPage() {
         </SharpButton>
       </DivWidth>
     </Div>
-    <SharpButton onClick={textClick}>버튼</SharpButton>
+    {/* <SharpButton onClick={textClick}>버튼</SharpButton>
     <SharpButton onClick={aaaa}>보기</SharpButton>
-    {ipfs && (
-        <>
-          <h3>Upload file to IPFS</h3>
-          <form onSubmit={onSubmitHandler}>
-            <label htmlFor="file" style={{ cursor: "pointer" }}>
-              {file ? (
-                <img
-                  src={file}
-                  alt="preview image"
-                  style={{ maxWidth: "400px", margin: "15px" }}
-                />
-              ) : (
-                <img
-                  alt={`Uploaded #`}
-                  src={
-                    "https://skywalker.infura-ipfs.io/ipfs/QmZBMUfWxHG86SCy8ZXfrTnK26PFpvevujEZ8cmfB6VL8N"
-                  }
-                  style={{ maxWidth: "400px", margin: "15px" }}
-                />
-              )}
-            </label>
-            <input
-              type="file"
-              name="file"
-              id="file"
-              onChange={onChange}
-              style={{ display: "none" }}
-            />
-            <SharpButton>NFT 민팅</SharpButton>
-          </form>
-        </>
-      )}
-      {image && (
-        <img
-          alt={`Uploaded #`}
-          src={"https://skywalker.infura-ipfs.io/ipfs/" + image.path}
-          style={{ maxWidth: "400px", margin: "15px" }}
-        />
-      )}
-
-      <br></br>
-      {json && (
-        <a
-          href={`https://skywalker.infura-ipfs.io/ipfs/${json}`}
-          target="blank"
-        >
-          주소
-        </a>
-      )}
+    {metaDatas && metaDatas.map((fileData:any, i:any) => {
+      console.log(fileData.image);
+      // <img src={fileData.image}></img>
+      return <img src={fileData.image} key={i}/>
+    })} */}
     </>
   );
 }
