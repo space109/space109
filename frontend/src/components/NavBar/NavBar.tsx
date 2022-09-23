@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assets/title.svg";
 import { Outlet, useNavigate } from "react-router-dom";
 
 // type Props = {}
 
+interface StyleProps {
+  active?: boolean;
+}
+
 const Nav = styled.div`
+  position: absolute;
+  z-index: 100;
   width: 100%;
-  height: 11.11111vh;
-  left: 3404px;
-  top: 214px;
-  background-color: var(--grey-650);
+  height: 120px;
+
+  background-color: rgba(0, 0, 0, 0);
+
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  transition: 0.5s;
 
   opacity: 1;
   width: 100%;
   top: 0;
+  &:hover {
+    background-color: var(--grey-650);
+  }
 `;
 
 const LogoDiv = styled.div`
@@ -39,7 +48,7 @@ const NavBox = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: row;
-  /* justify-content: space-between; */
+  justify-content: space-between;
 
   position: relative;
   width: 100%;
@@ -50,8 +59,8 @@ const NavBox = styled.div`
 `;
 
 const Menu = styled.ul`
-  width: 20%;
-  margin-left: 55%;
+  user-select: none;
+  width: 320px;
   box-sizing: border-box;
 
   display: inline-block;
@@ -64,6 +73,10 @@ const Menu = styled.ul`
   display: flex;
 
   flex-direction: column;
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
 `;
 
 const PrimayMenu = styled.div`
@@ -89,42 +102,61 @@ const SecondaryMenu = styled.div`
   line-height: 140%;
 `;
 
-const PrimayMenuItem = styled.li`
+const PrimayMenuItem = styled.li<StyleProps>`
   padding-right: 3.5%;
   list-style: none;
-  color: var(--grey-350);
+  color: var(--grey-100);
+  transition: 5s;
+  text-decoration: ${(props) => (props.active ? "underline" : "none")};
   cursor: pointer;
 
   &:hover {
-    color: var(--grey-100);
+    color: var(--grey-350);
+    /* text-decoration: underline; */
   }
 `;
 
-const SecondaryMenuItem = styled.li`
+const SecondaryMenuItem = styled.li<StyleProps>`
   display: inline-block;
-  margin-left: 1.25%;
+  margin-left: 3%;
   list-style: none;
-  color: var(--grey-350);
+  color: var(--grey-100);
+  transition: 5s;
+  text-decoration: ${(props) => (props.active ? "underline" : "none")};
   cursor: pointer;
 
   &:hover {
-    color: var(--grey-100);
+    color: var(--grey-350);
   }
 `;
 
 function NavBar() {
   const navigate = useNavigate();
+
+  const [selected, setSelected] = useState(0);
+
   const goHome = () => {
     navigate("/");
+    setSelected(0);
   };
   const goTheme = () => {
     navigate("/monthlyTheme");
+    setSelected(1);
   };
   const goGallery = () => {
     navigate("/gallery");
+    setSelected(2);
   };
   const goSignUp = () => {
     navigate("/signUp");
+    setSelected(3);
+  };
+  const goProfile = () => {
+    navigate("/profile");
+    setSelected(4);
+  };
+  const checkActive = (num: number) => {
+    return selected === num;
   };
 
   return (
@@ -136,12 +168,20 @@ function NavBar() {
           </LogoDiv>
           <Menu>
             <SecondaryMenu>
-              <SecondaryMenuItem onClick={goSignUp}>회원가입</SecondaryMenuItem>
-              <SecondaryMenuItem onClick={goSignUp}>내 NFT</SecondaryMenuItem>
+              <SecondaryMenuItem onClick={goSignUp} active={checkActive(3)}>
+                지갑연결
+              </SecondaryMenuItem>
+              <SecondaryMenuItem onClick={goProfile} active={checkActive(4)}>
+                프로필
+              </SecondaryMenuItem>
             </SecondaryMenu>
             <PrimayMenu>
-              <PrimayMenuItem onClick={goTheme}>월간테마</PrimayMenuItem>
-              <PrimayMenuItem onClick={goGallery}>갤러리</PrimayMenuItem>
+              <PrimayMenuItem onClick={goTheme} active={checkActive(1)}>
+                월간테마
+              </PrimayMenuItem>
+              <PrimayMenuItem onClick={goGallery} active={checkActive(2)}>
+                갤러리
+              </PrimayMenuItem>
             </PrimayMenu>
           </Menu>
         </NavBox>
