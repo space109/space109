@@ -1,10 +1,11 @@
 import axios from 'axios';
+import apiPath from '../common/apiPath';
 
 const login = async (walletAddress: any) => {
   try {
     const { data: { result, data } } : any = await axios({
       method: 'POST',
-      url: "http://j7b109.p.ssafy.io:8080/wallet", // 주소? 
+      url: apiPath.wallet.login(), // 주소? 
       data: {
         "oa": walletAddress,
       }
