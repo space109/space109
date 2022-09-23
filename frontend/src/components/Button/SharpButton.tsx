@@ -13,6 +13,7 @@ interface Props {
   borderColor?: string;
   fontWeight?: string;
   fontSize?: string;
+  type?: any;
 }
 
 interface PropStyle {
@@ -83,10 +84,12 @@ function SharpButton({
   borderColor = "--grey-750",
   fontWeight = "--semi-bold",
   fontSize = "--body",
+  type = "body",
 }: Props) {
   return (
     <Square
       onClick={onClick}
+      type={type}
       w={width}
       h={height}
       bg={bg}
