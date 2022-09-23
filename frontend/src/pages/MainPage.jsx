@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
-import NavBar from "../components/NavBar/NavBar";
+import { NavBar } from "../components";
 import bg1 from "../assets/1.jpg";
 import bg2 from "../assets/2.jpg";
 import bg3 from "../assets/3.jpg";

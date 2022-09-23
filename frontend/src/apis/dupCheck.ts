@@ -12,12 +12,12 @@ const dupCheck = async (nickname: any) => {
         nickname,
       }
     });
-      console.log(result, data);
-      if (result === 'success') {
-        return data;
-      } else {
-        alert("통신에러")
-      }
+    console.log(result, data);
+    if (result === 'success') {
+      return data;
+    } else {
+      alert("통신에러")
+    }
   } catch (error) {
     console.error(error);
   }

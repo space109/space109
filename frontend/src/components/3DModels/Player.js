@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSphere } from "@react-three/cannon";
 import { useThree, useFrame } from "@react-three/fiber";
-import { FPVControls } from "./FPVControls";
+import { FPVControls } from "./";
 import { useKeyboardControls } from "../../hooks/useKeyboardControls";
 import { Vector3 } from "three";
 
 const SPEED = 40;
 
-export const Player = (props) => {
+const Player = (props) => {
   const { camera } = useThree();
   const { moveForward, moveBackward, moveLeft, moveRight, activeButton, jump } =
     useKeyboardControls();
@@ -102,3 +102,5 @@ export const Player = (props) => {
     </>
   );
 };
+
+export default Player;
