@@ -25,7 +25,7 @@
 
 require('dotenv').config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const privateKeys = [process.env.MNEMONIC,];
+const privateKeys = [process.env.PRIVATEKEY, ];
 const APIKEY = process.env.SSAFY_HTTP;
 
 module.exports = {
@@ -48,7 +48,7 @@ module.exports = {
     // e.g., 가나슈 환경 
      development: {
       host: "127.0.0.1",     // Localhost (default: none)
-      port: 7545,            // Standard Ethereum port (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
      },
      ssafy: {

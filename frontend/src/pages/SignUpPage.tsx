@@ -52,10 +52,14 @@ function SignUpPage() {
     console.log(response);
   }
 
-  const aaaa = async () => {
-    const response = await MintTestContract.methods.current().call();
 
-    console.log(response);
+  const aaaa = async () => {
+    const totalNum = await MintTestContract.methods.balanceOf(window.ethereum.selectedAddress).call();
+    console.log("totalNum: ",totalNum);
+    for (let i = 1; i < totalNum+1; i++) {
+      const response = await MintTestContract.methods.tokenURI(i).call();
+      console.log(response);
+    }
   }
   // useEffect(() => {
   //   (async function () {

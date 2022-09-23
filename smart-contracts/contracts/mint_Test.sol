@@ -2,8 +2,9 @@
 pragma solidity ^0.8.4;
 
 import "./token/ERC721/ERC721.sol";
+import "./token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract mint_test is ERC721 {
+contract mint_test is ERC721Enumerable {
   uint256 private _tokenIds;
   mapping(uint256 => string) tokenURIs;
 
@@ -24,7 +25,11 @@ contract mint_test is ERC721 {
         tokenURIs[tokenId] = _tokenURI;
         _tokenIds = tokenId;
         _mint(to, tokenId);
-        // emit mintNFT(tokenId, to, _tokenURI);
-        return tokenId;
+        emit mintNFT(tokenId, to, _tokenURI);
+        // return tokenId;
+    }
+
+    function total() public view returns (uint256) {
+      return totalSupply();
     }
 }
