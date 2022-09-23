@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 extend({ PointerLockControlsImpl });
 
-export const FPVControls = (props) => {
+const FPVControls = (props) => {
   const { camera, gl } = useThree();
   const controls = useRef();
 
@@ -23,3 +23,5 @@ export const FPVControls = (props) => {
     />
   );
 };
+
+export default FPVControls;

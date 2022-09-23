@@ -1,4 +1,4 @@
-import { Physics, useBox } from "@react-three/cannon";
+
 import { Canvas, useLoader } from "@react-three/fiber";
 import React, { Suspense, useState, useMemo, useRef } from "react";
 import { GalleryMap } from "../components/3DModels/GalleryMap";
@@ -13,7 +13,8 @@ import OverallLight from "./../components/3DModels/OverallLight";
 import ImageLight from "./../components/3DModels/ImageLight";
 import RectAreaLight from "../components/3DModels/RectAreaLight";
 import CeilingBox from "../components/3DModels/CeilingBox";
-import * as THREE from 'three'
+import { Physics, useBox, usePlane } from "@react-three/cannon";
+import * as THREE from "three";
 
 const Box = ({ toggleModal }) => {
   const img = useLoader(TextureLoader, "/Thug_life.png");

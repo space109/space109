@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar/NavBar";
 import {
   MainPage,
   MonthlyThemePage,
-  GalleryListPage,
+  GalleryListPage, MyNftPage,
   SignUpPage,
   NotFoundPage,
   ProfilePage,
@@ -15,15 +15,17 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <NavBar />
         <Routes>
-          <Route path="/" element={<MainPage />}/>
-          <Route path="/monthlyTheme" element={<MonthlyThemePage />}/>
-          <Route path="/gallery" element={<GalleryListPage />}/>
-          <Route path="/signUp" element={<SignUpPage />}/>
-          <Route path="/profile" element={<ProfilePage />}/>
-          <Route path="/*" element={<NotFoundPage />}/>
-          <Route path="/virtual-gallery" element={<VirtualGallery />}/>
+          <Route element={<NavBar />}>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/monthlyTheme" element={<MonthlyThemePage />} />
+            <Route path="/gallery" element={<GalleryListPage />} />
+            <Route path="/signUp" element={<SignUpPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/virtual-gallery" element={<VirtualGallery />} />
+            <Route path="/myNft" element={<MyNftPage />}></Route>
+          </Route>
+          <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </div>

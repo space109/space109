@@ -13,6 +13,7 @@ interface Props {
   borderColor?: string;
   fontWeight?: string;
   fontSize?: string;
+  type?: any;
 }
 
 interface PropStyle {
@@ -40,6 +41,7 @@ const Square = styled.button<PropStyle>`
   justify-content: center;
   align-items: center;
   transition: 0.3s;
+  cursor: pointer;
 
   font-size: 2rem;
   padding: 0px, 16px;
@@ -82,10 +84,12 @@ function SharpButton({
   borderColor = "--grey-750",
   fontWeight = "--semi-bold",
   fontSize = "--body",
+  type = "body",
 }: Props) {
   return (
     <Square
       onClick={onClick}
+      type={type}
       w={width}
       h={height}
       bg={bg}

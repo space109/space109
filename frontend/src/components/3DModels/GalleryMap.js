@@ -26,7 +26,7 @@ function toConvexProps(bufferGeometry) {
   return [geo.vertices.map((v) => [v.x, v.y, v.z]), geo.faces.map((f) => [f.a, f.b, f.c]), []]; // prettier-ignore
 }
 
-export function GalleryMap(props) {
+function GalleryMap(props) {
   const { nodes, materials } = useGLTF("/GalleryMap.glb");
   const [onPoint, setOnPoint] = useState(false);
   const togglePoint = (value) => {
@@ -900,3 +900,5 @@ export function GalleryMap(props) {
 }
 
 useGLTF.preload("/GalleryMap.glb");
+
+export default GalleryMap;
