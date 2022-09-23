@@ -4,7 +4,7 @@ import React from 'react';
 const Floor = (props) => {
   const [ref] = usePlane(() => ({
     mass: 0,
-    // rotation: [-Math.PI / 2, 0, 0],
+    rotation: [-Math.PI / 2, 0, 0],
     ...props,
   }));
   return (

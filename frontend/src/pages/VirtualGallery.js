@@ -1,20 +1,22 @@
 
 import { Canvas, useLoader } from "@react-three/fiber";
-import React, { Suspense, useState, useMemo, useRef } from "react";
-import { GalleryMap } from "../components/3DModels/GalleryMap";
-import { Player } from "../components/3DModels/Player";
+import React, { Suspense, useState } from "react";
 import { Div } from "../styles/BaseStyles";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
-import InfoModal from "./../components/3DModels/InfoModal";
 import axios from "axios";
-import Floor from "./../components/3DModels/Floor";
-import ImageFrame from "./../components/3DModels/ImageFrame";
-import OverallLight from "./../components/3DModels/OverallLight";
-import ImageLight from "./../components/3DModels/ImageLight";
-import RectAreaLight from "../components/3DModels/RectAreaLight";
-import CeilingBox from "../components/3DModels/CeilingBox";
-import { Physics, useBox, usePlane } from "@react-three/cannon";
+import { Physics, useBox } from "@react-three/cannon";
 import * as THREE from "three";
+import {
+  GalleryMap,
+  Player,
+  CeilingBox,
+  RectAreaLight,
+  ImageLight,
+  OverallLight,
+  ImageFrame,
+  Floor,
+  InfoModal
+} from "../components";
 
 const Box = ({ toggleModal }) => {
   const img = useLoader(TextureLoader, "/Thug_life.png");
@@ -482,7 +484,7 @@ const VirtualGallery = () => {
             toggleModal={toggleModal}
           />
           <RectAreaLight
-            position={[251, 0.5, -20]}
+            position={[231, 0.5, -20]}
             rotation={[Math.PI / 2, 0, 0]}
             width={70}
             intensity={2}
