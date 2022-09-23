@@ -23,6 +23,11 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+require('dotenv').config();
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const privateKeys = [process.env.PRIVATEKEY, ];
+const APIKEY = process.env.SSAFY_HTTP;
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -43,9 +48,14 @@ module.exports = {
     // e.g., 가나슈 환경 
      development: {
       host: "127.0.0.1",     // Localhost (default: none)
-      port: 7545,            // Standard Ethereum port (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
      },
+     ssafy: {
+      provider: () => new HDWalletProvider(privateKeys, APIKEY),
+      network_id: "*",
+      chainId: 31221,
+     }
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
