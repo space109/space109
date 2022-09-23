@@ -143,6 +143,9 @@ const MainPage = () => {
     };
   }, [sectionIsMoving]);
 
+  const [account, nickname] = useAccount();
+  console.log(account, nickname);
+
   return <Container>
     <Header>
     </Header>

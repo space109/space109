@@ -35,12 +35,13 @@ const useAccount = () => {
       if (nameData.length) {
         setNickname(nameData.nickname);
       } else {
-        if(window.confirm("메타마스크가 설치되어 있지 않습니다. 설치하시겠습니까?")) {
+        if(window.confirm("회원가입 해주십시오.")) {
           navigate("/signUp");
         }
       }
     } 
     catch (error) {
+      console.log('드런아ㅣㅇㄴ미')
       console.error(error);
     }
   };
