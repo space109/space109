@@ -31,7 +31,7 @@ const TestAbi: AbiItem[] = [
   }
 ];
 
-const MintTestAbi: AbiItem[] = [
+const NFTAbi: AbiItem[] = [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -504,13 +504,39 @@ const MintTestAbi: AbiItem[] = [
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "total",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      }
+    ],
+    "name": "tokenIDsofWallet",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint256[]",
         "name": "",
-        "type": "uint256"
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      }
+    ],
+    "name": "tokenURIsofWallet",
+    "outputs": [
+      {
+        "internalType": "string[]",
+        "name": "",
+        "type": "string[]"
       }
     ],
     "stateMutability": "view",
@@ -521,7 +547,7 @@ const MintTestAbi: AbiItem[] = [
 
 
 export const TestCA = "0xB066B316B33a2085A00eD60F9953D32A0b6BDbF8";
-export const MintTestCA = "0x88580C4b0C8bbd6C1eA27DB4C37f00B423e23042";
+export const NFTCA = "0x48697b67e2BD8E86092a1fF36D68B8709BbfC2af";
 
 export const web3 = new Web3(window.ethereum); // provider window.ehtereum으로 진행해도 되나?
 
@@ -532,6 +558,6 @@ export const TestContract = new web3.eth.Contract(
 );
 
 export const MintTestContract = new web3.eth.Contract(
-	MintTestAbi,
-	MintTestCA
+	NFTAbi,
+	NFTCA
 );

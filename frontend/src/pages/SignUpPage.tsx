@@ -55,11 +55,17 @@ function SignUpPage() {
 
   const aaaa = async () => {
     const totalNum = await MintTestContract.methods.balanceOf(window.ethereum.selectedAddress).call();
-    console.log("totalNum: ",totalNum);
-    for (let i = 1; i < totalNum+1; i++) {
-      const response = await MintTestContract.methods.tokenURI(i).call();
-      console.log(response);
-    }
+    console.log("myTotalNum: ",totalNum);
+    const total = await MintTestContract.methods.totalSupply().call();
+    console.log(total);
+    const tokenIds = await MintTestContract.methods.tokenIDsofWallet(window.ethereum.selectedAddress).call();
+    console.log(tokenIds);
+    const tokenURIs = await MintTestContract.methods.tokenURIsofWallet(window.ethereum.selectedAddress).call();
+    console.log(tokenURIs);
+    // for (let i = 1; i < totalNum+1; i++) {
+    //   const tokenId = await MintTestContract.methods.tokenOfOwnerByIndex(window.ethereum.selectedAddress, i).call();
+    //   console.log(tokenId);
+    // }
   }
   // useEffect(() => {
   //   (async function () {

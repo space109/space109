@@ -3,7 +3,7 @@
 // const SsafyNFT = artifacts.require("SsafyNFT");
 // const SaleFactory = artifacts.require("SaleFactory");
 const Test = artifacts.require("Test");
-const mintTest = artifacts.require("mint_test");
+const NFT = artifacts.require("NFT");
 /**
  * PJT Ⅰ/Ⅲ - 시나리오 테스트
  * @dev 
@@ -17,5 +17,5 @@ module.exports = function (deployer) {
   // deployer.deploy(SsafyToken, "SSAFY", "SSF", 0);
   // deployer.deploy(SaleFactory);
   deployer.deploy(Test);
-  deployer.deploy(mintTest);
+  deployer.deploy(NFT);
 };
