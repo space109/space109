@@ -89,7 +89,7 @@ export const Player = (props) => {
     }
 
     if (jump) {
-      api.velocity.set(velocity.current[0], 10, velocity.current[2]);
+      api.velocity.set(velocity.current[0], 14, velocity.current[2]);
     }
   });
   return (

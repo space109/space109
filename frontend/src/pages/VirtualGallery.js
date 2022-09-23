@@ -93,7 +93,7 @@ const VirtualGallery = () => {
 
         <ambientLight intensity={0.25} />
         {/* <OrbitControls /> */}
-        <Physics gravity={[0, -50, 0]}>
+        <Physics gravity={[0, -70, 0]}>
           {/* 1번방 6개 */}
           <ImageFrame
             position={[13, 26, -115]}
