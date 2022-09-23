@@ -51,13 +51,13 @@ const ModalOverlay = (props) => {
   return (
     <ModalDiv className="modal-active">
       <Img src={closeIcon} alt="" onClick={props.toggleModal} />
-      <Div>{props.targetRoom}</Div>
-      <Div>{props.targetIndex}</Div>
+      <Div>{props.room}</Div>
+      <Div>{props.index}</Div>
     </ModalDiv>
   );
 };
 
-const InfoModal = ({ toggleModal, toggle }) => {
+const InfoModal = ({ toggleModal, toggle, room, index }) => {
   return (
     <>
       {ReactDOM.createPortal(
@@ -65,7 +65,7 @@ const InfoModal = ({ toggleModal, toggle }) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay toggleModal={toggleModal} toggle={toggle}/>,
+        <ModalOverlay toggleModal={toggleModal} toggle={toggle} room={room} index={index}/>,
         document.getElementById("overlay-root")
       )}
     </>

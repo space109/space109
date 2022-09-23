@@ -102,7 +102,7 @@ const VirtualGallery = () => {
 
   return (
     <Div w="100vw" h="100vh">
-      <InfoModal toggleModal={toggleModal} toggle={toggle} room={room} />
+      <InfoModal toggleModal={toggleModal} toggle={toggle} room={room} index={index} />
       <Canvas style={{ background: "grey" }}>
         <LightHelper />
 

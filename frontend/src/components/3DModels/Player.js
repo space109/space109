@@ -63,12 +63,15 @@ export const Player = (props) => {
     props.targetIndex(index);
   }
 
-  const objectDistance = (objectPosition) => {
+  const objectDistance = (objectPosition, roomNum) => {
     // 물체와의 거리 함수
     const deltaX = objectPosition[0] - pos.current[0];
     const deltaZ = objectPosition[1] - pos.current[2];
 
-    const rangelimit = 100; // 물체와의 거리 경계 값
+    let rangelimit = 300; // 물체와의 거리 경계 값
+    if (roomNum === 2 || roomNum === 4 || roomNum === 6){ // 큰 방에서는 경계 값 증가
+      rangelimit = 1000;
+    }
 
     if (deltaX ** 2 + deltaZ ** 2 < rangelimit) {
       return true; // 내부일 경우 true
@@ -165,7 +168,7 @@ export const Player = (props) => {
 
         console.log("가장 가까운 작품 인덱스, 거리", minIndex, minValue)
 
-        if (objectDistance(artList[minIndex]) && !props.toggle && readyTotoggle) {
+        if (objectDistance(artList[minIndex], room) && !props.toggle && readyTotoggle) {
           // toggle off 상태일때 e를 누르면
           props.setToggle(true);
           setReadyTotoggle(false); // 활성화 키 true 유지시 상태 변화 불가 상태로 변경
