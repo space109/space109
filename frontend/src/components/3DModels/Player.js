@@ -191,7 +191,7 @@ export const Player = (props) => {
   });
   return (
     <>
-      <FPVControls lockControl={props.lockControl} />
+      <FPVControls lockControl={props.lockControl} toggle={props.toggle} />
       <mesh ref={ref}>
         <planeBufferGeometry attach="geometry" args={[0, 0]} />
         <meshStandardMaterial attach="material" opacity={1} />
