@@ -74,8 +74,6 @@ function SignUpPage() {
       .tokenIDsofWallet(window.ethereum.selectedAddress)
       .call();
     console.log(tokenIds);
-    const tokenURI = await MintTestContract.methods.tokenURI(7).call();
-    console.log(tokenURI);
     const tokenURIs = await MintTestContract.methods
       .tokenURIsofWallet(window.ethereum.selectedAddress)
       .call();

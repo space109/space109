@@ -2,11 +2,9 @@ import { Physics, useBox, usePlane } from "@react-three/cannon";
 import { OrbitControls, Sky, useHelper } from "@react-three/drei";
 import { Canvas, useLoader, useThree } from "@react-three/fiber";
 import React, { Suspense, useMemo, useRef, useState } from "react";
-import { GalleryMap } from "../components/3DModels/GalleryMap";
-import { Player } from "../components/3DModels/Player";
+import { GalleryMap, Player, InfoModal } from "../components";
 import { Div } from "../styles/BaseStyles";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
-import InfoModal from "./../components/3DModels/InfoModal";
 import { SpotLightHelper, PointLightHelper } from "three";
 import * as THREE from "three";
 

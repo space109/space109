@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import IpfsUploader from "../components/Ipfs/IpfsUploader";
+import { IpfsUploader } from "../components";
 
 const NavArea = styled.div`
   height: 120px;

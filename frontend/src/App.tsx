@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar/NavBar";
 import {
   MainPage,
   MonthlyThemePage,
-  GalleryListPage,
+  GalleryListPage, MyNftPage,
   SignUpPage,
   NotFoundPage,
   ProfilePage,
@@ -23,6 +23,7 @@ function App() {
             <Route path="/signUp" element={<SignUpPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/virtual-gallery" element={<VirtualGallery />} />
+            <Route path="/myNft" element={<MyNftPage />}></Route>
           </Route>
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>

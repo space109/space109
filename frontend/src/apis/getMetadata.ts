@@ -1,14 +1,12 @@
 import axios from 'axios';
 
 const getMetadata = async (url: any) => {
-  console.log(url)
   try {
-    const data : any = await axios({
+    const { data } : any = await axios({
       method: 'GET',
       url: url, 
     });
-    console.log(data);
-    return;
+    return data;
   } catch (error) {
     console.error(error);
   }
