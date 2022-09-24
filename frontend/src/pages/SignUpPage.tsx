@@ -202,28 +202,26 @@ function SignUpPage() {
               {helpMsg}
             </Div>
           </Div>
-          <SharpButton
-            fontSize="--h5"
-            fontWeight="--bold"
-            width="100%"
-            height="69px"
-            borderWidth="3px"
-            borderRadius="4px"
-            bg="--grey-650"
-            borderColor="--grey-650"
-            onClick={signUpClick}
-          >
-            회원가입
-          </SharpButton>
-        </DivWidth>
-      </Div>
-      {/* <SharpButton onClick={textClick}>버튼</SharpButton>
+          <Div fontSize="--h7" fontWeight="--thin" color={color} pl="calc(calc(var(--h5) / 1.5) + 3px)">
+            {helpMsg}
+          </Div>
+        </Div>
+        <SharpButton 
+          fontSize="--h5" fontWeight="--bold"
+          width="100%" height="69px" 
+          borderWidth="3px" borderRadius="4px" bg="--grey-650"
+          borderColor="--grey-650"
+          onClick={signUpClick}
+        >
+          회원가입
+        </SharpButton>
+      </DivWidth>
+    </Div>
+    <SharpButton onClick={textClick}>버튼</SharpButton>
     <SharpButton onClick={aaaa}>보기</SharpButton>
-    {metaDatas && metaDatas.map((fileData:any, i:any) => {
-      console.log(fileData.image);
-      // <img src={fileData.image}></img>
-      return <img src={fileData.image} key={i}/>
-    })} */}
+    {metaDatas ? metaDatas.map((fileData:any, i:any) => {
+      return <img style={{width:'300px'}} src={fileData.image} key={i}/>
+    }) : <></>}
     </>
   );
 }
