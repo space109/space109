@@ -1,4 +1,5 @@
 const connection = require("../../config/connection").promise();
+const logger = require("../../config/log");
 
 class WalletRepository {
   async searchWallet(oa) {
@@ -8,7 +9,7 @@ class WalletRepository {
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
       });
 
     return result;
@@ -21,7 +22,7 @@ class WalletRepository {
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
       });
 
     if (result.length == 1) return true;
@@ -30,7 +31,7 @@ class WalletRepository {
 
   async insert(oa, nickname) {
     const sql1 = `insert into user (oa,nickname) values ('${oa}','${nickname}')`;
-    const sql2 = `insert into gallery(oa,category_id,description, title, thumbnail) values('${oa}',13,'${nickname}님의 갤러리입니다.', '${nickname}님의 갤러리','/thumbnail/윈터.jpg')`;
+    const sql2 = `insert into gallery(oa,category_id,description, title, thumbnail) values('${oa}',13,'${nickname}님의 갤러리입니다.', '${nickname}님의 갤러리','https://skywalker.infura-ipfs.io/ipfs/Qmf8kq7aRUaEndyp9Qbi3GxFYdZanvy1tiYUL6g6vjdPuT')`;
 
     const result = [];
 
@@ -38,7 +39,7 @@ class WalletRepository {
       .query(sql1)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
         return false;
       });
 
@@ -46,7 +47,7 @@ class WalletRepository {
       .query(sql2)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
         return false;
       });
 

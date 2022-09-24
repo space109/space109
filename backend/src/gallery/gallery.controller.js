@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const logger = require("../../config/log");
 const GallerysService = require("./gallery.service");
 const GalleryService = new GallerysService();
 const fs = require("fs");
@@ -49,7 +50,7 @@ const _fileFilter = (req, file, cb) => {
   if (file.mimetype == "image/png" || file.mimetype == "image/jpeg") {
     cb(null, true);
   } else {
-    cb({ msg: "png, jpg, jpeg 파일들만 업로드 가능합니다." }, false);
+    cb({ msg: "file type is not png, jpg, jpeg " }, false);
   }
 };
 
@@ -58,6 +59,7 @@ var upload = multer({ storage: _storage, fileFilter: _fileFilter }).single(
 );
 
 router.get("/", async function (req, res) {
+  logger.http("GET /gallery");
   const { statusCode, responseBody } = await GalleryService.categoryList();
 
   res.statusCode = statusCode;
@@ -65,6 +67,7 @@ router.get("/", async function (req, res) {
 });
 
 router.get("/list", async function (req, res) {
+  logger.http("GET /gallery/list");
   const { statusCode, responseBody } = await GalleryService.listAll();
 
   res.statusCode = statusCode;
@@ -72,6 +75,8 @@ router.get("/list", async function (req, res) {
 });
 
 router.get("/:theme", async function (req, res) {
+  logger.http("GET /gallery/:theme");
+  logger.debug("theme = " + req.params.theme);
   const { statusCode, responseBody } = await GalleryService.listByCategory(
     req.query["theme"]
   );
@@ -81,6 +86,7 @@ router.get("/:theme", async function (req, res) {
 });
 
 router.put("/my", async function (req, res) {
+  logger.http("PUT /gallery/my");
   // 이미지가 들어와있지않으면
   // [Object: null prototype] {
   //   oa: '0xa15492067B5858d6B99E85E097dc30232b06854b',
@@ -99,12 +105,12 @@ router.put("/my", async function (req, res) {
   upload(req, res, async (err) => {
     // console.log("upload init");
     // console.log(req.body);
-    if (err) {
-      console.log("err발생");
+    if (err || req.body.thumbnail == "") {
+      logger.error(err ? err.msg : "thumbnail is empty");
       res.statusCode = 200;
       res.send({
         result: "fail",
-        data: err.msg,
+        data: 0,
       });
     } else {
       // 일단 서버에 이미지를 저장해주기 위해 경로를 담을 변수 하나를 생성해준다.
@@ -116,7 +122,7 @@ router.put("/my", async function (req, res) {
       const thumbnailPath =
         "/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg";
       // console.log(thumbnailPath);
-
+      logger.debug("req.body = " + JSON.stringify(req.body));
       const { statusCode, responseBody } = await GalleryService.updateMyGallery(
         req.body.oa,
         req.body.category_id,
