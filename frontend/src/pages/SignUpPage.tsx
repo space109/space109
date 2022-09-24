@@ -9,7 +9,7 @@ import { create as ipfsHttpClient } from "ipfs-http-client";
 import IpfsUploader from "../components/Ipfs/IpfsUploader";
 
 interface PropsStyle {
-  color?: any;
+  imgURL?: any;
 }
 
 const DivWidth = styled(Div)`
@@ -32,16 +32,16 @@ const DivWidth = styled(Div)`
   }
 `;
 
+const Img = styled.div<PropsStyle>`
+  border: 3px solid black;
+  width: 100px;
+  height: 100px;
+  background-image: url("${({ imgURL }) => imgURL}");
+`;
+
 interface Props {
   account?: any;
 }
-
-//----
-interface Ipfs {
-  cid: object;
-  path: string;
-}
-//---
 
 // account가 없을 시 return 해버리기
 // account가 이미 있는 회원가입 되어있는 애도 return 해주기.
@@ -52,11 +52,13 @@ function SignUpPage() {
 
   // const [ text, setText ] = useState("ㅋㅋ");
 
+  const [metaDatas, setMetadatas] = useState<any>();
+
   const textClick = async () => {
     const response = await MintTestContract.methods
       .create(
         window.ethereum.selectedAddress,
-        "https://skywalker.infura-ipfs.io/ipfs/QmZN1tGPjx8kLpMBEUjxhfGwW3qphu49i5KuBLeF2tiMzM"
+        "https://skywalker.infura-ipfs.io/ipfs/QmWwMm2e5KQfq6sPVfHrmu39Xzs3nYEetcqNP7BprCc1Mp"
       )
       .send({ from: window.ethereum.selectedAddress });
 
@@ -67,9 +69,7 @@ function SignUpPage() {
     const totalNum = await MintTestContract.methods
       .balanceOf(window.ethereum.selectedAddress)
       .call();
-    console.log("myTotalNum: ", totalNum);
     const total = await MintTestContract.methods.totalSupply().call();
-    console.log(total);
     const tokenIds = await MintTestContract.methods
       .tokenIDsofWallet(window.ethereum.selectedAddress)
       .call();
@@ -77,7 +77,13 @@ function SignUpPage() {
     const tokenURIs = await MintTestContract.methods
       .tokenURIsofWallet(window.ethereum.selectedAddress)
       .call();
-    console.log(tokenURIs);
+    const Metas = [];
+    for (let i = 0; i < tokenURIs.length; i++) {
+      const Meta = await getMetadata(tokenURIs[i]);
+      Metas.push(Meta);
+    }
+    console.log("zzz", Metas);
+    setMetadatas(Metas);
     // for (let i = 1; i < totalNum+1; i++) {
     //   const tokenId = await MintTestContract.methods.tokenOfOwnerByIndex(window.ethereum.selectedAddress, i).call();
     //   console.log(tokenId);
@@ -211,9 +217,13 @@ function SignUpPage() {
           </SharpButton>
         </DivWidth>
       </Div>
-      <SharpButton onClick={textClick}>버튼</SharpButton>
-      <SharpButton onClick={aaaa}>보기</SharpButton>
-      <IpfsUploader />
+      {/* <SharpButton onClick={textClick}>버튼</SharpButton>
+    <SharpButton onClick={aaaa}>보기</SharpButton>
+    {metaDatas && metaDatas.map((fileData:any, i:any) => {
+      console.log(fileData.image);
+      // <img src={fileData.image}></img>
+      return <img src={fileData.image} key={i}/>
+    })} */}
     </>
   );
 }
