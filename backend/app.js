@@ -2,13 +2,12 @@ const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const helmet = require("helmet");
-const logger = require("morgan");
 const cors = require("cors");
-// 이미지가 저장될 기본 경로
-const BASE_THUMBNAIL_PATH = "/tmp/space109";
+const morgan = require("morgan");
+const logger = require("./config/log");
 
-const itemsRouter = require("./src/items/items.controller");
-const salesRouter = require("./src/sales/sales.controller");
+// const itemsRouter = require("./src/items/items.controller");
+// const salesRouter = require("./src/sales/sales.controller");
 const walletRouter = require("./src/wallet/wallet.controller");
 const nftRouter = require("./src/nft/nft.controller");
 const galleryRouter = require("./src/gallery/gallery.controller");
@@ -17,14 +16,22 @@ const app = express();
 
 app.use(helmet());
 app.use(cors());
-app.use(logger("dev"));
+// 로그 결정
+if (process.env.DB_HOST == "localhost") {
+  // 개발환경일때다
+  app.use(morgan("tiny", { stream: logger.stream }));
+} else {
+  // 배포환경일때
+  app.use(morgan("tiny"), { stream: logger.stream });
+}
+// error, warn, info, http, verbose, debug, silly
+// logger.log("info", "app started");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
-app.use("/thumbnail", express.static(BASE_THUMBNAIL_PATH));
 
-app.use("/items", itemsRouter);
-app.use("/sales", salesRouter);
+// app.use("/items", itemsRouter);
+// app.use("/sales", salesRouter);
 app.use("/wallet", walletRouter);
 app.use("/nft", nftRouter);
 app.use("/gallery", galleryRouter);
