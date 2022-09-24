@@ -29,7 +29,7 @@ const printLogFormat = {
 
 const opts = {
   file: new transports.File({
-    filename: path.join(__dirname, "../", "log", "log.log"),
+    filename: path.join("/", "tmp", "space109", "log", "log.log"),
     level: "http",
     format: printLogFormat.file,
   }),
