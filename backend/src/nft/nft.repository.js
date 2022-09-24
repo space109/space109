@@ -1,4 +1,5 @@
 const connection = require("../../config/connection").promise();
+const logger = require("../../config/log");
 
 class NftRepository {
   async displayMyNft(toeknId, scale, position, galleryId, oa) {
@@ -15,10 +16,10 @@ class NftRepository {
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
         returnBool = false;
       });
-    console.log(result);
+    logger.debug("result = " + result);
     return returnBool;
     // if (result.length == 1) return true;
     // else return false;
@@ -32,7 +33,6 @@ class NftRepository {
     SET 필드이름1=데이터값1, 필드이름2=데이터값2, ...
     WHERE 필드이름=데이터값
     */
-    console.log("nft.NftRepository");
     // console.log(nftId);
     // console.log(scale);
     // console.log(position);
@@ -54,15 +54,16 @@ class NftRepository {
       console.log("둘 다 값이 없다.");
       return false;
     }
+    logger.debug(sql);
     let returnBool = true;
     const result = await connection
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
         returnBool = false;
       });
-    console.log(result);
+    logger.debug("result = " + result);
     return returnBool;
   }
   async getDisplayedNftList(galleryId) {
@@ -71,7 +72,7 @@ class NftRepository {
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
       });
 
     return result;
@@ -85,7 +86,7 @@ class NftRepository {
         returnBool = data[0].affectedRows;
       })
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
         returnBool = 0;
       });
     if (returnBool === 0) {

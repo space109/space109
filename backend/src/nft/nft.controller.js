@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const logger = require("../../config/log");
 const NftService = require("./nft.service");
 const nftService = new NftService();
 
 router.post("/display", async function (req, res) {
+  logger.http("POST /nft/display");
+  logger.debug(req.body);
   const { statusCode, responseBody } = await nftService.displayMyNft(
     req.body.toeknId,
     req.body.scale,
@@ -16,19 +19,20 @@ router.post("/display", async function (req, res) {
 });
 
 router.put("/display/change", async function (req, res) {
+  logger.http("PUT /nft/display/change");
+  logger.debug(req.body);
   const { statusCode, responseBody } = await nftService.updateDisplayInfo(
     req.body.nftId,
     req.body.scale,
     req.body.position
   );
-  console.log(req.body);
   res.statusCode = statusCode;
   res.send(responseBody);
 });
 
 router.get("/display", async function (req, res) {
-  // console.log("들어옴");
-  // console.log(req.query.galleryId);
+  logger.http("GET /nft/display");
+
   const { statusCode, responseBody } = await nftService.getDisplayedNftList(
     req.query.galleryId
   );
@@ -37,6 +41,8 @@ router.get("/display", async function (req, res) {
 });
 
 router.delete("/display", async function (req, res) {
+  logger.http("DELETE /nft/display");
+  logger.debug(req.body);
   const { statusCode, responseBody } = await nftService.deleteNft(
     req.body.nftId
   );
