@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Div } from "../../styles/BaseStyles";
 import styled, { css } from "styled-components";
+import { NftDetailModal } from "../"
 
 interface PropsStyle{
   url?: any,
@@ -29,13 +30,29 @@ const Section = styled.div`
   width: 100%;
 `
 
-function NftCard({ author, description, fileName, image, name }: any) {
+function NftCard(props: any) {
+  const [isOnModal, setIsOnModal] = useState(false);
+
+  const openModal = () => {
+    setIsOnModal(true);
+  }
+
+  const closeModal = () => {
+    setIsOnModal(false);
+  }
+
   return (
-    <Card>
-      <Image url={image} />
+    <Card onClick={openModal} >
+      {
+        isOnModal && <NftDetailModal
+        closeModal={closeModal}
+        {...props}
+        />
+      }
+      <Image url={props.image} />
       <Section>
-        <Div w="100%" color="--grey-100" fontSize="--h6" fontWeight="--bold">{name}</Div>
-        <Div w="100%" color="--grey-100" fontSize="--h7" fontWeight="--light">{author}</Div>
+        <Div w="100%" color="--grey-100" fontSize="--h6" fontWeight="--bold">{props.name}</Div>
+        <Div w="100%" color="--grey-100" fontSize="--h7" fontWeight="--light">{props.author}</Div>
       </Section>
     </Card>
   );
