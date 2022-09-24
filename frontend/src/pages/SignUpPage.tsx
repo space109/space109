@@ -192,13 +192,11 @@ function SignUpPage() {
         </SharpButton>
       </DivWidth>
     </Div>
-    {/* <SharpButton onClick={textClick}>버튼</SharpButton>
+    <SharpButton onClick={textClick}>버튼</SharpButton>
     <SharpButton onClick={aaaa}>보기</SharpButton>
-    {metaDatas && metaDatas.map((fileData:any, i:any) => {
-      console.log(fileData.image);
-      // <img src={fileData.image}></img>
-      return <img src={fileData.image} key={i}/>
-    })} */}
+    {metaDatas ? metaDatas.map((fileData:any, i:any) => {
+      return <img style={{width:'300px'}} src={fileData.image} key={i}/>
+    }) : <></>}
     </>
   );
 }
