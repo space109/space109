@@ -22,7 +22,7 @@ if (process.env.DB_HOST == "localhost") {
   app.use(morgan("tiny", { stream: logger.stream }));
 } else {
   // 배포환경일때
-  app.use(morgan("tiny"), { stream: logger.stream });
+  app.use(morgan("tiny", { stream: logger.stream }));
 }
 // error, warn, info, http, verbose, debug, silly
 // logger.log("info", "app started");
