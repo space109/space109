@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { Div, Image, screenSizes } from "../styles/BaseStyles";
-import { Input, SharpButton, NftCard } from "../components";
+import { Input, SharpButton, NftCard, NftMake } from "../components";
 import ReactDOM from "react-dom";
 import { debounce } from "lodash";
 import { useAccount } from "../hooks";
@@ -48,6 +48,7 @@ const NftCol = styled(Div)`
 `
 
 const ButtonSection = styled.div`
+  display: flex;
   width: 100%;
   height: 120px;
 `
@@ -127,6 +128,11 @@ function MyNftPage() {
     height: window.innerHeight
   });
 
+  const [viewPage, setViewPage] = useState(0);
+
+  const setNftListPage = () => setViewPage(0); // NFT 목록 페이지로 세팅
+  const setNftMakePage = () => setViewPage(1); // NFT 생성 페이지로 세팅
+
   const handleResize = debounce(() => {
     setWindowSize({
       width: window.innerWidth,
@@ -175,14 +181,11 @@ function MyNftPage() {
     return result;
   };
 
-  return (
-    <Div bgColor="--grey-650" w="100vw" minHeight="100vh">
-    <NavDiv></NavDiv>
-    <ButtonSection>
+  let viewContent;
 
-    </ButtonSection>
-    <Content>
-      {
+  if (viewPage === 0) {
+    viewContent = <>
+    {
       metaDatas ? 
       <NftListContent>
         {
@@ -215,7 +218,20 @@ function MyNftPage() {
         }
       </NftListContent> 
         : null
-      }
+      }</>;
+  } else {
+    viewContent = <NftMake></NftMake>;
+  }
+
+  return (
+    <Div bgColor="--grey-650" w="100vw" minHeight="100vh">
+    <NavDiv></NavDiv>
+    <ButtonSection>
+      <SharpButton onClick={setNftListPage}>내 NFT 조회</SharpButton>
+      <SharpButton onClick={setNftMakePage}>NFT 생성하기</SharpButton>
+    </ButtonSection>
+    <Content>
+      {viewContent}
     </Content>
     </Div>
   );

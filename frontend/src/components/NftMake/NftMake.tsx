@@ -10,7 +10,7 @@ function NftMake(props:any) {
 
   return (
     <div>
-      <Div display="flex" flexDirection="column">
+      <Div display="flex" flexDirection="column" bgColor="--grey-100">
         <form>
           <Div display="flex">
             <Div flex="7" display="flex" flexDirection="column">
@@ -56,3 +56,5 @@ function NftMake(props:any) {
     </div>
   );
 }
+
+export default NftMake;

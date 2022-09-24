@@ -7,3 +7,4 @@ export { Input } from './Input';
 export { IpfsUploader } from "./IpfsUploader";
 export { ModalPortal } from "./ModalPortal";
 export { NavBar } from "./NavBar";
+export { NftMake } from "./NftMake";
