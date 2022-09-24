@@ -120,7 +120,7 @@ router.put("/my", async function (req, res) {
       // console.log("thumbnail: " + req.body.thumbnail);
       // console.log(req.body);
       const thumbnailPath =
-        "/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg";
+        "/image/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg";
       // console.log(thumbnailPath);
       logger.debug("req.body = " + JSON.stringify(req.body));
       const { statusCode, responseBody } = await GalleryService.updateMyGallery(

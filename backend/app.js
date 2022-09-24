@@ -29,6 +29,7 @@ if (process.env.DB_HOST == "localhost") {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use("/image", express.static(path.join("/", "tmp", "space109")));
 
 // app.use("/items", itemsRouter);
 // app.use("/sales", salesRouter);
