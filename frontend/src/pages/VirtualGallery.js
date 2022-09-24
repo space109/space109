@@ -18,6 +18,23 @@ import {
   InfoModal
 } from "../components";
 
+const artPositionList = [
+];
+
+const Floor = (props) => {
+  const [ref] = usePlane(() => ({
+    mass: 0,
+    // rotation: [-Math.PI / 2, 0, 0],
+    ...props,
+  }));
+  return (
+    <mesh ref={ref}>
+      <planeBufferGeometry attach="geometry" args={[0, 0]} />
+      <meshStandardMaterial attach="material" color="grey" />
+    </mesh>
+  );
+};
+
 const Box = ({ toggleModal }) => {
   const img = useLoader(TextureLoader, "/Thug_life.png");
   const [ref] = useBox(() => ({
@@ -62,6 +79,10 @@ const VirtualGallery = () => {
     setToggle((state) => !state);
   };
 
+
+  const [room, setRoom] = useState(0);
+  const [index, setIndex] = useState(0);
+
   //메타데이터를 모달에서 끌어옴. 데이터가 없을시 기본 값을 정해줄 것
   //인덱스가 metalist의 배열 길이보다 짧은지 체크(나중에 아예 Curry로직을 사용할건지 고려)
   const getMetaData = (index, data) => {
@@ -71,11 +92,20 @@ const VirtualGallery = () => {
     }
   };
 
+
   const getPlayerPosition = (playerPosition) => {
     console.log(playerPosition);
   };
   const handleKeyDown = (e) => {
     console.log(e.target.value);
+  };
+
+  const targetRoom = (e) => {
+    setRoom(e);
+  };
+
+  const targetIndex = (e) => {
+    setIndex(e);
   };
 
   //메타데이터 이미지 임시를 불러옴
@@ -88,7 +118,7 @@ const VirtualGallery = () => {
 
   return (
     <Div w="100vw" h="100vh">
-      <InfoModal toggleModal={toggleModal} toggle={toggle} />
+      <InfoModal toggleModal={toggleModal} toggle={toggle} room={room} index={index} />
       <Canvas style={{ background: "grey" }}>
         <OverallLight />
         <fog
@@ -579,6 +609,8 @@ const VirtualGallery = () => {
             toggleModal={toggleModal}
             toggle={toggle}
             setToggle={setToggle}
+            targetRoom={targetRoom}
+            targetIndex={targetIndex}
           />
         </Physics>
       </Canvas>
