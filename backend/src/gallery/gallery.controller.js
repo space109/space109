@@ -74,11 +74,22 @@ router.get("/list", async function (req, res) {
   res.send(responseBody);
 });
 
-router.get("/:theme", async function (req, res) {
-  logger.http("GET /gallery/:theme");
-  logger.debug("theme = " + req.params.theme);
+router.get("/theme", async function (req, res) {
+  logger.http("GET /gallery/theme");
+  logger.debug("theme = " + req.query["theme"]);
   const { statusCode, responseBody } = await GalleryService.listByCategory(
     req.query["theme"]
+  );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
+router.get("/my", async function (req, res) {
+  logger.http("GET /gallery/my");
+  logger.debug("oa = " + req.query["oa"]);
+  const { statusCode, responseBody } = await GalleryService.getMyGalleryInfo(
+    req.query["oa"]
   );
 
   res.statusCode = statusCode;

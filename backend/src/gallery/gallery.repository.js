@@ -41,6 +41,19 @@ class GalleryRepository {
     return result;
   }
 
+  async getMyGalleryInfo(oa) {
+    const sql = `select gallery_id, oa, category_id, description, title, thumbnail from gallery where oa='${oa}'`;
+
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        logger.error(e);
+      });
+
+    return result;
+  }
+
   async updateMyGallery(
     oa,
     category_id,
