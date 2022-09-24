@@ -296,7 +296,7 @@ const NFTAbi: AbiItem[] = [
       },
       {
         "internalType": "bytes",
-        "name": "_data",
+        "name": "data",
         "type": "bytes"
       }
     ],
@@ -435,13 +435,7 @@ const NFTAbi: AbiItem[] = [
       }
     ],
     "name": "transferFrom",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -547,7 +541,7 @@ const NFTAbi: AbiItem[] = [
 
 
 export const TestCA = "0xB066B316B33a2085A00eD60F9953D32A0b6BDbF8";
-export const NFTCA = "0x48697b67e2BD8E86092a1fF36D68B8709BbfC2af";
+export const NFTCA = "0x7a6E7D7B602e06955C6729DE5D6bD77C1b3E904e";
 
 export const web3 = new Web3(window.ethereum); // provider window.ehtereum으로 진행해도 되나?
 
