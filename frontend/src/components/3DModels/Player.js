@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSphere } from "@react-three/cannon";
 import { useThree, useFrame } from "@react-three/fiber";
-import { FPVControls } from "./FPVControls";
+import { FPVControls } from "./";
 import { useKeyboardControls } from "../../hooks/useKeyboardControls";
 import { Vector3 } from "three";
 
@@ -199,3 +199,5 @@ export const Player = (props) => {
     </>
   );
 };
+
+export default Player;
