@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { Div, Image, screenSizes } from "../styles/BaseStyles";
-import { Input, SharpButton, NftCard, NftMake, CheckBox, NftDetailModal } from "../components";
+import { Input, SharpButton, NftCard, NftMake, LabelCheckBox, NftDetailModal } from "../components";
 import ReactDOM from "react-dom";
 import { debounce } from "lodash";
 import { useAccount } from "../hooks";
 import { TestContract, MintTestContract } from "../web3Config";
 import { getMetadata } from "../apis";
+
+interface propsStyle {
+  isSet?: any;
+}
 
 const NavDiv = styled.div`
   background-color: var(--grey-650);
@@ -25,8 +29,10 @@ const Content = styled(Div)`
 
 const ButtonSection = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 120px;
+  gap: 1.5rem;
+  margin: 2rem 0;
 `
 
 const ContentSection = styled.div`
@@ -37,6 +43,35 @@ const NftListContent = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 3rem;
+`
+
+const ViewButton = styled.div<propsStyle>`
+  ${({isSet}) => {
+    if (isSet) {
+      return css`
+        background-color: var(--grey-100);
+      `
+    } else {
+      return css`
+        background-color: var(--grey-400);
+      `
+    }
+  }}
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 12rem;
+  height: 3rem;
+  color: var(--grey-650);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: var(--h6);
+  font-weight: var(--bold);
+  transition: 0.2s;
+  :hover {
+    background-color: var(--grey-100);
+  }
 `
 
 const NftCol = styled(Div)`
@@ -122,15 +157,15 @@ function MyNftPage() {
     const result = [];
     for (let i = 0; i < num; i++) {
       result.push(
-        <NftCol key={i}>
-            {
-              metaDatas.map((metaData:any, index:any) => {
-                if (index % num == i) {
-                  return <NftCard key={index} cardClick={onModal} {...metaData} nickname={nickname}/>
-                }
-              })
-            }
-        </NftCol>
+      <NftCol key={i}>
+      {
+        metaDatas.map((metaData:any, index:any) => {
+          if (index % num == i) {
+            return <NftCard key={index} cardClick={onModal} {...metaData} nickname={nickname}/>
+          }
+        })
+      }
+      </NftCol>
       )
     }
     return result;
@@ -189,9 +224,19 @@ function MyNftPage() {
     <NavDiv></NavDiv>
     <Content>
       <ButtonSection>
-        <SharpButton onClick={setNftListPage}>내 NFT 조회</SharpButton>
-        <SharpButton onClick={setNftMakePage}>NFT 생성하기</SharpButton>
-        <CheckBox></CheckBox>
+        <Div display="flex" gap="1.5rem">
+          <ViewButton onClick={setNftListPage}
+            isSet={viewPage===0}
+          >
+            내 NFT 목록
+          </ViewButton>
+          <ViewButton onClick={setNftMakePage}
+            isSet={viewPage===1}
+          >
+            NFT 생성하기
+          </ViewButton>
+        </Div>
+        {viewPage===0 ? <LabelCheckBox>판매 중인 NFT 보기</LabelCheckBox> : null}
       </ButtonSection>
       <ContentSection>
         {viewContent}

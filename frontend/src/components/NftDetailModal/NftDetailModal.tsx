@@ -52,6 +52,7 @@ const ImageSection = styled(Div)`
   box-sizing: border-box;
   width: 50%;
   height: auto;
+  padding: 0 2% 0 12%;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
     padding: 0 2% 0 12%;
   }
@@ -69,6 +70,8 @@ const ImageSection = styled(Div)`
     width: 80%
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
+    padding: 0;
+    width: 80%
   }
 `
 
