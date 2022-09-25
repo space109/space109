@@ -33,8 +33,15 @@ const Section = styled.div`
 function NftCard(props: any) {
 
   const onClickHandler = () => {
-    console.log("dd?")
-    props.cardClick({...props});
+    props.cardClick(
+    {
+      author: props.author, 
+      description: props.description, 
+      image: props.image, 
+      name: props.name, 
+      nickname: props.nickname,
+    }
+    );
   }
 
   return (
