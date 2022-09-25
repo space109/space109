@@ -1,6 +1,5 @@
-
 import { Canvas, useLoader } from "@react-three/fiber";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { Div } from "../styles/BaseStyles";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import axios from "axios";
@@ -15,25 +14,10 @@ import {
   OverallLight,
   ImageFrame,
   Floor,
-  InfoModal
+  InfoModal,
 } from "../components";
 
-const artPositionList = [
-];
-
-const Floor = (props) => {
-  const [ref] = usePlane(() => ({
-    mass: 0,
-    // rotation: [-Math.PI / 2, 0, 0],
-    ...props,
-  }));
-  return (
-    <mesh ref={ref}>
-      <planeBufferGeometry attach="geometry" args={[0, 0]} />
-      <meshStandardMaterial attach="material" color="grey" />
-    </mesh>
-  );
-};
+const artPositionList = [];
 
 const Box = ({ toggleModal }) => {
   const img = useLoader(TextureLoader, "/Thug_life.png");
@@ -59,7 +43,7 @@ const LogoBox = ({
   const [ref] = useBox(() => ({
     mass: 0,
     position,
-    args
+    args,
   }));
   return (
     <mesh receiveShadow castShadow ref={ref} transparent>
@@ -79,7 +63,6 @@ const VirtualGallery = () => {
     setToggle((state) => !state);
   };
 
-
   const [room, setRoom] = useState(0);
   const [index, setIndex] = useState(0);
 
@@ -91,7 +74,6 @@ const VirtualGallery = () => {
       setMetaList((state) => (state[index] = data));
     }
   };
-
 
   const getPlayerPosition = (playerPosition) => {
     console.log(playerPosition);
@@ -110,15 +92,32 @@ const VirtualGallery = () => {
 
   //메타데이터 이미지 임시를 불러옴
   const [image, setImage] = useState("");
-  axios
-    .get(
-      "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa"
-    )
-    .then((res) => setImage(res.data?.image));
-
+  useEffect(() => {
+    axios
+      .get(
+        "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa"
+      )
+      .then((res) => setImage(res.data?.image));
+  }, []);
+  //[{0 액자}, {1 액자}, {2 액자}]
+  //   {
+  //   "fileName": "QmZGq2vsQKkDCBhkUGjFz78ejFhRxTbaUiySx6gv9ATb1v.json",
+  //   "name": "NFT name",
+  //   "author": "imukyee",
+  //   "description": "설명",
+  //   "image": "https://skywalker.infura-ipfs.io/ipfs/QmZGq2vsQKkDCBhkUGjFz78ejFhRxTbaUiySx6gv9ATb1v"
+  //   }
+  // 0번째 액자: QmZGq2vsQKkDCBhkUGjFz78ejFhRxTbaUiySx6gv9ATb1v
+  // 1번째 액자: QmZGq2vsQKkDCBhkUGjFz78ejFhRxTbaUiySx6gv9ATb1v
+  // 2번째 액자: QmZGq2vsQKkDCBhkUGjFz78ejFhRxTbaUiySx6gv9ATb1v
   return (
     <Div w="100vw" h="100vh">
-      <InfoModal toggleModal={toggleModal} toggle={toggle} room={room} index={index} />
+      <InfoModal
+        toggleModal={toggleModal}
+        toggle={toggle}
+        room={room}
+        index={index}
+      />
       <Canvas style={{ background: "grey" }}>
         <OverallLight />
         <fog
@@ -535,7 +534,7 @@ const VirtualGallery = () => {
             intensity={2}
             height={30.45}
           />
-          {/* 7번방 6개 */}
+          {/* 7번방 4개 */}
           <ImageLight
             lightFrom={[115, 60, -40]}
             lightTo={[115, 10, -4]}

@@ -71,6 +71,7 @@ export interface PropStyle {
   borderRight?: any;
   borderTop?: any;
   borderBottom?: any;
+  overflow?: any;
 }
 
 export const Div = styled.div<PropStyle>`
@@ -128,6 +129,7 @@ export const Div = styled.div<PropStyle>`
   border-right: ${(props) => (props.borderRight ? props.borderRight : "")};
   border-top: ${(props) => (props.borderTop ? props.borderTop : "")};
   border-bottom: ${(props) => (props.borderBottom ? props.borderBottom : "")};
+  overflow: ${(props) => (props.overflow ? props.overflow : "")};
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {

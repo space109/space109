@@ -53,6 +53,7 @@ const ModalOverlay = (props) => {
       <Img src={closeIcon} alt="" onClick={props.toggleModal} />
       <Div>{props.room}</Div>
       <Div>{props.index}</Div>
+      <Div>dddd</Div>
     </ModalDiv>
   );
 };
