@@ -6,7 +6,7 @@ import SharpButton from "../components/Button/SharpButton";
 import { dupCheck, join, getMetadata } from "../apis";
 import { TestContract, MintTestContract } from "../web3Config";
 import { create as ipfsHttpClient } from "ipfs-http-client";
-import IpfsUploader from "../components/Ipfs/IpfsUploader";
+import IpfsUploader from "../components/IpfsUploader/IpfsUploader";
 
 interface PropsStyle {
   imgURL?: any;
@@ -202,26 +202,41 @@ function SignUpPage() {
               {helpMsg}
             </Div>
           </Div>
-          <Div fontSize="--h7" fontWeight="--thin" color={color} pl="calc(calc(var(--h5) / 1.5) + 3px)">
+          <Div
+            fontSize="--h7"
+            fontWeight="--thin"
+            color={color}
+            pl="calc(calc(var(--h5) / 1.5) + 3px)"
+          >
             {helpMsg}
           </Div>
-        </Div>
-        <SharpButton 
-          fontSize="--h5" fontWeight="--bold"
-          width="100%" height="69px" 
-          borderWidth="3px" borderRadius="4px" bg="--grey-650"
-          borderColor="--grey-650"
-          onClick={signUpClick}
-        >
-          회원가입
-        </SharpButton>
-      </DivWidth>
-    </Div>
-    <SharpButton onClick={textClick}>버튼</SharpButton>
-    <SharpButton onClick={aaaa}>보기</SharpButton>
-    {metaDatas ? metaDatas.map((fileData:any, i:any) => {
-      return <img style={{width:'300px'}} src={fileData.image} key={i}/>
-    }) : <></>}
+          {/* </Div> */}
+          <SharpButton
+            fontSize="--h5"
+            fontWeight="--bold"
+            width="100%"
+            height="69px"
+            borderWidth="3px"
+            borderRadius="4px"
+            bg="--grey-650"
+            borderColor="--grey-650"
+            onClick={signUpClick}
+          >
+            회원가입
+          </SharpButton>
+        </DivWidth>
+      </Div>
+      <SharpButton onClick={textClick}>버튼</SharpButton>
+      <SharpButton onClick={aaaa}>보기</SharpButton>
+      {metaDatas ? (
+        metaDatas.map((fileData: any, i: any) => {
+          return (
+            <img style={{ width: "300px" }} src={fileData.image} key={i} />
+          );
+        })
+      ) : (
+        <></>
+      )}
     </>
   );
 }
