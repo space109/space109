@@ -8,6 +8,6 @@ export { IpfsUploader } from "./IpfsUploader";
 export { ModalPortal } from "./ModalPortal";
 export { NavBar } from "./NavBar";
 export { NftMake } from "./NftMake";
-export { NftDetailModal } from "./NftDetailModal";
+export { NftDetailModal, GalleryDetailModal } from "./Modal";
 export { LabelCheckBox } from "./LabelCheckBox";
 export { GalleryList } from "./GalleryList";

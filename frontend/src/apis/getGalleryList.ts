@@ -1,14 +1,11 @@
 import axios from 'axios';
 import apiPath from '../common/apiPath';
 
-const login = async (walletAddress: any) => {
+const getGalleryList = async () => {
   try {
     const { data: { result, data } } : any = await axios({
-      method: 'POST',
-      url: apiPath.wallet.login(), 
-      data: {
-        "oa": walletAddress,
-      }
+      method: 'GET',
+      url: apiPath.gallery.gallery(), 
     });
     console.log(result, data);
     if (result === 'success') {
@@ -21,4 +18,4 @@ const login = async (walletAddress: any) => {
   }
 };
 
-export default login;
+export default getGalleryList;

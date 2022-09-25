@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 import styled, { keyframes } from "styled-components";
-import { ModalPortal, Input, SharpButton } from "../";
+import { ModalPortal, Input, SharpButton } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
 
 interface PropsStyle{

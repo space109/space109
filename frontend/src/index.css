@@ -81,32 +81,32 @@ body {
   --columns: 3;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 750px) {
   :root {
     --columns: 5;
   }
 }
-@media (min-width: 900px) {
+@media (min-width: 1200px) {
   :root {
     --columns: 7;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 1500px) {
   :root {
     --columns: 9;
   }
 }
-@media (min-width: 1500px) {
+@media (min-width: 2000px) {
   :root {
     --columns: 11;
   }
 }
-@media (min-width: 1800px) {
+@media (min-width: 2300px) {
   :root {
     --columns: 13;
   }
 }
-@media (min-width: 2100px) {
+@media (min-width: 2500px) {
   :root {
     --columns: 15;
   }
