@@ -21,19 +21,19 @@ import {
 const artPositionList = [
 ];
 
-const Floor = (props) => {
-  const [ref] = usePlane(() => ({
-    mass: 0,
-    // rotation: [-Math.PI / 2, 0, 0],
-    ...props,
-  }));
-  return (
-    <mesh ref={ref}>
-      <planeBufferGeometry attach="geometry" args={[0, 0]} />
-      <meshStandardMaterial attach="material" color="grey" />
-    </mesh>
-  );
-};
+// const Floor = (props) => {
+//   const [ref] = usePlane(() => ({
+//     mass: 0,
+//     // rotation: [-Math.PI / 2, 0, 0],
+//     ...props,
+//   }));
+//   return (
+//     <mesh ref={ref}>
+//       <planeBufferGeometry attach="geometry" args={[0, 0]} />
+//       <meshStandardMaterial attach="material" color="grey" />
+//     </mesh>
+//   );
+// };
 
 const Box = ({ toggleModal }) => {
   const img = useLoader(TextureLoader, "/Thug_life.png");
