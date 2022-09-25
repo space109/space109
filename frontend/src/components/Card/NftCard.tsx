@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Div } from "../../styles/BaseStyles";
 import styled, { css } from "styled-components";
+import { NftDetailModal } from "../"
 
 interface PropsStyle{
   url?: any,
@@ -29,13 +30,26 @@ const Section = styled.div`
   width: 100%;
 `
 
-function NftCard({ author, description, fileName, image, name }: any) {
+function NftCard(props: any) {
+
+  const onClickHandler = () => {
+    props.cardClick(
+    {
+      author: props.author, 
+      description: props.description, 
+      image: props.image, 
+      name: props.name, 
+      nickname: props.nickname,
+    }
+    );
+  }
+
   return (
-    <Card>
-      <Image url={image} />
+    <Card onClick={onClickHandler}>
+      <Image url={props.image} />
       <Section>
-        <Div w="100%" color="--grey-100" fontSize="--h6" fontWeight="--bold">{name}</Div>
-        <Div w="100%" color="--grey-100" fontSize="--h7" fontWeight="--light">{author}</Div>
+        <Div w="100%" color="--grey-100" fontSize="--h6" fontWeight="--bold">{props.name}</Div>
+        <Div w="100%" color="--grey-100" fontSize="--h7" fontWeight="--light">{props.author}</Div>
       </Section>
     </Card>
   );
@@ -47,6 +61,7 @@ NftCard.defaultProps = {
   fileName: "파일네임이 멀까?",
   image: "https://skywalker.infura-ipfs.io/ipfs/QmVHPPcKkiJAEYSEG4VFWZZEd21NjhDuNvtWfLpTVMUUm2",
   name: "하와이안감자",
+  nickname: "주인장",
 }
 
 export default NftCard;
