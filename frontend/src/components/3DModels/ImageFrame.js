@@ -5,9 +5,7 @@ import * as THREE from "three";
 import axios from 'axios';
 import { useState } from 'react';
 import uploadImage from '../../assets/uploadImage.png';
-import { PlainAnimator } from "three-plain-animator/lib/plain-animator";
 import { useFrame, useLoader } from '@react-three/fiber';
-import { useVideoTexture } from '@react-three/drei';
 import GifLoader from "three-gif-loader";
 
 
@@ -36,10 +34,12 @@ const ImageFrame = ({
     () => new THREE.TextureLoader().load(uploadImage),
     []
   );
-
+    
   const textTexture = new GifLoader().load(
-    imageNFT
+    "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa"
+    // imageNFT
   );
+  console.log(textTexture)
 
   const [ref] = useBox(() => ({
     mass: 0,
@@ -53,18 +53,9 @@ const ImageFrame = ({
       <mesh receiveShadow castShadow ref={ref} onClick={toggleModal}>
         <boxGeometry args={args} />
         <meshPhongMaterial
-          map={imageNFT ? textTexture : uploadImageTexture}
+          map={imageNFT ? textTexture.image ? textTexture : img : uploadImageTexture}
           color="white"
         />
-        {/* <Image
-          raycast={() => null}
-          position={[0, -10, 0.7]}
-          url={
-            imageNFT
-              ? imageNFT
-              : "https://skywalker.infura-ipfs.io/ipfs/QmQh7722NPdJixn7kGwSZngrY1Vd5rqGnNEcUWXAXwX2kE"
-          }
-        /> */}
       </mesh>
     </>
   );
