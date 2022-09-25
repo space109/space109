@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { Div, Image, screenSizes } from "../styles/BaseStyles";
-import { Input, SharpButton, NftCard, NftMake, CheckBox } from "../components";
+import { Input, SharpButton, NftCard, NftMake, CheckBox, NftDetailModal } from "../components";
 import ReactDOM from "react-dom";
 import { debounce } from "lodash";
 import { useAccount } from "../hooks";
@@ -14,10 +14,13 @@ const NavDiv = styled.div`
   height: 120px;
 `
 
-const Content = styled.div`
+const Content = styled(Div)`
   box-sizing: border-box;
   width: 100%;
-  padding: 0 2rem;
+  padding: 0 6rem;
+  @media screen and (max-width: ${screenSizes.xl + "px"}) {
+    padding: 0 2rem;
+  }
 `
 
 const ButtonSection = styled.div`
@@ -71,6 +74,21 @@ function MyNftPage() {
   const setNftListPage = () => setViewPage(0); // NFT 목록 페이지로 세팅
   const setNftMakePage = () => setViewPage(1); // NFT 생성 페이지로 세팅
 
+  const [ isOnModal, setIsOnModal ] = useState(false);
+  const [ modalInfo, setModalInfo] = useState({});
+
+  const openModal = () => {
+    setIsOnModal(true);
+  }
+  const closeModal = () => {
+    setIsOnModal(false);
+  }
+
+  const onModal = (props:any) => {
+    openModal();
+    setModalInfo(props)
+  }
+
   const handleResize = debounce(() => {
     setWindowSize({
       width: window.innerWidth,
@@ -108,7 +126,7 @@ function MyNftPage() {
             {
               metaDatas.map((metaData:any, index:any) => {
                 if (index % num == i) {
-                  return <NftCard key={index} {...metaData} nickname={nickname}/>
+                  return <NftCard key={index} cardClick={onModal} {...metaData} nickname={nickname}/>
                 }
               })
             }
@@ -162,6 +180,12 @@ function MyNftPage() {
 
   return (
     <Div bgColor="--grey-650" w="100vw" minHeight="100vh">
+    {
+      isOnModal && <NftDetailModal
+      closeModal={closeModal}
+      {...modalInfo}
+      />
+    }
     <NavDiv></NavDiv>
     <Content>
       <ButtonSection>

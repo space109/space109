@@ -54,7 +54,7 @@ function SignUpPage() {
   const textClick = async () => {
     const response = await MintTestContract.methods.create(
       window.ethereum.selectedAddress, 
-      "https://skywalker.infura-ipfs.io/ipfs/QmWwMm2e5KQfq6sPVfHrmu39Xzs3nYEetcqNP7BprCc1Mp"
+      "https://skywalker.infura-ipfs.io/ipfs/QmNwdzFbUQ6fS3rBHXknHwmmYEmBzHQH3PDe8LvB41RvHU"
     ).send({from: window.ethereum.selectedAddress});
 
     console.log(response);

@@ -31,24 +31,14 @@ const Section = styled.div`
 `
 
 function NftCard(props: any) {
-  const [isOnModal, setIsOnModal] = useState(false);
 
-  const openModal = () => {
-    setIsOnModal(true);
-  }
-
-  const closeModal = () => {
-    setIsOnModal(false);
+  const onClickHandler = () => {
+    console.log("dd?")
+    props.cardClick({...props});
   }
 
   return (
-    <Card onClick={openModal} >
-      {
-        isOnModal && <NftDetailModal
-        closeModal={closeModal}
-        {...props}
-        />
-      }
+    <Card onClick={onClickHandler}>
       <Image url={props.image} />
       <Section>
         <Div w="100%" color="--grey-100" fontSize="--h6" fontWeight="--bold">{props.name}</Div>
@@ -64,6 +54,7 @@ NftCard.defaultProps = {
   fileName: "파일네임이 멀까?",
   image: "https://skywalker.infura-ipfs.io/ipfs/QmVHPPcKkiJAEYSEG4VFWZZEd21NjhDuNvtWfLpTVMUUm2",
   name: "하와이안감자",
+  nickname: "주인장",
 }
 
 export default NftCard;
