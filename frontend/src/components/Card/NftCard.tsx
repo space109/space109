@@ -13,6 +13,7 @@ const Image = styled.img.attrs<PropsStyle>(props => ({
   alt: "NFT 이미지",
   }))<PropsStyle>`
   width: 100%;
+  transition: .6s;
 `
 
 const Card = styled.div`
@@ -20,6 +21,11 @@ const Card = styled.div`
   display: inline-block;
   width: 100%;
   cursor: pointer;
+  &:hover {
+    & > img {
+      transform:translateY(-10px)
+    }
+  }
 `
 
 const Section = styled.div`

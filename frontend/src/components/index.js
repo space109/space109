@@ -10,3 +10,4 @@ export { NavBar } from "./NavBar";
 export { NftMake } from "./NftMake";
 export { NftDetailModal } from "./NftDetailModal";
 export { LabelCheckBox } from "./LabelCheckBox";
+export { GalleryList } from "./GalleryList";
