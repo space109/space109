@@ -53,8 +53,8 @@ const NavBox = styled.div`
   position: relative;
   width: 100%;
   max-width: 1800px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-right: 60px;
+  margin-left: 60px;
   margin-bottom: 0;
 `;
 
@@ -136,12 +136,15 @@ function NavBar() {
 
   const [selected, setSelected] = useState<string>("/");
   const eth = window.ethereum;
-  console.log("메타마스크 있음?:", eth.isMetaMask);
-  console.log("연결됨?:", eth.isConnected());
-  console.log("아이디 있음?:", eth.selectedAddress);
+  // console.log("메타마스크 있음?:", eth.isMetaMask);
+  // console.log("연결됨?:", eth.isConnected());
+  // console.log("아이디 있음?:", eth.selectedAddress);
+
+  const [isLogined, setIsLogined] = useState<string>("");
 
   useEffect(() => {
     setSelected(location.pathname);
+    setIsLogined(eth.selectedAddress);
   }, [location]);
 
   const goHome = () => {
@@ -159,6 +162,9 @@ function NavBar() {
   const goProfile = () => {
     navigate("/profile");
   };
+  const goMyNFT = () => {
+    navigate("/myNft");
+  };
   const checkActive = (path: string) => {
     return selected === path;
   };
@@ -172,18 +178,29 @@ function NavBar() {
           </LogoDiv>
           <Menu>
             <SecondaryMenu>
-              <SecondaryMenuItem
-                onClick={goSignUp}
-                active={checkActive("/signUp")}
-              >
-                지갑연결
-              </SecondaryMenuItem>
-              <SecondaryMenuItem
-                onClick={goProfile}
-                active={checkActive("/profile")}
-              >
-                프로필
-              </SecondaryMenuItem>
+              {!isLogined ? (
+                <SecondaryMenuItem
+                  onClick={goSignUp}
+                  active={checkActive("/signUp")}
+                >
+                  지갑연결
+                </SecondaryMenuItem>
+              ) : (
+                <>
+                  <SecondaryMenuItem
+                    onClick={goProfile}
+                    active={checkActive("/profile")}
+                  >
+                    프로필
+                  </SecondaryMenuItem>
+                  <SecondaryMenuItem
+                    onClick={goMyNFT}
+                    active={checkActive("/myNft")}
+                  >
+                    내NFT
+                  </SecondaryMenuItem>
+                </>
+              )}
             </SecondaryMenu>
             <PrimayMenu>
               <PrimayMenuItem
