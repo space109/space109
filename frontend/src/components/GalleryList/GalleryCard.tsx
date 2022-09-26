@@ -31,17 +31,17 @@ const LI = styled.li`
     background-repeat: no-repeat;
     background-image: linear-gradient(
         -45deg,
-        var(--mandarin-100) 53.5%,
-        var(--matcha-100) 53.5%,
-        var(--matcha-100) 60%,
-        var(--mandarin-100) 60%
+        var(--mandarin-300) 53.5%,
+        var(--navy-100) 53.5%,
+        var(--navy-100) 60%,
+        var(--mandarin-300) 60%
       ),
       linear-gradient(
         45deg,
-        var(--mandarin-100) 53.5%,
-        var(--matcha-100) 53.5%,
-        var(--matcha-100) 60%,
-        var(--mandarin-100) 60%
+        var(--mandarin-300) 53.5%,
+        var(--navy-100) 53.5%,
+        var(--navy-100) 60%,
+        var(--mandarin-300) 60%
       );
   }
 
@@ -58,102 +58,102 @@ const LI = styled.li`
     background-repeat: no-repeat;
     background-image: linear-gradient(
         45deg,
-        var(--mandarin-100) 40%,
-        var(--matcha-100) 40%
+        var(--mandarin-300) 40%,
+        var(--navy-100) 40%
       ),
-      linear-gradient(-45deg, var(--mandarin-100) 40%, var(--matcha-100) 40%);
+      linear-gradient(-45deg, var(--mandarin-300) 40%, var(--navy-100) 40%);
   }
 
   &:nth-child(2n)::before {
     background-image: linear-gradient(
         -45deg,
-        var(--grey-100) 53.5%,
-        var(--ocean-100) 53.5%,
-        var(--ocean-100) 60%,
-        var(--grey-100) 60%
+        var(--grey-300) 53.5%,
+        var(--spinach-300) 53.5%,
+        var(--spinach-300) 60%,
+        var(--grey-300) 60%
       ),
       linear-gradient(
         45deg,
-        var(--grey-100) 53.5%,
-        var(--ocean-100) 53.5%,
-        var(--ocean-100) 60%,
-        var(--grey-100) 60%
+        var(--grey-300) 53.5%,
+        var(--spinach-300) 53.5%,
+        var(--spinach-300) 60%,
+        var(--grey-300) 60%
       );
   }
 
   &:nth-child(2n)::after {
-    background-image: linear-gradient(45deg, var(--grey-100) 40%, var(--ocean-100) 40%),
-      linear-gradient(-45deg, var(--grey-100) 40%, var(--ocean-100) 40%);
+    background-image: linear-gradient(45deg, var(--grey-300) 40%, var(--spinach-300) 40%),
+      linear-gradient(-45deg, var(--grey-300) 40%, var(--spinach-300) 40%);
   }
 
   &:nth-child(5n)::before {
     background-image: linear-gradient(
         -45deg,
-        var(--matcha-100) 53.5%,
-        var(--grey-100) 53.5%,
-        var(--grey-100) 60%,
-        var(--matcha-100) 60%
+        var(--navy-100) 53.5%,
+        var(--grey-300) 53.5%,
+        var(--grey-300) 60%,
+        var(--navy-100) 60%
       ),
       linear-gradient(
         45deg,
-        var(--matcha-100) 53.5%,
-        var(--grey-100) 53.5%,
-        var(--grey-100) 60%,
-        var(--matcha-100) 60%
+        var(--navy-100) 53.5%,
+        var(--grey-300) 53.5%,
+        var(--grey-300) 60%,
+        var(--navy-100) 60%
       );
   }
 
   &:nth-child(5n)::after {
-    background-image: linear-gradient(45deg, var(--matcha-100) 40%, var(--grey-100) 40%),
-      linear-gradient(-45deg, var(--matcha-100) 40%, var(--grey-100) 40%);
+    background-image: linear-gradient(45deg, var(--navy-100) 40%, var(--grey-300) 40%),
+      linear-gradient(-45deg, var(--navy-100) 40%, var(--grey-300) 40%);
   }
 
   &:nth-child(7n)::before,
   &:nth-child(7n-4)::before {
     background-image: linear-gradient(
         -45deg,
-        var(--ocean-100) 53.5%,
-        var(--carmine-100) 53.5%,
-        var(--carmine-100) 60%,
-        var(--ocean-100) 60%
+        var(--spinach-300) 53.5%,
+        var(--grape-300) 53.5%,
+        var(--grape-300) 60%,
+        var(--spinach-300) 60%
       ),
       linear-gradient(
         45deg,
-        var(--ocean-100) 53.5%,
-        var(--carmine-100) 53.5%,
-        var(--carmine-100) 60%,
-        var(--ocean-100) 60%
+        var(--spinach-300) 53.5%,
+        var(--grape-300) 53.5%,
+        var(--grape-300) 60%,
+        var(--spinach-300) 60%
       );
   }
 
   &:nth-child(7n)::after,
   &:nth-child(7n-4)::after {
-    background-image: linear-gradient(45deg, var(--ocean-100) 40%, var(--carmine-100) 40%),
-      linear-gradient(-45deg, var(--ocean-100) 40%, var(--carmine-100) 40%);
+    background-image: linear-gradient(45deg, var(--spinach-300) 40%, var(--grape-300) 40%),
+      linear-gradient(-45deg, var(--spinach-300) 40%, var(--grape-300) 40%);
   }
 
   &:nth-child(9n)::before,
   &:nth-child(9n-5)::before {
     background-image: linear-gradient(
         -45deg,
-        var(--carmine-100) 53.5%,
-        var(--matcha-100) 53.5%,
-        var(--matcha-100) 60%,
-        var(--carmine-100) 60%
+        var(--grape-300) 53.5%,
+        var(--navy-100) 53.5%,
+        var(--navy-100) 60%,
+        var(--grape-300) 60%
       ),
       linear-gradient(
         45deg,
-        var(--carmine-100) 53.5%,
-        var(--matcha-100) 53.5%,
-        var(--matcha-100) 60%,
-        var(--carmine-100) 60%
+        var(--grape-300) 53.5%,
+        var(--navy-100) 53.5%,
+        var(--navy-100) 60%,
+        var(--grape-300) 60%
       );
   }
 
   &:nth-child(9n)::after,
   &:nth-child(9n-5)::after {
-    background-image: linear-gradient(45deg, var(--carmine-100) 40%, var(--matcha-100) 40%),
-      linear-gradient(-45deg, var(--carmine-100) 40%, var(--matcha-100) 40%);
+    background-image: linear-gradient(45deg, var(--grape-300) 40%, var(--navy-100) 40%),
+      linear-gradient(-45deg, var(--grape-300) 40%, var(--navy-100) 40%);
   }
 
   img {
