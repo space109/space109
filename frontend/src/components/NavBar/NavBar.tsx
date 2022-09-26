@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assets/title.svg";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
 // type Props = {}
 
@@ -53,8 +53,8 @@ const NavBox = styled.div`
   position: relative;
   width: 100%;
   max-width: 1800px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-right: 60px;
+  margin-left: 60px;
   margin-bottom: 0;
 `;
 
@@ -132,31 +132,41 @@ const SecondaryMenuItem = styled.li<StyleProps>`
 
 function NavBar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState<string>("/");
+  const eth = window.ethereum;
+  // console.log("메타마스크 있음?:", eth.isMetaMask);
+  // console.log("연결됨?:", eth.isConnected());
+  // console.log("아이디 있음?:", eth.selectedAddress);
+
+  const [isLogined, setIsLogined] = useState<string>("");
+
+  useEffect(() => {
+    setSelected(location.pathname);
+    setIsLogined(eth.selectedAddress);
+  }, [location]);
 
   const goHome = () => {
     navigate("/");
-    setSelected(0);
   };
   const goTheme = () => {
     navigate("/monthlyTheme");
-    setSelected(1);
   };
   const goGallery = () => {
     navigate("/gallery");
-    setSelected(2);
   };
   const goSignUp = () => {
     navigate("/signUp");
-    setSelected(3);
   };
   const goProfile = () => {
     navigate("/profile");
-    setSelected(4);
   };
-  const checkActive = (num: number) => {
-    return selected === num;
+  const goMyNFT = () => {
+    navigate("/myNft");
+  };
+  const checkActive = (path: string) => {
+    return selected === path;
   };
 
   return (
@@ -168,18 +178,41 @@ function NavBar() {
           </LogoDiv>
           <Menu>
             <SecondaryMenu>
-              <SecondaryMenuItem onClick={goSignUp} active={checkActive(3)}>
-                지갑연결
-              </SecondaryMenuItem>
-              <SecondaryMenuItem onClick={goProfile} active={checkActive(4)}>
-                프로필
-              </SecondaryMenuItem>
+              {!isLogined ? (
+                <SecondaryMenuItem
+                  onClick={goSignUp}
+                  active={checkActive("/signUp")}
+                >
+                  지갑연결
+                </SecondaryMenuItem>
+              ) : (
+                <>
+                  <SecondaryMenuItem
+                    onClick={goProfile}
+                    active={checkActive("/profile")}
+                  >
+                    프로필
+                  </SecondaryMenuItem>
+                  <SecondaryMenuItem
+                    onClick={goMyNFT}
+                    active={checkActive("/myNft")}
+                  >
+                    내NFT
+                  </SecondaryMenuItem>
+                </>
+              )}
             </SecondaryMenu>
             <PrimayMenu>
-              <PrimayMenuItem onClick={goTheme} active={checkActive(1)}>
+              <PrimayMenuItem
+                onClick={goTheme}
+                active={checkActive("/monthlyTheme")}
+              >
                 월간테마
               </PrimayMenuItem>
-              <PrimayMenuItem onClick={goGallery} active={checkActive(2)}>
+              <PrimayMenuItem
+                onClick={goGallery}
+                active={checkActive("/gallery")}
+              >
                 갤러리
               </PrimayMenuItem>
             </PrimayMenu>

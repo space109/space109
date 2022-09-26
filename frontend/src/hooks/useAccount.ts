@@ -9,16 +9,16 @@ account가 undefined 값이 반환되면 계정 연결이 안되어있고,
 name이 undefined으로 반환되면 회원가입이 되어있지 않은 것.
 */
 const useAccount = () => {
-  const [ account, setAccount ] = useState();
-  const [ nickname, setNickname ] = useState();
+  const [account, setAccount] = useState();
+  const [nickname, setNickname] = useState();
 
   const navigate = useNavigate();
 
-  const SSAFY_CHAIN_ID = '0x79f5'
+  const SSAFY_CHAIN_ID = "0x79f5";
 
   const getChainId = async () => {
     const chainId = await window.ethereum.request({
-      method: 'eth_chainId',
+      method: "eth_chainId",
     });
 
     return chainId;
@@ -35,7 +35,7 @@ const useAccount = () => {
       if (nameData.length) {
         setNickname(nameData[0].nickname);
       } else {
-        if(window.confirm("회원가입 해주십시오.")) {
+        if (window.confirm("회원가입 해주십시오.")) {
           navigate("/signUp");
         }
       }
@@ -61,25 +61,25 @@ const useAccount = () => {
         console.error("Failed to switch this network");
       }
     }
-  }
+  };
 
   const addSSFNetwork = async () => {
     const network = {
       chainId: SSAFY_CHAIN_ID,
-      chainName: 'SSAFY',
+      chainName: "SSAFY",
       rpcUrls: ["http://20.196.209.2:8545"], // 이거 urls을 나중에 환경변수로 숨겨야되나?
       nativeCurrency: {
-          name: 'SSAFYNetwork',
-          symbol: 'SSF',
-          decimals: 18, 
+        name: "SSAFYNetwork",
+        symbol: "SSF",
+        decimals: 18,
       },
     };
 
     await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [network],
+      method: "wallet_addEthereumChain",
+      params: [network],
     });
-  }
+  };
 
   useEffect(() => {
     const init = async () => {
@@ -88,8 +88,8 @@ const useAccount = () => {
         // console.log('체인 아이디 : ', chainId);
         if (SSAFY_CHAIN_ID !== chainId) {
           // 추가는 해야할 것 같은데 전환은 여기서 할 게 맞나 싶어서 일단 주석
-            // switchSSFNetwork();
-            // addSSFNetwork();
+          // switchSSFNetwork();
+          // addSSFNetwork();
         }
 
         getAccountnName();
@@ -109,8 +109,9 @@ const useAccount = () => {
     return () => {
       if (window.ethereum) {
         window.ethereum.removeListener("accountsChanged", getAccountnName);
-      }}
-  } ,[]);
+      }
+    };
+  }, []);
 
   return [account, nickname];
 };

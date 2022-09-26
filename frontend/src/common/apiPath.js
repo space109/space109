@@ -1,9 +1,8 @@
-
 const HOST = process.env.REACT_APP_BACKEND_HOST;
 
-const WALLET = 'wallet/';
-const GALLERY = 'gallery/';
-const NFT = 'nft/';
+const WALLET = "wallet/";
+const GALLERY = "gallery/";
+const NFT = "nft/";
 
 const apiPath = {
   wallet: {
@@ -11,12 +10,8 @@ const apiPath = {
     join: () => HOST + WALLET + "join/",
     dupCheck: () => HOST + WALLET + "check/",
   },
-  gallery: {
-
-  },
-  nft: {
-
-  },
+  gallery: {},
+  nft: {},
 };
 
 export default apiPath;

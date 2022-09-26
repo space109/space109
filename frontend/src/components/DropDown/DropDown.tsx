@@ -11,7 +11,7 @@ const DropDownDiv = styled(Div)<DropStyle>`
   z-index: 100;
   background: var(${(props) => (props.bg ? props.bg : "--grey-100")});
   height: ${(props) => (props.h ? props.h : "auto")};
-  
+
   & .list {
     transition: max-height 0.35s ease;
     max-height: 0;
@@ -35,22 +35,34 @@ const DropDownDiv = styled(Div)<DropStyle>`
 
     //active한
     &--active {
-      background: var(${(props) => (props.hoverBg ? props.hoverBg : "--grey-100")});
-      color: var(${(props) => (props.hoverColor ? props.hoverColor : "--grey-750")});
+      background: var(
+        ${(props) => (props.hoverBg ? props.hoverBg : "--grey-100")}
+      );
+      color: var(
+        ${(props) => (props.hoverColor ? props.hoverColor : "--grey-750")}
+      );
     }
 
     //옵션 hover시 컬러
     &:hover {
-      background: var(${(props) => (props.hoverBg ? props.hoverBg : "--grey-750")});
-      color: var(${(props) => (props.hoverColor ? props.hoverColor : "--grey-100")});
+      background: var(
+        ${(props) => (props.hoverBg ? props.hoverBg : "--grey-750")}
+      );
+      color: var(
+        ${(props) => (props.hoverColor ? props.hoverColor : "--grey-100")}
+      );
     }
   }
   //메뉴 버튼 hover 컬러
   & .toggle {
     height: ${(props) => (props.h ? props.h : "auto")};
     &:hover {
-      background: var(${(props) => (props.hoverBg ? props.hoverBg : "--grey-750")});
-      color: var(${(props) => (props.hoverColor ? props.hoverColor : "--grey-100")});
+      background: var(
+        ${(props) => (props.hoverBg ? props.hoverBg : "--grey-750")}
+      );
+      color: var(
+        ${(props) => (props.hoverColor ? props.hoverColor : "--grey-100")}
+      );
     }
   }
 `;
@@ -65,7 +77,7 @@ interface Props {
   bg?: string;
   fontWeight?: string;
   fontSize?: string;
-  children?: string,
+  children?: string;
   dataFunc: (data: string) => void;
 }
 
