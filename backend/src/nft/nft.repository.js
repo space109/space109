@@ -9,7 +9,7 @@ class NftRepository {
                 '${oa}',
                 '${toeknId}',
                 ${scale},
-                ${position}
+                '${position}'
                 );`;
     let returnBool = true;
     const result = await connection
@@ -44,11 +44,11 @@ class NftRepository {
     } else if (scale == null && position != null) {
       // position에 값이 있다.
       console.log("position에 값이 있다.");
-      sql = `UPDATE nft SET POSITION = ${position} WHERE NFT_ID = ${nftId}`;
+      sql = `UPDATE NFT SET POSITION = '${position}' WHERE NFT_ID = ${nftId}`;
     } else if (scale != null && position != null) {
       // 둘 다 값이 있다.
       console.log("둘 다 값이 있다.");
-      sql = `UPDATE nft SET SCALE = ${scale}, POSITION = ${position} WHERE NFT_ID = ${nftId}`;
+      sql = `UPDATE NFT SET SCALE = ${scale}, POSITION = '${position}' WHERE NFT_ID = ${nftId}`;
     } else {
       // 둘 다 값이 없다.
       console.log("둘 다 값이 없다.");

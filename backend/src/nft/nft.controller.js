@@ -6,7 +6,7 @@ const nftService = new NftService();
 
 router.post("/display", async function (req, res) {
   logger.http("POST /nft/display");
-  logger.debug(req.body);
+  logger.debug("req.body = " + JSON.stringify(req.body));
   const { statusCode, responseBody } = await nftService.displayMyNft(
     req.body.toeknId,
     req.body.scale,
@@ -20,7 +20,7 @@ router.post("/display", async function (req, res) {
 
 router.put("/display/change", async function (req, res) {
   logger.http("PUT /nft/display/change");
-  logger.debug(req.body);
+  logger.debug("req.body = " + JSON.stringify(req.body));
   const { statusCode, responseBody } = await nftService.updateDisplayInfo(
     req.body.nftId,
     req.body.scale,
@@ -42,7 +42,7 @@ router.get("/display", async function (req, res) {
 
 router.delete("/display", async function (req, res) {
   logger.http("DELETE /nft/display");
-  logger.debug(req.body);
+  logger.debug("req.body = " + JSON.stringify(req.body));
   const { statusCode, responseBody } = await nftService.deleteNft(
     req.body.nftId
   );
