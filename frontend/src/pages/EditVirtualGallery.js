@@ -44,13 +44,10 @@ const LogoBox = ({
 const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
   const [toggleIdx, setToggleIdx] = useState(0);
-  const [toggleTokenId, setToggleTokenId] = useState("");
-  const [togglePosition, setTogglePosition] = useState([0, 0, 0]);
   const [toggleScale, setToggleScale] = useState([0, 0, 0]);
 
-  const getIndexOfFrame = useCallback((index, position, scale) => {
+  const getIndexOfFrame = useCallback((index, scale) => {
     setToggleIdx(index);
-    setTogglePosition(position);
     setToggleScale(scale);
   }, []);
 
@@ -152,16 +149,14 @@ const EditVirtualGallery = () => {
   }, [prevNFT]);
 
   //결정된 NFT에 해당되는 이미지를 업로드
-  const pickNFT = (index, source) => {
+  const pickNFT = (index, source, tokenID, scale) => {
     let copyArr = countArray;
     if (copyArr[index]) {
       copyArr[index].METADATA = source;
     } else {
-      //copyArr[index] = {METADATA: source, TOEKN_ID: ??, POSITION: ??, scale: ??}
+      copyArr[index] = {METADATA: source, TOEKN_ID: tokenID, POSITION: index, SCALE: scale}
     }
     setCountArray(copyArr);
-    console.log(copyArr[index]);
-    console.log(source);
 
     //tokenId는 NFT고를 때, 가져옴
     // axios({
@@ -188,6 +183,8 @@ const EditVirtualGallery = () => {
         myNFT={myNFT}
         toggleIdx={toggleIdx}
         pickNFT={pickNFT}
+        myTokenList={myTokenList}
+        toggleScale={toggleScale}
       />
       <Suspense fallback={null}>
         <Canvas style={{ background: "grey" }}>

@@ -17,6 +17,7 @@ const ImageFrame = ({
   getIndexOfFrame = () => {},
 }) => {
   const [imageNFT, setImageNFT] = useState("");
+  const [type, setType] = useState("image/png")
   // useEffect(() => {
   //   getIndexOfFrame(index);
   // }, [getIndexOfFrame, index])
@@ -25,7 +26,8 @@ const ImageFrame = ({
       axios
         .get(meta)
         .then((res) => {
-          setImageNFT(res.data.image);
+          setImageNFT(res?.data.image);
+          setType(res?.data.type)
         })
         .catch((err) => console.log(err));
     }
@@ -41,7 +43,7 @@ const ImageFrame = ({
     []
   );
 
-  const textTexture = new GifLoader().load(
+  const gifTexture = new GifLoader().load(
     "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa"
     // imageNFT
   );
@@ -62,15 +64,15 @@ const ImageFrame = ({
         ref={ref}
         onClick={() => {
           toggleModal();
-          getIndexOfFrame(index);
+          getIndexOfFrame(index, args);
         }}
       >
         <boxGeometry args={args} />
         <meshPhongMaterial
           map={
             imageNFT
-              ? textTexture.image
-                ? textTexture
+              ? type === "image/gif"
+                ? gifTexture
                 : img
               : uploadImageTexture
           }

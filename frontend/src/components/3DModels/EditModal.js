@@ -137,24 +137,25 @@ const ModalOverlay = (props) => {
         h="80%"
       >
         {props.NFTs.map((data, idx) => {
-          return <ImageList src={data?.image} key={`ImageList${idx}`} onClick={() => {props.pickNFT(props.toggleIdx, props.myNFT[idx]); props.toggleModal()}}/>
+          return <ImageList src={data?.image} key={`ImageList${idx}`} onClick={() => {props.pickNFT(props.toggleIdx, props.myNFT[idx], data?.tokenID, props.toggleScale); props.toggleModal()}}/>
         })}
       </ScrollDiv>
     </ModalDiv>
   );
 };
 
-const EditModal = ({ toggleModal, toggle, myNFT, toggleIdx, pickNFT }) => {
+const EditModal = ({ toggleModal, toggle, myNFT, toggleIdx, pickNFT, myTokenList, toggleScale }) => {
   //NFT목록의 메타데이터 리스트
   const [NFTs, setNFTs] = useState([]);
   const getData = useCallback(async () => {
     const dataArr = [];
-    for (let data of myNFT) {
-      const response = await getMetadata(data);
+    for (let data in myNFT) {
+      const response = await getMetadata(myNFT[data]);
+      response.tokenID = myTokenList[data]
       dataArr.push(response);
     }
     setNFTs(dataArr);
-  }, [myNFT]);
+  }, [myNFT, myTokenList]);
 
   useEffect(() => {
     getData()
@@ -173,6 +174,7 @@ const EditModal = ({ toggleModal, toggle, myNFT, toggleIdx, pickNFT }) => {
           myNFT={myNFT}
           toggleIdx={toggleIdx}
           pickNFT={pickNFT}
+          toggleScale={toggleScale}
         />,
         document.getElementById("edit-overlay-root")
       )}
