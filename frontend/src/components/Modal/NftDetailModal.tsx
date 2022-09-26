@@ -49,6 +49,9 @@ const Content = styled(Div)`
 `
 
 const ImageSection = styled(Div)`
+display: flex;
+justify-content: center;
+align-items: center;
   box-sizing: border-box;
   width: 50%;
   height: auto;
@@ -82,7 +85,7 @@ const DetailSection = styled(Div)`
   box-sizing: border-box;
   width: 50%;
   height: auto;
-  padding: 0 2%;
+  padding: 0 12% 0 2%;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
     padding: 0 12% 0 2%;
   }
@@ -179,7 +182,7 @@ function NftDetailModal (props:any) {
             <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">작품 설명</TitleText>
             <ContentText color="--grey-100">{"아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아"}</ContentText>
           </Div>
-          <Div display="flex" gap="0.5rem">
+          <Div display="flex" gap="0.5rem" mb="3rem">
             <Input width="70%" placeholder="SSF" setValue={setPrice}/>
             <SharpButton width="30%" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px">
               판매하기

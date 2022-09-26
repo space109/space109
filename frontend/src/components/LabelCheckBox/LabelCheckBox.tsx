@@ -27,7 +27,7 @@ const Check = styled.span<propsStyle>`
   display: block;
   width: inherit;
   height: inherit;
-  border: 3px solid var(--grey-100);
+  border: 4px solid var(--grey-100);
   border-radius: 6px;
   transition: all .4s;
   margin-top: 2px;
@@ -38,7 +38,7 @@ const Check = styled.span<propsStyle>`
         width: 12px;
         margin-left: 12px;
         margin-top: -5px;
-        border-color: var(--ocean-100);
+        border-color: var(--ocean-300);
         border-top-color: transparent;
         border-left-color: transparent;
         border-radius: 0;
@@ -64,10 +64,10 @@ const Label = styled.label`
 const TextDiv = styled.div`
   color: var(--grey-100);
   font-size: var(--h5);
-  margin-top: 7px;
+  margin-top: 9px;
   cursor: pointer;
   :hover {
-    color: var(--ocean-100)
+    color: var(--ocean-300)
   }
   transition: all .2s;
 `

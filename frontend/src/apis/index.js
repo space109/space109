@@ -3,3 +3,4 @@ export { default as dupCheck } from "./dupCheck";
 export { default as join } from "./join";
 export { default as getMetadata } from "./getMetadata";
 export { default as getGalleryList} from "./getGalleryList";
+export { default as getCategory } from "./getCategory";

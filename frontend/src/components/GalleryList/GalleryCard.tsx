@@ -264,8 +264,8 @@ function GalleryCard ({data}:any) {
       closeModal={closeModal}
       />
     }
-    <LI onClick={openModal}>
-      <Image url={data.thumbnail}/>
+    <LI>
+      <Image url={data.thumbnail}  onClick={openModal}/>
     </LI>
     </>
   )

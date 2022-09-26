@@ -88,8 +88,8 @@ const useAccount = () => {
         // console.log('체인 아이디 : ', chainId);
         if (SSAFY_CHAIN_ID !== chainId) {
           // 추가는 해야할 것 같은데 전환은 여기서 할 게 맞나 싶어서 일단 주석
-            // switchSSFNetwork();
-            // addSSFNetwork();
+          addSSFNetwork();
+          switchSSFNetwork();
         }
 
         getAccountnName();

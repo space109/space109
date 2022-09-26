@@ -17,7 +17,7 @@ const Box = styled.div`
 `
 
 const GalleryList = ({gallerys}:any) => {
-
+  console.log(gallerys)
   return (
     <Box>
       {/* <UL>
@@ -46,15 +46,15 @@ GalleryList.defaultProps = {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
+      "description": "아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아",
+      "title": "t아아아아아아아아아아아아아앙아아아아아아아아아!!!",
       "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
     },
     {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "test2",
+      "description": "아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아",
       "title": "title!!!!!!!!",
       "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ17nsQEKYpc0pgQBAB6WL-s6tgULypZS1nDg&usqp=CAU"
     },
