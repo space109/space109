@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import closeIcon from "../../assets/close-icon.png";
 import ImageIcon from "../../assets/ImageIcon.png";
 import EthereumLogo from "../../assets/Ethereum-Logo.png";
 import ReactDOM from "react-dom";
 import { Div } from "../../styles/BaseStyles";
+import { getMetadata } from "../../apis";
 
 const BackDropDiv = styled.div`
   position: fixed;
@@ -89,14 +90,6 @@ const ScrollDiv = styled(Div)`
 
 const ModalOverlay = (props) => {
   if (!props.toggle) return null;
-  //   {
-  //   "fileName": "QmZGq2vsQKkDCBhkUGjFz78ejFhRxTbaUiySx6gv9ATb1v.json",
-  //   "name": "NFT name",
-  //   "author": "imukyee",
-  //   "description": "설명",
-  //   "image": "https://skywalker.infura-ipfs.io/ipfs/QmZGq2vsQKkDCBhkUGjFz78ejFhRxTbaUiySx6gv9ATb1v"
-  // }
-
   return (
     <ModalDiv className="modal-active">
       <Img src={closeIcon} alt="" onClick={props.toggleModal} />
@@ -143,40 +136,44 @@ const ModalOverlay = (props) => {
         w="80%"
         h="80%"
       >
-        <ImageList
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-          alt=""
-        ></ImageList>
-        <ImageList
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-          alt=""
-        ></ImageList>
-        <ImageList
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-          alt=""
-        ></ImageList>
-        <ImageList
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-          alt=""
-        ></ImageList>
-        <ImageList
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-          alt=""
-        ></ImageList>
+        {props.NFTs.map((data, idx) => {
+          return <ImageList src={data?.image} key={`ImageList${idx}`} onClick={() => {props.pickNFT(props.toggleIdx, props.myNFT[idx]); props.toggleModal()}}/>
+        })}
       </ScrollDiv>
     </ModalDiv>
   );
 };
 
-const EditModal = ({ toggleModal, toggle, myNFT }) => {
+const EditModal = ({ toggleModal, toggle, myNFT, toggleIdx, pickNFT }) => {
+  //NFT목록의 메타데이터 리스트
+  const [NFTs, setNFTs] = useState([]);
+  const getData = useCallback(async () => {
+    const dataArr = [];
+    for (let data of myNFT) {
+      const response = await getMetadata(data);
+      dataArr.push(response);
+    }
+    setNFTs(dataArr);
+  }, [myNFT]);
+
+  useEffect(() => {
+    getData()
+  }, [getData]);
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop toggleModal={toggleModal} toggle={toggle}/>,
+        <Backdrop toggleModal={toggleModal} toggle={toggle} />,
         document.getElementById("edit-backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay toggleModal={toggleModal} toggle={toggle} myNFT={myNFT}/>,
+        <ModalOverlay
+          toggleModal={toggleModal}
+          toggle={toggle}
+          NFTs={NFTs}
+          myNFT={myNFT}
+          toggleIdx={toggleIdx}
+          pickNFT={pickNFT}
+        />,
         document.getElementById("edit-overlay-root")
       )}
     </>

@@ -5,7 +5,6 @@ import * as THREE from "three";
 import axios from 'axios';
 import { useState } from 'react';
 import uploadImage from '../../assets/uploadImage.png';
-import { useFrame, useLoader } from '@react-three/fiber';
 import GifLoader from "three-gif-loader";
 
 
@@ -15,16 +14,20 @@ const ImageFrame = ({
   position,
   args = [0.1, 27, 27],
   rotation = [0, 0, 0],
+  index = 0,
+  getIndexOfFrame = () => {},
 }) => {
+  const [imageNFT, setImageNFT] = useState("");
   useEffect(() => {
     axios
-      .get(prevNFT?.METADATA)
+      .get(prevNFT)
       .then((res) => {
         setImageNFT(res.data.image);
+        console.log(res.data.image)
       })
       .catch((err) => console.log(err));
   }, [prevNFT]);
-  const [imageNFT, setImageNFT] = useState("");
+  
   const img = useMemo(
     () => new THREE.TextureLoader().load(imageNFT),
     [imageNFT]
@@ -39,7 +42,6 @@ const ImageFrame = ({
     "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa"
     // imageNFT
   );
-  console.log(textTexture)
 
   const [ref] = useBox(() => ({
     mass: 0,
@@ -50,7 +52,7 @@ const ImageFrame = ({
 
   return (
     <>
-      <mesh receiveShadow castShadow ref={ref} onClick={toggleModal}>
+      <mesh receiveShadow castShadow ref={ref} onClick={() => { getIndexOfFrame(index); toggleModal();}}>
         <boxGeometry args={args} />
         <meshPhongMaterial
           map={imageNFT ? textTexture.image ? textTexture : img : uploadImageTexture}

@@ -41,6 +41,11 @@ const LogoBox = ({
 
 const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
+  const [toggleIdx, setToggleIdx] = useState(0);
+
+  const getIndexOfFrame = (data) => {
+    setToggleIdx(data)
+  }
 
   const toggleModal = () => {
     // 모달 토글 함수
@@ -64,10 +69,18 @@ const EditVirtualGallery = () => {
   const targetIndex = (e) => {
     setIndex(e);
   };
-
-
+  //고른 NFT를 액자에 업로드
+  const [NFTchosen, setNFTchosen] = useState({})
+  
+  
   //나의 지갑에 있는 NFT 리스트(더미데이터)
-  const [myNFT, setMyNFT] = useState([]);
+  const [myNFT, setMyNFT] = useState([
+    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
+    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
+    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
+    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
+    "https://skywalker.infura-ipfs.io/ipfs/QmT2taDtwMWjLmBECY2sbvb2RjeAnAf95aYx1z8wW4CRsR",
+  ]);
   //이미 업로드했던 NFT 리스트(더미데이터)
   const [prevNFT, setPrevNFT] = useState({
     result: "success",
@@ -80,7 +93,7 @@ const EditVirtualGallery = () => {
         METADATA:
           "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
         SCALE: 1.5,
-        POSITION: 3,
+        POSITION: 0,
       },
       {
         NFT_ID: 2,
@@ -103,23 +116,33 @@ const EditVirtualGallery = () => {
         POSITION: 5,
       },
     ],
-  });
-
-  //배열의 인덱스마다 담아둘 카운팅 배열 선언 (요청받은 후 사용)
-  const countArray = new Array(25);
-  for (let item of prevNFT?.data) {
-    countArray[item?.POSITION] = item;
-  }
+  }); 
 
   //지갑의 NFT 전체 리스트를 가져오는 요청
   useEffect(() => {}, []);
 
   //이미 업로드했던 NFT 리스트를 가져오는 요청
-  useEffect(() => {}, []);
+  //요청 보낸 후 카운팅 배열로 매핑
+  const [countArray, setCountArray] = useState([]);
+  useEffect(() => {
+    const newArr = [new Array(25)]
+    for (let item of prevNFT?.data) {
+      // setCountArray(state => state[item?.POSITION] = item);
+      newArr[item?.POSITION] = item;
+    }
+    setCountArray(newArr);
+  }, [prevNFT]);
+  
+  //결정된 NFT에 해당되는 이미지를 업로드
+  const pickNFT = (index, source) => {
+    let copyArr = countArray
+    copyArr[index].METADATA = source
+    setCountArray(copyArr);
+  }
 
   return (
     <Div w="100vw" h="100vh">
-      <EditModal toggleModal={toggleModal} toggle={toggle} myNFT={myNFT} />
+      <EditModal toggleModal={toggleModal} toggle={toggle} myNFT={myNFT} toggleIdx={toggleIdx} pickNFT={pickNFT}/>
       <Suspense fallback={null}>
         <Canvas style={{ background: "grey" }}>
           <OverallLight />
@@ -207,8 +230,10 @@ const EditVirtualGallery = () => {
               position={[13, 25, -115]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
               index={0}
-              prevNFT={prevNFT.data[0]}
+              prevNFT={countArray[0].METADATA}
+              // prevNFT={prevNFT.data[0]}
             />
             <ImageLight
               lightFrom={[25, 63, -150]}
