@@ -1,10 +1,12 @@
 import { Canvas, useLoader } from "@react-three/fiber";
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useCallback } from "react";
 import { Div } from "../styles/BaseStyles";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import axios from "axios";
 import { Physics, useBox } from "@react-three/cannon";
 import * as THREE from "three";
+import getMetadata from "./../apis/getMetadata";
+import { MintTestContract } from "../web3Config";
 import {
   GalleryMap,
   Player,
@@ -42,10 +44,15 @@ const LogoBox = ({
 const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
   const [toggleIdx, setToggleIdx] = useState(0);
+  const [toggleTokenId, setToggleTokenId] = useState("");
+  const [togglePosition, setTogglePosition] = useState([0, 0, 0]);
+  const [toggleScale, setToggleScale] = useState([0, 0, 0]);
 
-  const getIndexOfFrame = (data) => {
-    setToggleIdx(data)
-  }
+  const getIndexOfFrame = useCallback((index, position, scale) => {
+    setToggleIdx(index);
+    setTogglePosition(position);
+    setToggleScale(scale);
+  }, []);
 
   const toggleModal = () => {
     // 모달 토글 함수
@@ -69,18 +76,17 @@ const EditVirtualGallery = () => {
   const targetIndex = (e) => {
     setIndex(e);
   };
-  //고른 NFT를 액자에 업로드
-  const [NFTchosen, setNFTchosen] = useState({})
-  
-  
+
   //나의 지갑에 있는 NFT 리스트(더미데이터)
   const [myNFT, setMyNFT] = useState([
-    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
+    "https://skywalker.infura-ipfs.io/ipfs/QmVzB61racfCivynuXoDffb6x3EcJVqv29UqSFuXdf2izY",
     "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
     "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
     "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
     "https://skywalker.infura-ipfs.io/ipfs/QmT2taDtwMWjLmBECY2sbvb2RjeAnAf95aYx1z8wW4CRsR",
   ]);
+  //토큰 리스트
+  const [myTokenList, setMyTokenList] = useState([1, 2, 3, 4, 5]);
   //이미 업로드했던 NFT 리스트(더미데이터)
   const [prevNFT, setPrevNFT] = useState({
     result: "success",
@@ -92,7 +98,7 @@ const EditVirtualGallery = () => {
         TOKEN_ID: "토큰아이디1",
         METADATA:
           "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
-        SCALE: 1.5,
+        SCALE: [0.5, 26, 26],
         POSITION: 0,
       },
       {
@@ -102,7 +108,7 @@ const EditVirtualGallery = () => {
         TOKEN_ID: "토큰아이디2",
         METADATA:
           "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa",
-        SCALE: 1.5,
+        SCALE: [0.5, 26, 26],
         POSITION: 4,
       },
       {
@@ -112,37 +118,77 @@ const EditVirtualGallery = () => {
         TOKEN_ID: "토큰아이디3",
         METADATA:
           "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa",
-        SCALE: 1.5,
+        SCALE: [0.5, 26, 26],
         POSITION: 5,
       },
     ],
-  }); 
+  });
 
-  //지갑의 NFT 전체 리스트를 가져오는 요청
-  useEffect(() => {}, []);
+  //지갑의 NFT 전체 리스트, 토큰ID 리스트를 가져오는 요청
+  const getNFTList = async () => {
+    const tokenIds = await MintTestContract.methods
+      .tokenIDsofWallet(window.ethereum.selectedAddress)
+      .call();
+    const tokenURIs = await MintTestContract.methods
+      .tokenURIsofWallet(window.ethereum.selectedAddress)
+      .call();
+    setMyNFT(tokenURIs);
+    setMyTokenList(tokenIds);
+  };
+  useEffect(() => {
+    getNFTList();
+  }, []);
 
   //이미 업로드했던 NFT 리스트를 가져오는 요청
   //요청 보낸 후 카운팅 배열로 매핑
   const [countArray, setCountArray] = useState([]);
   useEffect(() => {
-    const newArr = [new Array(25)]
+    const newArr = [new Array(25)];
     for (let item of prevNFT?.data) {
       // setCountArray(state => state[item?.POSITION] = item);
       newArr[item?.POSITION] = item;
     }
     setCountArray(newArr);
   }, [prevNFT]);
-  
+
   //결정된 NFT에 해당되는 이미지를 업로드
   const pickNFT = (index, source) => {
-    let copyArr = countArray
-    copyArr[index].METADATA = source
+    let copyArr = countArray;
+    if (copyArr[index]) {
+      copyArr[index].METADATA = source;
+    } else {
+      //copyArr[index] = {METADATA: source, TOEKN_ID: ??, POSITION: ??, scale: ??}
+    }
     setCountArray(copyArr);
-  }
+    console.log(copyArr[index]);
+    console.log(source);
+
+    //tokenId는 NFT고를 때, 가져옴
+    // axios({
+    // url: "/nft/display",
+    // method: "POST",
+    // data: {
+    //   toeknId: copyArr[index]?.TOKEN_ID,
+    //   scale: [0.1, 25, 25],
+    //   position: copyArr[index]?.POSITION,
+
+    //   갤러리 ID, oa는 처음 입장부터
+    //   galleryId: params로 받아온 GALLERY_ID,
+    //   oa: 지갑으로부터 받은 OA,
+    // },
+    // }).then(res => console.log(res?.data?.result))
+    // .catch(err => console.log(err));
+  };
 
   return (
     <Div w="100vw" h="100vh">
-      <EditModal toggleModal={toggleModal} toggle={toggle} myNFT={myNFT} toggleIdx={toggleIdx} pickNFT={pickNFT}/>
+      <EditModal
+        toggleModal={toggleModal}
+        toggle={toggle}
+        myNFT={myNFT}
+        toggleIdx={toggleIdx}
+        pickNFT={pickNFT}
+      />
       <Suspense fallback={null}>
         <Canvas style={{ background: "grey" }}>
           <OverallLight />
@@ -232,8 +278,7 @@ const EditVirtualGallery = () => {
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={0}
-              prevNFT={countArray[0].METADATA}
-              // prevNFT={prevNFT.data[0]}
+              meta={countArray[0]?.METADATA}
             />
             <ImageLight
               lightFrom={[25, 63, -150]}
@@ -246,7 +291,9 @@ const EditVirtualGallery = () => {
               position={[13, 25, -150]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
               index={1}
+              meta={countArray[1]?.METADATA}
             />
             <ImageLight
               lightFrom={[25, 63, -185]}
@@ -259,6 +306,9 @@ const EditVirtualGallery = () => {
               position={[13, 25, -185]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={2}
+              meta={countArray[2]?.METADATA}
             />
             <ImageLight
               lightFrom={[39, 63, -115]}
@@ -271,6 +321,9 @@ const EditVirtualGallery = () => {
               position={[53, 25, -115]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={3}
+              meta={countArray[3]?.METADATA}
             />
             <ImageLight
               lightFrom={[39, 63, -150]}
@@ -283,6 +336,9 @@ const EditVirtualGallery = () => {
               position={[53, 25, -150]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={4}
+              meta={countArray[4]?.METADATA}
             />
             <ImageLight
               lightFrom={[39, 63, -185]}
@@ -295,6 +351,9 @@ const EditVirtualGallery = () => {
               position={[53, 25, -185]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={5}
+              meta={countArray[5]?.METADATA}
             />
             {/* 2번 통로 */}
             <RectAreaLight
@@ -310,6 +369,9 @@ const EditVirtualGallery = () => {
               rotation={[0, Math.PI / 2, 0]}
               args={[0.2, 45, 45]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={6}
+              meta={countArray[6]?.METADATA}
             />
             <RectAreaLight
               position={[33, 0.5, -257]}
@@ -345,6 +407,9 @@ const EditVirtualGallery = () => {
               rotation={[0, Math.PI / 2, 0]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={7}
+              meta={countArray[7]?.METADATA}
             />
             <ImageLight
               lightFrom={[146, 63, -238]}
@@ -358,6 +423,9 @@ const EditVirtualGallery = () => {
               rotation={[0, Math.PI / 2, 0]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={8}
+              meta={countArray[8]?.METADATA}
             />
             <ImageLight
               lightFrom={[181, 63, -238]}
@@ -371,6 +439,9 @@ const EditVirtualGallery = () => {
               rotation={[0, Math.PI / 2, 0]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={9}
+              meta={countArray[9]?.METADATA}
             />
             <ImageLight
               lightFrom={[111, 63, -235]}
@@ -384,6 +455,9 @@ const EditVirtualGallery = () => {
               rotation={[0, Math.PI / 2, 0]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={10}
+              meta={countArray[10]?.METADATA}
             />
             <ImageLight
               lightFrom={[146, 63, -235]}
@@ -397,6 +471,9 @@ const EditVirtualGallery = () => {
               rotation={[0, Math.PI / 2, 0]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={11}
+              meta={countArray[11]?.METADATA}
             />
             <ImageLight
               lightFrom={[181, 63, -235]}
@@ -410,6 +487,9 @@ const EditVirtualGallery = () => {
               rotation={[0, Math.PI / 2, 0]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={12}
+              meta={countArray[12]?.METADATA}
             />
             {/* 4번 통로 */}
             <RectAreaLight
@@ -424,6 +504,9 @@ const EditVirtualGallery = () => {
               position={[255, 25, -238]}
               args={[0.2, 45, 45]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={13}
+              meta={countArray[13]?.METADATA}
             />
             <RectAreaLight
               position={[251, 0.5, -240]}
@@ -459,6 +542,9 @@ const EditVirtualGallery = () => {
               position={[252, 25, -160]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={14}
+              meta={countArray[14]?.METADATA}
             />
             <ImageLight
               lightFrom={[230, 63, -125]}
@@ -471,6 +557,9 @@ const EditVirtualGallery = () => {
               position={[252, 25, -125]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={15}
+              meta={countArray[15]?.METADATA}
             />
             <ImageLight
               lightFrom={[230, 63, -90]}
@@ -483,6 +572,9 @@ const EditVirtualGallery = () => {
               position={[252, 25, -90]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={16}
+              meta={countArray[16]?.METADATA}
             />
             <ImageLight
               lightFrom={[234, 63, -160]}
@@ -495,6 +587,9 @@ const EditVirtualGallery = () => {
               position={[212, 25, -160]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={17}
+              meta={countArray[17]?.METADATA}
             />
             <ImageLight
               lightFrom={[234, 63, -125]}
@@ -507,6 +602,9 @@ const EditVirtualGallery = () => {
               position={[212, 25, -125]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={18}
+              meta={countArray[18]?.METADATA}
             />
             <ImageLight
               lightFrom={[234, 63, -90]}
@@ -519,6 +617,9 @@ const EditVirtualGallery = () => {
               position={[212, 25, -90]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={19}
+              meta={countArray[19]?.METADATA}
             />
             {/* 6번 통로 */}
             <RectAreaLight
@@ -534,6 +635,9 @@ const EditVirtualGallery = () => {
               position={[231, 25, -20]}
               args={[0.2, 45, 45]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={20}
+              meta={countArray[20]?.METADATA}
             />
             <RectAreaLight
               position={[231, 0.5, -20]}
@@ -570,6 +674,9 @@ const EditVirtualGallery = () => {
               rotation={[0, Math.PI / 2, 0]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={21}
+              meta={countArray[21]?.METADATA}
             />
             <ImageLight
               lightFrom={[150, 60, -40]}
@@ -583,6 +690,9 @@ const EditVirtualGallery = () => {
               args={[0.2, 27, 27]}
               rotation={[0, Math.PI / 2, 0]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={22}
+              meta={countArray[22]?.METADATA}
             />
             <ImageLight
               lightFrom={[115, 60, -35]}
@@ -596,6 +706,9 @@ const EditVirtualGallery = () => {
               rotation={[0, Math.PI / 2, 0]}
               args={[0.2, 27, 27]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={23}
+              meta={countArray[23]?.METADATA}
             />
             <ImageLight
               lightFrom={[150, 60, -35]}
@@ -609,6 +722,9 @@ const EditVirtualGallery = () => {
               args={[0.2, 27, 27]}
               rotation={[0, Math.PI / 2, 0]}
               toggleModal={toggleModal}
+              getIndexOfFrame={getIndexOfFrame}
+              index={24}
+              meta={countArray[24]?.METADATA}
             />
 
             {/* 마지막 통로 */}

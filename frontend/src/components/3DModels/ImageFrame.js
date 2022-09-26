@@ -1,42 +1,46 @@
-import { useBox } from '@react-three/cannon';
-import React, { useEffect } from 'react';
-import { useMemo } from 'react';
+import { useBox } from "@react-three/cannon";
+import React, { useEffect } from "react";
+import { useMemo } from "react";
 import * as THREE from "three";
-import axios from 'axios';
-import { useState } from 'react';
-import uploadImage from '../../assets/uploadImage.png';
+import axios from "axios";
+import { useState } from "react";
+import uploadImage from "../../assets/uploadImage.png";
 import GifLoader from "three-gif-loader";
 
 const ImageFrame = ({
-  prevNFT = {},
+  meta = {},
   toggleModal,
   position,
   args = [0.1, 27, 27],
   rotation = [0, 0, 0],
-  index = 0,
+  index,
   getIndexOfFrame = () => {},
 }) => {
   const [imageNFT, setImageNFT] = useState("");
+  // useEffect(() => {
+  //   getIndexOfFrame(index);
+  // }, [getIndexOfFrame, index])
   useEffect(() => {
-    axios
-      .get(prevNFT)
-      .then((res) => {
-        setImageNFT(res.data.image);
-        console.log(res.data.image)
-      })
-      .catch((err) => console.log(err));
-  }, [prevNFT]);
-  
+    if (meta) {
+      axios
+        .get(meta)
+        .then((res) => {
+          setImageNFT(res.data.image);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [meta]);
+
   const img = useMemo(
     () => new THREE.TextureLoader().load(imageNFT),
     [imageNFT]
   );
-  
+
   const uploadImageTexture = useMemo(
     () => new THREE.TextureLoader().load(uploadImage),
     []
   );
-    
+
   const textTexture = new GifLoader().load(
     "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa"
     // imageNFT
@@ -52,10 +56,24 @@ const ImageFrame = ({
   return (
     <>
       {/* 공통 변경 사항, 작품 클릭시 토글 모달 비활성화 */}
-      <mesh receiveShadow castShadow ref={ref}>
+      <mesh
+        receiveShadow
+        castShadow
+        ref={ref}
+        onClick={() => {
+          toggleModal();
+          getIndexOfFrame(index);
+        }}
+      >
         <boxGeometry args={args} />
         <meshPhongMaterial
-          map={imageNFT ? textTexture.image ? textTexture : img : uploadImageTexture}
+          map={
+            imageNFT
+              ? textTexture.image
+                ? textTexture
+                : img
+              : uploadImageTexture
+          }
           color="white"
         />
       </mesh>
