@@ -62,6 +62,9 @@ const VirtualGallery = () => {
     // 모달 토글 함수
     setToggle((state) => !state);
   };
+  const isToggle = () => {
+    return toggle;
+  }
 
   const [room, setRoom] = useState(0);
   const [index, setIndex] = useState(0);
@@ -608,6 +611,7 @@ const VirtualGallery = () => {
             toggleModal={toggleModal}
             toggle={toggle}
             setToggle={setToggle}
+            isToggle={isToggle}
             targetRoom={targetRoom}
             targetIndex={targetIndex}
           />

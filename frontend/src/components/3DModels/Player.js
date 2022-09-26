@@ -42,7 +42,12 @@ const artPositionList = [
   [
     [231, -20],
   ], // 6번 방
-  [], // 7번 방
+  [
+    [115, -18.5],
+    [150, -18.5],
+    [115, -58.8],
+    [150, -58.8],
+  ], // 7번 방
   [], // 중앙 방
 ];
 
@@ -191,7 +196,7 @@ export const Player = (props) => {
   });
   return (
     <>
-      <FPVControls lockControl={props.lockControl} />
+      <FPVControls lockControl={props.lockControl} toggle={props.toggle} setToggle={props.setToggle} />
       <mesh ref={ref}>
         <planeBufferGeometry attach="geometry" args={[0, 0]} />
         <meshStandardMaterial attach="material" opacity={1} />

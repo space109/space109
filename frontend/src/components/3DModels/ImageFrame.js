@@ -7,7 +7,6 @@ import { useState } from 'react';
 import uploadImage from '../../assets/uploadImage.png';
 import GifLoader from "three-gif-loader";
 
-
 const ImageFrame = ({
   prevNFT = {},
   toggleModal,
@@ -52,7 +51,8 @@ const ImageFrame = ({
 
   return (
     <>
-      <mesh receiveShadow castShadow ref={ref} onClick={() => { getIndexOfFrame(index); toggleModal();}}>
+      {/* 공통 변경 사항, 작품 클릭시 토글 모달 비활성화 */}
+      <mesh receiveShadow castShadow ref={ref}>
         <boxGeometry args={args} />
         <meshPhongMaterial
           map={imageNFT ? textTexture.image ? textTexture : img : uploadImageTexture}
