@@ -8,7 +8,6 @@ WORKDIR /var/jenkins_home/workspace/SPACE109/backend
 # 와일드카드를 사용
 COPY package*.json ./
 # 타임존 설정
-RUN apk add --update tzdata
 ENV TZ=Asia/Seoul
 
 RUN npm install --save --legacy-peer-deps
