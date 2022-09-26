@@ -1,8 +1,7 @@
-import { useBox } from '@react-three/cannon';
-import React from 'react';
-import { useMemo } from 'react';
+import { useBox } from "@react-three/cannon";
+import React from "react";
+import { useMemo } from "react";
 import * as THREE from "three";
-
 
 const ImageFrame = ({
   toggleModal,
@@ -20,7 +19,8 @@ const ImageFrame = ({
   }));
   return (
     <>
-      <mesh receiveShadow castShadow ref={ref} onClick={toggleModal}>
+      {/* 공통 변경 사항, 작품 클릭시 토글 모달 비활성화 */}
+      <mesh receiveShadow castShadow ref={ref}>
         <boxGeometry args={args} />
         <meshPhongMaterial map={img} />
       </mesh>

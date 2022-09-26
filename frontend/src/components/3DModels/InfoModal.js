@@ -19,6 +19,8 @@ const modalActive = keyframes`
 `;
 
 const ModalDiv = styled.div`
+  padding: 20px;
+  display: flex;
   position: fixed;
   top: 30vh;
   left: 10%;
@@ -51,8 +53,8 @@ const ModalOverlay = (props) => {
   return (
     <ModalDiv className="modal-active">
       <Img src={closeIcon} alt="" onClick={props.toggleModal} />
-      <Div>{props.room}</Div>
-      <Div>{props.index}</Div>
+      <Div flex="3">props.</Div>
+      <Div flex="7"></Div>
     </ModalDiv>
   );
 };
