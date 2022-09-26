@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assets/title.svg";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useAccount } from "../../hooks";
 
 // type Props = {}
 
@@ -133,19 +134,20 @@ const SecondaryMenuItem = styled.li<StyleProps>`
 function NavBar() {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [account, nickname] = useAccount();
   const [selected, setSelected] = useState<string>("/");
   const eth = window.ethereum;
   // console.log("메타마스크 있음?:", eth.isMetaMask);
   // console.log("연결됨?:", eth.isConnected());
   // console.log("아이디 있음?:", eth.selectedAddress);
 
-  const [isLogined, setIsLogined] = useState<string>("");
+  const [isLogined, setIsLogined] = useState<any>("");
 
   useEffect(() => {
     setSelected(location.pathname);
+
     setIsLogined(eth.selectedAddress);
-  }, [location]);
+  }, [location, eth.selectedAddress]);
 
   const goHome = () => {
     navigate("/");
@@ -157,7 +159,9 @@ function NavBar() {
     navigate("/gallery");
   };
   const goSignUp = () => {
+    setIsLogined(account);
     navigate("/signUp");
+    console.log(isLogined);
   };
   const goProfile = () => {
     navigate("/profile");

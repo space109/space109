@@ -45,7 +45,6 @@ function IpfsUploader({}: Props) {
     }
 
     const file = files[0];
-    console.log(files[0]);
     // upload files
     const result = await ipfs.add(file, { wrapWithDirectory: false });
 
@@ -66,9 +65,10 @@ function IpfsUploader({}: Props) {
         author: "imukyee",
         description: "설명",
         image: "https://skywalker.infura-ipfs.io/ipfs/" + result.path,
-      }),
-      { wrapWithDirectory: true }
+        type: file.type,
+      })
     );
+    console.log("1", Json);
     setJson(Json.path);
 
     setLoadingMeta(true);
@@ -125,6 +125,7 @@ function IpfsUploader({}: Props) {
               type="file"
               name="file"
               id="file"
+              accept=".jpg .jpeg .mp4 .gif .png"
               onChange={onChange}
               style={{ display: "none" }}
             />
