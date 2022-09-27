@@ -10,10 +10,13 @@ const UL = styled.ul`
     margin: 190px 40px;
   }
   list-style: none;
+  box-sizing: border-box;
+  border: 10px solid blue;
 `;
 
 const Box = styled.div`
   box-sizing: border-box;
+  border: 10px solid red;
 `
 
 const GalleryList = ({gallerys}:any) => {

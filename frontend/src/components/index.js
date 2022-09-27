@@ -11,3 +11,4 @@ export { NftMake } from "./NftMake";
 export { NftDetailModal, GalleryDetailModal } from "./Modal";
 export { LabelCheckBox } from "./LabelCheckBox";
 export { GalleryList } from "./GalleryList";
+export { SearchBar } from "./SearchBar";

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { GalleryList } from "../components";
+import { GalleryList, SearchBar } from "../components";
 import { Div, screenSizes } from "../styles/BaseStyles";
 import { getGalleryList } from "../apis";
 
@@ -50,6 +50,7 @@ function GalleryListPage() {
         <GalleryList></GalleryList>
         {/* <GalleryList gallerys={gallerys}></GalleryList> */}
       </Content>
+      <SearchBar></SearchBar>
     </div>
   );
 }

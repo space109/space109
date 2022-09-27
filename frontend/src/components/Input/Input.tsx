@@ -6,6 +6,8 @@ interface Props {
   width?: any,
   fontSize?: any,
   fontWeight?: any,
+  bgColor?: any,
+  color?: any,
   borderWidth?: any,
   borderStyle?: any,
   borderColor?: any,
@@ -28,11 +30,11 @@ const StyledInput = styled.input<Props>`
     outline: none;
   }
 
-  ${({isReadOnly}) => {
+  ${({isReadOnly, color}) => {
     if (isReadOnly) {
       return css`color: var(--grey-100);`
     } else {
-      return css`color: var(--grey-650);`
+      return css`color: var(${color});`
     }
   }}
 `;
@@ -46,11 +48,11 @@ const BorderDiv = styled.div<Props>`
 
   width: ${({width}) => width};
 
-  ${({isReadOnly}) => {
+  ${({isReadOnly, bgColor}) => {
     if (isReadOnly) {
       return css`background-color: var(--grey-650);`
     } else {
-      return css`background-color: var(--grey-100);`
+      return css`background-color: var(${bgColor});`
     }
   }}
   border-width: ${({borderWidth}) => borderWidth}; 
@@ -59,7 +61,7 @@ const BorderDiv = styled.div<Props>`
   border-radius: ${({borderRadius}) => borderRadius};
 `
 
-function Input({width, fontSize, fontWeight, borderWidth, borderStyle, borderColor, borderRadius, isReadOnly, placeholder, value, setValue}: Props) {
+function Input({width, fontSize, fontWeight, bgColor, color, borderWidth, borderStyle, borderColor, borderRadius, isReadOnly, placeholder, value, setValue}: Props) {
   const onChangeHandler = (e: any) => {
     setValue &&
     setValue(e.target.value);
@@ -67,9 +69,9 @@ function Input({width, fontSize, fontWeight, borderWidth, borderStyle, borderCol
 
   return (
     <>
-      <BorderDiv width={width} fontSize={fontSize} borderWidth={borderWidth} borderStyle={borderStyle} borderColor={borderColor} borderRadius={borderRadius} isReadOnly={isReadOnly}>
+      <BorderDiv width={width} fontSize={fontSize} bgColor={bgColor} borderWidth={borderWidth} borderStyle={borderStyle} borderColor={borderColor} borderRadius={borderRadius} isReadOnly={isReadOnly}>
         <StyledInput 
-          fontSize={fontSize} fontWeight={fontWeight}
+          fontSize={fontSize} fontWeight={fontWeight} color={color}
           isReadOnly={isReadOnly} readOnly={isReadOnly} placeholder={placeholder}
           value={value} onChange={onChangeHandler}
         />
@@ -82,6 +84,8 @@ Input.defaultProps = {
   width: "100%",
   fontSize: "--body",
   fontWeight: "--regular",
+  bgColor: "--grey-100",
+  color: "--grey-650",
   borderWidth: "0px",
   borderStyle: "solid",
   borderColor: "--grey-650",
