@@ -15,12 +15,12 @@ export default function ProfilePage({}: Props) {
   const [optionData, setOptionData] = useState<string>("");
   const [data, setData] = useState<any>("");
   const [file, setFile] = useState("");
-  const [thumnail, setThumnail] = useState("");
+  const [fileImage, setFileImage] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
   const [title, setTitle] = useState<any>("");
   const [description, setDescription] = useState<string>("");
-  const [oa, setOa] = useState<string>("");
-  const [isOpend, setIsOpend] = useState<any>(null);
-  const [category, setCategory] = useState<any>("");
+  const [isOpend, setIsOpend] = useState<any>(false);
+  const [category, setCategory] = useState<any>(10);
   const eth = window?.ethereum;
   const isOpendHandler = (data: string): void => {
     setIsOpend(data);
@@ -31,7 +31,8 @@ export default function ProfilePage({}: Props) {
 
   const onChange = async (e: any) => {
     const file = e.target.files[0];
-    setFile(URL.createObjectURL(file));
+    setFile(file);
+    setFileImage(URL.createObjectURL(file));
   };
 
   const loadData = useCallback(async (oa: string) => {
@@ -40,7 +41,7 @@ export default function ProfilePage({}: Props) {
     console.log(data[0]);
     setTitle(data[0].title);
     setDescription(data[0].description);
-    setThumnail(process.env.REACT_APP_BACKEND_HOST2 + data[0].thumbnail);
+    setThumbnail(process.env.REACT_APP_BACKEND_HOST2 + data[0].thumbnail);
     setData(data[0]);
 
     setLoading(false);
@@ -58,13 +59,18 @@ export default function ProfilePage({}: Props) {
     category_id: category,
     title: title,
     description: description,
-    thumnail: file,
+    thumbnail: file,
     isOpend: isOpend,
   };
 
   const submitHandler = async () => {
-    const data = await myGalleryInfoUpdate(updateData);
-    console.log(data);
+    const formData = new FormData();
+
+    Object.entries(updateData).forEach((item) =>
+      formData.append(item[0], item[1])
+    );
+    console.log(formData);
+    const data = await myGalleryInfoUpdate(formData);
   };
 
   return (
@@ -266,16 +272,20 @@ export default function ProfilePage({}: Props) {
               >
                 <Div m="0 auto">
                   <label htmlFor="file" style={{ cursor: "pointer" }}>
-                    {file && thumnail ? (
-                      <img
-                        src={file}
-                        alt="preview image"
-                        style={{ width: "100%" }}
-                      />
+                    {file && thumbnail ? (
+                      <>
+                        {console.log(file)}
+                        {console.log(fileImage)}
+                        <img
+                          src={fileImage}
+                          alt="preview image"
+                          style={{ width: "100%" }}
+                        />
+                      </>
                     ) : (
                       <img
                         alt={`Uploaded #`}
-                        src={thumnail}
+                        src={thumbnail}
                         style={{ width: "100%" }}
                       />
                     )}

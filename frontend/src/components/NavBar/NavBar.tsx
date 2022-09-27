@@ -54,8 +54,8 @@ const NavBox = styled.div`
   position: relative;
   width: 100%;
   max-width: 1800px;
-  margin-right: 60px;
-  margin-left: 60px;
+  padding-right: 60px;
+  padding-left: 60px;
   margin-bottom: 0;
 `;
 
@@ -146,8 +146,8 @@ function NavBar() {
   useEffect(() => {
     setSelected(location.pathname);
 
-    setIsLogined(eth.selectedAddress);
-  }, [location, eth.selectedAddress]);
+    eth && setIsLogined(eth.selectedAddress);
+  }, [location]);
 
   const goHome = () => {
     navigate("/");

@@ -33,7 +33,7 @@ const useAccount = () => {
 
       const nameData = await login(accounts[0]);
       if (nameData.length) {
-        setNickname(nameData.nickname);
+        setNickname(nameData[0].nickname);
       } else {
         if (window.confirm("회원가입 해주십시오.")) {
           navigate("/signUp");
