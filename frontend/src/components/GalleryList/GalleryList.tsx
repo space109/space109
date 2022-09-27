@@ -20,7 +20,6 @@ const Box = styled.div`
 `
 
 const GalleryList = ({gallerys}:any) => {
-  console.log(gallerys)
   return (
     <Box>
       {/* <UL>

@@ -1,16 +1,14 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { GalleryList, SearchBar, FilterButtons } from "../components";
+import { GalleryList, SearchBar, FilterButtons, NavArea } from "../components";
+import { CATEGORY } from "../common/category";
 import { Div, screenSizes } from "../styles/BaseStyles";
-import { getGalleryList } from "../apis";
-
-const NavArea = styled.div`
-  height: 120px;
-  background: var(--grey-600);
-`;
+import { getGalleryList, getGalleryThemeList } from "../apis";
 
 const SearchArea = styled.div`
-  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: var(--grey-600);
 `
 
@@ -31,14 +29,19 @@ const Content = styled.div`
 function GalleryListPage() {
 
   const [ gallerys, setGallerys ] = useState();
+  const [ theme, setTheme ] = useState(0);
   
-  const getGallerys = async () => {
-    setGallerys(await getGalleryList());
+  const getGallerys = async (theme) => {
+    if (theme) {
+      setGallerys(await getGalleryThemeList(theme));
+    } else {
+      setGallerys(await getGalleryList());
+    }
   }
 
   useEffect(() => {
-    getGallerys();
-  }, [])
+    getGallerys(theme);
+  }, [theme])
 
   return (
     <div>
@@ -46,12 +49,15 @@ function GalleryListPage() {
       </Background>
       <NavArea />
       <SearchArea>
-        <SearchBar></SearchBar>
-        <FilterButtons></FilterButtons>
+        <Div w="60%">
+          <SearchBar />
+        </Div>
+        <Div w="100%" mt="40px" mb="50px" pl="60px" pr="60px" boxSizing="border-box">
+          <FilterButtons List={CATEGORY} setValue={setTheme} />
+        </Div>
       </SearchArea>
       <Content>
-        <GalleryList></GalleryList>
-        {/* <GalleryList gallerys={gallerys}></GalleryList> */}
+        <GalleryList gallerys={gallerys}></GalleryList>
       </Content>
     </div>
   );
