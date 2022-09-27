@@ -148,7 +148,7 @@ const EditVirtualGallery = () => {
     setCountArray(newArr);
   }, [prevNFT]);
 
-  //결정된 NFT에 해당되는 이미지를 업로드
+  //결정된 NFT에 해당되는 이미지를 업로드(OA, galleryID 추가 필요)
   const pickNFT = (index, source, tokenID, scale) => {
     let copyArr = countArray;
     if (copyArr[index]) {
@@ -186,6 +186,7 @@ const EditVirtualGallery = () => {
         myTokenList={myTokenList}
         toggleScale={toggleScale}
       />
+      <Div w="100px" h="40px" className="hello" position="absolute" top="300px" zIndex="300" color="--grey-100" right="300px" fontSize="--h1">Click to Play</Div>
       <Suspense fallback={null}>
         <Canvas style={{ background: "grey" }}>
           <OverallLight />
