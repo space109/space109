@@ -1,9 +1,10 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled, { css } from "styled-components";
 
 
 interface Props {
   width?: any,
+  height?: any,
   fontSize?: any,
   fontWeight?: any,
   bgColor?: any,
@@ -19,7 +20,8 @@ interface Props {
   setValue?: any,
 };
 
-const StyledInput = styled.input<Props>`
+const StyledInput = styled.input.attrs<Props>(props=> {
+})<Props>`
   box-sizing: border-box;
   border: none;
   background-color: transparent;
@@ -47,6 +49,7 @@ const BorderDiv = styled.div<Props>`
   }}
 
   width: ${({width}) => width};
+  height: ${({height}) => height};
 
   ${({isReadOnly, bgColor}) => {
     if (isReadOnly) {
@@ -61,7 +64,7 @@ const BorderDiv = styled.div<Props>`
   border-radius: ${({borderRadius}) => borderRadius};
 `
 
-function Input({width, fontSize, fontWeight, bgColor, color, borderWidth, borderStyle, borderColor, borderRadius, isReadOnly, placeholder, value, setValue}: Props) {
+const Input = forwardRef(({width, height, fontSize, fontWeight, bgColor, color, borderWidth, borderStyle, borderColor, borderRadius, isReadOnly, placeholder, value, setValue}: Props, ref:any) => {
   const onChangeHandler = (e: any) => {
     setValue &&
     setValue(e.target.value);
@@ -69,19 +72,20 @@ function Input({width, fontSize, fontWeight, bgColor, color, borderWidth, border
 
   return (
     <>
-      <BorderDiv width={width} fontSize={fontSize} bgColor={bgColor} borderWidth={borderWidth} borderStyle={borderStyle} borderColor={borderColor} borderRadius={borderRadius} isReadOnly={isReadOnly}>
+      <BorderDiv width={width} height={height} fontSize={fontSize} bgColor={bgColor} borderWidth={borderWidth} borderStyle={borderStyle} borderColor={borderColor} borderRadius={borderRadius} isReadOnly={isReadOnly}>
         <StyledInput 
           fontSize={fontSize} fontWeight={fontWeight} color={color}
           isReadOnly={isReadOnly} readOnly={isReadOnly} placeholder={placeholder}
-          value={value} onChange={onChangeHandler}
+          value={value} onChange={onChangeHandler} ref={ref}
         />
       </BorderDiv>
     </>
   );
-};
+});
 
 Input.defaultProps = {
   width: "100%",
+  height: "auto",
   fontSize: "--body",
   fontWeight: "--regular",
   bgColor: "--grey-100",

@@ -45,12 +45,13 @@ function GalleryListPage() {
       <Background>
       </Background>
       <NavArea />
-      <SearchArea />
+      <SearchArea>
+        <SearchBar></SearchBar>
+      </SearchArea>
       <Content>
         <GalleryList></GalleryList>
         {/* <GalleryList gallerys={gallerys}></GalleryList> */}
       </Content>
-      <SearchBar></SearchBar>
     </div>
   );
 }
