@@ -43,7 +43,6 @@ const FPVControls = (props) => {
     <pointerLockControlsImpl
       ref={controls}
       args={[camera, gl.domElement]}
-      selector="hello"
     />
   );
 };

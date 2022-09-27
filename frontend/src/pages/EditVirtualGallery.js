@@ -1,5 +1,11 @@
 import { Canvas, useLoader } from "@react-three/fiber";
-import React, { Suspense, useState, useEffect, useCallback } from "react";
+import React, {
+  Suspense,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import { Div } from "../styles/BaseStyles";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import axios from "axios";
@@ -18,7 +24,7 @@ import {
   Floor,
   EditModal,
 } from "../components";
-const artPositionList = [];
+import DatGui, { DatNumber } from "react-dat-gui";
 
 const LogoBox = ({
   position = [0, 0, 0],
@@ -45,11 +51,96 @@ const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
   const [toggleIdx, setToggleIdx] = useState(0);
   const [toggleScale, setToggleScale] = useState([0, 0, 0]);
+  const [togglePosition, setTogglePosition] = useState([0, 0, 0]);
+  const [changable, setChangable] = useState({
+    positionX: 0,
+    positionY: 0,
+    positionZ: 0,
+    scaleX: 27,
+    scaleY: 27,
+  });
+  //전체 위치를 업데이트할 정보
+  const [framePosition, setFramePosition] = useState([
+    [13, 25, -115],
+    [13, 25, -150],
+    [13, 25, -185],
+    [53, 25, -115],
+    [53, 25, -150],
+    [53, 25, -185],
+    [33, 25, -260],
+    [111, 25, -257],
+    [146, 25, -257],
+    [181, 25, -257],
+    [111, 25, -216.8],
+    [146, 25, -216.8],
+    [181, 25, -216.8],
+    [255, 25, -238],
+    [252, 25, -160],
+    [252, 25, -125],
+    [252, 25, -90],
+    [212, 25, -160],
+    [212, 25, -125],
+    [212, 25, -90],
+    [231, 25, -20],
+    [115, 25, -18.5],
+    [150, 25, -18.5],
+    [115, 25, -58.8],
+    [150, 25, -58.8],
+  ]);
 
-  const getIndexOfFrame = useCallback((index, scale) => {
+  const [frameScale, setFrameScale] = useState([
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 45, 45],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 45, 45],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 45, 45],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+    [0.2, 27, 27],
+  ]);
+
+
+  const getIndexOfFrame = useCallback((index, scale, pos) => {
     setToggleIdx(index);
     setToggleScale(scale);
+    setTogglePosition(pos);
   }, []);
+
+  // const posX = useControl("Pos X", {
+  //   type: "number",
+  //   spring: true,
+  //   distance: 10,
+  //   value: togglePosition[0],
+  //   scrub: true,
+  //   min: -Infinity,
+  //   max: Infinity,
+  // });
+  // const posY = useControl("Pos Y", {
+  //   type: "number",
+  //   spring: config.wobbly,
+  //   distance: 10,
+  //   value: togglePosition[1],
+  //   scrub: true,
+  //   min: -Infinity,
+  //   max: Infinity,
+  // });
 
   const toggleModal = () => {
     // 모달 토글 함수
@@ -122,7 +213,7 @@ const EditVirtualGallery = () => {
   });
 
   //지갑의 NFT 전체 리스트, 토큰ID 리스트를 가져오는 요청
-  const getNFTList = async () => {
+  const getNFTList = useCallback(async () => {
     const tokenIds = await MintTestContract.methods
       .tokenIDsofWallet(window.ethereum.selectedAddress)
       .call();
@@ -131,10 +222,11 @@ const EditVirtualGallery = () => {
       .call();
     setMyNFT(tokenURIs);
     setMyTokenList(tokenIds);
-  };
+  }, []);
+
   useEffect(() => {
     getNFTList();
-  }, []);
+  }, [getNFTList]);
 
   //이미 업로드했던 NFT 리스트를 가져오는 요청
   //요청 보낸 후 카운팅 배열로 매핑
@@ -154,7 +246,12 @@ const EditVirtualGallery = () => {
     if (copyArr[index]) {
       copyArr[index].METADATA = source;
     } else {
-      copyArr[index] = {METADATA: source, TOEKN_ID: tokenID, POSITION: index, SCALE: scale}
+      copyArr[index] = {
+        METADATA: source,
+        TOEKN_ID: tokenID,
+        POSITION: index,
+        SCALE: scale,
+      };
     }
     setCountArray(copyArr);
 
@@ -175,6 +272,11 @@ const EditVirtualGallery = () => {
     // .catch(err => console.log(err));
   };
 
+  //포지션과 값을 변경
+  const handleUpdate = (data) => {
+    setChangable(data)
+  }
+
   return (
     <Div w="100vw" h="100vh">
       <EditModal
@@ -186,9 +288,42 @@ const EditVirtualGallery = () => {
         myTokenList={myTokenList}
         toggleScale={toggleScale}
       />
-      <Div w="100px" h="40px" className="hello" position="absolute" top="300px" zIndex="300" color="--grey-100" right="300px" fontSize="--h1">Click to Play</Div>
-      <Suspense fallback={null}>
-        <Canvas style={{ background: "grey" }}>
+      <Div
+        position="absolute"
+        top="300px"
+        zIndex="305"
+        color="--grey-100"
+        right="300px"
+        fontSize="--h7"
+        display="flex"
+        justifyContent="space-between"
+        alignItems="flex-start"
+      >
+        {toggle && (
+          <DatGui
+            style={{
+              position: "relative",
+              marginTop: "2em",
+              width: "300px",
+              minWidth: "300px",
+              right: 0,
+            }}
+            data={changable}
+            onUpdate={(e) => {
+              handleUpdate(e);
+              console.log(e);
+            }}
+          >
+            <DatNumber path="positionX" min={0} max={1000} step={5} />
+            <DatNumber path="positionY" min={0} max={1000} step={5} />
+            <DatNumber path="positionZ" min={0} max={1000} step={5} />
+            <DatNumber path="scaleX" min={0} max={1000} step={5} />
+            <DatNumber path="scaleY" min={0} max={1000} step={5} />
+          </DatGui>
+        )}
+      </Div>
+      <Canvas style={{ background: "grey" }}>
+        <Suspense fallback={null}>
           <OverallLight />
           <fog
             attach="fog"
@@ -200,6 +335,8 @@ const EditVirtualGallery = () => {
           <ambientLight intensity={0.1} />
           {/* <OrbitControls /> */}
           <Physics gravity={[0, -50, 0]}>
+            {/* <Box /> */}
+            {/* <Box position={[33, 25, -40]} /> */}
             {/* 시작점 */}
             <RectAreaLight
               position={[33, 40, -48.7]}
@@ -271,8 +408,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[13, 25, -115]}
-              args={[0.2, 27, 27]}
+              position={framePosition[0]}
+              args={frameScale[0]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={0}
@@ -286,8 +423,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[13, 25, -150]}
-              args={[0.2, 27, 27]}
+              position={framePosition[1]}
+              args={frameScale[1]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={1}
@@ -301,8 +438,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[13, 25, -185]}
-              args={[0.2, 27, 27]}
+              position={framePosition[2]}
+              args={frameScale[2]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={2}
@@ -316,8 +453,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[53, 25, -115]}
-              args={[0.2, 27, 27]}
+              position={framePosition[3]}
+              args={frameScale[3]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={3}
@@ -331,8 +468,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[53, 25, -150]}
-              args={[0.2, 27, 27]}
+              position={framePosition[4]}
+              args={frameScale[4]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={4}
@@ -346,8 +483,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[53, 25, -185]}
-              args={[0.2, 27, 27]}
+              position={framePosition[5]}
+              args={frameScale[5]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={5}
@@ -363,9 +500,9 @@ const EditVirtualGallery = () => {
             />
             {/* 2번방 1개 */}
             <ImageFrame
-              position={[33, 25, -260]}
+              position={framePosition[6]}
               rotation={[0, Math.PI / 2, 0]}
-              args={[0.2, 45, 45]}
+              args={frameScale[6]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={6}
@@ -401,9 +538,9 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[111, 25, -257]}
+              position={framePosition[7]}
               rotation={[0, Math.PI / 2, 0]}
-              args={[0.2, 27, 27]}
+              args={frameScale[7]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={7}
@@ -417,9 +554,9 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[146, 25, -257]}
+              position={framePosition[8]}
               rotation={[0, Math.PI / 2, 0]}
-              args={[0.2, 27, 27]}
+              args={frameScale[8]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={8}
@@ -433,9 +570,9 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[181, 25, -257]}
+              position={framePosition[9]}
               rotation={[0, Math.PI / 2, 0]}
-              args={[0.2, 27, 27]}
+              args={frameScale[9]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={9}
@@ -449,9 +586,9 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[111, 25, -216.8]}
+              position={framePosition[10]}
               rotation={[0, Math.PI / 2, 0]}
-              args={[0.2, 27, 27]}
+              args={frameScale[10]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={10}
@@ -465,9 +602,9 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[146, 25, -216.8]}
+              position={framePosition[11]}
               rotation={[0, Math.PI / 2, 0]}
-              args={[0.2, 27, 27]}
+              args={frameScale[11]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={11}
@@ -481,9 +618,9 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[181, 25, -216.8]}
+              position={framePosition[12]}
               rotation={[0, Math.PI / 2, 0]}
-              args={[0.2, 27, 27]}
+              args={frameScale[12]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={12}
@@ -499,8 +636,8 @@ const EditVirtualGallery = () => {
             />
             {/* 4번방 1개 */}
             <ImageFrame
-              position={[255, 25, -238]}
-              args={[0.2, 45, 45]}
+              position={framePosition[13]}
+              args={frameScale[13]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={13}
@@ -537,8 +674,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[252, 25, -160]}
-              args={[0.2, 27, 27]}
+              position={framePosition[14]}
+              args={frameScale[14]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={14}
@@ -552,8 +689,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[252, 25, -125]}
-              args={[0.2, 27, 27]}
+              position={framePosition[15]}
+              args={frameScale[15]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={15}
@@ -567,8 +704,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[252, 25, -90]}
-              args={[0.2, 27, 27]}
+              position={framePosition[16]}
+              args={frameScale[16]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={16}
@@ -582,8 +719,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[212, 25, -160]}
-              args={[0.2, 27, 27]}
+              position={framePosition[17]}
+              args={frameScale[17]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={17}
@@ -597,8 +734,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[212, 25, -125]}
-              args={[0.2, 27, 27]}
+              position={framePosition[18]}
+              args={frameScale[18]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={18}
@@ -612,8 +749,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[212, 25, -90]}
-              args={[0.2, 27, 27]}
+              position={framePosition[19]}
+              args={frameScale[19]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={19}
@@ -629,9 +766,9 @@ const EditVirtualGallery = () => {
             />
             {/* 6번방 1개 */}
             <ImageFrame
+              position={framePosition[20]}
               rotation={[0, Math.PI / 2, 0]}
-              position={[231, 25, -20]}
-              args={[0.2, 45, 45]}
+              args={frameScale[20]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={20}
@@ -668,9 +805,9 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[115, 25, -18.5]}
+              position={framePosition[21]}
               rotation={[0, Math.PI / 2, 0]}
-              args={[0.2, 27, 27]}
+              args={frameScale[21]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={21}
@@ -684,8 +821,8 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[150, 25, -18.5]}
-              args={[0.2, 27, 27]}
+              position={framePosition[22]}
+              args={frameScale[22]}
               rotation={[0, Math.PI / 2, 0]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
@@ -700,9 +837,9 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[115, 25, -58.8]}
+              position={framePosition[23]}
               rotation={[0, Math.PI / 2, 0]}
-              args={[0.2, 27, 27]}
+              args={frameScale[23]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={23}
@@ -716,15 +853,14 @@ const EditVirtualGallery = () => {
               penumbra={0.1}
             />
             <ImageFrame
-              position={[150, 25, -58.8]}
-              args={[0.2, 27, 27]}
+              position={framePosition[24]}
+              args={frameScale[24]}
               rotation={[0, Math.PI / 2, 0]}
               toggleModal={toggleModal}
               getIndexOfFrame={getIndexOfFrame}
               index={24}
               meta={countArray[24]?.METADATA}
             />
-
             {/* 마지막 통로 */}
             <RectAreaLight
               position={[79.96, 30.45, -38.5]}
@@ -735,7 +871,6 @@ const EditVirtualGallery = () => {
             />
             <Floor position={[0, 10.15, 0]} rotation={[-Math.PI / 2, 0, 0]} />
             <GalleryMap position={[0, 0, 0]} />
-
             <Player
               position={[33, 13, -40]}
               getPosition={getPlayerPosition}
@@ -748,8 +883,8 @@ const EditVirtualGallery = () => {
               targetIndex={targetIndex}
             />
           </Physics>
-        </Canvas>
-      </Suspense>
+        </Suspense>
+      </Canvas>
     </Div>
   );
 };
