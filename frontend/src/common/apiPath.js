@@ -10,7 +10,9 @@ const apiPath = {
     join: () => HOST + WALLET + "join/",
     dupCheck: () => HOST + WALLET + "check/",
   },
-  gallery: {},
+  gallery: {
+    myGalleryInfo: () => HOST + GALLERY + "my/",
+  },
   nft: {},
 };
 

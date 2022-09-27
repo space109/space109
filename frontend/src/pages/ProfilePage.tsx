@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
 import styled from "styled-components";
 import { DropDown, SharpButton, NavArea, Input } from "../components";
 import { Div } from "../styles/BaseStyles";
+import { myGalleryInfo, myGalleryInfoUpdate } from "../apis";
 
 interface Props {}
 
@@ -10,19 +11,72 @@ const BorderBox = styled(Div)`
 `;
 
 export default function ProfilePage({}: Props) {
+  const [loading, setLoading] = useState<boolean>(false);
   const [optionData, setOptionData] = useState<string>("");
+  const [data, setData] = useState<any>("");
   const [file, setFile] = useState("");
-  const dataFunc = (data: string): void => {
-    setOptionData(data);
+  const [fileImage, setFileImage] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [title, setTitle] = useState<any>("");
+  const [description, setDescription] = useState<string>("");
+  const [isOpend, setIsOpend] = useState<any>(false);
+  const [category, setCategory] = useState<any>(10);
+  const eth = window?.ethereum;
+  const isOpendHandler = (data: string): void => {
+    setIsOpend(data);
+  };
+  const categoryHandler = (data: string): void => {
+    setCategory(data);
   };
 
   const onChange = async (e: any) => {
     const file = e.target.files[0];
-    setFile(URL.createObjectURL(file));
+    setFile(file);
+    setFileImage(URL.createObjectURL(file));
   };
+
+  const loadData = useCallback(async (oa: string) => {
+    setLoading(true);
+    const data = await myGalleryInfo(oa);
+    console.log(data[0]);
+    setTitle(data[0].title);
+    setDescription(data[0].description);
+    setThumbnail(process.env.REACT_APP_BACKEND_HOST2 + data[0].thumbnail);
+    setData(data[0]);
+
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    console.log(eth.selectedAddress);
+    setTimeout(() => {
+      loadData(eth?.selectedAddress);
+    }, 100);
+  }, [eth.selectedAddress, loadData]);
+
+  const updateData = {
+    oa: eth.selectedAddress,
+    category_id: category,
+    title: title,
+    description: description,
+    thumbnail: file,
+    isOpend: isOpend,
+  };
+
+  const submitHandler = async () => {
+    const formData = new FormData();
+
+    Object.entries(updateData).forEach((item) =>
+      formData.append(item[0], item[1])
+    );
+    console.log(formData);
+    const data = await myGalleryInfoUpdate(formData);
+  };
+
   return (
     <>
       <NavArea />
+
       <Div w="100vw" h="calc(100vh - 120px)" display="flex">
         <Div
           bgColor="--grey-100"
@@ -31,9 +85,11 @@ export default function ProfilePage({}: Props) {
           alignItems="center"
           flexDirection="column"
         >
-          <Div fontSize="--h1" mt="200px" fontWeight="--bold">
-            에몽가의 갤러리
-          </Div>
+          <Suspense fallback={null}>
+            <Div fontSize="--h1" mt="200px" fontWeight="--bold">
+              {!loading && title}
+            </Div>
+          </Suspense>
           <Div mt="30px">
             <SharpButton
               width="195px"
@@ -100,7 +156,7 @@ export default function ProfilePage({}: Props) {
                     <DropDown
                       w="100%"
                       h="calc((100vh - 120px) * 0.032)"
-                      dataFunc={dataFunc}
+                      dataFunc={isOpendHandler}
                       options={["ON", "OFF"]}
                       fontSize="--h4"
                     >
@@ -111,7 +167,7 @@ export default function ProfilePage({}: Props) {
                     <DropDown
                       w="100%"
                       h="calc((100vh - 120px) * 0.032)"
-                      dataFunc={dataFunc}
+                      dataFunc={categoryHandler}
                       options={["바다", "가을"]}
                       color="--grey-750"
                       hoverBg="--grey-750"
@@ -136,7 +192,13 @@ export default function ProfilePage({}: Props) {
                     pt="10px"
                   >
                     <Div>제목</Div>
-                    <Input />
+                    <input
+                      type="text"
+                      onChange={(e) => {
+                        setTitle(e.target.value);
+                      }}
+                      value={title}
+                    />
                   </Div>
                 </Div>
                 <Div
@@ -153,7 +215,12 @@ export default function ProfilePage({}: Props) {
                     pt="10px"
                   >
                     <Div>설명</Div>
-                    <textarea />
+                    <textarea
+                      onChange={(e) => {
+                        setDescription(e.target.value);
+                      }}
+                      value={description}
+                    />
                   </Div>
                 </Div>
                 <Div
@@ -189,6 +256,7 @@ export default function ProfilePage({}: Props) {
                       fontWeight="--semi-bold"
                       borderColor="--grey-750"
                       borderWidth="0.2rem"
+                      onClick={submitHandler}
                     >
                       저장
                     </SharpButton>
@@ -204,28 +272,32 @@ export default function ProfilePage({}: Props) {
               >
                 <Div m="0 auto">
                   <label htmlFor="file" style={{ cursor: "pointer" }}>
-                    {file ? (
-                      <img
-                        src={file}
-                        alt="preview image"
-                        style={{ width: "100%" }}
-                      />
+                    {file && thumbnail ? (
+                      <>
+                        {console.log(file)}
+                        {console.log(fileImage)}
+                        <img
+                          src={fileImage}
+                          alt="preview image"
+                          style={{ width: "100%" }}
+                        />
+                      </>
                     ) : (
                       <img
                         alt={`Uploaded #`}
-                        src={
-                          "https://skywalker.infura-ipfs.io/ipfs/QmZBMUfWxHG86SCy8ZXfrTnK26PFpvevujEZ8cmfB6VL8N"
-                        }
+                        src={thumbnail}
                         style={{ width: "100%" }}
                       />
                     )}
                   </label>
+
                   <input
                     type="file"
                     name="file"
                     id="file"
                     onChange={onChange}
                     style={{ display: "none" }}
+                    accept=".jpg .png"
                   />
                 </Div>
               </Div>

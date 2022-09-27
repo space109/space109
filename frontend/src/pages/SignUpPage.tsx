@@ -200,14 +200,6 @@ function SignUpPage() {
               {helpMsg}
             </Div>
           </Div>
-          <Div
-            fontSize="--h7"
-            fontWeight="--thin"
-            color={color}
-            pl="calc(calc(var(--h5) / 1.5) + 3px)"
-          >
-            {helpMsg}
-          </Div>
           {/* </Div> */}
           <SharpButton
             fontSize="--h5"
