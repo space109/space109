@@ -4,7 +4,7 @@ import { Div } from "../styles/BaseStyles";
 import { TextureLoader } from "three/src/loaders/TextureLoader";
 import axios from "axios";
 import { Physics, useBox } from "@react-three/cannon";
-import * as THREE from "three";
+// import * as THREE from "three";
 import {
   GalleryMap,
   Player,
@@ -17,22 +17,7 @@ import {
   InfoModal,
 } from "../components";
 
-const artPositionList = [];
-
-const Box = ({ toggleModal }) => {
-  const img = useLoader(TextureLoader, "/Thug_life.png");
-  const [ref] = useBox(() => ({
-    mass: 0,
-    position: [127, 25, 5.2],
-    args: [1, 15, 15],
-  }));
-  return (
-    <mesh receiveShadow castShadow ref={ref} onClick={toggleModal}>
-      <boxGeometry args={[0.01, 15, 15]} />
-      <meshLambertMaterial map={img} />
-    </mesh>
-  );
-};
+// const artPositionList = [];
 
 const LogoBox = ({
   position = [0, 0, 0],
@@ -100,7 +85,8 @@ const VirtualGallery = () => {
       .get(
         "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa"
       )
-      .then((res) => setImage(res.data?.image));
+      .then((res) => setImage(res.data?.image))
+      .catch((err) => console.log(err));
   }, []);
   //[{0 액자}, {1 액자}, {2 액자}]
   //   {
