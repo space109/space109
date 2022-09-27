@@ -58,7 +58,7 @@ const ImageFrame = ({
         position={position}
         onClick={() => {
           toggleModal();
-          getIndexOfFrame(index, args, position);
+          getIndexOfFrame(index);
         }}
       >
         <boxGeometry args={args} />

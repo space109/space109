@@ -23,41 +23,61 @@ import {
   ImageFrame,
   Floor,
   EditModal,
+  LogoBox
 } from "../components";
-import DatGui, { DatNumber } from "react-dat-gui";
 
-const LogoBox = ({
-  position = [0, 0, 0],
-  args = [5, 5, 5],
-  color = "white",
-}) => {
-  const img = useLoader(TextureLoader, "/LogoBlack.png");
-  const [ref] = useBox(() => ({
-    mass: 0,
-    position,
-    args,
-  }));
-  return (
-    <mesh receiveShadow castShadow ref={ref} transparent>
-      <boxGeometry args={args} />
-      <meshPhongMaterial map={img} color={color} />
-    </mesh>
-  );
-};
-
-//조명을 조절하는 함수
 
 const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
   const [toggleIdx, setToggleIdx] = useState(0);
-  const [toggleScale, setToggleScale] = useState([0, 0, 0]);
-  const [togglePosition, setTogglePosition] = useState([0, 0, 0]);
-  const [changable, setChangable] = useState({
-    positionX: 0,
-    positionY: 0,
-    positionZ: 0,
-    scaleX: 27,
-    scaleY: 27,
+
+
+
+  //나의 지갑에 있는 NFT 리스트(더미데이터)
+  const [myNFT, setMyNFT] = useState([
+    "https://skywalker.infura-ipfs.io/ipfs/QmVzB61racfCivynuXoDffb6x3EcJVqv29UqSFuXdf2izY",
+    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
+    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
+    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
+    "https://skywalker.infura-ipfs.io/ipfs/QmT2taDtwMWjLmBECY2sbvb2RjeAnAf95aYx1z8wW4CRsR",
+  ]);
+  //토큰 리스트
+  const [myTokenList, setMyTokenList] = useState([1, 2, 3, 4, 5]);
+  //이미 업로드했던 NFT 리스트(더미데이터)
+  const [prevNFT, setPrevNFT] = useState({
+    result: "success",
+    data: [
+      {
+        NFT_ID: 1,
+        GALLERY_ID: 3,
+        OA: "0x065bC2317685A146511FaBa338708A53fC6d2534",
+        TOKEN_ID: "토큰아이디1",
+        METADATA:
+          "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
+        SCALE: [0.5, 26, 26],
+        POSITION: 0,
+      },
+      {
+        NFT_ID: 2,
+        GALLERY_ID: 3,
+        OA: "0x065bC2317685A146511FaBa338708A53fC6d2534",
+        TOKEN_ID: "토큰아이디2",
+        METADATA:
+          "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa",
+        SCALE: [0.5, 26, 26],
+        POSITION: 4,
+      },
+      {
+        NFT_ID: 3,
+        GALLERY_ID: 3,
+        OA: "0x065bC2317685A146511FaBa338708A53fC6d2534",
+        TOKEN_ID: "토큰아이디3",
+        METADATA:
+          "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa",
+        SCALE: [0.5, 26, 26],
+        POSITION: 5,
+      },
+    ],
   });
   //전체 위치를 업데이트할 정보
   const [framePosition, setFramePosition] = useState([
@@ -116,34 +136,23 @@ const EditVirtualGallery = () => {
     [0.2, 27, 27],
   ]);
 
+  //이미지 크기 조절 함수
+  const ImageScaleHandler = useCallback((data) => {
+    setFrameScale(data)
+  }, [])
+  
+  //이미지 위치 조절 함수
+  const ImagePositionHandler = useCallback((data) => {
+    setFramePosition(data)
+  },[])
 
-  const getIndexOfFrame = useCallback((index, scale, pos) => {
+  //ImageFrame에서 선택한 인덱스를 가져옴
+  const getIndexOfFrame = useCallback((index) => {
     setToggleIdx(index);
-    setToggleScale(scale);
-    setTogglePosition(pos);
   }, []);
 
-  // const posX = useControl("Pos X", {
-  //   type: "number",
-  //   spring: true,
-  //   distance: 10,
-  //   value: togglePosition[0],
-  //   scrub: true,
-  //   min: -Infinity,
-  //   max: Infinity,
-  // });
-  // const posY = useControl("Pos Y", {
-  //   type: "number",
-  //   spring: config.wobbly,
-  //   distance: 10,
-  //   value: togglePosition[1],
-  //   scrub: true,
-  //   min: -Infinity,
-  //   max: Infinity,
-  // });
-
+  // 모달 토글 함수
   const toggleModal = () => {
-    // 모달 토글 함수
     setToggle((state) => !state);
   };
 
@@ -164,53 +173,6 @@ const EditVirtualGallery = () => {
   const targetIndex = (e) => {
     setIndex(e);
   };
-
-  //나의 지갑에 있는 NFT 리스트(더미데이터)
-  const [myNFT, setMyNFT] = useState([
-    "https://skywalker.infura-ipfs.io/ipfs/QmVzB61racfCivynuXoDffb6x3EcJVqv29UqSFuXdf2izY",
-    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
-    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
-    "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
-    "https://skywalker.infura-ipfs.io/ipfs/QmT2taDtwMWjLmBECY2sbvb2RjeAnAf95aYx1z8wW4CRsR",
-  ]);
-  //토큰 리스트
-  const [myTokenList, setMyTokenList] = useState([1, 2, 3, 4, 5]);
-  //이미 업로드했던 NFT 리스트(더미데이터)
-  const [prevNFT, setPrevNFT] = useState({
-    result: "success",
-    data: [
-      {
-        NFT_ID: 1,
-        GALLERY_ID: 3,
-        OA: "0x065bC2317685A146511FaBa338708A53fC6d2534",
-        TOKEN_ID: "토큰아이디1",
-        METADATA:
-          "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
-        SCALE: [0.5, 26, 26],
-        POSITION: 0,
-      },
-      {
-        NFT_ID: 2,
-        GALLERY_ID: 3,
-        OA: "0x065bC2317685A146511FaBa338708A53fC6d2534",
-        TOKEN_ID: "토큰아이디2",
-        METADATA:
-          "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa",
-        SCALE: [0.5, 26, 26],
-        POSITION: 4,
-      },
-      {
-        NFT_ID: 3,
-        GALLERY_ID: 3,
-        OA: "0x065bC2317685A146511FaBa338708A53fC6d2534",
-        TOKEN_ID: "토큰아이디3",
-        METADATA:
-          "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa",
-        SCALE: [0.5, 26, 26],
-        POSITION: 5,
-      },
-    ],
-  });
 
   //지갑의 NFT 전체 리스트, 토큰ID 리스트를 가져오는 요청
   const getNFTList = useCallback(async () => {
@@ -272,10 +234,7 @@ const EditVirtualGallery = () => {
     // .catch(err => console.log(err));
   };
 
-  //포지션과 값을 변경
-  const handleUpdate = (data) => {
-    setChangable(data)
-  }
+
 
   return (
     <Div w="100vw" h="100vh">
@@ -286,7 +245,10 @@ const EditVirtualGallery = () => {
         toggleIdx={toggleIdx}
         pickNFT={pickNFT}
         myTokenList={myTokenList}
-        toggleScale={toggleScale}
+        ImageScaleHandler={ImageScaleHandler}
+        ImagePositionHandler={ImagePositionHandler}
+        frameScale={frameScale}
+        framePosition={framePosition}
       />
       <Div
         position="absolute"
@@ -299,28 +261,7 @@ const EditVirtualGallery = () => {
         justifyContent="space-between"
         alignItems="flex-start"
       >
-        {toggle && (
-          <DatGui
-            style={{
-              position: "relative",
-              marginTop: "2em",
-              width: "300px",
-              minWidth: "300px",
-              right: 0,
-            }}
-            data={changable}
-            onUpdate={(e) => {
-              handleUpdate(e);
-              console.log(e);
-            }}
-          >
-            <DatNumber path="positionX" min={0} max={1000} step={5} />
-            <DatNumber path="positionY" min={0} max={1000} step={5} />
-            <DatNumber path="positionZ" min={0} max={1000} step={5} />
-            <DatNumber path="scaleX" min={0} max={1000} step={5} />
-            <DatNumber path="scaleY" min={0} max={1000} step={5} />
-          </DatGui>
-        )}
+        
       </Div>
       <Canvas style={{ background: "grey" }}>
         <Suspense fallback={null}>
@@ -335,8 +276,6 @@ const EditVirtualGallery = () => {
           <ambientLight intensity={0.1} />
           {/* <OrbitControls /> */}
           <Physics gravity={[0, -50, 0]}>
-            {/* <Box /> */}
-            {/* <Box position={[33, 25, -40]} /> */}
             {/* 시작점 */}
             <RectAreaLight
               position={[33, 40, -48.7]}
