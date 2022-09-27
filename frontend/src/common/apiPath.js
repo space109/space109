@@ -11,7 +11,12 @@ const apiPath = {
     dupCheck: () => HOST + WALLET + "check/",
   },
   gallery: {
+    gallery: () => HOST + GALLERY + "list/",
+    category: () => HOST + GALLERY,
     myGalleryInfo: () => HOST + GALLERY + "my/",
+  },
+  nft: {
+
   },
   nft: {},
 };

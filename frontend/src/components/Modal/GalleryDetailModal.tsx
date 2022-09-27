@@ -1,7 +1,9 @@
 import { useState, useEffect} from "react";
 import styled, { keyframes } from "styled-components";
-import { ModalPortal, Input, SharpButton } from "../";
+import { ModalPortal, Input, SharpButton } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
+import { login } from "../../apis";
+import { CategoryTitle } from "../../common/category";
 
 interface PropsStyle{
   url?: any,
@@ -20,7 +22,8 @@ const BackGround = styled.div`
   position: fixed;
   background-color: var(--modal-bg);
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: aut0;
   top: 0;
   left: 0;
   z-index: 100;
@@ -39,25 +42,30 @@ const Content = styled(Div)`
   bottom: 0;
   margin: auto;
   width: 100%;
+  min-height: 100vh;
   height: auto;
   z-index: 110;
   animation: ${On} 0.3s ease;
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
     flex-direction: column;
+    gap: 2rem;
   }
   overflow: auto;
 `
 
 const ImageSection = styled(Div)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 50%;
   height: auto;
-  padding: 0 2% 0 12%;
+  padding: 0% 2% 0% 12%;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
-    padding: 0 2% 0 12%;
+    padding: 0% 2% 0% 12%;
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
-    padding: 0 2% 0 8%;
+    padding: 0 2% 0 4%;
   }
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
     padding: 0 1%;
@@ -66,13 +74,11 @@ const ImageSection = styled(Div)`
     padding: 0 1%;
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    padding: 0;
-    width: 80%
+    width: 90%;
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    padding: 0;
-    width: 80%
-  }
+    width: 90%;
+  } 
 `
 
 const DetailSection = styled(Div)`
@@ -82,12 +88,12 @@ const DetailSection = styled(Div)`
   box-sizing: border-box;
   width: 50%;
   height: auto;
-  padding: 0 2%;
+  padding: 0 12% 0 2%;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
     padding: 0 12% 0 2%;
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
-    padding: 0 8% 0 2%;
+    padding: 0 4% 0 2%;
   }
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
     padding: 0 1%;
@@ -96,14 +102,10 @@ const DetailSection = styled(Div)`
     padding: 0 1%;
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    width: 80%;
-    margin-top: 1rem;
-    gap: 1rem;
+    width: 90%;
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    width: 80%;
-    margin-top: 1rem;
-    gap: 1rem;
+    width: 90%;
   }
 `
 
@@ -111,7 +113,11 @@ const Image = styled.img.attrs<PropsStyle>(props => ({
   src: props.url,
   alt: "NFT 이미지",
   }))<PropsStyle>`
-  width: 100%;
+  width: 80%;
+  @media screen and (max-width: ${screenSizes.sm + "px"}) {
+    width: 100%
+  }
+  
 `
 
 const Title = styled(Div)`
@@ -140,10 +146,18 @@ const ContentText = styled(Div)`
     font-size: var(--h6);
   }
 `
+// 위에 잘리는 문제 해결하기
+function GalleryDetailModal (props:any) {
 
-function NftDetailModal (props:any) {
+  const [ hostNickname, setHostNickname ] = useState();
 
-  const [ price, setPrice ] = useState();
+  const init = async () => {
+    const nameData = await login(props.data.oa);
+    setHostNickname(nameData[0].nickname);
+  }
+  useEffect(() => {
+    init();
+  }, [])
 
   return (
     <>
@@ -159,30 +173,29 @@ function NftDetailModal (props:any) {
       }}
       >
         <ImageSection>
-          <Image url={props.image} />
+          <Image url={props.data.thumbnail} />
         </ImageSection>
         <DetailSection onClick={(e) => {
           e.stopPropagation();
         }}>
-          <Title>{props.name}</Title>
+          <Title>{props.data.title}</Title>
           <Div display="flex" gap="3rem">
             <Div display="flex" flexDirection="column" gap="0.3rem">
-              <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">제작자</TitleText>
-              <ContentText color="--grey-100" fontWeight="--bold" fontSize="--h5">{props.author}</ContentText>
+              <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">테마</TitleText>
+              <ContentText color="--grey-100" fontWeight="--bold" fontSize="--h5">{CategoryTitle(props.data.category_id)}</ContentText>
             </Div>
             <Div display="flex" flexDirection="column" gap="0.3rem">
-              <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">소유자</TitleText>
-              <ContentText color="--grey-100" fontWeight="--bold" fontSize="--h5">{props.nickname}</ContentText>
+              <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">호스트</TitleText>
+              <ContentText color="--grey-100" fontWeight="--bold" fontSize="--h5">{hostNickname}</ContentText>
             </Div>
           </Div>
           <Div display="flex" flexDirection="column" gap="0.5rem">
-            <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">작품 설명</TitleText>
-            <ContentText color="--grey-100">{"아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아"}</ContentText>
+            <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">소개</TitleText>
+            <ContentText color="--grey-100">{props.data.description}</ContentText>
           </Div>
-          <Div display="flex" gap="0.5rem">
-            <Input width="70%" placeholder="SSF" setValue={setPrice}/>
-            <SharpButton width="30%" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px">
-              판매하기
+          <Div mt="1rem" mb="3rem">
+            <SharpButton width="100%" height="3rem" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px" fontSize="--h5">
+              입장하기
             </SharpButton>
           </Div>
         </DetailSection>
@@ -192,4 +205,4 @@ function NftDetailModal (props:any) {
   );
 }
 
-export default NftDetailModal;
+export default GalleryDetailModal;

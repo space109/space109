@@ -13,8 +13,8 @@ interface Ipfs {
 }
 
 function IpfsUploader({}: Props) {
-  const projectId = "2F6WFaN05FMtbO93ODOLhwvE6EY";
-  const projectSecretKey = "1998e51a7c7b5c7a15c51d493138c943";
+  const projectId = process.env.REACT_APP_PROJECT_ID;
+  const projectSecretKey = process.env.REACT_APP_PROJECT_SECRET_KEY;
   const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
 
   // ----------

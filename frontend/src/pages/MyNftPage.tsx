@@ -13,7 +13,7 @@ interface propsStyle {
 }
 
 const NavDiv = styled.div`
-  background-color: var(--grey-650);
+  background-color: var(--grey-600);
   width: 100%;
   height: 120px;
 `
@@ -214,7 +214,7 @@ function MyNftPage() {
   }
 
   return (
-    <Div bgColor="--grey-650" w="100vw" minHeight="100vh">
+    <Div bgColor="--grey-600" w="100vw" minHeight="100vh">
     {
       isOnModal && <NftDetailModal
       closeModal={closeModal}
