@@ -173,7 +173,7 @@ function GalleryDetailModal (props:any) {
       }}
       >
         <ImageSection>
-          <Image url={props.data.thumbnail} />
+          <Image url={process.env.REACT_APP_BACKEND_HOST2 + props.data.thumbnail} />
         </ImageSection>
         <DetailSection onClick={(e) => {
           e.stopPropagation();

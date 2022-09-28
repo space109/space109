@@ -239,7 +239,7 @@ const Image = styled.div<propsStyle>`
   box-shadow: 5px -5px 10px rgba(0, 0, 0, 0.3);
   transition-property: transform;
   transition-duration: 0.3s;
-  background-image: url(${({url}) => url});
+  background-image: url(${({url}) => process.env.REACT_APP_BACKEND_HOST2 + url});
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -258,7 +258,6 @@ function GalleryCard ({data}:any) {
   const closeModal = () => {
     setIsOnModal(false);
   }
-  
   return (
     <>
     {
