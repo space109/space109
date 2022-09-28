@@ -22,6 +22,16 @@ const Background = styled.div`
   z-index: -10;
 `
 
+const FilterDiv = styled.div`
+  box-sizing: border-box;
+  width: 100%;
+  margin: 40px 0 50px 0;
+  padding: 0 60px 0 60px;
+  @media screen and (max-width: ${screenSizes.xl + "px"}) {
+    padding: 0% 32px 0% 32px;
+  }
+`
+
 const Content = styled.div`
 
 `
@@ -84,9 +94,9 @@ function GalleryListPage() {
         <Div w="60%">
           <SearchBar setValue={setSearchValue}/>
         </Div>
-        <Div w="100%" mt="40px" mb="50px" pl="60px" pr="60px" boxSizing="border-box">
+        <FilterDiv>
           <FilterButtons List={CATEGORY} setValue={setTheme} />
-        </Div>
+        </FilterDiv>
       </SearchArea>
       <Content>
         <GalleryList gallerys={gallerys}></GalleryList>
