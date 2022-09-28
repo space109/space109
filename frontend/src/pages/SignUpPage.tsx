@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
-import { Input } from "../components";
-import SharpButton from "../components/Button/SharpButton";
+import { Input, SharpButton, NavArea } from "../components";
 import { dupCheck, join, getMetadata } from "../apis";
 import { MintTestContract } from "../web3Config";
 import { useAccount } from "../hooks";
@@ -107,11 +106,12 @@ function SignUpPage() {
 
   return (
     <>
+    <NavArea/>
     <Div
       display="flex"
       alignItems="center"
       justifyContent="center"
-      h="calc(100vh - 120px)"
+      h="calc(100vh - 240px)"
     >
       <DivWidth display="flex" flexDirection="column" gap="2rem">
       <Div

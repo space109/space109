@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { Div, Image, screenSizes } from "../styles/BaseStyles";
-import { Input, SharpButton, NftCard, NftMake, LabelCheckBox, NftDetailModal } from "../components";
+import { Input, SharpButton, NftCard, NftMake, LabelCheckBox, NftDetailModal, NavArea } from "../components";
 import ReactDOM from "react-dom";
 import { debounce } from "lodash";
 import { useAccount } from "../hooks";
@@ -12,16 +12,10 @@ interface propsStyle {
   isSet?: any;
 }
 
-const NavDiv = styled.div`
-  background-color: var(--grey-600);
-  width: 100%;
-  height: 120px;
-`
-
 const Content = styled(Div)`
   box-sizing: border-box;
   width: 100%;
-  padding: 0 6rem;
+  padding: 0 6rem 6rem 6rem;
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
     padding: 0 2rem;
   }
@@ -221,7 +215,7 @@ function MyNftPage() {
       {...modalInfo}
       />
     }
-    <NavDiv></NavDiv>
+    <NavArea></NavArea>
     <Content>
       <ButtonSection>
         <Div display="flex" gap="1.5rem">
