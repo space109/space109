@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Web3 from "web3";
 import { login } from "../apis";
 
 /* 
@@ -48,8 +47,9 @@ const useAccount = () => {
     return () => {
       if (window.ethereum) {
         window.ethereum.removeListener("accountsChanged", getAccountnName);
-      }}
-  } ,[]);
+      }
+    };
+  }, []);
 
   return [account, nickname];
 };

@@ -180,7 +180,7 @@ function NftDetailModal (props:any) {
           </Div>
           <Div display="flex" flexDirection="column" gap="0.5rem">
             <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">작품 설명</TitleText>
-            <ContentText color="--grey-100">{"아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아"}</ContentText>
+            <ContentText color="--grey-100">{props.description}</ContentText>
           </Div>
           <Div display="flex" gap="0.5rem" mb="3rem">
             <Input width="70%" placeholder="SSF" setValue={setPrice}/>

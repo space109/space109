@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { GalleryDetailModal } from "../"
 
 const LI = styled.li`
+  border: 10px solid yellow;
+  box-sizing: border-box;
   grid-column-end: span 2;
   position: relative;
   width: 100%;
@@ -227,6 +229,7 @@ interface propsStyle {
 
 // 2:3 비율
 const Image = styled.div<propsStyle>`
+  box-sizing: border-box;
   position: absolute;
   width: 44%;
   height: 66%;
