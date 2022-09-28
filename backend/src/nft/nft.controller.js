@@ -26,7 +26,8 @@ router.put("/display/change", async function (req, res) {
   const { statusCode, responseBody } = await nftService.updateDisplayInfo(
     req.body.nftId,
     req.body.scale,
-    req.body.position
+    req.body.position,
+    req.body.positionXYZ
   );
   res.statusCode = statusCode;
   res.send(responseBody);
