@@ -2,8 +2,16 @@ const connection = require("../../config/connection").promise();
 const logger = require("../../config/log");
 
 class NftRepository {
-  async displayMyNft(toeknId, scale, position,positionXYZ, galleryId, oa, metadata) {
-    const sql = `INSERT INTO NFT(GALLERY_ID, OA,  TOKEN_ID, SCALE, POSITION, POSITIONXYZ, METADATA) 
+  async displayMyNft(
+    toeknId,
+    scale,
+    position,
+    positionXYZ,
+    galleryId,
+    oa,
+    metadata
+  ) {
+    const sql = `INSERT INTO nft(GALLERY_ID, OA,  TOKEN_ID, SCALE, POSITION, POSITIONXYZ, METADATA) 
             VALUES(
                 ${galleryId},
                 '${oa}',
@@ -38,18 +46,18 @@ class NftRepository {
     // console.log(nftId);
     // console.log(scale);
     // console.log(position);
-    if(scale == null && position == null && positionXYZ == null) return false;
+    if (scale == null && position == null && positionXYZ == null) return false;
     let sql = ``;
     const sqlHead = `update nft set `;
     const sqlTail = ` where NFT_ID=${nftId}`;
     sql += sqlHead;
-    if(scale != null) sql += `scale='${scale}',`;
-    if(position != null) sql += ` position=${position},`;
-    if(positionXYZ != null) sql += ` positionXYZ='${positionXYZ}',`;
+    if (scale != null) sql += `scale='${scale}',`;
+    if (position != null) sql += ` position=${position},`;
+    if (positionXYZ != null) sql += ` positionXYZ='${positionXYZ}',`;
     sql = sql.slice(0, -1);
     sql += sqlTail;
     logger.debug(sql);
-    let returnBool = true; 
+    let returnBool = true;
     const result = await connection
       .query(sql)
       .then((data) => data[0])
