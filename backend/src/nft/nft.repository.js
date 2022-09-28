@@ -42,7 +42,7 @@ class NftRepository {
     if (scale != null && position == null) {
       // scale에 값이 있다.
       console.log("scale에 값이 있다.");
-      sql = `UPDATE NFT SET SCALE = ${scale} WHERE NFT_ID = ${nftId}`;
+      sql = `UPDATE nft SET SCALE = ${scale} WHERE NFT_ID = ${nftId}`;
     } else if (scale == null && position != null) {
       // position에 값이 있다.
       console.log("position에 값이 있다.");
@@ -69,7 +69,7 @@ class NftRepository {
     return returnBool;
   }
   async getDisplayedNftList(galleryId) {
-    const sql = `SELECT * FROM NFT WHERE GALLERY_ID = ${galleryId};`;
+    const sql = `SELECT * FROM nft WHERE GALLERY_ID = ${galleryId};`;
     const result = await connection
       .query(sql)
       .then((data) => data[0])
@@ -80,7 +80,7 @@ class NftRepository {
     return result;
   }
   async deleteNft(nftId) {
-    const sql = `DELETE FROM NFT WHERE NFT_ID = ${nftId};`;
+    const sql = `DELETE FROM nft WHERE NFT_ID = ${nftId};`;
     let returnBool = true;
     const result = await connection
       .query(sql)
