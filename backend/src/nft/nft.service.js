@@ -2,7 +2,7 @@ const NftRepository = require("./nft.repository");
 const nftRepository = new NftRepository();
 
 class NftService {
-  async displayMyNft(toeknId, scale, position, galleryId, oa) {
+  async displayMyNft(toeknId, scale, position,positionXYZ, galleryId, oa,metadata) {
     return {
       statusCode: 200,
       responseBody: {
@@ -11,8 +11,10 @@ class NftService {
           toeknId,
           scale,
           position,
+          positionXYZ,
           galleryId,
-          oa
+          oa,
+          metadata
         ),
       },
     };

@@ -42,7 +42,7 @@ class GalleryRepository {
   }
 
   async getMyGalleryInfo(oa) {
-    const sql = `select gallery_id, oa, category_id, description, title, thumbnail from gallery where oa='${oa}'`;
+    const sql = `select gallery_id, oa, category_id, description, title, thumbnail, is_open from gallery where oa='${oa}'`;
 
     const result = await connection
       .query(sql)
