@@ -25,13 +25,13 @@ const modalActive = keyframes`
 const ModalDiv = styled.div`
   position: fixed;
   top: 10%;
-  left: 10%;
+  left: 3%;
   width: 25%;
   z-index: 101;
   height: 80%;
   overflow: hidden;
   background: white;
-  border-radius: 15px;
+  border-radius: 8px;
   box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
   &.modal-active {
     animation: ${modalActive} 0.5s;
@@ -40,15 +40,17 @@ const ModalDiv = styled.div`
 
 const ChangableDiv = styled.div`
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 10%;
-  right: 5%;
+  right: 3%;
   width: 30%;
   z-index: 101;
-  height: 30%;
+  height: 40%;
   overflow: hidden;
-  background: white;
-  border-radius: 15px;
-  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.25);
+  background: transparent;
+  border-radius: 8px;
   &.modal-active {
     animation: ${modalActive} 0.5s;
   }
@@ -76,7 +78,9 @@ const IconEth = styled.img`
   object-fit: contain;
 `;
 
-const ImageList = styled.img``;
+const ImageList = styled.img`
+  border-radius: 8px;
+`;
 
 const HR = styled.hr`
   width: 99%;
@@ -100,7 +104,7 @@ const ScrollDiv = styled(Div)`
   & img {
     margin: 0 auto;
     object-fit: contain;
-    width: 95%;
+    width: 97%;
     cursor: pointer;
   }
 `;
@@ -117,41 +121,63 @@ const ChangableOverlay = (props) => {
         }}
       >
         <DatNumber
-          style={{ marginBottom: "20px", listStyle: "none",  }}
+          style={{ marginBottom: "15px", listStyle: "none" }}
           path="positionX"
+          label="X축"
           min={-300}
           max={300}
           step={1}
         />
         <DatNumber
-          style={{ marginBottom: "20px", listStyle: "none" }}
+          style={{ marginBottom: "15px", listStyle: "none" }}
+          label="Y축"
           path="positionY"
           min={-300}
           max={300}
           step={1}
         />
         <DatNumber
-          style={{ marginBottom: "20px", listStyle: "none" }}
+          style={{ marginBottom: "15px", listStyle: "none" }}
+          label="Z축"
           path="positionZ"
           min={-300}
           max={300}
           step={1}
         />
         <DatNumber
-          style={{ marginBottom: "20px", listStyle: "none" }}
+          style={{ marginBottom: "15px", listStyle: "none" }}
+          label="가로 길이"
           path="scaleX"
           min={0}
-          max={100}
+          max={200}
           step={1}
         />
         <DatNumber
-          style={{ marginBottom: "20px", listStyle: "none" }}
+          style={{ listStyle: "none" }}
+          label="세로 길이"
           path="scaleY"
           min={0}
-          max={100}
+          max={200}
           step={1}
         />
       </DatGui>
+      <button
+        onClick={() =>
+          props.pickNFT(
+            props.credentials.position,
+            props.credentials.metadata,
+            props.credentials.tokenId,
+            [0.2, props.changable.scaleY, props.changable.scaleX],
+            [
+              props.changable.positionX,
+              props.changable.positionY,
+              props.changable.positionZ,
+            ]
+          )
+        }
+      >
+        저장하기
+      </button>
     </ChangableDiv>
   );
 };
@@ -173,10 +199,10 @@ const ModalOverlay = (props) => {
         <Div display="flex" justifyContent="space-between" alignItems="center">
           <Div fontSize="--h5" fontWeight="--bold" ml="15px">
             <span>
-              <Icon src={ImageIcon}></Icon>NFT 전시
+              <Icon src={ImageIcon}></Icon>NFT 목록
             </span>
           </Div>
-          <Div
+          {/* <Div
             fontSize="--body"
             fontWeight="--bold"
             border="0.1rem grey solid"
@@ -191,7 +217,7 @@ const ModalOverlay = (props) => {
               <IconEth src={EthereumLogo}></IconEth>
             </Div>
             <Div>0x6a02...e5aa3</Div>
-          </Div>
+          </Div> */}
         </Div>
         <HR />
       </Div>
@@ -210,13 +236,17 @@ const ModalOverlay = (props) => {
               src={data?.image}
               key={`ImageList${idx}`}
               onClick={() => {
-                props.pickNFT(
+                props.getBasicInfo(
                   props.toggleIdx,
                   props.myNFT[idx],
                   data?.tokenID,
-                  props.toggleScale
+                  [0.2, props.changable.scaleY, props.changable.scaleX],
+                  [
+                    props.changable.positionX,
+                    props.changable.positionY,
+                    props.changable.positionZ,
+                  ]
                 );
-                props.toggleModal();
               }}
             />
           );
@@ -231,12 +261,13 @@ const EditModal = ({
   toggle,
   myNFT,
   toggleIdx,
-  pickNFT,
   myTokenList,
   ImageScaleHandler,
   ImagePositionHandler,
   frameScale,
   framePosition,
+  countArray,
+  setCountArray,
 }) => {
   //액자 위치, 스케일 변환
   const [changable, setChangable] = useState({
@@ -261,6 +292,7 @@ const EditModal = ({
       dataArr.push(response);
     }
     setNFTs(dataArr);
+    console.log(dataArr)
   }, [myNFT, myTokenList]);
 
   useEffect(() => {
@@ -269,15 +301,16 @@ const EditModal = ({
 
   // 초기 위치, 스케일 조정
   useEffect(() => {
-    handleUpdate((state) => ({
+    handleUpdate({
       positionX: framePosition[toggleIdx][0],
       positionY: framePosition[toggleIdx][1],
       positionZ: framePosition[toggleIdx][2],
       scaleX: frameScale[toggleIdx][2],
       scaleY: frameScale[toggleIdx][1],
-    }));
+    });
   }, [handleUpdate, toggleIdx]);
 
+  //스케일을 변경하고 위치를 변경하면 액자에 포지션 정보 반영
   useEffect(() => {
     let saveScale = JSON.parse(JSON.stringify(frameScale));
     let savePosition = JSON.parse(JSON.stringify(framePosition));
@@ -290,6 +323,57 @@ const EditModal = ({
     ImageScaleHandler(saveScale);
     ImagePositionHandler(savePosition);
   }, [toggleIdx, changable, ImageScaleHandler, ImagePositionHandler]);
+  //DB에 저장할 객체
+  const [credentials, setCredentials] = useState({
+    metadata: "",
+    tokenID: "",
+    position:0,
+  });
+  //일부 저장
+  const getBasicInfo = (index, source, tokenId, scale, pos) => {
+    let copyArr = [...countArray];
+    copyArr[index] = {
+      METADATA: source,
+      TOKEN_ID: tokenId,
+      POSITION: index,
+      POSITIONXYZ: pos,
+      SCALE: scale,
+      GALLERY_ID: 2,
+      OA: "0xF742788F6a12FCad0946cF576d240a4d88762C87",
+    };
+    console.log("ㅇㄴㄹㄴㅁㄹㄻㄴㅁㄴㅇㄹㄴㅁㄹㅇ",copyArr);
+    setCountArray(copyArr);
+
+    // setCredentials({
+    //   metadata: source,
+    //   tokenId: tokenId,
+    //   position: index,
+    //   })
+  }
+
+  //결정된 NFT에 해당되는 이미지를 업로드(OA, galleryID 추가 필요)
+  const pickNFT = (index, source, tokenId, scale, pos) => {
+    let copyArr = [...countArray];
+      copyArr[index] = {
+        metadata: source,
+        tokenId: tokenId,
+        position: index,
+        positionXYZ: JSON.stringify(pos),
+        scale: JSON.stringify(scale),
+        galleryId: 2,
+        oa: "0xF742788F6a12FCad0946cF576d240a4d88762C87",
+      };
+    console.log(copyArr)
+    setCountArray(copyArr);
+
+    //tokenId는 NFT고를 때, 가져옴
+    // axios({
+    // url: "/nft/display",
+    // method: "POST",
+    // data: copyArr[index]
+    // }).then(res => console.log(res?.data?.result))
+    // .catch(err => console.log(err));
+  };
   return (
     <>
       {ReactDOM.createPortal(
@@ -301,6 +385,8 @@ const EditModal = ({
           toggle={toggle}
           changable={changable}
           handleUpdate={handleUpdate}
+          credentials={credentials}
+          pickNFT={pickNFT}
         />,
         document.getElementById("edit-changable-root")
       )}
@@ -311,7 +397,8 @@ const EditModal = ({
           NFTs={NFTs}
           myNFT={myNFT}
           toggleIdx={toggleIdx}
-          pickNFT={pickNFT}
+          getBasicInfo={getBasicInfo}
+          changable={changable}
         />,
         document.getElementById("edit-overlay-root")
       )}

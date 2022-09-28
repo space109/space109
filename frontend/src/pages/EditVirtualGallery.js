@@ -11,7 +11,6 @@ import { TextureLoader } from "three/src/loaders/TextureLoader";
 import axios from "axios";
 import { Physics, useBox } from "@react-three/cannon";
 import * as THREE from "three";
-import getMetadata from "./../apis/getMetadata";
 import { MintTestContract } from "../web3Config";
 import {
   GalleryMap,
@@ -56,6 +55,7 @@ const EditVirtualGallery = () => {
           "https://skywalker.infura-ipfs.io/ipfs/QmcCMzT5n7QsaDwQgYHqiUtce4CyrD2YX3qnyi7Tca5qMN",
         SCALE: [0.5, 26, 26],
         POSITION: 0,
+        POSITIONXYZ: [33, 13, -40]
       },
       {
         NFT_ID: 2,
@@ -194,7 +194,7 @@ const EditVirtualGallery = () => {
   //요청 보낸 후 카운팅 배열로 매핑
   const [countArray, setCountArray] = useState([]);
   useEffect(() => {
-    const newArr = [new Array(25)];
+    const newArr = new Array(25);
     for (let item of prevNFT?.data) {
       // setCountArray(state => state[item?.POSITION] = item);
       newArr[item?.POSITION] = item;
@@ -202,37 +202,7 @@ const EditVirtualGallery = () => {
     setCountArray(newArr);
   }, [prevNFT]);
 
-  //결정된 NFT에 해당되는 이미지를 업로드(OA, galleryID 추가 필요)
-  const pickNFT = (index, source, tokenID, scale) => {
-    let copyArr = countArray;
-    if (copyArr[index]) {
-      copyArr[index].METADATA = source;
-    } else {
-      copyArr[index] = {
-        METADATA: source,
-        TOEKN_ID: tokenID,
-        POSITION: index,
-        SCALE: scale,
-      };
-    }
-    setCountArray(copyArr);
 
-    //tokenId는 NFT고를 때, 가져옴
-    // axios({
-    // url: "/nft/display",
-    // method: "POST",
-    // data: {
-    //   toeknId: copyArr[index]?.TOKEN_ID,
-    //   scale: [0.1, 25, 25],
-    //   position: copyArr[index]?.POSITION,
-
-    //   갤러리 ID, oa는 처음 입장부터
-    //   galleryId: params로 받아온 GALLERY_ID,
-    //   oa: 지갑으로부터 받은 OA,
-    // },
-    // }).then(res => console.log(res?.data?.result))
-    // .catch(err => console.log(err));
-  };
 
 
 
@@ -243,12 +213,13 @@ const EditVirtualGallery = () => {
         toggle={toggle}
         myNFT={myNFT}
         toggleIdx={toggleIdx}
-        pickNFT={pickNFT}
         myTokenList={myTokenList}
         ImageScaleHandler={ImageScaleHandler}
         ImagePositionHandler={ImagePositionHandler}
         frameScale={frameScale}
         framePosition={framePosition}
+        countArray={countArray}
+        setCountArray={setCountArray}
       />
       <Div
         position="absolute"
@@ -261,7 +232,6 @@ const EditVirtualGallery = () => {
         justifyContent="space-between"
         alignItems="flex-start"
       >
-        
       </Div>
       <Canvas style={{ background: "grey" }}>
         <Suspense fallback={null}>
