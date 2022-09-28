@@ -77,6 +77,7 @@ function SearchBar({height, fontSize, setValue}:any) {
   const [ width, setWidth ] = useState<any>("0");
   const [ isBorder, setIsBorder ] = useState(false);
   const [ isSelect, setIsSelect ] = useState(true);
+  const [ keyWord, setKeyWord ] = useState();
 
   const onClickHandler = () => {
     if (!isBorder && isSelect) {
@@ -99,8 +100,13 @@ function SearchBar({height, fontSize, setValue}:any) {
   }
 
   const onChangeHandler = (e: any) => {
-    setValue &&
-    setValue(e.target.value);
+    setKeyWord(e.target.value);
+  }
+
+  const onKeyUpHandler = (e: any) => {
+    if (e.key === 'Enter') {
+      setValue(keyWord);
+    }
   }
 
   useEffect(() => {
@@ -116,7 +122,10 @@ function SearchBar({height, fontSize, setValue}:any) {
   <>
   <Box>
     <Div display="flex" alignItems="center" h={height} pl="3px">
-      <Input placeholder="검색어를 입력해주세요" width={width} fontSize={fontSize} onChange={onChangeHandler} ref={input}/>
+      <Input placeholder="검색어를 입력해주세요" width={width} fontSize={fontSize} 
+        onChange={onChangeHandler} onKeyUp={onKeyUpHandler} 
+        ref={input}
+      />
       <Image isBorder={isBorder} url={SearchIcon} onClick={onClickHandler}></Image>
     </Div>
     <Line isBorder={isBorder} width={width}/>
