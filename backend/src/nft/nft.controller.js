@@ -11,8 +11,10 @@ router.post("/display", async function (req, res) {
     req.body.toeknId,
     req.body.scale,
     req.body.position,
+    req.body.positionXYZ,
     req.body.galleryId,
-    req.body.oa
+    req.body.oa,
+    req.body.metadata
   );
   res.statusCode = statusCode;
   res.send(responseBody);
