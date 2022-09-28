@@ -18,13 +18,13 @@ const ImageLight = ({
     () => new THREE.SpotLight(lightColor, intensity, distance, angle, penumbra, decay),
     []
   );
-  const ref = useRef();
-  useHelper(ref, SpotLightHelper);
-  //조명1: 조명
-  //조명2: 조명이 비추는 좌표
+  // const ref = useRef();
+  // useHelper(ref, SpotLightHelper);
+  // //조명1: 조명
+  // //조명2: 조명이 비추는 좌표
   return (
     <>
-      <primitive object={light} position={lightFrom} ref={ref}/>
+      <primitive object={light} position={lightFrom}/>
       <primitive object={light.target} position={lightTo} />
     </>
   );

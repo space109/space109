@@ -11,4 +11,5 @@ export { default as ImageLight } from "./ImageLight";
 export { default as OverallLight } from "./OverallLight";
 export { default as RectAreaLight } from "./RectAreaLight";
 export { default as EditModal } from "./EditModal";
+export { default as LogoBox } from "./LogoBox";
 

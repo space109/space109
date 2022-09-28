@@ -10,18 +10,18 @@ const FPVControls = (props) => {
   const controls = useRef();
 
   useEffect(() => {
-    document.addEventListener("mousedown", (event) => {
-      if (event.defaultPrevented) {
-        return;
-      }
-      console.log(props.toggle)
-      console.log(controls.current.isLocked)
-      if (!props.toggle && !controls.current.isLocked) {
-        // 공통 변경 사항, 모달 없을때 클릭시 lock
-        controls.current.lock();
-        console.log("locked by click");
-      }
-    });
+    // document.addEventListener("mousedown", (event) => {
+    //   if (event.defaultPrevented) {
+    //     return;
+    //   }
+    //   console.log(props.toggle)
+    //   console.log(controls.current.isLocked)
+    //   if (!props.toggle && !controls.current.isLocked) {
+    //     // 공통 변경 사항, 모달 없을때 클릭시 lock
+    //     controls.current.lock();
+    //     console.log("locked by click");
+    //   }
+    // });
     document.addEventListener("keydown", (event) => {
       // e키에 반응하여 lock / unlock
       if (event.defaultPrevented) {
@@ -38,10 +38,12 @@ const FPVControls = (props) => {
       }
     });
     console.log(controls.current);
-  },[]);
-
+  }, []);
   return (
-    <pointerLockControlsImpl ref={controls} args={[camera, gl.domElement]} />
+    <pointerLockControlsImpl
+      ref={controls}
+      args={[camera, gl.domElement]}
+    />
   );
 };
 
