@@ -14,6 +14,7 @@ const apiPath = {
     gallery: () => HOST + GALLERY + "list/",
     category: () => HOST + GALLERY,
     myGalleryInfo: () => HOST + GALLERY + "my/",
+    theme: () => HOST + GALLERY + "theme/",
   },
   nft: {
 

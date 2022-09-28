@@ -5,7 +5,6 @@ import { NavBar } from "../components";
 import bg1 from "../assets/1.jpg";
 import bg2 from "../assets/2.jpg";
 import bg3 from "../assets/3.jpg";
-import { useAccount } from "../hooks";
 
 const Container = styled.div``;
 
@@ -64,11 +63,16 @@ const MainPage = () => {
   const firstRef = useRef(null);
   const secRef = useRef(null);
 
+<<<<<<< HEAD
   const [isActive, setIsActive] = useState(0);
   const [sectionIsMoving, setSectionIsMoving] = useState(false);
 
   // const [ account, nickname ] = useAccount();
   // console.log(account, nickname);
+=======
+  const [ isActive, setIsActive ] = useState(0);
+  const [ sectionIsMoving, setSectionIsMoving ] = useState(false);
+>>>>>>> cda3590b4600f832ede567f4d5fe802bf5013b3e
 
   const moveSection = (section) => {
     let sectionTop = section.getBoundingClientRect().top + window.pageYOffset;

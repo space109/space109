@@ -1,30 +1,50 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
 import { Div } from "../../styles/BaseStyles";
 
-const Button = styled.button`
+interface propsStyle {
+  selected?: any,
+  index?: any,
+}
+
+const Button = styled.button<propsStyle>`
   all: unset;
   cursor: pointer;
   display: inline-block;
   box-sizing: border-box;
-  padding: 0.7rem 0.9rem;
-  background-color: var(--grey-100);
+  padding: 0.7rem 1.2rem;
+  ${({selected, index}) => {
+    if(selected === index) {
+      return css`  
+        background-color: var(--grey-100);
+      `
+    } else {
+      return css`
+        background-color: var(--grey-400);
+      `
+    }
+  }}
   color: var(--grey-650);
-  border-radius: 4px;
+  border-radius: 2px;
+  font-size: var(--h5);
+  transition: .4s;
 `
 
-function FilterButtons({List}:any) {
+function FilterButtons({List, setValue}:any) {
 
-  const onClickHandler = (e:any) => {
-    console.log(e.target.tag);
+  const [ selected, setSelected ] = useState(0);
+  const ClickButton = (e:any, i:number) => {
+    console.log(e.target, i);
+    setValue && setValue(i);
+    setSelected(i);
   }
 
   return (
   <>
-  <Div display="flex" gap="1rem">
+  <Div display="inline-flex" gap="0.5rem" flexWrap="wrap">
     {
       List.map((item:any, i:number) => {
-        return<Button key={i} onClick={onClickHandler}>{item}</Button>
+        return <Button key={i} onClick={(e) => ClickButton(e, i)} selected={selected} index={i}>{item}</Button>
       })
     }
   </Div>

@@ -7,8 +7,13 @@ account가 undefined 값이 반환되면 계정 연결이 안되어있고,
 name이 undefined으로 반환되면 회원가입이 되어있지 않은 것.
 */
 const useAccount = () => {
+<<<<<<< HEAD
   const [account, setAccount] = useState(undefined);
   const [nickname, setNickname] = useState(undefined);
+=======
+  const [ account, setAccount ] = useState(undefined);
+  const [ nickname, setNickname ] = useState(undefined);
+>>>>>>> cda3590b4600f832ede567f4d5fe802bf5013b3e
 
   const getAccountnName = async () => {
     try {
