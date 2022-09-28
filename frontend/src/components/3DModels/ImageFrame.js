@@ -22,7 +22,7 @@ const ImageFrame = ({
   const [type, setType] = useState("image/png");
   
   useEffect(() => {
-    if (meta) {
+    if (Object.keys(meta).length) {
       axios
         .get(meta)
         .then((res) => {

@@ -7,7 +7,9 @@ import ReactDOM from "react-dom";
 import { Div } from "../../styles/BaseStyles";
 import { getMetadata } from "../../apis";
 import DatGui, { DatNumber } from "react-dat-gui";
-import number from './_number.scss'
+import number from "./_number.scss";
+import axios from "axios";
+import SharpButton from "./../Button/SharpButton";
 const BackDropDiv = styled.div`
   position: fixed;
   bottom: 0;
@@ -41,7 +43,7 @@ const ModalDiv = styled.div`
 const ChangableDiv = styled.div`
   position: fixed;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   top: 10%;
   right: 3%;
@@ -80,6 +82,10 @@ const IconEth = styled.img`
 
 const ImageList = styled.img`
   border-radius: 8px;
+  transition: 0.2s ease;
+  &:hover {
+    transform: scale(1.1, 1.1);
+  }
 `;
 
 const HR = styled.hr`
@@ -101,10 +107,11 @@ const ScrollDiv = styled(Div)`
   grid-template-rows: repeat(4, 1fr);
   column-gap: 15px;
   row-gap: 15px;
+  margin: 0 auto;
   & img {
     margin: 0 auto;
     object-fit: contain;
-    width: 97%;
+    width: 90%;
     cursor: pointer;
   }
 `;
@@ -161,23 +168,33 @@ const ChangableOverlay = (props) => {
           step={1}
         />
       </DatGui>
-      <button
-        onClick={() =>
-          props.pickNFT(
-            props.credentials.position,
-            props.credentials.metadata,
-            props.credentials.tokenId,
-            [0.2, props.changable.scaleY, props.changable.scaleX],
-            [
-              props.changable.positionX,
-              props.changable.positionY,
-              props.changable.positionZ,
-            ]
-          )
-        }
-      >
-        저장하기
-      </button>
+      <Div mt="20px">
+        <SharpButton
+          fontSize="--h6"
+          width="200px"
+          borderRadius="8px"
+          bg="--grey-100"
+          color="--grey-750"
+          height="60px"
+          onClick={() =>
+            {props.pickNFT(
+              props.toggleIdx,
+              props.countArray[props.toggleIdx]?.METADATA,
+              props.countArray[props.toggleIdx].TOKEN_ID,
+              [0.2, props.changable.scaleY, props.changable.scaleX],
+              [
+                props.changable.positionX,
+                props.changable.positionY,
+                props.changable.positionZ,
+              ]
+            ); props.toggleModal()}
+            
+            
+          }
+        >
+          저장하기
+        </SharpButton>
+      </Div>
     </ChangableDiv>
   );
 };
@@ -223,8 +240,8 @@ const ModalOverlay = (props) => {
       </Div>
       <ScrollDiv
         display="grid"
-        ml="10%"
-        mr="10%"
+        // ml="10%"
+        // mr="10%"
         bgColor="--grey-100"
         borderRadius="5px"
         w="80%"
@@ -292,7 +309,6 @@ const EditModal = ({
       dataArr.push(response);
     }
     setNFTs(dataArr);
-    console.log(dataArr)
   }, [myNFT, myTokenList]);
 
   useEffect(() => {
@@ -323,12 +339,7 @@ const EditModal = ({
     ImageScaleHandler(saveScale);
     ImagePositionHandler(savePosition);
   }, [toggleIdx, changable, ImageScaleHandler, ImagePositionHandler]);
-  //DB에 저장할 객체
-  const [credentials, setCredentials] = useState({
-    metadata: "",
-    tokenID: "",
-    position:0,
-  });
+
   //일부 저장
   const getBasicInfo = (index, source, tokenId, scale, pos) => {
     let copyArr = [...countArray];
@@ -341,38 +352,57 @@ const EditModal = ({
       GALLERY_ID: 2,
       OA: "0xF742788F6a12FCad0946cF576d240a4d88762C87",
     };
-    console.log("ㅇㄴㄹㄴㅁㄹㄻㄴㅁㄴㅇㄹㄴㅁㄹㅇ",copyArr);
-    setCountArray(copyArr);
 
-    // setCredentials({
-    //   metadata: source,
-    //   tokenId: tokenId,
-    //   position: index,
-    //   })
-  }
+    setCountArray(copyArr);
+  };
 
   //결정된 NFT에 해당되는 이미지를 업로드(OA, galleryID 추가 필요)
   const pickNFT = (index, source, tokenId, scale, pos) => {
     let copyArr = [...countArray];
-      copyArr[index] = {
-        metadata: source,
-        tokenId: tokenId,
-        position: index,
-        positionXYZ: JSON.stringify(pos),
-        scale: JSON.stringify(scale),
-        galleryId: 2,
-        oa: "0xF742788F6a12FCad0946cF576d240a4d88762C87",
-      };
-    console.log(copyArr)
+    // copyArr[index] = {
+    //   metadata: source,
+    //   tokenId: tokenId,
+    //   position: index,
+    //   positionXYZ: JSON.stringify(pos),
+    //   scale: JSON.stringify(scale),
+    //   galleryId: 2,
+    //   oa: "0xF742788F6a12FCad0946cF576d240a4d88762C87",
+    // };
+    copyArr[index] = {
+      METADATA: source,
+      TOKEN_ID: tokenId,
+      POSITION: index,
+      POSITIONXYZ: pos,
+      SCALE: scale,
+      GALLERY_ID: 2,
+      OA: "0xF742788F6a12FCad0946cF576d240a4d88762C87",
+    };
+
     setCountArray(copyArr);
 
-    //tokenId는 NFT고를 때, 가져옴
-    // axios({
-    // url: "/nft/display",
-    // method: "POST",
-    // data: copyArr[index]
-    // }).then(res => console.log(res?.data?.result))
-    // .catch(err => console.log(err));
+    //POST 데이터
+    const data = {
+      metadata: source,
+      tokenId: tokenId,
+      position: index,
+      positionXYZ: JSON.stringify(pos),
+      scale: JSON.stringify(scale),
+      galleryId: 3,
+      oa: "0x065bC2317685A146511FaBa338708A53fC6d2534",
+    };
+    // tokenId는 NFT고를 때, 가져옴
+    axios({
+      url: "http://j7b109.p.ssafy.io:8080/nft/display",
+      method: "POST",
+      data: data,
+    })
+      .then((res) => {
+
+        if (res?.data.result !== "success") {
+          alert("데이터 요청에 실패했습니다.");
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <>
@@ -383,9 +413,11 @@ const EditModal = ({
       {ReactDOM.createPortal(
         <ChangableOverlay
           toggle={toggle}
+          toggleModal={toggleModal}
           changable={changable}
           handleUpdate={handleUpdate}
-          credentials={credentials}
+          toggleIdx={toggleIdx}
+          countArray={countArray}
           pickNFT={pickNFT}
         />,
         document.getElementById("edit-changable-root")
