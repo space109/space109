@@ -40,6 +40,7 @@ class NftRepository {
     // console.log(position);
     if(scale == null && position == null && positionXYZ == null) return false;
     let sql = ``;
+<<<<<<< HEAD
     const sqlHead = `update nft set `;
     const sqlTail = ` where NFT_ID=${nftId}`;
     sql += sqlHead;
@@ -48,6 +49,25 @@ class NftRepository {
     if(positionXYZ != null) sql += ` positionXYZ='${positionXYZ}',`;
     sql = sql.slice(0, -1);
     sql += sqlTail;
+=======
+    if (scale != null && position == null) {
+      // scale에 값이 있다.
+      console.log("scale에 값이 있다.");
+      sql = `UPDATE nft SET SCALE = ${scale} WHERE NFT_ID = ${nftId}`;
+    } else if (scale == null && position != null) {
+      // position에 값이 있다.
+      console.log("position에 값이 있다.");
+      sql = `UPDATE NFT SET POSITION = '${position}' WHERE NFT_ID = ${nftId}`;
+    } else if (scale != null && position != null) {
+      // 둘 다 값이 있다.
+      console.log("둘 다 값이 있다.");
+      sql = `UPDATE NFT SET SCALE = ${scale}, POSITION = '${position}' WHERE NFT_ID = ${nftId}`;
+    } else {
+      // 둘 다 값이 없다.
+      console.log("둘 다 값이 없다.");
+      return false;
+    }
+>>>>>>> ac96412fca4fcff0a572e0dcb458bf71dd412537
     logger.debug(sql);
     let returnBool = true; 
     const result = await connection
@@ -61,7 +81,7 @@ class NftRepository {
     return returnBool;
   }
   async getDisplayedNftList(galleryId) {
-    const sql = `SELECT * FROM NFT WHERE GALLERY_ID = ${galleryId};`;
+    const sql = `SELECT * FROM nft WHERE GALLERY_ID = ${galleryId};`;
     const result = await connection
       .query(sql)
       .then((data) => data[0])
@@ -72,7 +92,7 @@ class NftRepository {
     return result;
   }
   async deleteNft(nftId) {
-    const sql = `DELETE FROM NFT WHERE NFT_ID = ${nftId};`;
+    const sql = `DELETE FROM nft WHERE NFT_ID = ${nftId};`;
     let returnBool = true;
     const result = await connection
       .query(sql)
