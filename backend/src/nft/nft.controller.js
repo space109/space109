@@ -8,7 +8,7 @@ router.post("/display", async function (req, res) {
   logger.http("POST /nft/display");
   logger.debug("req.body = " + JSON.stringify(req.body));
   const { statusCode, responseBody } = await nftService.displayMyNft(
-    req.body.toeknId,
+    req.body.tokenId,
     req.body.scale,
     req.body.position,
     req.body.positionXYZ,
