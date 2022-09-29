@@ -49,10 +49,9 @@ function SignUpPage() {
   const [helpMsg, setHelpMsg] = useState("\u00A0");
   const [color, setColor] = useState("--grey-650");
 
-  const [ account, logined ] = useAccount();
+  const [account, logined] = useAccount();
 
   // const [ metaDatas, setMetadatas ] = useState<any>();
-
 
   // const aaaa = async () => {
   //   const totalNum = await MintTestContract.methods.balanceOf(window.ethereum.selectedAddress).call();
@@ -117,85 +116,77 @@ function SignUpPage() {
 
   return (
     <>
-    <NavArea/>
-    <Div
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      h="calc(100vh - 240px)"
-    >
-      <DivWidth display="flex" flexDirection="column" gap="2rem">
+      <NavArea />
       <Div
         display="flex"
-        flexDirection="column"
         alignItems="center"
         justifyContent="center"
-        gap="0.5rem"
+        h="calc(100vh - 240px)"
       >
-        <Div fontSize="--h3" fontWeight="--bold">
-          닉네임 등록하기
-        </Div>
-        <Div fontSize="--h7" fontWeight="--thin" color="--carmine-100">
-          ※ 닉네임은 추후 변경이 불가능합니다. 신중히 선택해주세요.
-        </Div>
-      </Div>
-      <Div display="flex" flexDirection="column" gap="0.5rem">
-        <Div display="flex" borderRadius="4px">
-          <Input
-            fontSize="--h5"
-            fontWeight="--regular"
-            borderRadius="4px 0 0 4px"
-            borderWidth="3px"
-            borderColor={color}
-            borderStyle="solid none solid solid"
-            placeholder="닉네임을 입력해주세요."
-            setValue={setNickname}
-          />
+        <DivWidth display="flex" flexDirection="column" gap="2rem">
+          <Div
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            gap="0.5rem"
+          >
+            <Div fontSize="--h3" fontWeight="--bold">
+              닉네임 등록하기
+            </Div>
+            <Div fontSize="--h7" fontWeight="--thin" color="--carmine-100">
+              ※ 닉네임은 추후 변경이 불가능합니다. 신중히 선택해주세요.
+            </Div>
+          </Div>
+          <Div display="flex" flexDirection="column" gap="0.5rem">
+            <Div display="flex" borderRadius="4px">
+              <Input
+                fontSize="--h5"
+                fontWeight="--regular"
+                borderRadius="4px 0 0 4px"
+                borderWidth="3px"
+                borderColor={color}
+                borderStyle="solid none solid solid"
+                placeholder="닉네임을 입력해주세요."
+                setValue={setNickname}
+              />
+              <SharpButton
+                fontSize="--h5"
+                width="150px"
+                height="auto"
+                borderRadius="0 4px 4px 0"
+                bg={color}
+                borderWidth="3px"
+                borderColor={color}
+                onClick={dupCheckClick}
+              >
+                중복확인
+              </SharpButton>
+            </Div>
+            <Div
+              fontSize="--h7"
+              fontWeight="--thin"
+              color={color}
+              pl="calc(calc(var(--h5) / 1.5) + 3px)"
+            >
+              {helpMsg}
+            </Div>
+          </Div>
           <SharpButton
             fontSize="--h5"
-            width="150px"
-            height="auto"
-            borderRadius="0 4px 4px 0"
-            bg={color}
+            fontWeight="--bold"
+            width="100%"
+            height="69px"
             borderWidth="3px"
-            borderColor={color}
-            onClick={dupCheckClick}
+            borderRadius="4px"
+            bg="--grey-650"
+            borderColor="--grey-650"
+            onClick={signUpClick}
           >
-            중복확인
+            회원가입
           </SharpButton>
-        </Div>
-        <Div
-          fontSize="--h7"
-          fontWeight="--thin"
-          color={color}
-          pl="calc(calc(var(--h5) / 1.5) + 3px)"
-        >
-          {helpMsg}
-        </Div>
+        </DivWidth>
       </Div>
-    <SharpButton 
-        fontSize="--h5" fontWeight="--bold"
-        width="100%" height="69px" 
-        borderWidth="3px" borderRadius="4px" bg="--grey-650"
-        borderColor="--grey-650"
-        onClick={signUpClick}
-      >
-        회원가입
-      </SharpButton>
-    </DivWidth>
-    </Div>
-
-    <Cropper
-      image="https://img.huffingtonpost.com/asset/5ab4d4ac2000007d06eb2c56.jpeg?cache=sih0jwle4e&ops=1910_1000"
-      crop={crop}
-      rotation={rotation}
-      zoom={zoom}
-      aspect={5 / 6}
-      onCropChange={setCrop}
-      onRotationChange={setRotation}
-      onCropComplete={onCropComplete}
-      onZoomChange={setZoom}
-    />
     </>
   );
 }
