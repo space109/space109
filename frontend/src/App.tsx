@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
 import {
   MainPage,
   MonthlyThemePage,
-  GalleryListPage, MyNftPage,
+  GalleryListPage,
+  MyNftPage,
   SignUpPage,
   NotFoundPage,
   ProfilePage,

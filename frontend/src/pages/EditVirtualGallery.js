@@ -265,6 +265,7 @@ const EditVirtualGallery = () => {
       .call();
     setMyNFT(tokenURIs);
     setMyTokenList(tokenIds);
+    console.log("토큰 아이디 URL들",tokenIds, tokenURIs)
   }, []);
 
   useEffect(() => {
@@ -302,6 +303,7 @@ const EditVirtualGallery = () => {
         setFramePosition(posArr);
         setFrameScale(scaleArr);
         setCountArray(newArr);
+        console.log(newArr)
       })
       .catch((err) => console.log(err));
   }, []);
@@ -339,16 +341,17 @@ const EditVirtualGallery = () => {
             attach="fog"
             color="white"
             near={10}
-            far={240}
+            far={245}
             position={[0, 0, 0]}
           />
           <ambientLight intensity={0.1} />
           {/* <OrbitControls /> */}
           <Physics gravity={[0, -50, 0]}>
             {/* 사각 조명 */}
-            {RECT_AREA_LIGHT_POSITION.map((item) => {
+            {RECT_AREA_LIGHT_POSITION.map((item, idx) => {
               return (
                 <RectAreaLight
+                key={`RECTAREA_KEY${idx}`}
                   position={item.position}
                   rotation={item.rotation}
                   width={item.width}

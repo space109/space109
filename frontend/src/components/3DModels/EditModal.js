@@ -390,6 +390,7 @@ const EditModal = ({
       galleryId: 3,
       oa: "0x065bC2317685A146511FaBa338708A53fC6d2534",
     };
+    console.log(data)
     // tokenId는 NFT고를 때, 가져옴
     axios({
       url: "http://j7b109.p.ssafy.io:8080/nft/display",
@@ -397,7 +398,7 @@ const EditModal = ({
       data: data,
     })
       .then((res) => {
-
+        console.log(res)
         if (res?.data.result !== "success") {
           alert("데이터 요청에 실패했습니다.");
         }

@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { create as ipfsHttpClient } from "ipfs-http-client";
-// import './App.css';
 import styled from "styled-components";
 import SharpButton from "../Button/SharpButton";
+import { TestContract, MintTestContract } from "../../web3Config";
 
 type Props = {};
 
@@ -13,9 +13,16 @@ interface Ipfs {
 }
 
 function IpfsUploader({}: Props) {
-  const projectId = "2F6WFaN05FMtbO93ODOLhwvE6EY";
-  const projectSecretKey = "1998e51a7c7b5c7a15c51d493138c943";
+  const projectId = process.env.REACT_APP_PROJECT_ID;
+  const projectSecretKey = process.env.REACT_APP_PROJECT_SECRET_KEY;
   const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
+
+  // ----------
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingIpfs, setLoadingIpfs] = useState<boolean>(false);
+  const [loadingMeta, setLoadingMeta] = useState<boolean>(false);
+  const [loadingMint, setLoadingMint] = useState<boolean>(false);
+  // ---------
 
   const [image, setImage] = useState<Ipfs | any>("");
   const [json, setJson] = useState<Ipfs | string>("");
@@ -29,6 +36,7 @@ function IpfsUploader({}: Props) {
 
   const onSubmitHandler = async (event: any) => {
     event.preventDefault();
+    setLoading(true);
     const form = event.target;
     const files = form[0].files;
 
@@ -38,14 +46,17 @@ function IpfsUploader({}: Props) {
 
     const file = files[0];
     // upload files
-    const result = await ipfs.add(file);
+    const result = await ipfs.add(file, { wrapWithDirectory: false });
 
     setImage({
       cid: result.cid,
       path: result.path,
     });
+    console.log(result.path);
 
     form.reset();
+
+    setLoadingIpfs(true);
 
     const Json = await ipfs.add(
       JSON.stringify({
@@ -54,9 +65,32 @@ function IpfsUploader({}: Props) {
         author: "imukyee",
         description: "설명",
         image: "https://skywalker.infura-ipfs.io/ipfs/" + result.path,
+        type: file.type,
       })
     );
+    console.log("1", Json);
     setJson(Json.path);
+
+    setLoadingMeta(true);
+
+    const response = await MintTestContract.methods
+      .create(
+        window.ethereum.selectedAddress,
+        "https://skywalker.infura-ipfs.io/ipfs/" + Json.path
+      )
+      .send({ from: window.ethereum.selectedAddress });
+
+    console.log(response);
+
+    setLoadingMint(true);
+
+    await setTimeout(() => {
+      setLoading(false);
+      setLoadingIpfs(false);
+      setLoadingMeta(false);
+      setLoadingMint(false);
+      setFile("");
+    }, 1000);
   };
 
   const onChange = async (e: any) => {
@@ -91,6 +125,7 @@ function IpfsUploader({}: Props) {
               type="file"
               name="file"
               id="file"
+              accept=".jpg .jpeg .mp4 .gif .png"
               onChange={onChange}
               style={{ display: "none" }}
             />
@@ -98,22 +133,33 @@ function IpfsUploader({}: Props) {
           </form>
         </>
       )}
-      {image && (
-        <img
-          alt={`Uploaded #`}
-          src={"https://skywalker.infura-ipfs.io/ipfs/" + image.path}
-          style={{ maxWidth: "400px", margin: "15px" }}
-        />
-      )}
 
-      <br></br>
-      {json && (
-        <a
-          href={`https://skywalker.infura-ipfs.io/ipfs/${json}`}
-          target="blank"
-        >
-          주소
-        </a>
+      {loading ? (
+        <div>
+          <div>IPFS 업로드 {loadingIpfs ? "완료" : "대기"}</div>
+          <div>메타 데이터 업로드 {loadingMeta ? "완료" : "대기"}</div>
+          <div>민팅 {loadingMint ? "완료" : "대기"}</div>
+        </div>
+      ) : (
+        <div>
+          {image && (
+            <img
+              alt={`Uploaded #`}
+              src={"https://skywalker.infura-ipfs.io/ipfs/" + image.path}
+              style={{ maxWidth: "400px", margin: "15px" }}
+            />
+          )}
+
+          <br></br>
+          {json && (
+            <a
+              href={`https://skywalker.infura-ipfs.io/ipfs/${json}`}
+              target="blank"
+            >
+              주소
+            </a>
+          )}
+        </div>
       )}
     </div>
   );

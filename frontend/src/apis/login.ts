@@ -5,12 +5,11 @@ const login = async (walletAddress: any) => {
   try {
     const { data: { result, data } } : any = await axios({
       method: 'POST',
-      url: apiPath.wallet.login(), // 주소? 
+      url: apiPath.wallet.login(), 
       data: {
         "oa": walletAddress,
       }
     });
-    console.log(result, data);
     if (result === 'success') {
       return data;
     } else {
