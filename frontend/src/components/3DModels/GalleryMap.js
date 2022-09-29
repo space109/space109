@@ -3,23 +3,6 @@ import { useGLTF, PerspectiveCamera } from "@react-three/drei";
 import { Geometry } from "three-stdlib";
 import { useConvexPolyhedron } from "@react-three/cannon";
 
-const LightHelper = (props) => {
-  // const ref = useRef();
-  // useHelper(ref, PointLightHelper, "yellow");
-  return (
-    <>
-      <spotLight
-        // ref={ref}
-        // intensity={0.3}
-        // color={"red"}
-        // position={[30, 13, -35]}
-        // castShadow
-        {...props}
-      />
-    </>
-  );
-};
-
 function toConvexProps(bufferGeometry) {
   const geo = new Geometry().fromBufferGeometry(bufferGeometry);
   geo.mergeVertices();
