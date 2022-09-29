@@ -231,8 +231,8 @@ interface propsStyle {
 const Image = styled.div<propsStyle>`
   box-sizing: border-box;
   position: absolute;
-  width: 44%;
-  height: 66%;
+  width: 50%;
+  height: 60%;
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-60%);

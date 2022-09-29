@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input, SharpButton, NavArea } from "../components";
 import { dupCheck, join, getMetadata } from "../apis";
 import { MintTestContract } from "../web3Config";
 import { useAccount } from "../hooks";
+import Cropper from 'react-easy-crop';
 
 interface PropsStyle {
   imgURL?: any;
@@ -104,6 +105,16 @@ function SignUpPage() {
     setHelpMsg("\u00A0");
   }, [nickname]);
 
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [rotation, setRotation] = useState(0)
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+
+  const onCropComplete = useCallback((croppedArea:any, croppedAreaPixels:any) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+  }, [])
+
+
   return (
     <>
     <NavArea/>
@@ -173,6 +184,18 @@ function SignUpPage() {
       </SharpButton>
     </DivWidth>
     </Div>
+
+    <Cropper
+      image="https://img.huffingtonpost.com/asset/5ab4d4ac2000007d06eb2c56.jpeg?cache=sih0jwle4e&ops=1910_1000"
+      crop={crop}
+      rotation={rotation}
+      zoom={zoom}
+      aspect={5 / 6}
+      onCropChange={setCrop}
+      onRotationChange={setRotation}
+      onCropComplete={onCropComplete}
+      onZoomChange={setZoom}
+    />
     </>
   );
 }

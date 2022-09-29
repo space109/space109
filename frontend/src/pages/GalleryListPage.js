@@ -76,12 +76,14 @@ function GalleryListPage() {
         setGallerys(result);
       }
       else {
+        console.log("들어오나??")
         setGallerys(datas);
       } 
     }
   }
 
   useEffect(() => {
+    console.log("진입했음")
     getGallerys(theme, searchValue);
   }, [theme, searchValue])
 
