@@ -19,6 +19,8 @@ const modalActive = keyframes`
 `;
 
 const ModalDiv = styled.div`
+  padding: 20px;
+  display: flex;
   position: fixed;
   top: 30vh;
   left: 10%;
@@ -51,11 +53,13 @@ const ModalOverlay = (props) => {
   return (
     <ModalDiv className="modal-active">
       <Img src={closeIcon} alt="" onClick={props.toggleModal} />
+      <Div flex="3">props.</Div>
+      <Div flex="7"></Div>
     </ModalDiv>
   );
 };
 
-const InfoModal = ({ toggleModal, toggle }) => {
+const InfoModal = ({ toggleModal, toggle, room, index }) => {
   return (
     <>
       {ReactDOM.createPortal(
@@ -63,7 +67,7 @@ const InfoModal = ({ toggleModal, toggle }) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay toggleModal={toggleModal} toggle={toggle}/>,
+        <ModalOverlay toggleModal={toggleModal} toggle={toggle} room={room} index={index}/>,
         document.getElementById("overlay-root")
       )}
     </>

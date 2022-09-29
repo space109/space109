@@ -1,10 +1,4 @@
-export {
-  FPVControls,
-  GalleryMap,
-  InfoModal,
-  MapBoundary,
-  Player,
-} from "./3DModels";
+export { FPVControls, GalleryMap, InfoModal, MapBoundary, Player, Floor, ImageFrame, OverallLight, ImageLight, RectAreaLight, CeilingBox, EditModal, LogoBox } from "./3DModels"
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";
 export { DropDown } from "./DropDown";
