@@ -5,7 +5,9 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useConnectWallet } from "../../hooks";
 import { login } from "../../apis";
 
-// type Props = {}
+interface Props {
+  windowSize: any;
+}
 
 interface StyleProps {
   active?: boolean;
@@ -80,7 +82,6 @@ const Menu = styled.ul`
   display: flex;
 
   flex-direction: column;
-
   @media (max-width: 992px) {
     display: none;
   }
@@ -137,7 +138,20 @@ const SecondaryMenuItem = styled.li<StyleProps>`
   }
 `;
 
-function NavBar() {
+const HamburgerMenu = styled.div<StyleProps>`
+  font-family: "Pretendard Variable";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--grey-100);
+  margin-top: 0;
+
+  @media (min-width: 992px) {
+    display: none;
+  }
+`;
+
+function NavBar({ windowSize }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [selected, setSelected] = useState<string>("/");
@@ -148,6 +162,7 @@ function NavBar() {
   // 임시 ------------------------
   const [account, setAccount] = useState();
   const [nickname, setNickname] = useState<string>("");
+  console.log(windowSize);
 
   const SSAFY_CHAIN_ID = "0x79f5";
   const EXTENSION_DOWNLOAD_URL = "https://metamask.io";
@@ -320,47 +335,51 @@ function NavBar() {
           <LogoDiv>
             <Logo onClick={goHome}></Logo>
           </LogoDiv>
-          <Menu>
-            <SecondaryMenu>
-              {!nickname ? (
-                <SecondaryMenuItem
-                  onClick={goSignUp}
-                  active={checkActive("/signUp")}
+          {windowSize.width > 992 ? (
+            <Menu>
+              <SecondaryMenu>
+                {!nickname ? (
+                  <SecondaryMenuItem
+                    onClick={goSignUp}
+                    active={checkActive("/signUp")}
+                  >
+                    지갑연결
+                  </SecondaryMenuItem>
+                ) : (
+                  <>
+                    <SecondaryMenuItem
+                      onClick={goProfile}
+                      active={checkActive("/profile")}
+                    >
+                      프로필
+                    </SecondaryMenuItem>
+                    <SecondaryMenuItem
+                      onClick={goMyNFT}
+                      active={checkActive("/myNft")}
+                    >
+                      내NFT
+                    </SecondaryMenuItem>
+                  </>
+                )}
+              </SecondaryMenu>
+              <PrimayMenu>
+                <PrimayMenuItem
+                  onClick={goTheme}
+                  active={checkActive("/monthlyTheme")}
                 >
-                  지갑연결
-                </SecondaryMenuItem>
-              ) : (
-                <>
-                  <SecondaryMenuItem
-                    onClick={goProfile}
-                    active={checkActive("/profile")}
-                  >
-                    프로필
-                  </SecondaryMenuItem>
-                  <SecondaryMenuItem
-                    onClick={goMyNFT}
-                    active={checkActive("/myNft")}
-                  >
-                    내NFT
-                  </SecondaryMenuItem>
-                </>
-              )}
-            </SecondaryMenu>
-            <PrimayMenu>
-              <PrimayMenuItem
-                onClick={goTheme}
-                active={checkActive("/monthlyTheme")}
-              >
-                월간테마
-              </PrimayMenuItem>
-              <PrimayMenuItem
-                onClick={goGallery}
-                active={checkActive("/gallery")}
-              >
-                갤러리
-              </PrimayMenuItem>
-            </PrimayMenu>
-          </Menu>
+                  월간테마
+                </PrimayMenuItem>
+                <PrimayMenuItem
+                  onClick={goGallery}
+                  active={checkActive("/gallery")}
+                >
+                  갤러리
+                </PrimayMenuItem>
+              </PrimayMenu>
+            </Menu>
+          ) : (
+            <HamburgerMenu>메뉴</HamburgerMenu>
+          )}
         </NavBox>
       </Nav>
       <Outlet></Outlet>
