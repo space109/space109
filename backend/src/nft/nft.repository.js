@@ -3,7 +3,7 @@ const logger = require("../../config/log");
 
 class NftRepository {
   async displayMyNft(
-    toeknId,
+    tokenId,
     scale,
     position,
     positionXYZ,
@@ -15,7 +15,7 @@ class NftRepository {
             VALUES(
                 ${galleryId},
                 '${oa}',
-                '${toeknId}',
+                ${tokenId},
                 '${scale}',
                 ${position},
                 '${positionXYZ}',
