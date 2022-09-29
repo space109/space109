@@ -5,7 +5,7 @@ const join = async (walletAddress: any, nickname: any) => {
   try {
     const { data: { result, data } } : any = await axios({
       method: 'POST',
-      url: apiPath.wallet.join(), // 주소? 
+      url: apiPath.wallet.join(), 
       data: {
         "oa": walletAddress,
         "nickname": nickname,

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
-import { Input, SharpButton } from "../components";
+import { Input, SharpButton, NavArea } from "../components";
 import { dupCheck, join, getMetadata } from "../apis";
-import { TestContract, MintTestContract } from "../web3Config";
+import { MintTestContract } from "../web3Config";
+import { useAccount } from "../hooks";
 
 interface PropsStyle {
   imgURL?: any;
@@ -47,62 +48,23 @@ function SignUpPage() {
   const [helpMsg, setHelpMsg] = useState("\u00A0");
   const [color, setColor] = useState("--grey-650");
 
-  // const [ text, setText ] = useState("ㅋㅋ");
+  const [account, logined] = useAccount();
 
-  const [metaDatas, setMetadatas] = useState<any>();
+  // const [ metaDatas, setMetadatas ] = useState<any>();
 
-  const textClick = async () => {
-    const response = await MintTestContract.methods
-      .create(
-        window.ethereum.selectedAddress,
-        "https://skywalker.infura-ipfs.io/ipfs/QmWwMm2e5KQfq6sPVfHrmu39Xzs3nYEetcqNP7BprCc1Mp"
-      )
-      .send({ from: window.ethereum.selectedAddress });
-
-    console.log(response);
-  };
-
-  const aaaa = async () => {
-    const totalNum = await MintTestContract.methods
-      .balanceOf(window.ethereum.selectedAddress)
-      .call();
-    const total = await MintTestContract.methods.totalSupply().call();
-    const tokenIds = await MintTestContract.methods
-      .tokenIDsofWallet(window.ethereum.selectedAddress)
-      .call();
-    console.log(tokenIds);
-    const tokenURIs = await MintTestContract.methods
-      .tokenURIsofWallet(window.ethereum.selectedAddress)
-      .call();
-    const Metas = [];
-    for (let i = 0; i < tokenURIs.length; i++) {
-      const Meta = await getMetadata(tokenURIs[i]);
-      Metas.push(Meta);
-    }
-    console.log("zzz", Metas);
-    setMetadatas(Metas);
-    // for (let i = 1; i < totalNum+1; i++) {
-    //   const tokenId = await MintTestContract.methods.tokenOfOwnerByIndex(window.ethereum.selectedAddress, i).call();
-    //   console.log(tokenId);
-    // }
-  };
-  // useEffect(() => {
-  //   (async function () {
-  //     console.log("있나?")
-  //     const text = await TestContract.methods.current().call();
-  //     setText(text);
-  //   })();
-  // }, [])
-
-  // const textClick = async () => {
-  //   console.log('테스트', window.ethereum.selectedAddress);
-  //   const result = await TestContract.methods.write(nickname).send({from: window.ethereum.selectedAddress});
-  //   if (!result) {
-  //     console.log('안됐대');
-  //     return;
+  // const aaaa = async () => {
+  //   const totalNum = await MintTestContract.methods.balanceOf(window.ethereum.selectedAddress).call();
+  //   const total = await MintTestContract.methods.totalSupply().call();
+  //   const tokenIds = await MintTestContract.methods.tokenIDsofWallet(window.ethereum.selectedAddress).call();
+  //   console.log(tokenIds);
+  //   const tokenURIs = await MintTestContract.methods.tokenURIsofWallet(window.ethereum.selectedAddress).call();
+  //   const Metas = [];
+  //   for (let i = 0; i < tokenURIs.length; i++) {
+  //     const Meta = await getMetadata(tokenURIs[i]);
+  //     Metas.push(Meta);
   //   }
-  //   const text = await TestContract.methods.current().call();
-  //   setText(text);
+  //   console.log('zzz',Metas)
+  //   setMetadatas(Metas);
   // }
 
   const dupCheckClick = async () => {
@@ -115,9 +77,6 @@ function SignUpPage() {
     if (isDup) {
       setColor("--carmine-100");
       setHelpMsg("중복된 닉네임 입니다.");
-    } else if (isDup === undefined) {
-      console.log("통신 에러");
-      return;
     } else {
       setColor("--spinach-300");
       setHelpMsg("사용 가능한 닉네임 입니다.");
@@ -126,8 +85,7 @@ function SignUpPage() {
 
   const signUpClick = async () => {
     if (helpMsg === "사용 가능한 닉네임 입니다.") {
-      const isJoin = await join(window.ethereum.selectedAddress, nickname);
-      // const isJoin = await join(account, nickname);
+      const isJoin = await join(account, nickname);
       if (isJoin) {
         console.log("성공했당");
         // 메인으로 이동시키기 이전꺼 기억 가넝.,.?
@@ -147,11 +105,12 @@ function SignUpPage() {
 
   return (
     <>
+      <NavArea />
       <Div
         display="flex"
         alignItems="center"
         justifyContent="center"
-        h="calc(100vh - 120px)"
+        h="calc(100vh - 240px)"
       >
         <DivWidth display="flex" flexDirection="column" gap="2rem">
           <Div
@@ -202,26 +161,21 @@ function SignUpPage() {
               {helpMsg}
             </Div>
           </Div>
-          <Div fontSize="--h7" fontWeight="--thin" color={color} pl="calc(calc(var(--h5) / 1.5) + 3px)">
-            {helpMsg}
-          </Div>
-        </Div>
-        <SharpButton 
-          fontSize="--h5" fontWeight="--bold"
-          width="100%" height="69px" 
-          borderWidth="3px" borderRadius="4px" bg="--grey-650"
-          borderColor="--grey-650"
-          onClick={signUpClick}
-        >
-          회원가입
-        </SharpButton>
-      </DivWidth>
-    </Div>
-    <SharpButton onClick={textClick}>버튼</SharpButton>
-    <SharpButton onClick={aaaa}>보기</SharpButton>
-    {metaDatas ? metaDatas.map((fileData:any, i:any) => {
-      return <img style={{width:'300px'}} src={fileData.image} key={i}/>
-    }) : <></>}
+          <SharpButton
+            fontSize="--h5"
+            fontWeight="--bold"
+            width="100%"
+            height="69px"
+            borderWidth="3px"
+            borderRadius="4px"
+            bg="--grey-650"
+            borderColor="--grey-650"
+            onClick={signUpClick}
+          >
+            회원가입
+          </SharpButton>
+        </DivWidth>
+      </Div>
     </>
   );
 }
