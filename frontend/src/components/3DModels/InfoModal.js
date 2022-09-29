@@ -168,7 +168,7 @@ const Backdrop = (props) => {
 const ModalOverlay = ({
   toggle,
   toggleModal,
-  meta={},
+  meta="",
 }) => {
   const [title, setTitle] = useState("제목");
   const [author, setAuthor] = useState("작가");
@@ -177,8 +177,8 @@ const ModalOverlay = ({
   const [price, setPrice] = useState("가격");
 
   useEffect(() => {
-    if (meta !== {}) {
-      console.log("InfoModal")
+    if (meta !== "") {
+      console.log("InfoModal");
       axios
         .get(meta)
         .then((res) => {
@@ -188,6 +188,11 @@ const ModalOverlay = ({
           setImage(res?.data.image);
         })
         .catch((err) => console.log(err));
+    } else {
+      setTitle("제목");
+      setAuthor("작가");
+      setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, ");
+      setImage(uploadImage);
     }
   }, [meta]);
 
@@ -234,7 +239,7 @@ const ModalOverlay = ({
   );
 };
 
-const InfoModal = ({ toggleModal, toggle, room, index }) => {
+const InfoModal = ({ toggleModal, toggle, meta }) => {
   return (
     <>
       {ReactDOM.createPortal(
@@ -242,7 +247,7 @@ const InfoModal = ({ toggleModal, toggle, room, index }) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay toggleModal={toggleModal} toggle={toggle} room={room} index={index}/>,
+        <ModalOverlay toggleModal={toggleModal} toggle={toggle} meta={meta} />,
         document.getElementById("overlay-root")
       )}
     </>

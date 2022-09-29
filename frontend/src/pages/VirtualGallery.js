@@ -40,23 +40,38 @@ const LogoBox = ({
 
 //조명을 조절하는 함수
 
-const artIndexList = [
-  // 방, Index 리스트
-  [], // 시작 방
-  [0, 1, 2, 3, 4, 5], // 1번 방
-  [6], // 2번 방
-  [7, 8, 9, 10, 11, 12], // 3번 방
-  [13], // 4번 방
-  [14, 15, 16, 17, 18, 19], // 5번 방
-  [20], // 6번 방
-  [21, 22, 23, 24], // 7번 방
-  [], // 중앙 방
-];
-
 const VirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
   const [toggleIdx, setToggleIdx] = useState(0);
   const [metalist, setMetaList] = useState([{ hello: "hello" }]); //기존에 업로드 되었던 목록을 가져옴(업로드 되었던 목록에서 변화)
+  const [targetMeta, setTargetMeta] = useState(""); // 모달에 띄울 메타데이터
+  const [imageMeta, setImageMeta] = useState({ // ImageFrame에 넣어줄 메타데이터
+    0: '',
+    1: '',
+    2: '',
+    3: '',
+    4: '',
+    5: '',
+    6: '',
+    7: '',
+    8: '',
+    9: '',
+    10: '',
+    11: '',
+    12: '',
+    13: '',
+    14: '',
+    15: '',
+    16: '',
+    17: '',
+    18: '',
+    19: '',
+    20: '',
+    21: '',
+    22: '',
+    23: '',
+    24: '',
+  });
 
   //나의 지갑에 있는 NFT 리스트(더미데이터)
   const [myNFT, setMyNFT] = useState([
@@ -137,24 +152,76 @@ const VirtualGallery = () => {
   };
 
   const targetRoom = (e) => {
-    // 룸 정보 함수. 서비스 단계에서는 지울 것
+    // 룸 정보 함수. 
     setRoom(e);
   };
 
   const targetIndex = (e) => {
-    // 모달 타겟 인덱스 함수. 서비스 단계에서는 지울 것
+    // 모달 타겟 인덱스 함수.
     setIndex(e);
   };
 
-  //메타데이터 이미지 임시를 불러옴
-  const [image, setImage] = useState("");
   useEffect(() => {
-    axios
-      .get(
-        "https://skywalker.infura-ipfs.io/ipfs/QmQizUKRdG8NG1H6GvjEqbyrmvmqxdzFYSTrZR1o6DQCsa"
-      )
-      .then((res) => setImage(res.data?.image));
-  }, []);
+    let tempMeta = {
+      0: '',
+      1: '',
+      2: '',
+      3: '',
+      4: '',
+      5: '',
+      6: '',
+      7: '',
+      8: '',
+      9: '',
+      10: '',
+      11: '',
+      12: '',
+      13: '',
+      14: '',
+      15: '',
+      16: '',
+      17: '',
+      18: '',
+      19: '',
+      20: '',
+      21: '',
+      22: '',
+      23: '',
+      24: '',
+    };
+    prevNFT.data.forEach((value) => {
+      tempMeta[value.POSITION] = value.METADATA;
+    });
+    setImageMeta(tempMeta);
+  }, [prevNFT]);
+
+  useEffect(() => {
+    const artIndexList = [
+      // 방, Index 리스트
+      [], // 시작 방
+      [0, 1, 2, 3, 4, 5], // 1번 방
+      [6], // 2번 방
+      [7, 8, 9, 10, 11, 12], // 3번 방
+      [13], // 4번 방
+      [14, 15, 16, 17, 18, 19], // 5번 방
+      [20], // 6번 방
+      [21, 22, 23, 24], // 7번 방
+      [], // 중앙 방
+    ];
+
+    let focus = typeof(artIndexList[room][index]) === typeof(0) ? artIndexList[room][index] : -1;
+
+    prevNFT.data.some((value) => {
+      if (value.POSITION === focus) {
+        setTargetMeta(value.METADATA);
+        console.log("targetMeta: ", value.METADATA, room, index, focus);
+        return true;
+      }
+      setTargetMeta("");
+      console.log("targetMeta: ''", room, index, focus);
+      return false;
+    });
+  }, [room, index, prevNFT]);
 
   const [countArray, setCountArray] = useState([]);
 
@@ -163,7 +230,7 @@ const VirtualGallery = () => {
       <InfoModal
         toggleModal={toggleModal}
         toggle={toggle}
-        meta={prevNFT.data[0]?.METADATA}
+        meta={targetMeta}
       />
       <Canvas style={{ background: "grey" }}>
         <OverallLight />
@@ -252,8 +319,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={0}
-            meta={prevNFT.data[0]?.METADATA}
-            src={image}
+            meta={imageMeta[0]}
           />
           <ImageLight
             lightFrom={[25, 63, -150]}
@@ -267,8 +333,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={1}
-            meta={prevNFT.data[1]?.METADATA}
-            src={image}
+            meta={imageMeta[1]}
           />
           <ImageLight
             lightFrom={[25, 63, -185]}
@@ -282,8 +347,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={2}
-            meta={prevNFT.data[2]?.METADATA}
-            src={image}
+            meta={imageMeta[2]}
           />
           <ImageLight
             lightFrom={[39, 63, -115]}
@@ -297,8 +361,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={3}
-            meta={prevNFT.data[3]?.METADATA}
-            src={image}
+            meta={imageMeta[3]}
           />
           <ImageLight
             lightFrom={[39, 63, -150]}
@@ -312,8 +375,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={4}
-            meta={prevNFT.data[4]?.METADATA}
-            src={image}
+            meta={imageMeta[4]}
           />
           <ImageLight
             lightFrom={[39, 63, -185]}
@@ -327,8 +389,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={5}
-            meta={prevNFT.data[5]?.METADATA}
-            src={image}
+            meta={imageMeta[5]}
           />
           {/* 2번 통로 */}
           <RectAreaLight
@@ -345,7 +406,7 @@ const VirtualGallery = () => {
             args={[0.2, 45, 45]}
             toggleModal={toggleModal}
             index={6}
-            meta={prevNFT.data[6]?.METADATA}
+            meta={imageMeta[6]}
           />
           <RectAreaLight
             position={[33, 0.5, -257]}
@@ -382,7 +443,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={7}
-            meta={prevNFT.data[7]?.METADATA}
+            meta={imageMeta[7]}
           />
           <ImageLight
             lightFrom={[146, 63, -238]}
@@ -397,7 +458,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={8}
-            meta={prevNFT.data[8]?.METADATA}
+            meta={imageMeta[8]}
           />
           <ImageLight
             lightFrom={[181, 63, -238]}
@@ -412,7 +473,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={9}
-            meta={prevNFT.data[9]?.METADATA}
+            meta={imageMeta[9]}
           />
           <ImageLight
             lightFrom={[111, 63, -235]}
@@ -427,7 +488,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={10}
-            meta={prevNFT.data[10]?.METADATA}
+            meta={imageMeta[10]}
           />
           <ImageLight
             lightFrom={[146, 63, -235]}
@@ -442,7 +503,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={11}
-            meta={prevNFT.data[11]?.METADATA}
+            meta={imageMeta[11]}
           />
           <ImageLight
             lightFrom={[181, 63, -235]}
@@ -457,7 +518,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={12}
-            meta={prevNFT.data[12]?.METADATA}
+            meta={imageMeta[12]}
           />
           {/* 4번 통로 */}
           <RectAreaLight
@@ -473,7 +534,7 @@ const VirtualGallery = () => {
             args={[0.2, 45, 45]}
             toggleModal={toggleModal}
             index={13}
-            meta={prevNFT.data[13]?.METADATA}
+            meta={imageMeta[13]}
           />
           <RectAreaLight
             position={[251, 0.5, -240]}
@@ -510,7 +571,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={14}
-            meta={prevNFT.data[14]?.METADATA}
+            meta={imageMeta[14]}
           />
           <ImageLight
             lightFrom={[230, 63, -125]}
@@ -524,7 +585,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={15}
-            meta={prevNFT.data[15]?.METADATA}
+            meta={imageMeta[15]}
           />
           <ImageLight
             lightFrom={[230, 63, -90]}
@@ -538,7 +599,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={16}
-            meta={prevNFT.data[16]?.METADATA}
+            meta={imageMeta[16]}
           />
           <ImageLight
             lightFrom={[234, 63, -160]}
@@ -552,7 +613,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={17}
-            meta={prevNFT.data[17]?.METADATA}
+            meta={imageMeta[17]}
           />
           <ImageLight
             lightFrom={[234, 63, -125]}
@@ -566,7 +627,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={18}
-            meta={prevNFT.data[18]?.METADATA}
+            meta={imageMeta[18]}
           />
           <ImageLight
             lightFrom={[234, 63, -90]}
@@ -580,7 +641,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={19}
-            meta={prevNFT.data[19]?.METADATA}
+            meta={imageMeta[19]}
           />
           {/* 6번 통로 */}
           <RectAreaLight
@@ -597,7 +658,7 @@ const VirtualGallery = () => {
             args={[0.2, 45, 45]}
             toggleModal={toggleModal}
             index={20}
-            meta={prevNFT.data[20]?.METADATA}
+            meta={imageMeta[20]}
           />
           <RectAreaLight
             position={[231, 0.5, -20]}
@@ -635,7 +696,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={21}
-            meta={prevNFT.data[21]?.METADATA}
+            meta={imageMeta[21]}
           />
           <ImageLight
             lightFrom={[150, 60, -40]}
@@ -650,7 +711,7 @@ const VirtualGallery = () => {
             rotation={[0, Math.PI / 2, 0]}
             toggleModal={toggleModal}
             index={22}
-            meta={prevNFT.data[22]?.METADATA}
+            meta={imageMeta[22]}
           />
           <ImageLight
             lightFrom={[115, 60, -35]}
@@ -665,7 +726,7 @@ const VirtualGallery = () => {
             args={[0.2, 27, 27]}
             toggleModal={toggleModal}
             index={23}
-            meta={prevNFT.data[23]?.METADATA}
+            meta={imageMeta[23]}
           />
           <ImageLight
             lightFrom={[150, 60, -35]}
@@ -680,7 +741,7 @@ const VirtualGallery = () => {
             rotation={[0, Math.PI / 2, 0]}
             toggleModal={toggleModal}
             index={24}
-            meta={prevNFT.data[24]?.METADATA}
+            meta={imageMeta[24]}
           />
 
           {/* 마지막 통로 */}
