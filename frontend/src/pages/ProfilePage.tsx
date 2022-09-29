@@ -54,17 +54,16 @@ export default function ProfilePage({}: Props) {
   const loadData = useCallback(async (oa: string) => {
     setLoading(true);
     const data = await myGalleryInfo(oa);
-    console.log(data[0]);
     setTitle(data[0].title);
     setDescription(data[0].description);
     setThumbnail(process.env.REACT_APP_BACKEND_HOST2 + data[0].thumbnail);
+    setFile(data[0].thumbnail);
     setData(data[0]);
 
     setLoading(false);
   }, [location]);
 
   useEffect(() => {
-    console.log(eth.selectedAddress);
     setTimeout(() => {
       loadData(eth?.selectedAddress);
     }, 100);
@@ -80,13 +79,12 @@ export default function ProfilePage({}: Props) {
   };
 
   const submitHandler = async () => {
-    console.log("???", updateData)
     const formData = new FormData();
 
     Object.entries(updateData).forEach((item) =>
       formData.append(item[0], item[1])
     );
-    console.log(formData);
+
     const data = await myGalleryInfoUpdate(formData);
   };
 
@@ -307,30 +305,6 @@ export default function ProfilePage({}: Props) {
                       />
                     </Div>
                   </label>
-                  {/* <label htmlFor="file" style={{ cursor: "pointer" }}>
-                    {file && thumbnail ? (
-                      <Div border="10px solid yellow" w="20rem" h="24rem">
-                        <>
-                        {console.log(file)}
-                        {console.log(fileImage)}
-                        <img
-                          src={fileImage}
-                          alt="preview image"
-                          style={{ width: "100%" }}
-                        />
-                        </>
-                      </Div>
-                    ) : (
-                      <Div border="10px solid blue" w="20rem" h="24rem">
-                        <img
-                          alt={`Uploaded #`}
-                          src={thumbnail}
-                          style={{ width: "100%" }}
-                        />
-                      </Div>
-                    )}
-                  </label> */}
-
                   <input
                     type="file"
                     name="file"
