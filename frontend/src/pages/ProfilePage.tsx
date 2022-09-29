@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { DropDown, SharpButton, NavArea, Input, CropModal } from "../components";
 import { Div } from "../styles/BaseStyles";
 import { myGalleryInfo, myGalleryInfoUpdate } from "../apis";
+import { useLocation } from "react-router-dom";
 
 interface Props {}
 
@@ -48,6 +49,8 @@ export default function ProfilePage({}: Props) {
     }
   };
 
+  const location = useLocation();
+
   const loadData = useCallback(async (oa: string) => {
     setLoading(true);
     const data = await myGalleryInfo(oa);
@@ -58,7 +61,7 @@ export default function ProfilePage({}: Props) {
     setData(data[0]);
 
     setLoading(false);
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     console.log(eth.selectedAddress);
@@ -87,10 +90,6 @@ export default function ProfilePage({}: Props) {
     const data = await myGalleryInfoUpdate(formData);
   };
 
-  useEffect(() => {
-    console.log("wjwkdqdasDAS", file, fileImage)
-  }, [file, fileImage]);
-
   return (
     <>
     {
@@ -100,6 +99,7 @@ export default function ProfilePage({}: Props) {
       fileImage={fileImage}
       setFile={setFile}
       setFileImage={setFileImage}
+      setThumbnail={setThumbnail}
       />
     }
       <NavArea />
@@ -298,26 +298,14 @@ export default function ProfilePage({}: Props) {
                 borderLeft="4px black solid"
               >
                 <Div m="auto" border="10px solid red" >
-                <label htmlFor="file" style={{ cursor: "pointer" }}>
-                    {file ? (
-                      <Div border="10px solid yellow" w="20rem" h="24rem">
-                        <>
-                        <img
-                          src={fileImage}
-                          alt="preview image"
-                          style={{ width: "100%" }}
-                        />
-                        </>
-                      </Div>
-                    ) : (
-                      <Div border="10px solid blue" w="20rem" h="24rem">
-                        <img
-                          alt={`Uploaded #`}
-                          src={thumbnail}
-                          style={{ width: "100%" }}
-                        />
-                      </Div>
-                    )}
+                  <label htmlFor="file" style={{ cursor: "pointer" }}>
+                    <Div border="10px solid blue" w="20rem" h="24rem">
+                      <img
+                        alt={`Uploaded #`}
+                        src={thumbnail}
+                        style={{ width: "100%" }}
+                      />
+                    </Div>
                   </label>
                   {/* <label htmlFor="file" style={{ cursor: "pointer" }}>
                     {file && thumbnail ? (

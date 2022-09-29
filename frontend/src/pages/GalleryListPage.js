@@ -77,6 +77,7 @@ function GalleryListPage() {
       }
       else {
         console.log("들어오나??")
+        console.log(datas);
         setGallerys(datas);
       } 
     }

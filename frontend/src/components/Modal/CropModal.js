@@ -55,6 +55,7 @@ function CropModal (props) {
       Promise.all(await getCroppedImg(props.fileImage, croppedAreaPixels, rotation)).then((cropped) => {
         console.log("이거머임??", cropped)
         props.setFileImage(cropped[0])
+        props.setThumbnail(cropped[0])
         props.setFile(cropped[1])
       })
     } catch (e) {
