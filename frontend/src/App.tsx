@@ -24,7 +24,7 @@ function App() {
             <Route path="/signUp" element={<SignUpPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/virtual-gallery" element={<VirtualGallery/>} />
-            <Route path="/edit-virtual-gallery" element={<EditVirtualGallery/>} />
+            <Route path="/edit-virtual-gallery/:key" element={<EditVirtualGallery/>} />
             <Route path="/myNft" element={<MyNftPage />}></Route>
           </Route>
           <Route path="/*" element={<NotFoundPage />} />

@@ -22,12 +22,14 @@ const ImageFrame = ({
   const [type, setType] = useState("image/png");
 
   useEffect(() => {
-    if (meta) {
-      axios.get(meta).then((res) => {
-        setImageNFT(res?.data.image);
-        setType(res?.data.type);
-        
-      }).catch(console.log('ImageFrame'));
+    if (Object.keys(meta).length) {
+      axios
+        .get(meta)
+        .then((res) => {
+          setImageNFT(res?.data.image);
+          setType(res?.data.type);
+        })
+        .catch((err) => console.log(err));
     }
   }, [meta]);
 
