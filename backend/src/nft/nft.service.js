@@ -27,7 +27,7 @@ class NftService {
       },
     };
   }
-  async updateDisplayInfo(nftId, scale, position, positionXYZ) {
+  async updateDisplayInfo(nftId, scale, position, positionXYZ, metadata) {
     return {
       statusCode: 200,
       responseBody: {
@@ -36,7 +36,8 @@ class NftService {
           nftId,
           scale,
           position,
-          positionXYZ
+          positionXYZ,
+          metadata
         ),
       },
     };
