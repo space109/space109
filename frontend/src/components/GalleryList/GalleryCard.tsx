@@ -267,7 +267,7 @@ function GalleryCard ({data}:any) {
       />
     }
     <LI>
-      <Image url={data.thumbnail}  onClick={openModal}/>
+      <Image url={data.thumbnail + "?" + new Date().getTime()}  onClick={openModal}/>
     </LI>
     </>
   )

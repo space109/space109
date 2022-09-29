@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { DropDown, SharpButton, NavArea, Input, CropModal } from "../components";
 import { Div } from "../styles/BaseStyles";
 import { myGalleryInfo, myGalleryInfoUpdate } from "../apis";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Props {}
 
@@ -43,25 +43,23 @@ export default function ProfilePage({}: Props) {
   const onFileChange = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
-      // setFile(file);
+      e.target.value = ""; // value 리셋(같은 파일 올려도 작동되도록)
       setFileImage(URL.createObjectURL(file));
       openModal();
     }
   };
-
-  const location = useLocation();
 
   const loadData = useCallback(async (oa: string) => {
     setLoading(true);
     const data = await myGalleryInfo(oa);
     setTitle(data[0].title);
     setDescription(data[0].description);
-    setThumbnail(process.env.REACT_APP_BACKEND_HOST2 + data[0].thumbnail);
+    setThumbnail(process.env.REACT_APP_BACKEND_HOST2 + data[0].thumbnail + "?" + new Date().getTime());
     setFile(data[0].thumbnail);
     setData(data[0]);
 
     setLoading(false);
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -87,6 +85,12 @@ export default function ProfilePage({}: Props) {
 
     const data = await myGalleryInfoUpdate(formData);
   };
+
+  const navigate = useNavigate();
+
+  const GoEditVirtualGallery = () => {
+    navigate(`/edit-virtual-gallery/${data.gallery_id}`);
+  }
 
   return (
     <>
@@ -263,6 +267,7 @@ export default function ProfilePage({}: Props) {
                     mr="300px"
                   >
                     <SharpButton
+                      onClick={GoEditVirtualGallery}
                       width="195px"
                       height="63px"
                       fontSize="--h4"
@@ -270,7 +275,7 @@ export default function ProfilePage({}: Props) {
                       borderColor="--grey-750"
                       borderWidth="0.2rem"
                     >
-                      갤러리 편집
+                      전시 하러가기
                     </SharpButton>
                     <SharpButton
                       width="195px"

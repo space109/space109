@@ -17,6 +17,9 @@ const On = keyframes`
 `
 
 const BackGround = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   background-color: var(--modal-bg);
   width: 100%;
@@ -32,15 +35,8 @@ const Content = styled(Div)`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
   width: 100%;
   height: auto;
-  z-index: 110;
   animation: ${On} 0.3s ease;
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
     flex-direction: column;
@@ -154,8 +150,8 @@ function NftDetailModal (props:any) {
       <BackGround onClick={(e) => {
         props.closeModal();
         e.stopPropagation();
-      }}        
-      />
+      }}
+      >
       <Content onClick={(e) => {
         props.closeModal();
         e.stopPropagation();
@@ -190,6 +186,7 @@ function NftDetailModal (props:any) {
           </Div>
         </DetailSection>
       </Content>
+      </BackGround>
     </ModalPortal>
     </>
   );
