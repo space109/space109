@@ -27,7 +27,8 @@ router.put("/display/change", async function (req, res) {
     req.body.nftId,
     req.body.scale,
     req.body.position,
-    req.body.positionXYZ
+    req.body.positionXYZ,
+    req.body.metadata
   );
   res.statusCode = statusCode;
   res.send(responseBody);
