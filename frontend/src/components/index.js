@@ -7,7 +7,7 @@ export { IpfsUploader } from "./IpfsUploader";
 export { ModalPortal } from "./ModalPortal";
 export { NavBar, NavArea } from "./NavBar";
 export { NftMake } from "./NftMake";
-export { NftDetailModal, GalleryDetailModal } from "./Modal";
+export { NftDetailModal, GalleryDetailModal, CropModal } from "./Modal";
 export { LabelCheckBox } from "./LabelCheckBox";
 export { GalleryList } from "./GalleryList";
 export { SearchBar } from "./SearchBar";

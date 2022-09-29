@@ -41,7 +41,9 @@ function GalleryListPage() {
   const [ gallerys, setGallerys ] = useState();
   const [ searchValue, setSearchValue ] = useState();
   const [ theme, setTheme ] = useState(0);
-  
+  const [ testTitle, setTestTitle ] = useState();
+  const [ testThumb, setTestThumb ] = useState();
+
   // 필터링과 검색어에 따라 보여줄 갤러리 정보 깎는 함수
   // if문 너무 더럽다ㅠ 나중에 수정
   const getGallerys = async (theme, searchValue) => {
@@ -76,12 +78,17 @@ function GalleryListPage() {
         setGallerys(result);
       }
       else {
+        console.log("들어오나??")
+        console.log(datas);
         setGallerys(datas);
+        setTestThumb(datas[0].thumbnail);
+        setTestTitle(datas[0].title)
       } 
     }
   }
 
   useEffect(() => {
+    console.log("진입했음")
     getGallerys(theme, searchValue);
   }, [theme, searchValue])
 
@@ -101,6 +108,7 @@ function GalleryListPage() {
       <Content>
         <GalleryList gallerys={gallerys}></GalleryList>
       </Content>
+      <img src={process.env.REACT_APP_BACKEND_HOST2 + testThumb}></img>
     </div>
   );
 }

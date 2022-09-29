@@ -7,6 +7,7 @@ const getGalleryList = async () => {
       method: 'GET',
       url: apiPath.gallery.gallery(), 
     });
+    console.log("하아아아아아아아아아아아아")
     console.log(result, data);
     if (result === 'success') {
       return data;

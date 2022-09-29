@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback, Suspense } from "react";
 import styled from "styled-components";
-import { DropDown, SharpButton, NavArea, Input } from "../components";
+import { DropDown, SharpButton, NavArea, Input, CropModal } from "../components";
 import { Div } from "../styles/BaseStyles";
 import { myGalleryInfo, myGalleryInfoUpdate } from "../apis";
+import { useLocation } from "react-router-dom";
 
 interface Props {}
 
@@ -21,7 +22,17 @@ export default function ProfilePage({}: Props) {
   const [description, setDescription] = useState<string>("");
   const [isOpend, setIsOpend] = useState<any>(false);
   const [category, setCategory] = useState<any>(10);
+  const [ isOnModal, setIsOnModal ] = useState(false);
+
   const eth = window?.ethereum;
+
+  const openModal = () => {
+    setIsOnModal(true);
+  }
+  const closeModal = () => {
+    setIsOnModal(false);
+  }
+
   const isOpendHandler = (data: string): void => {
     setIsOpend(data);
   };
@@ -29,11 +40,16 @@ export default function ProfilePage({}: Props) {
     setCategory(data);
   };
 
-  const onChange = async (e: any) => {
-    const file = e.target.files[0];
-    setFile(file);
-    setFileImage(URL.createObjectURL(file));
+  const onFileChange = async (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      // setFile(file);
+      setFileImage(URL.createObjectURL(file));
+      openModal();
+    }
   };
+
+  const location = useLocation();
 
   const loadData = useCallback(async (oa: string) => {
     setLoading(true);
@@ -45,7 +61,7 @@ export default function ProfilePage({}: Props) {
     setData(data[0]);
 
     setLoading(false);
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     console.log(eth.selectedAddress);
@@ -64,6 +80,7 @@ export default function ProfilePage({}: Props) {
   };
 
   const submitHandler = async () => {
+    console.log("???", updateData)
     const formData = new FormData();
 
     Object.entries(updateData).forEach((item) =>
@@ -75,6 +92,16 @@ export default function ProfilePage({}: Props) {
 
   return (
     <>
+    {
+      isOnModal && <CropModal
+      closeModal={closeModal}
+      file={file}
+      fileImage={fileImage}
+      setFile={setFile}
+      setFileImage={setFileImage}
+      setThumbnail={setThumbnail}
+      />
+    }
       <NavArea />
 
       <Div w="100vw" h="calc(100vh - 120px)" display="flex">
@@ -270,10 +297,20 @@ export default function ProfilePage({}: Props) {
                 borderBottom="4px black solid"
                 borderLeft="4px black solid"
               >
-                <Div m="0 auto">
+                <Div m="auto" border="10px solid red" >
                   <label htmlFor="file" style={{ cursor: "pointer" }}>
+                    <Div border="10px solid blue" w="20rem" h="24rem">
+                      <img
+                        alt={`Uploaded #`}
+                        src={thumbnail}
+                        style={{ width: "100%" }}
+                      />
+                    </Div>
+                  </label>
+                  {/* <label htmlFor="file" style={{ cursor: "pointer" }}>
                     {file && thumbnail ? (
-                      <>
+                      <Div border="10px solid yellow" w="20rem" h="24rem">
+                        <>
                         {console.log(file)}
                         {console.log(fileImage)}
                         <img
@@ -281,23 +318,26 @@ export default function ProfilePage({}: Props) {
                           alt="preview image"
                           style={{ width: "100%" }}
                         />
-                      </>
+                        </>
+                      </Div>
                     ) : (
-                      <img
-                        alt={`Uploaded #`}
-                        src={thumbnail}
-                        style={{ width: "100%" }}
-                      />
+                      <Div border="10px solid blue" w="20rem" h="24rem">
+                        <img
+                          alt={`Uploaded #`}
+                          src={thumbnail}
+                          style={{ width: "100%" }}
+                        />
+                      </Div>
                     )}
-                  </label>
+                  </label> */}
 
                   <input
                     type="file"
                     name="file"
                     id="file"
-                    onChange={onChange}
+                    onChange={onFileChange}
                     style={{ display: "none" }}
-                    accept=".jpg .png"
+                    accept=".jpg, .png"
                   />
                 </Div>
               </Div>

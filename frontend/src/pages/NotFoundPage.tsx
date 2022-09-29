@@ -15,8 +15,8 @@ const Background = styled.div`
 
 const Frame = styled.div`
   background-color: var(--grey-100);
-  width: 50%;
-  height: 50%;
+  width: 500px;
+  height: 600px;
 `
 
 function NotFoundPage({}: Props) {
