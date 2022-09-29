@@ -147,9 +147,10 @@ function NavBar() {
 
   // 임시 ------------------------
   const [account, setAccount] = useState();
-  const [nickname, setNickname] = useState();
+  const [nickname, setNickname] = useState<string>("");
 
   const SSAFY_CHAIN_ID = "0x79f5";
+  const EXTENSION_DOWNLOAD_URL = "https://metamask.io";
 
   const getChainId = async () => {
     const chainId = await window.ethereum.request({
@@ -160,6 +161,17 @@ function NavBar() {
   };
 
   const getAccountnName = async () => {
+    const nameData = await login(account);
+    if (nameData.length) {
+      setNickname(nameData[0].nickname);
+    } else {
+      if (window.confirm("회원가입 해주십시오.")) {
+        navigate("/signUp");
+      }
+    }
+  };
+
+  const getName = async () => {
     try {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
@@ -167,12 +179,11 @@ function NavBar() {
       setAccount(accounts[0]);
 
       const nameData = await login(accounts[0]);
+
       if (nameData.length) {
         setNickname(nameData[0].nickname);
       } else {
-        if (window.confirm("회원가입 해주십시오.")) {
-          navigate("/signUp");
-        }
+        setNickname("");
       }
     } catch (error) {
       console.error(error);
@@ -197,29 +208,79 @@ function NavBar() {
     }
   };
 
+  const init = async () => {
+    try {
+      const chainId = await getChainId();
+      // console.log('체인 아이디 : ', chainId);
+      if (SSAFY_CHAIN_ID !== chainId) {
+        // 추가는 해야할 것 같은데 전환은 여기서 할 게 맞나 싶어서 일단 주석
+
+        try {
+          await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: SSAFY_CHAIN_ID }],
+          });
+        } catch (error: any) {
+          // alert("SSAFY 네트워크 추가하고 오세요");
+
+          alert("SSAFY 네트워크를 추가해주세요");
+          window.open(
+            "https://lace-raptorex-71b.notion.site/SSAFY-af21aeede5834fb1a721ffd87ced99bd",
+            "_blank"
+          );
+        }
+      }
+
+      getAccountnName();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const checkNetwork = async () => {
+    try {
+      const chainId = await getChainId();
+      if (SSAFY_CHAIN_ID === chainId) {
+        getName();
+      } else {
+        setNickname("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // 임시끝 -----------------------------------
 
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.on("chainChanged", () => {
         // window.location.reload();
+        navigate("/");
+        console.log(selected);
+
         console.log("체인 바뀜");
+        checkNetwork();
+        console.log("체인 바꼈을때", nickname);
       });
       window.ethereum.on("accountsChanged", () => {
         // window.location.reload();
 
-        console.log(selected);
         navigate("/");
+        console.log(selected);
+
         console.log("아이디 바뀜");
+        checkNetwork();
+        console.log(nickname);
       });
+      checkNetwork();
+      console.log(nickname);
     }
   }, []);
 
   useEffect(() => {
     setSelected(location.pathname);
   }, [location]);
-
-  const [isLogined, setIsLogined] = useState<any>("");
 
   const goHome = () => {
     navigate("/");
@@ -231,34 +292,15 @@ function NavBar() {
     navigate("/gallery");
   };
   const goSignUp = () => {
-    const init = async () => {
-      try {
-        const chainId = await getChainId();
-        // console.log('체인 아이디 : ', chainId);
-        if (SSAFY_CHAIN_ID !== chainId) {
-          // 추가는 해야할 것 같은데 전환은 여기서 할 게 맞나 싶어서 일단 주석
-          console.log("체인 아이디 : ", chainId);
-
-          // switchSSFNetwork();
-
-          // alert("SSAFY 네트워크 추가하고 오세요");
-
-          alert("SSAFY 네트워크를 추가해주세요");
-          window.open(
-            "https://www.notion.so/SSAFY-af21aeede5834fb1a721ffd87ced99bd",
-            "_blank"
-          );
-        }
-
-        getAccountnName();
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     if (window.ethereum) {
       init();
-      window.ethereum.on("accountsChanged", getAccountnName);
+      // window.ethereum.on("accountsChanged", getAccountnName);
+    } else {
+      if (
+        window.confirm("메타마스크가 설치되어 있지 않습니다. 설치하시겠습니까?")
+      ) {
+        window.open(EXTENSION_DOWNLOAD_URL, "_blank");
+      }
     }
   };
   const goProfile = () => {
