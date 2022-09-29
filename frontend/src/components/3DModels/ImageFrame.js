@@ -20,16 +20,14 @@ const ImageFrame = ({
 }) => {
   const [imageNFT, setImageNFT] = useState("");
   const [type, setType] = useState("image/png");
-  
+
   useEffect(() => {
     if (meta) {
-      axios
-        .get(meta)
-        .then((res) => {
-          setImageNFT(res?.data.image);
-          setType(res?.data.type);
-        })
-        .catch((err) => console.log(err));
+      axios.get(meta).then((res) => {
+        setImageNFT(res?.data.image);
+        setType(res?.data.type);
+        
+      }).catch(console.log('ImageFrame'));
     }
   }, [meta]);
 

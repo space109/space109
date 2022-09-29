@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import closeIcon from "../../assets/close-icon.png";
 import uploadImage from "../../assets/uploadImage.png"
 import { Div } from "../../styles/BaseStyles";
 import { SharpButton } from "../Button";
 import ReactDOM from "react-dom";
+import axios from "axios";
 
 const BackDropDiv = styled.div`
   position: fixed;
@@ -164,32 +165,58 @@ const Backdrop = (props) => {
   return <BackDropDiv onClick={props.toggleModal}></BackDropDiv>;
 };
 
-const ModalOverlay = (props) => {
-  if (!props.toggle) return null;
+const ModalOverlay = ({
+  toggle,
+  toggleModal,
+  meta={},
+}) => {
+  const [title, setTitle] = useState("제목");
+  const [author, setAuthor] = useState("작가");
+  const [description, setDescription] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, ");
+  const [image, setImage] = useState(uploadImage);
+  const [price, setPrice] = useState("가격");
+
+  useEffect(() => {
+    if (meta !== {}) {
+      console.log("InfoModal")
+      axios
+        .get(meta)
+        .then((res) => {
+          setTitle(res?.data.name);
+          setAuthor(res?.data.author);
+          setDescription(res?.data.description);
+          setImage(res?.data.image);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [meta]);
+
+  if (!toggle) return null;
+
   return (
     <Div>
-      <ThumbImg src={uploadImage} alt="" className="thumb-active"/>
+      <ThumbImg src={image} alt="" className="thumb-active"/>
       <ModalDiv className="modal-active">
-        <Img src={closeIcon} alt="" onClick={props.toggleModal} />
+        <Img src={closeIcon} alt="" onClick={toggleModal} />
         <Div flex="4"></Div>
         <Div flex="8">
           <HeadDiv>
-            <TitleDiv>제목</TitleDiv>
+            <TitleDiv>{title}</TitleDiv>
             <UserDiv>
               <AuthorDiv>
                 <H5Div>작가명</H5Div>
-                <H7Div>작가</H7Div>
+                <H7Div>{author}</H7Div>
               </AuthorDiv>
               <Div>
                 <H5Div>소유자명</H5Div>
-                <H7Div>소유자</H7Div>
+                <H7Div>{author}</H7Div>
               </Div>
             </UserDiv>
           </HeadDiv>
           <BodyDiv>
             <DescriptionDiv>
               <H7Div>작품 설명</H7Div>
-              <H6Div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, </H6Div>
+              <H6Div>{description}</H6Div>
             </DescriptionDiv>
           </BodyDiv>
           <FooterDiv>
