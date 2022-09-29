@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { useMemo } from "react";
 import * as THREE from "three";
-import { useHelper } from '@react-three/drei';
-import { SpotLightHelper } from "three";
+// import { useHelper } from '@react-three/drei';
+// import { SpotLightHelper } from "three";
 
 const ImageLight = ({
   lightFrom = [0, 0, 0],
@@ -18,14 +18,18 @@ const ImageLight = ({
     () => new THREE.SpotLight(lightColor, intensity, distance, angle, penumbra, decay),
     []
   );
-  const ref = useRef();
-  useHelper(ref, SpotLightHelper);
-  //조명1: 조명
-  //조명2: 조명이 비추는 좌표
+  // const ref = useRef();
+  // useHelper(ref, SpotLightHelper);
+  // //조명1: 조명
+  // //조명2: 조명이 비추는 좌표
   return (
     <>
-      <primitive object={light} position={lightFrom} ref={ref}/>
-      <primitive object={light.target} position={lightTo} />
+      <primitive
+        object={light}
+        position={lightFrom}
+
+      />
+      <primitive object={light.target} position={lightTo}/>
     </>
   );
 };
