@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assets/title.svg";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useAccount } from "../../hooks";
+import { useConnectWallet } from "../../hooks";
+import { login } from "../../apis";
 
 // type Props = {}
 
@@ -57,6 +58,11 @@ const NavBox = styled.div`
   padding-right: 60px;
   padding-left: 60px;
   margin-bottom: 0;
+
+  @media (max-width: 1366px) {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
 `;
 
 const Menu = styled.ul`
@@ -75,7 +81,7 @@ const Menu = styled.ul`
 
   flex-direction: column;
 
-  @media (max-width: 1000px) {
+  @media (max-width: 992px) {
     display: none;
   }
 `;
@@ -134,20 +140,86 @@ const SecondaryMenuItem = styled.li<StyleProps>`
 function NavBar() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [account, nickname] = useAccount();
   const [selected, setSelected] = useState<string>("/");
-  const eth = window.ethereum;
   // console.log("메타마스크 있음?:", eth.isMetaMask);
   // console.log("연결됨?:", eth.isConnected());
   // console.log("아이디 있음?:", eth.selectedAddress);
 
-  const [isLogined, setIsLogined] = useState<any>("");
+  // 임시 ------------------------
+  const [account, setAccount] = useState();
+  const [nickname, setNickname] = useState();
+
+  const SSAFY_CHAIN_ID = "0x79f5";
+
+  const getChainId = async () => {
+    const chainId = await window.ethereum.request({
+      method: "eth_chainId",
+    });
+
+    return chainId;
+  };
+
+  const getAccountnName = async () => {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAccount(accounts[0]);
+
+      const nameData = await login(accounts[0]);
+      if (nameData.length) {
+        setNickname(nameData[0].nickname);
+      } else {
+        if (window.confirm("회원가입 해주십시오.")) {
+          navigate("/signUp");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const switchSSFNetwork = async () => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: SSAFY_CHAIN_ID }],
+      });
+    } catch (error: any) {
+      // MetaMask에 해당 네트워크가 없는 경우 발생하는 에러
+      if (error.code === 4902) {
+        console.error("This network is not found in your network!");
+        // 현재 addSSFNetwork 실행시 rpcUrls 어쩌구 하면서 에러남,, 왜인지 모르겠음...
+        // addSSFNetwork();
+      } else {
+        console.error("Failed to switch this network");
+      }
+    }
+  };
+
+  // 임시끝 -----------------------------------
+
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("chainChanged", () => {
+        // window.location.reload();
+        console.log("체인 바뀜");
+      });
+      window.ethereum.on("accountsChanged", () => {
+        // window.location.reload();
+
+        console.log(selected);
+        navigate("/");
+        console.log("아이디 바뀜");
+      });
+    }
+  }, []);
 
   useEffect(() => {
     setSelected(location.pathname);
-
-    eth && setIsLogined(eth.selectedAddress);
   }, [location]);
+
+  const [isLogined, setIsLogined] = useState<any>("");
 
   const goHome = () => {
     navigate("/");
@@ -159,9 +231,35 @@ function NavBar() {
     navigate("/gallery");
   };
   const goSignUp = () => {
-    setIsLogined(account);
-    navigate("/signUp");
-    console.log(isLogined);
+    const init = async () => {
+      try {
+        const chainId = await getChainId();
+        // console.log('체인 아이디 : ', chainId);
+        if (SSAFY_CHAIN_ID !== chainId) {
+          // 추가는 해야할 것 같은데 전환은 여기서 할 게 맞나 싶어서 일단 주석
+          console.log("체인 아이디 : ", chainId);
+
+          // switchSSFNetwork();
+
+          // alert("SSAFY 네트워크 추가하고 오세요");
+
+          alert("SSAFY 네트워크를 추가해주세요");
+          window.open(
+            "https://www.notion.so/SSAFY-af21aeede5834fb1a721ffd87ced99bd",
+            "_blank"
+          );
+        }
+
+        getAccountnName();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (window.ethereum) {
+      init();
+      window.ethereum.on("accountsChanged", getAccountnName);
+    }
   };
   const goProfile = () => {
     navigate("/profile");
@@ -182,7 +280,7 @@ function NavBar() {
           </LogoDiv>
           <Menu>
             <SecondaryMenu>
-              {!isLogined ? (
+              {!nickname ? (
                 <SecondaryMenuItem
                   onClick={goSignUp}
                   active={checkActive("/signUp")}

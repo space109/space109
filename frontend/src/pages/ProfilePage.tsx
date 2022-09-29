@@ -56,11 +56,11 @@ export default function ProfilePage({}: Props) {
 
   const updateData = {
     oa: eth.selectedAddress,
-    category_id: category,
+    category_id: 4,
     title: title,
     description: description,
     thumbnail: file,
-    isOpend: isOpend,
+    isOpen: true,
   };
 
   const submitHandler = async () => {
