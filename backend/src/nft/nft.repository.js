@@ -35,7 +35,7 @@ class NftRepository {
     // else return false;
   }
 
-  async updateDisplayInfo(nftId, scale, position, positionXYZ) {
+  async updateDisplayInfo(nftId, scale, position, positionXYZ, metadata) {
     // scale, position 둘 다 undefined일경우 무조건 return false를 넣어줘야함
     // typeof str == "undefined" || str == null || str == ""
     /*
@@ -54,6 +54,7 @@ class NftRepository {
     if (scale != null) sql += `scale='${scale}',`;
     if (position != null) sql += ` position=${position},`;
     if (positionXYZ != null) sql += ` positionXYZ='${positionXYZ}',`;
+    if (metadata != null) sql += ` metadata='${metadata}',`;
     sql = sql.slice(0, -1);
     sql += sqlTail;
     logger.debug(sql);
