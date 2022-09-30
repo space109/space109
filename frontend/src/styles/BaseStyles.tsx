@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export interface MediaQueryTypes {
   xs: number;
+  saseumSmall: number;
   sm: number;
   md: number;
   lg: number;
@@ -11,6 +12,7 @@ export interface MediaQueryTypes {
 
 export const screenSizes: MediaQueryTypes = {
   xs: 480,
+  saseumSmall: 500,
   sm: 576,
   md: 768,
   lg: 992,
@@ -55,6 +57,8 @@ export interface PropStyle {
   boxShadow?: any;
   maxWidth?: any;
   maxHeight?: any;
+  minWidth?: any;
+  minHeight?: any;
   transition?: any;
   transform?: any;
   bgAttach?: any;
@@ -71,6 +75,8 @@ export interface PropStyle {
   borderRight?: any;
   borderTop?: any;
   borderBottom?: any;
+  borderSpacing?: any;
+  overflow?: any;
 }
 
 export const Div = styled.div<PropStyle>`
@@ -114,6 +120,8 @@ export const Div = styled.div<PropStyle>`
   box-shadow: ${(props) => (props.boxShadow ? props.boxShadow : "")};
   max-width: ${(props) => (props.maxWidth ? props.maxWidth : "")};
   max-height: ${(props) => (props.maxHeight ? props.maxHeight : "")};
+  min-width: ${(props) => (props.minWidth ? props.minWidth : "")};
+  min-height: ${(props) => (props.minHeight ? props.minHeight : "")};
   transition: ${(props) => (props.transition ? props.transition : "")};
   transform: ${(props) => (props.transform ? props.transform : "")};
   background-attachment: ${(props) => (props.bgAttach ? props.bgAttach : "")};
@@ -128,6 +136,9 @@ export const Div = styled.div<PropStyle>`
   border-right: ${(props) => (props.borderRight ? props.borderRight : "")};
   border-top: ${(props) => (props.borderTop ? props.borderTop : "")};
   border-bottom: ${(props) => (props.borderBottom ? props.borderBottom : "")};
+  border-spacing: ${(props) =>
+    props.borderSpacing ? props.borderSpacing : "0"};
+  overflow: ${(props) => (props.overflow ? props.overflow : "")};
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {

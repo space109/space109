@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
-import { Input } from "../components";
-import SharpButton from "../components/Button/SharpButton";
+import { Input, SharpButton, NavArea } from "../components";
 import { dupCheck, join, getMetadata } from "../apis";
-import { TestContract, MintTestContract } from "../web3Config";
+import { MintTestContract } from "../web3Config";
+import { useAccount } from "../hooks";
+import Cropper from 'react-easy-crop';
 
 interface PropsStyle {
-  imgURL?: any,
+  imgURL?: any;
 }
 
 const DivWidth = styled(Div)`
@@ -28,76 +29,34 @@ const DivWidth = styled(Div)`
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
   }
-`
+`;
 
 const Img = styled.div<PropsStyle>`
   border: 3px solid black;
   width: 100px;
   height: 100px;
-  background-image: url('${({imgURL}) => imgURL}');
-`
+  background-image: url("${({ imgURL }) => imgURL}");
+`;
 
 interface Props {
-  account?: any,
-};
+  account?: any;
+}
 
 // account가 없을 시 return 해버리기
 // account가 이미 있는 회원가입 되어있는 애도 return 해주기.
 function SignUpPage() {
-  const [ nickname, setNickname ] = useState("");
-  const [ helpMsg, setHelpMsg ] = useState("\u00A0");
-  const [ color, setColor] = useState("--grey-650");
+  const [nickname, setNickname] = useState("");
+  const [helpMsg, setHelpMsg] = useState("\u00A0");
+  const [color, setColor] = useState("--grey-650");
 
-  // const [ text, setText ] = useState("ㅋㅋ");
+  const [account, logined] = useAccount();
 
-  const [ metaDatas, setMetadatas ] = useState<any>();
-
-  const textClick = async () => {
-    const response = await MintTestContract.methods.create(
-      window.ethereum.selectedAddress, 
-      "https://skywalker.infura-ipfs.io/ipfs/QmWwMm2e5KQfq6sPVfHrmu39Xzs3nYEetcqNP7BprCc1Mp"
-    ).send({from: window.ethereum.selectedAddress});
-
-    console.log(response);
-  }
-
+  // const [ metaDatas, setMetadatas ] = useState<any>();
 
   const aaaa = async () => {
-    const totalNum = await MintTestContract.methods.balanceOf(window.ethereum.selectedAddress).call();
-    const total = await MintTestContract.methods.totalSupply().call();
-    const tokenIds = await MintTestContract.methods.tokenIDsofWallet(window.ethereum.selectedAddress).call();
-    console.log(tokenIds);
-    const tokenURIs = await MintTestContract.methods.tokenURIsofWallet(window.ethereum.selectedAddress).call();
-    const Metas = [];
-    for (let i = 0; i < tokenURIs.length; i++) {
-      const Meta = await getMetadata(tokenURIs[i]);
-      Metas.push(Meta);
-    }
-    console.log('zzz',Metas)
-    setMetadatas(Metas);
-    // for (let i = 1; i < totalNum+1; i++) {
-    //   const tokenId = await MintTestContract.methods.tokenOfOwnerByIndex(window.ethereum.selectedAddress, i).call();
-    //   console.log(tokenId);
-    // }
+    const totalNum = await MintTestContract.methods.name().call();
+    console.log(totalNum);
   }
-  // useEffect(() => {
-  //   (async function () {
-  //     console.log("있나?")
-  //     const text = await TestContract.methods.current().call();
-  //     setText(text);
-  //   })();
-  // }, [])
-
-  // const textClick = async () => {
-  //   console.log('테스트', window.ethereum.selectedAddress);
-  //   const result = await TestContract.methods.write(nickname).send({from: window.ethereum.selectedAddress});
-  //   if (!result) {
-  //     console.log('안됐대');
-  //     return;
-  //   }
-  //   const text = await TestContract.methods.current().call();
-  //   setText(text);
-  // }
 
   const dupCheckClick = async () => {
     if (!nickname) {
@@ -113,90 +72,112 @@ function SignUpPage() {
       setColor("--spinach-300");
       setHelpMsg("사용 가능한 닉네임 입니다.");
     }
-  }
+  };
 
   const signUpClick = async () => {
     if (helpMsg === "사용 가능한 닉네임 입니다.") {
-      const isJoin = await join(window.ethereum.selectedAddress, nickname);
-      // const isJoin = await join(account, nickname);
+      const isJoin = await join(account, nickname);
       if (isJoin) {
-        console.log('성공했당');
+        console.log("성공했당");
         // 메인으로 이동시키기 이전꺼 기억 가넝.,.?
       } else {
-        console.log('회원가입실패');
+        console.log("회원가입실패");
       }
     } else if (helpMsg === "\u00A0") {
       setColor("--carmine-100");
       setHelpMsg("닉네임 중복 확인을 해주세요.");
     }
-  }
+  };
 
   useEffect(() => {
     setColor("--grey-650");
     setHelpMsg("\u00A0");
-  }, [nickname])
+  }, [nickname]);
+
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [rotation, setRotation] = useState(0)
+  const [zoom, setZoom] = useState(1)
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+
+  const onCropComplete = useCallback((croppedArea:any, croppedAreaPixels:any) => {
+    setCroppedAreaPixels(croppedAreaPixels)
+  }, [])
+
 
   return (
     <>
-    <Div 
-      display="flex"
-      alignItems="center" justifyContent="center"
-      h="calc(100vh - 120px)"
-    >      
-      <DivWidth 
-        display="flex" flexDirection="column" gap="2rem"
+      <NavArea />
+      <Div
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        h="calc(100vh - 240px)"
       >
-        <Div 
-          display="flex" flexDirection="column" 
-          alignItems="center" justifyContent="center"
-          gap="0.5rem"
-        >
-          <Div fontSize="--h3" fontWeight="--bold">
-            닉네임 등록하기
+        <DivWidth display="flex" flexDirection="column" gap="2rem">
+          <Div
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            gap="0.5rem"
+          >
+            <Div fontSize="--h3" fontWeight="--bold">
+              닉네임 등록하기
+            </Div>
+            <Div fontSize="--h7" fontWeight="--thin" color="--carmine-100">
+              ※ 닉네임은 추후 변경이 불가능합니다. 신중히 선택해주세요.
+            </Div>
           </Div>
-          <Div fontSize="--h7" fontWeight="--thin" color="--carmine-100">
-          ※ 닉네임은 추후 변경이 불가능합니다. 신중히 선택해주세요.
-          </Div>
-        </Div>
-        <Div 
-          display="flex" flexDirection="column"
-          gap="0.5rem"
-        >
-          <Div display="flex"  borderRadius="4px">
-            <Input fontSize="--h5" fontWeight="--regular" borderRadius="4px 0 0 4px"
-              borderWidth="3px" borderColor={color} borderStyle="solid none solid solid"
-              placeholder="닉네임을 입력해주세요." setValue={setNickname}
-            />
-            <SharpButton 
-              fontSize="--h5" width="150px" height="auto" borderRadius="0 4px 4px 0" bg={color}
-              borderWidth="3px" borderColor={color}
-              onClick={dupCheckClick}
+          <Div display="flex" flexDirection="column" gap="0.5rem">
+            <Div display="flex" borderRadius="4px">
+              <Input
+                fontSize="--h5"
+                fontWeight="--regular"
+                borderRadius="4px 0 0 4px"
+                borderWidth="3px"
+                borderColor={color}
+                borderStyle="solid none solid solid"
+                placeholder="닉네임을 입력해주세요."
+                setValue={setNickname}
+              />
+              <SharpButton
+                fontSize="--h5"
+                width="150px"
+                height="auto"
+                borderRadius="0 4px 4px 0"
+                bg={color}
+                borderWidth="3px"
+                borderColor={color}
+                onClick={dupCheckClick}
+              >
+                중복확인
+              </SharpButton>
+            </Div>
+            <Div
+              fontSize="--h7"
+              fontWeight="--thin"
+              color={color}
+              pl="calc(calc(var(--h5) / 1.5) + 3px)"
             >
-              중복확인
-            </SharpButton>
+              {helpMsg}
+            </Div>
           </Div>
-          <Div fontSize="--h7" fontWeight="--thin" color={color} pl="calc(calc(var(--h5) / 1.5) + 3px)">
-            {helpMsg}
-          </Div>
-        </Div>
-        <SharpButton 
-          fontSize="--h5" fontWeight="--bold"
-          width="100%" height="69px" 
-          borderWidth="3px" borderRadius="4px" bg="--grey-650"
-          borderColor="--grey-650"
-          onClick={signUpClick}
-        >
-          회원가입
-        </SharpButton>
-      </DivWidth>
-    </Div>
-    {/* <SharpButton onClick={textClick}>버튼</SharpButton>
-    <SharpButton onClick={aaaa}>보기</SharpButton>
-    {metaDatas && metaDatas.map((fileData:any, i:any) => {
-      console.log(fileData.image);
-      // <img src={fileData.image}></img>
-      return <img src={fileData.image} key={i}/>
-    })} */}
+          <SharpButton
+            fontSize="--h5"
+            fontWeight="--bold"
+            width="100%"
+            height="69px"
+            borderWidth="3px"
+            borderRadius="4px"
+            bg="--grey-650"
+            borderColor="--grey-650"
+            onClick={signUpClick}
+          >
+            회원가입
+          </SharpButton>
+        </DivWidth>
+      </Div>
+      <SharpButton onClick={aaaa}>버튼</SharpButton>
     </>
   );
 }
