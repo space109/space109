@@ -34,13 +34,17 @@ const Content = styled(Div)`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3rem;
+  gap: 5%;
   box-sizing: border-box;
   width: 100%;
   height: 100vh;
   animation: ${On} 0.3s ease;
-  @media screen and (max-width: ${screenSizes.sm + "px"}) {
+  @media screen and (max-width: ${screenSizes.xl + "px"}) {
+    gap: 2.5%;
+  }
+  @media screen and (max-width: ${screenSizes.md + "px"}) {
     flex-direction: column;
+    gap: 1.5rem;
   }
   overflow: auto;
 
@@ -51,26 +55,26 @@ const ImageSection = styled(Div)`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  width: 40%;
-  border: 10px solid red;
-  height: 100px;
+  width: 30%;
+  height: 100vh;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
-
+    width: 40%;
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
-
+    width: 45%;
   }
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
-
+    
   }
   @media screen and (max-width: ${screenSizes.md + "px"}) {
-
+    width: 90%;
+    height: 40%;
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    width: 90%;
+
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    width: 90%;
+
   } 
 `
 
@@ -79,25 +83,25 @@ const DetailSection = styled(Div)`
   flex-direction: column;
   gap: 1.5rem;
   box-sizing: border-box;
-  width: 40%;
-
+  width: 30%;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
-
+    width: 40%;
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
-
+    width: 45%;
   }
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
 
   }
   @media screen and (max-width: ${screenSizes.md + "px"}) {
-
+    width: 90%;
+    height: 40%;
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    width: 90%;
+
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    width: 90%;
+
   }
 `
 
@@ -106,8 +110,9 @@ const Image = styled.img.attrs<PropsStyle>(props => ({
   alt: "NFT 이미지",
   }))<PropsStyle>`
   width: 100%;
-  height: 20%;
-  object-fit: contain
+  height: 90%;
+  object-fit: contain;
+
 `
 
 const Title = styled(Div)`
