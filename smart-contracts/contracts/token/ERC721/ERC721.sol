@@ -259,7 +259,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         virtual
         override
     {
-        _setApprovalForAll(_msgSender(), operator, approved);
+        _setApprovalForAll(msg.sender, operator, approved);
     }
 
     /**
@@ -283,15 +283,19 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
      * from은 정당한 Token의 소유자이거나 사용권을 위임받은 opertoar여야만 한다..
      */
     function transferFrom(
+        // seller
         address from,
+        // buyer
         address to,
+        // NFT ID
         uint256 tokenId
     ) public virtual override returns (bool) {
         //solhint-disable-next-line max-line-length
-        require(
-            _isApprovedOrOwner(_msgSender(), tokenId),
-            "ERC721: transfer caller is not owner nor approved"
-        );
+        //    아래코드 삭제
+        // require(
+        //     _isApprovedOrOwner(_msgSender(), tokenId),
+        //     "ERC721: transfer caller is not owner nor approved"
+        // );
 
         _transfer(from, to, tokenId);
 
@@ -436,7 +440,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     function _mint(address to, uint256 tokenId) internal virtual {
         require(to != address(0), "ERC721: mint to the zero address");
         require(!_exists(tokenId), "ERC721: token already minted");
-
+        // to = seller
         _beforeTokenTransfer(address(0), to, tokenId);
 
         // 해당 토큰의 소유자인 to의 nft개수를 +1해준다.
@@ -495,10 +499,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
         address to,
         uint256 tokenId
     ) internal virtual {
-        require(
-            ERC721.ownerOf(tokenId) == from,
-            "ERC721: transfer from incorrect owner"
-        );
+        // require(
+        //     ERC721.ownerOf(tokenId) == from,
+        //     "ERC721: transfer from incorrect owner"
+        // );
         require(to != address(0), "ERC721: transfer to the zero address");
 
         _beforeTokenTransfer(from, to, tokenId);
