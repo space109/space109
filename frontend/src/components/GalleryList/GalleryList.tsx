@@ -48,58 +48,10 @@ GalleryList.defaultProps = {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아",
-      "title": "t아아아아아아아아아아아아아앙아아아아아아아아아!!!",
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
       "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
     },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ17nsQEKYpc0pgQBAB6WL-s6tgULypZS1nDg&usqp=CAU"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book01.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book04.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book05.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book06.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YU2uvMzskBXmMHXW8rgb9928Lu0dnN-8Iw&usqp=CAU"
-    }
   ]
 }
 
