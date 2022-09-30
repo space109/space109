@@ -2,27 +2,43 @@ const NftRepository = require("./nft.repository");
 const nftRepository = new NftRepository();
 
 class NftService {
-  async displayMyNft(toeknId, scale, position, galleryId, oa) {
+  async displayMyNft(
+    tokenId,
+    scale,
+    position,
+    positionXYZ,
+    galleryId,
+    oa,
+    metadata
+  ) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
         data: await nftRepository.displayMyNft(
-          toeknId,
+          tokenId,
           scale,
           position,
+          positionXYZ,
           galleryId,
-          oa
+          oa,
+          metadata
         ),
       },
     };
   }
-  async updateDisplayInfo(nftId, scale, position) {
+  async updateDisplayInfo(nftId, scale, position, positionXYZ, metadata) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.updateDisplayInfo(nftId, scale, position),
+        data: await nftRepository.updateDisplayInfo(
+          nftId,
+          scale,
+          position,
+          positionXYZ,
+          metadata
+        ),
       },
     };
   }

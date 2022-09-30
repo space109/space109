@@ -32,6 +32,16 @@ class GallerysService {
     };
   }
 
+  async getMyGalleryInfo(oa) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await GalleryRepository.getMyGalleryInfo(oa),
+      },
+    };
+  }
+
   async updateMyGallery(
     oa,
     category_id,
