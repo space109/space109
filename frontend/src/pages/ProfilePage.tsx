@@ -54,7 +54,7 @@ export default function ProfilePage({}: Props) {
     const data = await myGalleryInfo(oa);
     setTitle(data[0].title);
     setDescription(data[0].description);
-    setThumbnail(process.env.REACT_APP_BACKEND_HOST2 + data[0].thumbnail + "?" + new Date().getTime());
+    setThumbnail(process.env.REACT_APP_BACKEND_HOST + data[0].thumbnail + "?" + new Date().getTime());
     setFile(data[0].thumbnail);
     setData(data[0]);
 

@@ -53,20 +53,10 @@ function SignUpPage() {
 
   // const [ metaDatas, setMetadatas ] = useState<any>();
 
-  // const aaaa = async () => {
-  //   const totalNum = await MintTestContract.methods.balanceOf(window.ethereum.selectedAddress).call();
-  //   const total = await MintTestContract.methods.totalSupply().call();
-  //   const tokenIds = await MintTestContract.methods.tokenIDsofWallet(window.ethereum.selectedAddress).call();
-  //   console.log(tokenIds);
-  //   const tokenURIs = await MintTestContract.methods.tokenURIsofWallet(window.ethereum.selectedAddress).call();
-  //   const Metas = [];
-  //   for (let i = 0; i < tokenURIs.length; i++) {
-  //     const Meta = await getMetadata(tokenURIs[i]);
-  //     Metas.push(Meta);
-  //   }
-  //   console.log('zzz',Metas)
-  //   setMetadatas(Metas);
-  // }
+  const aaaa = async () => {
+    const totalNum = await MintTestContract.methods.name().call();
+    console.log(totalNum);
+  }
 
   const dupCheckClick = async () => {
     if (!nickname) {
@@ -187,6 +177,7 @@ function SignUpPage() {
           </SharpButton>
         </DivWidth>
       </Div>
+      <SharpButton onClick={aaaa}>버튼</SharpButton>
     </>
   );
 }

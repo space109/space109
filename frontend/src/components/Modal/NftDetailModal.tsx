@@ -34,44 +34,44 @@ const Content = styled(Div)`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 3rem;
   box-sizing: border-box;
   width: 100%;
-  height: auto;
+  height: 100vh;
   animation: ${On} 0.3s ease;
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
     flex-direction: column;
   }
   overflow: auto;
+
 `
 
 const ImageSection = styled(Div)`
-display: flex;
-justify-content: center;
-align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
-  width: 50%;
-  height: auto;
-  padding: 0 2% 0 12%;
+  width: 40%;
+  border: 10px solid red;
+  height: 100px;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
-    padding: 0 2% 0 12%;
+
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
-    padding: 0 2% 0 8%;
+
   }
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
-    padding: 0 1%;
+
   }
   @media screen and (max-width: ${screenSizes.md + "px"}) {
-    padding: 0 1%;
+
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    padding: 0;
-    width: 80%
+    width: 90%;
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    padding: 0;
-    width: 80%
-  }
+    width: 90%;
+  } 
 `
 
 const DetailSection = styled(Div)`
@@ -79,30 +79,25 @@ const DetailSection = styled(Div)`
   flex-direction: column;
   gap: 1.5rem;
   box-sizing: border-box;
-  width: 50%;
-  height: auto;
-  padding: 0 12% 0 2%;
+  width: 40%;
+
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
-    padding: 0 12% 0 2%;
+
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
-    padding: 0 8% 0 2%;
+
   }
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
-    padding: 0 1%;
+
   }
   @media screen and (max-width: ${screenSizes.md + "px"}) {
-    padding: 0 1%;
+
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    width: 80%;
-    margin-top: 1rem;
-    gap: 1rem;
+    width: 90%;
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    width: 80%;
-    margin-top: 1rem;
-    gap: 1rem;
+    width: 90%;
   }
 `
 
@@ -111,6 +106,8 @@ const Image = styled.img.attrs<PropsStyle>(props => ({
   alt: "NFT 이미지",
   }))<PropsStyle>`
   width: 100%;
+  height: 20%;
+  object-fit: contain
 `
 
 const Title = styled(Div)`
