@@ -72,4 +72,17 @@ contract SsafyNFT is ERC721Enumerable {
         }
         return URIs;
     }
+
+    // function tokenURIs() public view returns (uint256[] memory){
+
+    // }
+
+    // function getMySaleNftList() public view returns (uint256[] memory) {
+    //     // get my tokenIds from tokenIds array
+    //     uint256[] memory myTokenIds = tokenIDsoftWallet(msg.sender);
+    //     for (uint256 i; i < myTokenIds.length; i++) {
+
+    //     }
+    //     return myTokenIds;
+    // }
 }

@@ -14,7 +14,22 @@ contract SaleFactory is Ownable {
     address public admin;
     // 판매중인 NFT들의 컨트랙트 주소들을 저장하는 배열
     address[] public sales;
+    // 판매중인 NFT의 tokenid를 저장하는 배열
+    // uint256[] public nfts;
+    // // 판매중인 NFT의 owner를 저장하는 배열
+    // address[] public owners;
 
+    struct SaleData {
+        uint256 itemId;
+        uint256 purchasePrice;
+        address owner;
+        address currencyAddress;
+        address nftAddress;
+        address saleAddress;
+    }
+    // 판매중인 NFT의 컨트랙트를 기반으로 안에 데이터들을 저장해주는 매핑
+    // mapping(address => SaleData) saleDatas;
+    SaleData[] public saleDatas;
     event NewSale(
         // 생성된 판매 컨트랙트 주소
         address indexed _saleContract,
@@ -64,6 +79,16 @@ contract SaleFactory is Ownable {
         // Sale컨트랙트에게 seller의 NFT 관리 권한을 부여한다.
         IERC721Enumerable(nftAddress).setApprovalForAll(sale, true);
         sales.push(sale);
+        saleDatas.push(
+            SaleData(
+                itemId,
+                purchasePrice,
+                msg.sender,
+                currencyAddress,
+                nftAddress,
+                sale
+            )
+        );
         // event NewSale(
         //     address indexed _saleContract,
         //     address indexed _owner,
@@ -73,9 +98,18 @@ contract SaleFactory is Ownable {
         return sale;
     }
 
-    // 모든 판매 목록 가지고오기.
+    // 모든 판매 컨트랙트 목록 가지고오기.
     function allSales() public view returns (address[] memory) {
         return sales;
+    }
+
+    // 모든 판매 목록의 NFTid 목록 가지고오기.
+    function allSalesNfts() public view returns (uint256[] memory) {
+        uint256[] memory nfts = new uint256[](saleDatas.length);
+        for (uint256 i = 0; i < saleDatas.length; i++) {
+            nfts[i] = saleDatas[i].itemId;
+        }
+        return nfts;
     }
 
     function cancleSales() public returns (bool) {
@@ -86,6 +120,8 @@ contract SaleFactory is Ownable {
             if (sales[i] == msg.sender) {
                 sales[i] = sales[sales.length - 1];
                 sales.pop();
+                saleDatas[i] = saleDatas[saleDatas.length - 1];
+                saleDatas.pop();
                 // delete sales[i];
                 // return true;
                 iscancled = true;
@@ -95,6 +131,31 @@ contract SaleFactory is Ownable {
         emit CancleSale(msg.sender, iscancled);
         return iscancled;
         // return false;
+    }
+
+    function getMySaleNftList() public view returns (uint256[] memory) {
+        uint256[] memory nfts = new uint256[](saleDatas.length);
+        uint256 count = 0;
+        for (uint256 i = 0; i < saleDatas.length; i++) {
+            if (saleDatas[i].owner == msg.sender) {
+                nfts[count] = saleDatas[i].itemId;
+                count++;
+            }
+        }
+        return nfts;
+    }
+
+    // 토큰 아이디 기반으로 NFT의 판매 정보(판매가격 + purchase함수 불러올 수 있는 ca값) 가져오기
+    function getSaleData(uint256 tokenId)
+        public
+        view
+        returns (SaleData memory)
+    {
+        for (uint256 i = 0; i < saleDatas.length; i++) {
+            if (saleDatas[i].itemId == tokenId) {
+                return saleDatas[i];
+            }
+        }
     }
 }
 

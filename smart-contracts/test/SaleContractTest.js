@@ -38,10 +38,10 @@ contract("Sale Contract Test", (accounts) => {
     await ssafyTokenContract.forceToTransfer(admin, buyer, 1000, {
       from: admin,
     });
-    await ssafyTokenContract.increaseAllowance(seller, 500, { from: buyer });
-    await ssafyTokenContract.increaseAllowance(buyer, 500, {
-      from: seller,
-    });
+    // await ssafyTokenContract.increaseAllowance(seller, 500, { from: buyer });
+    // await ssafyTokenContract.increaseAllowance(buyer, 500, {
+    //   from: seller,
+    // });
     const baseBuyerBalance = await ssafyTokenContract.balanceOf(buyer);
     const baseBuyerAllowance = await ssafyTokenContract.allowance(
       buyer,
