@@ -76,8 +76,8 @@ contract SaleFactory is Ownable {
                 nftAddress
             )
         );
-        // Sale컨트랙트에게 seller의 NFT 관리 권한을 부여한다.
-        IERC721Enumerable(nftAddress).setApprovalForAll(sale, true);
+        // // Sale컨트랙트에게 seller의 NFT 관리 권한을 부여한다.
+        // IERC721Enumerable(nftAddress).setApprovalForAll(sale, true);
         sales.push(sale);
         saleDatas.push(
             SaleData(
@@ -224,6 +224,7 @@ contract Sale {
         // require(msg.sender == buyer, "only buyer can confirm");
 
         buyer = msg.sender;
+        require(seller != buyer, "cannot buy own nft");
         confirmItem();
     }
 
