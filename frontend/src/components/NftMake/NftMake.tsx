@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Div, Image } from "../../styles/BaseStyles";
 import { Input, SharpButton, alertModal } from "../";
 import { create as ipfsHttpClient } from "ipfs-http-client";
-import { TestContract, MintTestContract } from "../../web3Config";
+import { TestContract, MintTestContract, SsafyNFTContract } from "../../web3Config";
 import styled from "styled-components";
 import { useAccount } from "../../hooks";
 
@@ -76,7 +76,7 @@ function NftMake(props: any) {
 
     // setLoadingMeta(true);
 
-    const response = await MintTestContract.methods
+    const response = await SsafyNFTContract.methods
       .create(
         window.ethereum.selectedAddress,
         "https://skywalker.infura-ipfs.io/ipfs/" + Json.path
