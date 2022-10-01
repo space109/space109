@@ -121,6 +121,7 @@ contract("Sale Contract Test", (accounts) => {
       ssafyNFTContract.address,
       { from: buyer }
     );
+
     // 전체 판매 조회
     let allSales = await saleFactoryContract.allSales();
     console.log("allSales = " + allSales);
@@ -152,5 +153,29 @@ contract("Sale Contract Test", (accounts) => {
     let sellerNftId = sellerSalesList[0];
     let saleData = await saleFactoryContract.getSaleData(sellerNftId);
     console.log("saleData = " + JSON.stringify(saleData));
+  });
+  // 판매자가 본인이 올린 NFT를 구매하기 요청을 했을 때, 솔리디티 상에서도 한번 막아서 오류를 내주는 로직이 있었으면 좋겠음
+  it("Block own purchase request", async () => {
+    console.log("4.Block own purchase request");
+    // 토큰 아이디 기반으로 NFT의 판매 정보(판매가격 + purchase함수 불러올 수 있는 ca값) 가져오기(판매 중이지 않으면 null값이 온다.)
+    const ssafyTokenContract = await SsafyToken.deployed();
+    const ssafyNFTContract = await SsafyNFT.deployed();
+    const saleFactoryContract = await SaleFactory.deployed();
+    let allSales = await saleFactoryContract.allSales();
+
+    // Sale컨트랙트에게 seller의 NFT 관리 권한을 부여한다.
+    ssafyNFTContract.setApprovalForAll(allSales[0], true, {
+      from: seller,
+    });
+    // Sale컨트랙트에게 seller의 NFT 관리 권한을 부여한다.
+    ssafyNFTContract.setApprovalForAll(allSales[1], true, {
+      from: buyer,
+    });
+    let salesContract = await Sale.at(allSales[0]);
+    // 자기물건 자기가 구매
+    await ssafyTokenContract.approve(allSales[0], 1000, { from: seller });
+    await salesContract.purchase({ from: seller });
+    currentSellerBalance = await ssafyTokenContract.balanceOf(seller);
+    console.log("currentSellerBalance = " + currentSellerBalance);
   });
 });
