@@ -441,7 +441,6 @@ export default function ProfilePage({}: Props) {
         </Div>
         <Div bgColor="--grey-100" w="7%"></Div>
       </Div>
-      <SelectBox></SelectBox>
     </>
   );
 }

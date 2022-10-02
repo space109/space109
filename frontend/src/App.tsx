@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { debounce } from "lodash";
 import NavBar from "./components/NavBar/NavBar";
+import ScrollToTop from "./common/ScrollToTop";
 import {
   MainPage,
   MonthlyThemePage,
@@ -39,6 +40,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
+        <ScrollToTop/>
         <Routes>
           <Route element={<NavBar windowSize={windowSize} />}>
             <Route path="/" element={<MainPage />} />
