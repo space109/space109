@@ -16,7 +16,7 @@ class NftService {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.displayMyNft(
+        nftId: await nftRepository.displayMyNft(
           tokenId,
           scale,
           position,
