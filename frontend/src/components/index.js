@@ -13,3 +13,4 @@ export { GalleryList } from "./GalleryList";
 export { SearchBar } from "./SearchBar";
 export { FilterButtons } from "./FilterButtons";
 export { alertModal } from "./Alert";
+export { SelectBox } from "./SelectBox";

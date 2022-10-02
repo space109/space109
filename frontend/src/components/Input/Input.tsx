@@ -18,6 +18,7 @@ interface Props {
   value?: any,
   onChange?: any,
   setValue?: any,
+  type?: any,
 };
 
 const StyledInput = styled.input.attrs<Props>(props=> {
@@ -64,7 +65,7 @@ const BorderDiv = styled.div<Props>`
   border-radius: ${({borderRadius}) => borderRadius};
 `
 
-const Input = forwardRef(({width, height, fontSize, fontWeight, bgColor, color, borderWidth, borderStyle, borderColor, borderRadius, isReadOnly, placeholder, value, setValue}: Props, ref:any) => {
+const Input = forwardRef(({width, height, fontSize, fontWeight, bgColor, color, borderWidth, borderStyle, borderColor, borderRadius, isReadOnly, placeholder, value, setValue, type}: Props, ref:any) => {
   const onChangeHandler = (e: any) => {
     setValue &&
     setValue(e.target.value);
@@ -77,6 +78,7 @@ const Input = forwardRef(({width, height, fontSize, fontWeight, bgColor, color, 
           fontSize={fontSize} fontWeight={fontWeight} color={color}
           isReadOnly={isReadOnly} readOnly={isReadOnly} placeholder={placeholder}
           value={value} onChange={onChangeHandler} ref={ref}
+          type={type}
         />
       </BorderDiv>
     </>
@@ -96,6 +98,7 @@ Input.defaultProps = {
   borderRadius: "4px",
   isReadOnly: false,
   placeholder: "메세지를 입력해주세요.",
+  type: "text"
 }
 
 export default Input;

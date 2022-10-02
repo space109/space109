@@ -209,7 +209,7 @@ function NftDetailModal (props:any) {
             <ContentText color="--grey-100">{props.description}</ContentText>
           </Div>
           <Div display="flex" gap="0.5rem">
-            <Input width="70%" placeholder="SSF" setValue={setPrice}/>
+            <Input width="70%" placeholder="SSF" setValue={setPrice} type="number"/>
             <SharpButton 
               onClick={ClickHandler}
               width="30%" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px">
