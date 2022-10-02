@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input, SharpButton, NavArea } from "../components";
 import { dupCheck, join, getMetadata } from "../apis";
-import { MintTestContract } from "../web3Config";
+import { MintTestContract, SsafyNFTContract } from "../web3Config";
 import { useAccount } from "../hooks";
 import Cropper from 'react-easy-crop';
 
@@ -54,7 +54,7 @@ function SignUpPage() {
   // const [ metaDatas, setMetadatas ] = useState<any>();
 
   const aaaa = async () => {
-    const totalNum = await MintTestContract.methods.name().call();
+    const totalNum = await SsafyNFTContract.methods.name().call();
     console.log(totalNum);
   }
 

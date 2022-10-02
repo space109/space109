@@ -2,6 +2,7 @@ import { useState, useEffect} from "react";
 import styled, { keyframes } from "styled-components";
 import { ModalPortal, Input, SharpButton } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
+import { SaleFactoryContract } from "../../web3Config";
 
 interface PropsStyle{
   url?: any,
@@ -145,6 +146,33 @@ const ContentText = styled(Div)`
 function NftDetailModal (props:any) {
 
   const [ price, setPrice ] = useState();
+  const [ saleStatus, setSaleStatus ] = useState(false);
+
+  const ClickHandler = async () => {
+    try {
+      const response = await SaleFactoryContract.methods.createSale(
+        1, 1, process.env.REACT_APP_SSAFY_TOKEN, process.env.REACT_APP_SSAFY_NFT
+      ).send({from : window.ethereum.selectedAddress});
+
+      console.log("응답", response)
+      if (response.status) {
+        setSaleStatus(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getAllSales = async () => {
+    const response = await SaleFactoryContract.methods.allSales().call();
+    console.log(response);
+  }
+
+  useEffect(() => {
+    if (saleStatus) {
+      getAllSales();
+    }
+  }, [saleStatus])
 
   return (
     <>
@@ -181,8 +209,10 @@ function NftDetailModal (props:any) {
             <ContentText color="--grey-100">{props.description}</ContentText>
           </Div>
           <Div display="flex" gap="0.5rem">
-            <Input width="70%" placeholder="SSF" setValue={setPrice}/>
-            <SharpButton width="30%" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px">
+            <Input width="70%" placeholder="SSF" setValue={setPrice} type="number"/>
+            <SharpButton 
+              onClick={ClickHandler}
+              width="30%" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px">
               판매하기
             </SharpButton>
           </Div>
