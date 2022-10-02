@@ -3,7 +3,7 @@ import React, { Suspense, useState, useEffect, useCallback } from "react";
 import { Div } from "../styles/BaseStyles";
 import axios from "axios";
 import { Physics } from "@react-three/cannon";
-import { MintTestContract } from "../web3Config";
+import { MintTestContract, SsafyNFTContract } from "../web3Config";
 import {
   GalleryMap,
   Player,
@@ -257,10 +257,10 @@ const EditVirtualGallery = () => {
 
   //지갑의 NFT 전체 리스트, 토큰ID 리스트를 가져오는 요청
   const getNFTList = useCallback(async () => {
-    const tokenIds = await MintTestContract.methods
+    const tokenIds = await SsafyNFTContract.methods
       .tokenIDsofWallet(window.ethereum.selectedAddress)
       .call();
-    const tokenURIs = await MintTestContract.methods
+    const tokenURIs = await SsafyNFTContract.methods
       .tokenURIsofWallet(window.ethereum.selectedAddress)
       .call();
     setMyNFT(tokenURIs);

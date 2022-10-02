@@ -3,7 +3,7 @@ import { useState } from "react";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import styled from "styled-components";
 import SharpButton from "../Button/SharpButton";
-import { TestContract, MintTestContract } from "../../web3Config";
+import { TestContract, MintTestContract, SsafyNFTContract } from "../../web3Config";
 
 type Props = {};
 
@@ -73,7 +73,7 @@ function IpfsUploader({}: Props) {
 
     setLoadingMeta(true);
 
-    const response = await MintTestContract.methods
+    const response = await SsafyNFTContract.methods
       .create(
         window.ethereum.selectedAddress,
         "https://skywalker.infura-ipfs.io/ipfs/" + Json.path
