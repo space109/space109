@@ -178,4 +178,30 @@ contract("Sale Contract Test", (accounts) => {
     currentSellerBalance = await ssafyTokenContract.balanceOf(seller);
     console.log("currentSellerBalance = " + currentSellerBalance);
   });
+  // 이미 판매중인 NFT를 판매하려는 경우 오류발생
+  it("Error when trying to sell NFTs already on sale", async () => {
+    console.log("5.Error when trying to sell NFTs already on sale");
+    // 토큰 아이디 기반으로 NFT의 판매 정보(판매가격 + purchase함수 불러올 수 있는 ca값) 가져오기(판매 중이지 않으면 null값이 온다.)
+    const ssafyTokenContract = await SsafyToken.deployed();
+    const ssafyNFTContract = await SsafyNFT.deployed();
+    const saleFactoryContract = await SaleFactory.deployed();
+    // get seller's NFT listAll()
+    let sellerNftList = await ssafyNFTContract.tokenURIsofWallet(seller, {
+      from: seller,
+    });
+    console.log("sellerNftList = " + sellerNftList);
+    // 판매자가 판매중인 NFT들의 목록을 가지고옴
+    let sellerSalesList = await saleFactoryContract.getMySaleNftList({
+      from: seller,
+    });
+    console.log("sellerSalesList = " + sellerSalesList);
+    //create Sale
+    await saleFactoryContract.createSale(
+      parseInt(sellerSalesList[0]),
+      100,
+      ssafyTokenContract.address,
+      ssafyNFTContract.address,
+      { from: seller }
+    );
+  });
 });
