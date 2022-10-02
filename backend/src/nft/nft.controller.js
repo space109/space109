@@ -14,7 +14,8 @@ router.post("/display", async function (req, res) {
     req.body.positionXYZ,
     req.body.galleryId,
     req.body.oa,
-    req.body.metadata
+    req.body.metadata,
+    req.body.rotation
   );
   res.statusCode = statusCode;
   res.send(responseBody);
@@ -28,7 +29,8 @@ router.put("/display/change", async function (req, res) {
     req.body.scale,
     req.body.position,
     req.body.positionXYZ,
-    req.body.metadata
+    req.body.metadata,
+    req.body.rotation
   );
   res.statusCode = statusCode;
   res.send(responseBody);

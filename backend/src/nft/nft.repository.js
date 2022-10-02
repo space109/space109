@@ -9,9 +9,10 @@ class NftRepository {
     positionXYZ,
     galleryId,
     oa,
-    metadata
+    metadata,
+    rotation
   ) {
-    const sql = `INSERT INTO nft(GALLERY_ID, OA,  TOKEN_ID, SCALE, POSITION, POSITIONXYZ, METADATA) 
+    const sql = `INSERT INTO nft(GALLERY_ID, OA,  TOKEN_ID, SCALE, POSITION, POSITIONXYZ, METADATA, ROTATION) 
             VALUES(
                 ${galleryId},
                 '${oa}',
@@ -19,7 +20,8 @@ class NftRepository {
                 '${scale}',
                 ${position},
                 '${positionXYZ}',
-                '${metadata}'
+                '${metadata}',
+                '${rotation}'
                 );`;
     let returnBool = true;
     const result = await connection
@@ -35,7 +37,14 @@ class NftRepository {
     // else return false;
   }
 
-  async updateDisplayInfo(nftId, scale, position, positionXYZ, metadata) {
+  async updateDisplayInfo(
+    nftId,
+    scale,
+    position,
+    positionXYZ,
+    metadata,
+    rotation
+  ) {
     // scale, position 둘 다 undefined일경우 무조건 return false를 넣어줘야함
     // typeof str == "undefined" || str == null || str == ""
     /*
@@ -55,6 +64,7 @@ class NftRepository {
     if (position != null) sql += ` position=${position},`;
     if (positionXYZ != null) sql += ` positionXYZ='${positionXYZ}',`;
     if (metadata != null) sql += ` metadata='${metadata}',`;
+    if (rotation != null) sql += ` rotation='${rotation}',`;
     sql = sql.slice(0, -1);
     sql += sqlTail;
     logger.debug(sql);
