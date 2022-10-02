@@ -128,11 +128,16 @@ const SelectBox = ({options, labelText, setValue}:any) => {
   
   const Select = useRef<HTMLInputElement>(null);
   const Li = useRef<HTMLInputElement>(null);
+  const Ui = useRef<HTMLInputElement>(null);
 
   const Last = true;
 
   const onClickHandler = () => {
     setIsOpen((prev) => !prev);
+    // 스크롤 맨 처음으로
+    if (Ui.current) {
+      Ui.current.scrollTo(0, 0);
+    }
   }
 
   const Selected = (e:any) => {
@@ -142,6 +147,7 @@ const SelectBox = ({options, labelText, setValue}:any) => {
 
   const blurHandler = () => {
     setIsOpen(false);
+
   }
 
   useEffect(() => {
@@ -172,7 +178,7 @@ const SelectBox = ({options, labelText, setValue}:any) => {
           <IconDiv isOpen={isOpen}>▼</IconDiv>
         </Div>
       </Label>
-      <StyledUl isOpen={isOpen} liHeight={liHeight}>
+      <StyledUl isOpen={isOpen} liHeight={liHeight} ref={Ui}>
           {options.map((option:any, index:any) => {
             if (index === options.length - 1) {
               return (
