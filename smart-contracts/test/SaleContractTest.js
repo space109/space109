@@ -107,15 +107,16 @@ contract("Sale Contract Test", (accounts) => {
     // console.log("parseInt(sellerNftId) = " + parseInt(sellerNftId));
 
     console.log("create first NFT sales order");
-    await saleFactoryContract.createSale(
+    let firstSaleContract = await saleFactoryContract.createSale(
       parseInt(baseSellerNftId[0]),
       price,
       ssafyTokenContract.address,
       ssafyNFTContract.address,
       { from: seller }
     );
+
     console.log("create second NFT sales order");
-    await saleFactoryContract.createSale(
+    let secondSaleContract = await saleFactoryContract.createSale(
       parseInt(baseSellerNftId[1]),
       price,
       ssafyTokenContract.address,
@@ -127,6 +128,27 @@ contract("Sale Contract Test", (accounts) => {
     let allSales = await saleFactoryContract.allSales();
     console.log("allSales = " + allSales);
     assert.notEqual(allSales.length, 0, "seller fail to create Sale");
+    console.log(
+      "setApprovalForAll to firstSaleContract = " +
+        (await ssafyNFTContract.isApprovedForAll(seller, allSales[0], {
+          from: seller,
+        }))
+    );
+
+    // Sale컨트랙트에게 seller의 NFT 관리 권한을 부여한다.
+    await ssafyNFTContract.setApprovalForAll(allSales[0], true, {
+      from: seller,
+    });
+    console.log(
+      "setApprovalForAll to firstSaleContract = " +
+        (await ssafyNFTContract.isApprovedForAll(seller, allSales[0], {
+          from: seller,
+        }))
+    );
+    // Sale컨트랙트에게 seller의 NFT 관리 권한을 부여한다.
+    await ssafyNFTContract.setApprovalForAll(allSales[1], true, {
+      from: seller,
+    });
 
     // New Sale Contract 호출
     let currentSale = allSales[0];
@@ -232,6 +254,11 @@ contract("Sale Contract Test", (accounts) => {
 
     // New Sale Contract 호출
     currentSale = allSales[0];
+    // Sale컨트랙트에게 seller의 NFT 관리 권한을 부여한다.
+    ssafyNFTContract.setApprovalForAll(currentSale, true, {
+      from: buyer,
+    });
+    console.log("create second NFT sales order");
     salesContract = await Sale.at(currentSale);
     await ssafyTokenContract.approve(currentSale, price, { from: seller });
     console.log(
