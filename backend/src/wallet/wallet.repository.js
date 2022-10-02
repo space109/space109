@@ -31,7 +31,7 @@ class WalletRepository {
 
   async insert(oa, nickname) {
     const sql1 = `insert into user (oa,nickname) values ('${oa}','${nickname}')`;
-    const sql2 = `insert into gallery(oa,category_id,description, title, thumbnail) values('${oa}',13,'${nickname}님의 갤러리입니다.', '${nickname}님의 갤러리','https://skywalker.infura-ipfs.io/ipfs/Qmf8kq7aRUaEndyp9Qbi3GxFYdZanvy1tiYUL6g6vjdPuT')`;
+    const sql2 = `insert into gallery(oa,category_id,description, title, thumbnail) values('${oa}',13,'${nickname}님의 갤러리입니다.', '${nickname}님의 갤러리','/image/thumbnail/default/thumbnail.jpg')`;
 
     const result = [];
 
