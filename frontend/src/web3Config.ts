@@ -1993,9 +1993,10 @@ export const TestCA = "0xB066B316B33a2085A00eD60F9953D32A0b6BDbF8";
 export const NFTCA = "0x7a6E7D7B602e06955C6729DE5D6bD77C1b3E904e";
 
 // 실 사용 컨트랙트
-export const SsafyNFTCA = process.env.REACT_APP_SSAFY_NFT;
+// export const SsafyNFTCA = process.env.REACT_APP_SSAFY_NFT;
+export const SsafyNFTCA = "0x20F6AED97Dbbb84D3ceA079f1d8de517bE4A0488";
 // export const SaleFactoryCA = process.env.REACT_APP_SALE_FACTORY;
-export const SaleFactoryCA = "0xAef9A17D40d7d5878dDc58D935005e21dB971F7C";
+export const SaleFactoryCA = "0xe74d46674EAe31d6faB4dB601A57d4D3BE3827C1";
 export const SsafyTokenCA = process.env.REACT_APP_SSAFY_TOKEN;
 export const SpaceTokenCA = process.env.REACT_APP_SPACE_TOKEN;
 
@@ -2037,5 +2038,5 @@ export const SaleContract = (ca:any) => {
 
 export const TestSaleContract = new web3.eth.Contract(
 	SaleAbi,
-	"0x1E86CB0e6820928235Aab6c21B034CD6d7A7B19D"
+	"0x0062D4A6a68cE375445Bf8F3b864EA8c71BE76AC"
 );
