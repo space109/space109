@@ -18,6 +18,8 @@ export { default as ImageLightGroup } from "./ImageLightGroup";
 export { default as Fog } from "./Fog";
 export { default as FrameDataHandler } from "./FrameDataHandler";
 export { default as ChangableOverlay } from "./ChangableOverlay";
+export { default as Gallery109 } from "./Gallery109";
+
 
 
 

@@ -14,13 +14,12 @@ import {
   ImageLightGroup,
   Fog,
   RectAreaLightGroup,
+  Gallery109,
 } from "../components";
 import { useParams } from "react-router-dom";
 import { useAccount, useAxios } from "../hooks";
-import Wall from './../components/3DModels/Wall';
-
-
-
+import Wall from "./../components/3DModels/Wall";
+import { Environment } from "@react-three/drei";
 
 const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
@@ -115,7 +114,7 @@ const EditVirtualGallery = () => {
     [0.2, 27, 27],
     [0.2, 27, 27],
   ]);
-  
+
   //이미지 크기 조절 함수
   const ImageScaleHandler = useCallback((data) => {
     setFrameScale(data);
@@ -127,9 +126,9 @@ const EditVirtualGallery = () => {
   }, []);
 
   const ImageRotationHandler = useCallback((data) => {
-    setFrameRotation(data)
-  }, [])
-  
+    setFrameRotation(data);
+  }, []);
+
   //ImageFrame에서 선택한 인덱스를 가져옴
   const getIndexOfFrame = useCallback((index) => {
     setToggleIdx(index);
@@ -153,9 +152,24 @@ const EditVirtualGallery = () => {
       setMyNFT(tokenURIs);
       setMyTokenList(tokenIds);
     }
-
   }, [ownerAddress]);
-  
+  //NFT id를 받아와 해당 인덱스의 NFT_ID에 할당
+  const nftIdHandler = useCallback((data) => {
+    let copyArr = [...countArray]
+    copyArr[toggleIdx] = {
+      NFT_ID: data.nftId,
+      METADATA: copyArr[toggleIdx].METADATA,
+      TOKEN_ID: copyArr[toggleIdx].TOKEN_ID,
+      POSITION: copyArr[toggleIdx].POSITION,
+      POSITIONXYZ: copyArr[toggleIdx].POSITIONXYZ,
+      ROTATION: copyArr[toggleIdx].ROTATION,
+      SCALE: copyArr[toggleIdx].SCALE,
+      GALLERY_ID: copyArr[toggleIdx].GALLERY_ID,
+      OA: copyArr[toggleIdx].OA,
+    };
+    setCountArray(copyArr)
+  }, [toggleIdx, countArray])
+
   //포지션에 맞게 계차 매핑, 나머지는 빈 객체로 초기화
   const indexMappingHandler = useCallback((data) => {
     const newArr = new Array(25);
@@ -178,7 +192,7 @@ const EditVirtualGallery = () => {
         rotationArr[idx] = JSON.parse(newArr[idx]?.ROTATION);
       }
     }
-    setFrameRotation(rotationArr)
+    setFrameRotation(rotationArr);
     setFramePosition(posArr);
     setFrameScale(scaleArr);
     setCountArray(newArr);
@@ -202,93 +216,96 @@ const EditVirtualGallery = () => {
   useEffect(() => {
     getNFTList();
   }, [getNFTList]);
-  
+
   useEffect(() => {
     sendRequest(
       {
         url: `${process.env.REACT_APP_BACKEND_HOST2}/nft/display?galleryId=${key}`,
       },
       indexMappingHandler
-      );
-    }, [sendRequest, key, indexMappingHandler])
-    
-    return (
-      <Div w="100vw" h="100vh">
-        <EditModal
-          toggleModal={toggleModal}
-          toggle={toggle}
-          myNFT={myNFT}
-          toggleIdx={toggleIdx}
-          myTokenList={myTokenList}
-          ImageScaleHandler={ImageScaleHandler}
-          ImagePositionHandler={ImagePositionHandler}
-          ImageRotationHandler={ImageRotationHandler}
-          frameRotation={frameRotation}
-          frameScale={frameScale}
-          framePosition={framePosition}
-          countArray={countArray}
-          setCountArray={setCountArray}
-        />
-        <Canvas style={{ background: "grey" }}>
-          <Suspense fallback={null}>
-            {/* 전역 안개, 빛 */}
-            <OverallLight />
-            <Fog />
-            <ambientLight intensity={0.3} />
-            <Physics gravity={[0, -50, 0]}>
-              {/* 사각 조명 */}
-              <RectAreaLightGroup />
-              {/* 천장 디자인 */}
-              <CeilingBoxGroup />
-              {/* 스포트라이트 */}
-              <ImageLightGroup />
-              {/* 액자 리스트 */}
-              {countArray.map((item, idx) => {
-                return (
-                  <ImageFrame
-                    key={`ImageFrameKey${idx}`}
-                    position={framePosition[idx]}
-                    rotation={frameRotation[idx]}
-                    args={frameScale[idx]}
-                    toggleModal={toggleModal}
-                    getIndexOfFrame={getIndexOfFrame}
-                    index={idx}
-                    meta={countArray ? countArray[idx]?.METADATA : {}}
-                  />
-                );
-              })}
-              {/* 로고 이미지 */}
-              {/* <LogoBox position={[52, 25, -68.7]} args={[16, 16, 0.1]} />
-              <LogoBox position={[14, 25, -68.7]} args={[16, 16, 0.1]} /> */}
-              {/* <Floor position={[0, 0, 0]} rotatison={[-Math.PI / 2, 0, 0]} /> */}
-
-              {/* 가벽 */}
-
-              {/* 3번방 */}
-              {/* <Wall position={[232, 20, -158]} args={[1, 21, 20]} rotation={[0,Math.PI/2, 0]}/> */}
-              {/* <Wall position={[232, 20, -92]} args={[1, 21, 20]} rotation={[0,Math.PI/2, 0]}/> */}
-              <Wall position={[232, 20, -143]} args={[1, 21, 27]} />
-              <Wall position={[232, 20, -103]} args={[1, 21, 27]} />
-              {/* 2번방 */}
-              <Wall position={[128, 20, -244]} args={[1, 41, 35]} />
-              <Wall position={[163, 20, -230]} args={[1, 41, 35]} />
-              <GalleryMap position={[0, 0, 0]} />
-              <Player
-                position={[33, 13, -40]}
-                getPosition={getPlayerPosition}
-                lockControl={toggle}
-                onKeyDown={handleKeyDown}
-                toggleModal={toggleModal}
-                toggle={toggle}
-                setToggle={setToggle}
-                targetRoom={targetRoom}
-                targetIndex={targetIndex}
-              />
-            </Physics>
-          </Suspense>
-        </Canvas>
-      </Div>
     );
+  }, [sendRequest, key, indexMappingHandler]);
+
+  return (
+    <Div w="100vw" h="100vh">
+      <EditModal
+        toggleModal={toggleModal}
+        toggle={toggle}
+        myNFT={myNFT}
+        toggleIdx={toggleIdx}
+        myTokenList={myTokenList}
+        ImageScaleHandler={ImageScaleHandler}
+        ImagePositionHandler={ImagePositionHandler}
+        ImageRotationHandler={ImageRotationHandler}
+        frameRotation={frameRotation}
+        frameScale={frameScale}
+        framePosition={framePosition}
+        countArray={countArray}
+        setCountArray={setCountArray}
+        nftIdHandler={nftIdHandler}
+      />
+      <Canvas style={{ background: "grey" }}>
+        <Suspense fallback={null}>
+          {/* 전역 안개, 빛 */}
+          <OverallLight />
+          {/* <Fog /> */}
+          <ambientLight intensity={0.3} />
+          <Physics gravity={[0, -50, 0]}>
+            {/* 사각 조명 */}
+            <RectAreaLightGroup />
+            {/* 천장 디자인 */}
+            <CeilingBoxGroup />
+            {/* 스포트라이트 */}
+            <ImageLightGroup />
+            {/* 액자 리스트 */}
+            {countArray.map((item, idx) => {
+              return (
+                <ImageFrame
+                  key={`ImageFrameKey${idx}`}
+                  position={framePosition[idx]}
+                  rotation={frameRotation[idx]}
+                  args={frameScale[idx]}
+                  toggleModal={toggleModal}
+                  getIndexOfFrame={getIndexOfFrame}
+                  index={idx}
+                  meta={countArray ? countArray[idx]?.METADATA : {}}
+                />
+              );
+            })}
+            {/* 로고 이미지 */}
+            {/* <LogoBox position={[52, 25, -68.7]} args={[16, 16, 0.1]} />
+              <LogoBox position={[14, 25, -68.7]} args={[16, 16, 0.1]} /> */}
+            {/* <Floor position={[0, 0, 0]} rotatison={[-Math.PI / 2, 0, 0]} /> */}
+
+            {/* 가벽 */}
+
+            {/* 3번방 */}
+            {/* <Wall position={[232, 20, -158]} args={[1, 21, 20]} rotation={[0,Math.PI/2, 0]}/> */}
+            {/* <Wall position={[232, 20, -92]} args={[1, 21, 20]} rotation={[0,Math.PI/2, 0]}/> */}
+            <Wall position={[232, 20, -143]} args={[1, 21, 27]} />
+            <Wall position={[232, 20, -103]} args={[1, 21, 27]} />
+            {/* 2번방 */}
+            <Wall position={[128, 20, -244]} args={[1, 41, 35]} />
+            <Wall position={[163, 20, -230]} args={[1, 41, 35]} />
+            {/* <Gallery109 position={[0, 0, 0]}/> */}
+            <Environment preset="sunset" background />
+            <GalleryMap position={[0, 0, 0]} />
+            <Player
+              position={[33, 13, -40]}
+              getPosition={getPlayerPosition}
+              lockControl={toggle}
+              onKeyDown={handleKeyDown}
+              toggleModal={toggleModal}
+              toggle={toggle}
+              setToggle={setToggle}
+              targetRoom={targetRoom}
+              targetIndex={targetIndex}
+            />
+          </Physics>
+        </Suspense>
+      </Canvas>
+    </Div>
+  );
 };
 
 export default EditVirtualGallery;

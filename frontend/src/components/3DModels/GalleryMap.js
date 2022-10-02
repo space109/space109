@@ -2,8 +2,6 @@ import React, { useMemo, useRef, useState } from "react";
 import {
   useGLTF,
   PerspectiveCamera,
-  useNormalTexture,
-  useTexture,
 } from "@react-three/drei";
 import { Geometry } from "three-stdlib";
 import { useConvexPolyhedron } from "@react-three/cannon";

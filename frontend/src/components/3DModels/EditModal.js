@@ -35,8 +35,10 @@ const EditModal = ({
   frameRotation,
   countArray,
   setCountArray,
+  nftIdHandler,
 }) => {
   //액자 위치, 스케일 변환
+  const [empty, setEmpty] = useState(false);
   const [changable, setChangable] = useState({
     positionX: 0,
     positionY: 0,
@@ -44,10 +46,9 @@ const EditModal = ({
     scaleX: 27,
     scaleY: 27,
     rotationX: 0,
-    rotationY: 0
+    rotationY: 0,
   });
   const [ownerAddress, nickname] = useAccount();
-  const [empty, setEmpty] = useState(false);
   //NFT목록의 메타데이터 리스트
   const [NFTs, setNFTs] = useState([]);
   const { key } = useParams();
@@ -73,10 +74,11 @@ const EditModal = ({
   //DB에 저장하는 로직X
   const getBasicInfo = (index, source, tokenId, scale, pos, rot) => {
     let copyArr = [...countArray];
+    console.log(countArray[index]);
     if (Object.keys(countArray[index]).length) {
       setEmpty(true);
     }
-    
+
     copyArr[index] = {
       NFT_ID: copyArr[index].NFT_ID,
       METADATA: source,
@@ -149,11 +151,12 @@ const EditModal = ({
     setCountArray(copyArr);
     //DB에 게시/변경 요청
     if (empty) {
+      console.log("3333333333", countArray[index].NFT_ID);
       sendRequest({
         url: `${process.env.REACT_APP_BACKEND_HOST2}/nft/display/change`,
         method: "PUT",
         data: {
-          nftId: copyArr[index].NFT_ID,
+          nftId: countArray[index].NFT_ID,
           scale: JSON.stringify(scale),
           positionXYZ: JSON.stringify(pos),
           rotation: JSON.stringify(rot),
@@ -162,21 +165,26 @@ const EditModal = ({
         },
       });
     } else {
-      sendRequest({
-        url: `${process.env.REACT_APP_BACKEND_HOST2}/nft/display`,
-        method: "POST",
-        data: {
-          metadata: source,
-          tokenId: tokenId,
-          position: index,
-          positionXYZ: JSON.stringify(pos),
-          rotation: JSON.stringify(rot),
-          scale: JSON.stringify(scale),
-          galleryId: parseInt(key),
-          oa: ownerAddress,
+      console.log("444444444444");
+      sendRequest(
+        {
+          url: `${process.env.REACT_APP_BACKEND_HOST2}/nft/display`,
+          method: "POST",
+          data: {
+            metadata: source,
+            tokenId: tokenId,
+            position: index,
+            positionXYZ: JSON.stringify(pos),
+            rotation: JSON.stringify(rot),
+            scale: JSON.stringify(scale),
+            galleryId: parseInt(key),
+            oa: ownerAddress,
+          },
         },
-      });
+        nftIdHandler
+      );
     }
+    setEmpty(false);
   };
 
   //삭제 요청
@@ -218,12 +226,6 @@ const EditModal = ({
     });
   }, [handleUpdate, toggleIdx]);
 
-  useEffect(() => {
-    if (typeof countArray[toggleIdx] === 'object' && Object.keys(countArray[toggleIdx]).length) {
-      setEmpty(true);
-    }
-  }, [countArray, toggleIdx])
-
   //위치를 변경하면 액자에 포지션 정보 반영
   useEffect(() => {
     let savePosition = JSON.parse(JSON.stringify(framePosition));
@@ -241,12 +243,12 @@ const EditModal = ({
     saveScale[toggleIdx] = [0.2, changable.scaleY, changable.scaleX];
     ImageScaleHandler(saveScale);
   }, [toggleIdx, changable, ImageScaleHandler]);
-  
+
   useEffect(() => {
     let saveRotation = JSON.parse(JSON.stringify(frameRotation));
-    saveRotation[toggleIdx] = [0, changable.rotationY, changable.rotationX]
+    saveRotation[toggleIdx] = [0, changable.rotationY, changable.rotationX];
     ImageRotationHandler(saveRotation);
-  }, [toggleIdx, changable, ImageRotationHandler])
+  }, [toggleIdx, changable, ImageRotationHandler]);
 
   return (
     <>

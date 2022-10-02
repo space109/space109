@@ -45,7 +45,6 @@ const ChangableOverlay = (props) => {
           color="--grey-750"
           height="60px"
           onClick={(e) => {
-            e.stopPropagation();
             props.pickNFT(
               props.toggleIdx,
               props.countArray[props.toggleIdx]?.METADATA,
@@ -72,7 +71,6 @@ const ChangableOverlay = (props) => {
             color="--grey-750"
             height="60px"
             onClick={(e) => {
-              e.stopPropagation();
               props.removeNFT(props.toggleIdx);
               props.toggleModal();
             }}

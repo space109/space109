@@ -123,8 +123,7 @@ const ModalOverlay = (props) => {
                 <ImageList
                   src={data?.image}
                   key={`ImageList${idx}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
+                  onClick={() => {
                     props.getBasicInfo(
                       props.toggleIdx,
                       props.myNFT[idx],

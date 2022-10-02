@@ -18,6 +18,7 @@ export {
   Fog,
   FrameDataHandler,
   ChangableOverlay,
+  Gallery109
 } from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";
