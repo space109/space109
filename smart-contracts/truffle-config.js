@@ -26,7 +26,7 @@
 require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const privateKeys = [process.env.PRIVATEKEY];
-const APIKEY = process.env.SSAFY_HTTP;
+const APIKEY = process.env.SSAFY_HTTP2;
 
 const Provider = new HDWalletProvider(privateKeys, APIKEY);
 
