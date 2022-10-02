@@ -53,7 +53,7 @@ const RECT_AREA_LIGHT_POSITION = [
   },
   {
     position: [232.3, 30.45, -189.73],
-    rotation: [Math.PI / 2, 0, 0],
+    rotation: [-Math.PI / 2, 0, 0],
     width: 4.5,
     intensity: 2,
     height: 30.45,

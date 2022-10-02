@@ -27,7 +27,6 @@ const ImageLight = ({
       <primitive
         object={light}
         position={lightFrom}
-
       />
       <primitive object={light.target} position={lightTo}/>
     </>

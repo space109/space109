@@ -29,8 +29,10 @@ const EditModal = ({
   myTokenList,
   ImageScaleHandler,
   ImagePositionHandler,
+  ImageRotationHandler,
   frameScale,
   framePosition,
+  frameRotation,
   countArray,
   setCountArray,
 }) => {
@@ -41,6 +43,8 @@ const EditModal = ({
     positionZ: 0,
     scaleX: 27,
     scaleY: 27,
+    rotationX: 0,
+    rotationY: 0
   });
   const [ownerAddress, nickname] = useAccount();
   const [empty, setEmpty] = useState(false);
@@ -67,7 +71,7 @@ const EditModal = ({
 
   //NFT클릭 후, 이미지 선 적용, NFT 전시 중복검사
   //DB에 저장하는 로직X
-  const getBasicInfo = (index, source, tokenId, scale, pos) => {
+  const getBasicInfo = (index, source, tokenId, scale, pos, rot) => {
     let copyArr = [...countArray];
     if (Object.keys(countArray[index]).length) {
       setEmpty(true);
@@ -79,6 +83,7 @@ const EditModal = ({
       TOKEN_ID: parseInt(tokenId),
       POSITION: index,
       POSITIONXYZ: pos,
+      ROTATION: rot,
       SCALE: scale,
       GALLERY_ID: key,
       OA: ownerAddress,
@@ -126,7 +131,7 @@ const EditModal = ({
   };
 
   //저장한 NFT에 해당되는 정보를 업로드
-  const pickNFT = (index, source, tokenId, scale, pos) => {
+  const pickNFT = (index, source, tokenId, scale, pos, rot) => {
     let copyArr = [...countArray];
 
     //인덱스 내의 객체 변경(화면에 즉시 적용시키기 위함)
@@ -136,6 +141,7 @@ const EditModal = ({
       TOKEN_ID: tokenId,
       POSITION: index,
       POSITIONXYZ: pos,
+      ROTATION: rot,
       SCALE: scale,
       GALLERY_ID: key,
       OA: ownerAddress,
@@ -150,6 +156,7 @@ const EditModal = ({
           nftId: copyArr[index].NFT_ID,
           scale: JSON.stringify(scale),
           positionXYZ: JSON.stringify(pos),
+          rotation: JSON.stringify(rot),
           position: index,
           metadata: source,
         },
@@ -163,6 +170,7 @@ const EditModal = ({
           tokenId: tokenId,
           position: index,
           positionXYZ: JSON.stringify(pos),
+          rotation: JSON.stringify(rot),
           scale: JSON.stringify(scale),
           galleryId: parseInt(key),
           oa: ownerAddress,
@@ -205,8 +213,16 @@ const EditModal = ({
       positionZ: framePosition[toggleIdx][2],
       scaleX: frameScale[toggleIdx][2],
       scaleY: frameScale[toggleIdx][1],
+      rotationX: frameRotation[toggleIdx][2],
+      rotationY: frameRotation[toggleIdx][1],
     });
   }, [handleUpdate, toggleIdx]);
+
+  useEffect(() => {
+    if (typeof countArray[toggleIdx] === 'object' && Object.keys(countArray[toggleIdx]).length) {
+      setEmpty(true);
+    }
+  }, [countArray, toggleIdx])
 
   //위치를 변경하면 액자에 포지션 정보 반영
   useEffect(() => {
@@ -225,7 +241,13 @@ const EditModal = ({
     saveScale[toggleIdx] = [0.2, changable.scaleY, changable.scaleX];
     ImageScaleHandler(saveScale);
   }, [toggleIdx, changable, ImageScaleHandler]);
-  console.log(NFTs)
+  
+  useEffect(() => {
+    let saveRotation = JSON.parse(JSON.stringify(frameRotation));
+    saveRotation[toggleIdx] = [0, changable.rotationY, changable.rotationX]
+    ImageRotationHandler(saveRotation);
+  }, [toggleIdx, changable, ImageRotationHandler])
+
   return (
     <>
       {ReactDOM.createPortal(

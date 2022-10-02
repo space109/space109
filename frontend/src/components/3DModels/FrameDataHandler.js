@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import DatGui, { DatNumber } from "react-dat-gui";
 import number from "./_number.scss";
 
@@ -44,12 +44,28 @@ const FrameDataHandler = (props) => {
           step={1}
         />
         <DatNumber
-          style={{ listStyle: "none" }}
+          style={{ marginBottom: "15px", listStyle: "none" }}
           label="세로 길이"
           path="scaleY"
           min={0}
           max={200}
           step={1}
+        />
+        <DatNumber
+          style={{ marginBottom: "15px", listStyle: "none" }}
+          label="가로 회전"
+          path="rotationY"
+          min={-3.15}
+          max={3.15}
+          step={0.01}
+        />
+        <DatNumber
+          style={{ listStyle: "none" }}
+          label="세로 회전"
+          path="rotationX"
+          min={-3.15}
+          max={3.15}
+          step={0.01}
         />
       </DatGui>
     </>

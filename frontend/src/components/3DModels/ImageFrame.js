@@ -55,7 +55,8 @@ const ImageFrame = ({
         castShadow
         rotation={rotation}
         position={position}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           toggleModal();
           getIndexOfFrame(index);
         }}

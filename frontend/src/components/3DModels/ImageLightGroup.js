@@ -71,44 +71,44 @@ const ImageLightGroup = () => {
       />
       {/* 3번방 6개 */}
       <ImageLight
-        lightFrom={[111, 63, -238]}
-        lightTo={[111, 10, -274]}
-        angle={0.4}
+        lightFrom={[111, 52, -224]}
+        lightTo={[111, 28, -218]}
+        angle={0.3}
         intensity={1}
         penumbra={0.1}
       />
       <ImageLight
-        lightFrom={[146, 63, -238]}
-        lightTo={[146, 10, -274]}
-        angle={0.4}
+        lightFrom={[146, 52, -250]}
+        lightTo={[146, 28, -256]}
+        angle={0.3}
         intensity={1}
         penumbra={0.1}
       />
       <ImageLight
-        lightFrom={[181, 63, -238]}
-        lightTo={[181, 10, -274]}
-        angle={0.4}
+        lightFrom={[174.2, 52, -231]}
+        lightTo={[164.2, 28, -231]}
+        angle={0.3}
         intensity={1}
         penumbra={0.1}
       />
       <ImageLight
-        lightFrom={[111, 63, -235]}
-        lightTo={[111, 10, -199]}
-        angle={0.4}
+        lightFrom={[118, 52, -241]}
+        lightTo={[126, 28, -241]}
+        angle={0.3}
         intensity={1}
         penumbra={0.1}
       />
       <ImageLight
-        lightFrom={[146, 63, -235]}
-        lightTo={[146, 10, -199]}
-        angle={0.4}
+        lightFrom={[154.2, 52, -231]}
+        lightTo={[162.2, 28, -231]}
+        angle={0.3}
         intensity={1}
         penumbra={0.1}
       />
       <ImageLight
-        lightFrom={[181, 63, -235]}
-        lightTo={[181, 10, -199]}
-        angle={0.4}
+        lightFrom={[181, 52, -224]}
+        lightTo={[181, 28, -218]}
+        angle={0.3}
         intensity={1}
         penumbra={0.1}
       />
@@ -131,6 +131,34 @@ const ImageLightGroup = () => {
       <ImageLight
         lightFrom={[230, 63, -125]}
         lightTo={[195, 10, -125]}
+        angle={0.4}
+        intensity={1}
+        penumbra={0.1}
+      />
+      <ImageLight
+        lightFrom={[240, 40, -103]}
+        lightTo={[230, 2, -103]}
+        angle={0.4}
+        intensity={1}
+        penumbra={0.1}
+      />
+      <ImageLight
+        lightFrom={[240, 40, -143]}
+        lightTo={[230, 2, -143]}
+        angle={0.4}
+        intensity={1}
+        penumbra={0.1}
+      />
+      <ImageLight
+        lightFrom={[224, 40, -103]}
+        lightTo={[234, 2, -103]}
+        angle={0.4}
+        intensity={1}
+        penumbra={0.1}
+      />
+      <ImageLight
+        lightFrom={[224, 40, -143]}
+        lightTo={[234, 2, -143]}
         angle={0.4}
         intensity={1}
         penumbra={0.1}

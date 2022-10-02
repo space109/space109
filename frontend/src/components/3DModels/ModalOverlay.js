@@ -9,7 +9,7 @@ const LeftDiv = styled(Div)`
   flex-direction: column;
   align-items: center;
   width: 45%;
-  
+
   & img {
     object-fit: contain;
     width: 90%;
@@ -108,7 +108,14 @@ const ModalOverlay = (props) => {
         </Div>
         <HR />
       </Div>
-      <Div display="flex" justifyContent="center" flexWrap="wrap" overflow="scroll" w="100%" h="88%">
+      <Div
+        display="flex"
+        justifyContent="center"
+        flexWrap="wrap"
+        overflow="scroll"
+        w="100%"
+        h="88%"
+      >
         <LeftDiv>
           {props.NFTs.map((data, idx) => {
             if (idx % 2 === 0)
@@ -116,7 +123,8 @@ const ModalOverlay = (props) => {
                 <ImageList
                   src={data?.image}
                   key={`ImageList${idx}`}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     props.getBasicInfo(
                       props.toggleIdx,
                       props.myNFT[idx],
@@ -126,7 +134,8 @@ const ModalOverlay = (props) => {
                         props.changable.positionX,
                         props.changable.positionY,
                         props.changable.positionZ,
-                      ]
+                      ],
+                      [0, props.changable.rotationY, props.changable.rotationX]
                     );
                   }}
                 />
@@ -150,7 +159,8 @@ const ModalOverlay = (props) => {
                         props.changable.positionX,
                         props.changable.positionY,
                         props.changable.positionZ,
-                      ]
+                      ],
+                      [0, props.changable.rotationY, props.changable.rotationX]
                     );
                   }}
                 />

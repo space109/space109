@@ -5,7 +5,7 @@ const Wall = (props) => {
   const [ref, api] = useBox(() =>({
     mass: 0,
     ...props,
-    color: 0xffffff
+    color: 'grey'
   }))
 
   return (
