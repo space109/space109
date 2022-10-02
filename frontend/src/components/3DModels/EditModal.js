@@ -72,6 +72,7 @@ const EditModal = ({
     if (Object.keys(countArray[index]).length) {
       setEmpty(true);
     }
+    
     copyArr[index] = {
       NFT_ID: copyArr[index].NFT_ID,
       METADATA: source,
@@ -224,7 +225,7 @@ const EditModal = ({
     saveScale[toggleIdx] = [0.2, changable.scaleY, changable.scaleX];
     ImageScaleHandler(saveScale);
   }, [toggleIdx, changable, ImageScaleHandler]);
-
+  console.log(NFTs)
   return (
     <>
       {ReactDOM.createPortal(

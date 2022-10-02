@@ -18,7 +18,6 @@ const ImageLightGroup = () => {
         intensity={1}
         penumbra={0.1}
       />
-
       {/* 1번방 6개 */}
       <ImageLight
         lightFrom={[25, 63, -115]}

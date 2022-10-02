@@ -1,7 +1,13 @@
 import React, { useMemo, useRef, useState } from "react";
-import { useGLTF, PerspectiveCamera } from "@react-three/drei";
+import {
+  useGLTF,
+  PerspectiveCamera,
+  useNormalTexture,
+  useTexture,
+} from "@react-three/drei";
 import { Geometry } from "three-stdlib";
 import { useConvexPolyhedron } from "@react-three/cannon";
+import * as THREE from "three";
 
 function toConvexProps(bufferGeometry) {
   const geo = new Geometry().fromBufferGeometry(bufferGeometry);
@@ -258,7 +264,7 @@ export default function GalleryMap(props) {
           <mesh
             geometry={nodes.MoveFloor_1.geometry}
             material={materials.Grey}
-          />
+          ></mesh>
         </group>
         <group
           ref={
@@ -729,7 +735,8 @@ export default function GalleryMap(props) {
           geometry={nodes.MainEnter01.geometry}
           material={materials.Dark}
           rotation={[Math.PI / 2, 0, 0]}
-        />
+        >
+        </mesh>
       </group>
       <group
         ref={

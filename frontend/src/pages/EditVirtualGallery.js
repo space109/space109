@@ -6,20 +6,19 @@ import { MintTestContract } from "../web3Config";
 import {
   GalleryMap,
   Player,
-  CeilingBox,
-  ImageLight,
   OverallLight,
   ImageFrame,
-  Floor,
   EditModal,
   LogoBox,
   CeilingBoxGroup,
   ImageLightGroup,
   Fog,
+  RectAreaLightGroup,
 } from "../components";
 import { useParams } from "react-router-dom";
 import { useAccount, useAxios } from "../hooks";
-import RectAreaLightGroup from './../components/3DModels/RectAreaLightGroup';
+import Wall from './../components/3DModels/Wall';
+
 
 const IMAGE_FRAME_ROTATION = [
   [0, 0, 0],
@@ -69,9 +68,9 @@ const EditVirtualGallery = () => {
     [53, 25, -185],
     [33, 25, -260],
     [111, 25, -257],
-    [146, 25, -257],
+    [146, 25, -257], //2번방
     [181, 25, -257],
-    [111, 25, -216.8],
+    [125, 25, -239],
     [146, 25, -216.8],
     [181, 25, -216.8],
     [255, 25, -238],
@@ -96,10 +95,10 @@ const EditVirtualGallery = () => {
     [0.2, 27, 27],
     [0.2, 27, 27],
     [0.2, 45, 45],
+    [0.2, 15, 15],
     [0.2, 27, 27],
     [0.2, 27, 27],
-    [0.2, 27, 27],
-    [0.2, 27, 27],
+    [0.2, 15, 15],
     [0.2, 27, 27],
     [0.2, 27, 27],
     [0.2, 45, 45],
@@ -149,6 +148,7 @@ const EditVirtualGallery = () => {
       setMyNFT(tokenURIs);
       setMyTokenList(tokenIds);
     }
+
   }, [ownerAddress]);
   
   //포지션에 맞게 계차 매핑, 나머지는 빈 객체로 초기화
@@ -207,68 +207,73 @@ const EditVirtualGallery = () => {
     
     return (
       <Div w="100vw" h="100vh">
-      <EditModal
-        toggleModal={toggleModal}
-        toggle={toggle}
-        myNFT={myNFT}
-        toggleIdx={toggleIdx}
-        myTokenList={myTokenList}
-        ImageScaleHandler={ImageScaleHandler}
-        ImagePositionHandler={ImagePositionHandler}
-        frameScale={frameScale}
-        framePosition={framePosition}
-        countArray={countArray}
-        setCountArray={setCountArray}
-      />
-      <Canvas style={{ background: "grey" }}>
-        <Suspense fallback={null}>
-          {/* 전역 안개, 빛 */}
-          <OverallLight />
-          <Fog/>
-          <ambientLight intensity={0.1} />
-          <Physics gravity={[0, -50, 0]}>
-            {/* 사각 조명 */}
-            <RectAreaLightGroup/>
-            {/* 천장 디자인 */}
-            <CeilingBoxGroup/>
-            {/* 스포트라이트 */}
-            <ImageLightGroup/>
-            {/* 액자 리스트 */}
-            {countArray.map((item, idx) => {
-              return (
-                <ImageFrame
-                  key={`ImageFrameKey${idx}`}
-                  position={framePosition[idx]}
-                  rotation={IMAGE_FRAME_ROTATION[idx]}
-                  args={frameScale[idx]}
-                  toggleModal={toggleModal}
-                  getIndexOfFrame={getIndexOfFrame}
-                  index={idx}
-                  meta={countArray ? countArray[idx]?.METADATA : {}}
-                />
-              );
-            })}
-            {/* 로고 이미지 */}
-            <LogoBox position={[52, 25, -68.7]} args={[16, 16, 0.1]} />
-            <LogoBox position={[14, 25, -68.7]} args={[16, 16, 0.1]} />
-            <Floor position={[0, 10.15, 0]} rotation={[-Math.PI / 2, 0, 0]} />
-            <GalleryMap position={[0, 0, 0]} />
-            <Player
-              position={[33, 13, -40]}
-              getPosition={getPlayerPosition}
-              lockControl={toggle}
-              onKeyDown={handleKeyDown}
-              toggleModal={toggleModal}
-              toggle={toggle}
-              setToggle={setToggle}
-              targetRoom={targetRoom}
-              targetIndex={targetIndex}
-            />
-          </Physics>
-        </Suspense>
-      </Canvas>
-    </Div>
-  );
+        <EditModal
+          toggleModal={toggleModal}
+          toggle={toggle}
+          myNFT={myNFT}
+          toggleIdx={toggleIdx}
+          myTokenList={myTokenList}
+          ImageScaleHandler={ImageScaleHandler}
+          ImagePositionHandler={ImagePositionHandler}
+          frameScale={frameScale}
+          framePosition={framePosition}
+          countArray={countArray}
+          setCountArray={setCountArray}
+        />
+        <Canvas style={{ background: "grey" }}>
+          <Suspense fallback={null}>
+            {/* 전역 안개, 빛 */}
+            <OverallLight />
+            <Fog />
+            <ambientLight intensity={0.1} />
+            <Physics gravity={[0, -50, 0]}>
+              {/* 사각 조명 */}
+              <RectAreaLightGroup />
+              {/* 천장 디자인 */}
+              <CeilingBoxGroup />
+              {/* 스포트라이트 */}
+              <ImageLightGroup />
+              {/* 액자 리스트 */}
+              {countArray.map((item, idx) => {
+                return (
+                  <ImageFrame
+                    key={`ImageFrameKey${idx}`}
+                    position={framePosition[idx]}
+                    rotation={IMAGE_FRAME_ROTATION[idx]}
+                    args={frameScale[idx]}
+                    toggleModal={toggleModal}
+                    getIndexOfFrame={getIndexOfFrame}
+                    index={idx}
+                    meta={countArray ? countArray[idx]?.METADATA : {}}
+                  />
+                );
+              })}
+              {/* 로고 이미지 */}
+              <LogoBox position={[52, 25, -68.7]} args={[16, 16, 0.1]} />
+              <LogoBox position={[14, 25, -68.7]} args={[16, 16, 0.1]} />
+              {/* <Floor position={[0, 0, 0]} rotatison={[-Math.PI / 2, 0, 0]} /> */}
+
+              {/* 가벽 */}
+
+              <Wall position={[128, 20, -244]} args={[1, 41, 35]}/>
+              <Wall position={[163, 20, -230]} args={[1, 41, 35]}/>
+              <GalleryMap position={[0, 0, 0]} />
+              <Player
+                position={[33, 13, -40]}
+                getPosition={getPlayerPosition}
+                lockControl={toggle}
+                onKeyDown={handleKeyDown}
+                toggleModal={toggleModal}
+                toggle={toggle}
+                setToggle={setToggle}
+                targetRoom={targetRoom}
+                targetIndex={targetIndex}
+              />
+            </Physics>
+          </Suspense>
+        </Canvas>
+      </Div>
+    );
 };
 
 export default EditVirtualGallery;

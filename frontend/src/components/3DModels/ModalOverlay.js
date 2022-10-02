@@ -1,21 +1,41 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import { Div } from '../../styles/BaseStyles';
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import { Div } from "../../styles/BaseStyles";
 import closeIcon from "../../assets/close-icon.png";
 import ImageIcon from "../../assets/ImageIcon.png";
 
-const ScrollDiv = styled(Div)`
-  overflow: scroll;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  column-gap: 15px;
-  row-gap: 15px;
-  margin: 0 auto;
+const LeftDiv = styled(Div)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
+  
   & img {
-    margin: 0 auto;
     object-fit: contain;
     width: 90%;
     cursor: pointer;
+  }
+`;
+
+const RightDiv = styled(Div)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;
+  & img {
+    object-fit: contain;
+    width: 90%;
+    cursor: pointer;
+  }
+`;
+
+const ImageList = styled.img`
+  margin-top: 9%;
+  box-shadow: 1px 1px 3px grey;
+  border-radius: 8px;
+  transition: 0.2s ease;
+  &:hover {
+    transform: scale(1.1, 1.1);
   }
 `;
 
@@ -29,14 +49,6 @@ const Icon = styled.img`
 const modalActive = keyframes`
   from { top: 0vh; opacity: 0; }
   to { top: 10vh; opacity: 1; }
-`;
-
-const ImageList = styled.img`
-  border-radius: 8px;
-  transition: 0.2s ease;
-  &:hover {
-    transform: scale(1.1, 1.1);
-  }
 `;
 
 const ModalDiv = styled.div`
@@ -79,12 +91,12 @@ const ModalOverlay = (props) => {
     <ModalDiv className="modal-active">
       <Img src={closeIcon} alt="" onClick={props.toggleModal} />
       <Div
-        mt="10%"
+        mt="5%"
         ml="10%"
         mr="10%"
         bgColor="--grey-100"
         w="80%"
-        h="10%"
+        h="8%"
         overflow="hidden"
       >
         <Div display="flex" justifyContent="space-between" alignItems="center">
@@ -96,35 +108,56 @@ const ModalOverlay = (props) => {
         </Div>
         <HR />
       </Div>
-      <ScrollDiv
-        display="grid"
-        bgColor="--grey-100"
-        borderRadius="5px"
-        w="80%"
-        h="80%"
-      >
-        {props.NFTs.map((data, idx) => {
-          return (
-            <ImageList
-              src={data?.image}
-              key={`ImageList${idx}`}
-              onClick={() => {
-                props.getBasicInfo(
-                  props.toggleIdx,
-                  props.myNFT[idx],
-                  data?.tokenID,
-                  [0.2, props.changable.scaleY, props.changable.scaleX],
-                  [
-                    props.changable.positionX,
-                    props.changable.positionY,
-                    props.changable.positionZ,
-                  ]
-                );
-              }}
-            />
-          );
-        })}
-      </ScrollDiv>
+      <Div display="flex" justifyContent="center" flexWrap="wrap" overflow="scroll" w="100%" h="88%">
+        <LeftDiv>
+          {props.NFTs.map((data, idx) => {
+            if (idx % 2 === 0)
+              return (
+                <ImageList
+                  src={data?.image}
+                  key={`ImageList${idx}`}
+                  onClick={() => {
+                    props.getBasicInfo(
+                      props.toggleIdx,
+                      props.myNFT[idx],
+                      data?.tokenID,
+                      [0.2, props.changable.scaleY, props.changable.scaleX],
+                      [
+                        props.changable.positionX,
+                        props.changable.positionY,
+                        props.changable.positionZ,
+                      ]
+                    );
+                  }}
+                />
+              );
+          })}
+        </LeftDiv>
+        <RightDiv>
+          {props.NFTs.map((data, idx) => {
+            if (idx % 2 === 1)
+              return (
+                <ImageList
+                  src={data?.image}
+                  key={`ImageList${idx}`}
+                  onClick={() => {
+                    props.getBasicInfo(
+                      props.toggleIdx,
+                      props.myNFT[idx],
+                      data?.tokenID,
+                      [0.2, props.changable.scaleY, props.changable.scaleX],
+                      [
+                        props.changable.positionX,
+                        props.changable.positionY,
+                        props.changable.positionZ,
+                      ]
+                    );
+                  }}
+                />
+              );
+          })}
+        </RightDiv>
+      </Div>
     </ModalDiv>
   );
 };
