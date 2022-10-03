@@ -130,8 +130,11 @@ router.put("/my", async function (req, res) {
       // 이미지가 없는경우
       // console.log("thumbnail: " + req.body.thumbnail);
       // console.log(req.body);
+
       const thumbnailPath =
-        "/image/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg";
+        req.body.thumbnail != undefined
+          ? "/image/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg"
+          : false;
       // console.log(thumbnailPath);
       logger.debug("req.body = " + JSON.stringify(req.body));
       const { statusCode, responseBody } = await GalleryService.updateMyGallery(
