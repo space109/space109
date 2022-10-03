@@ -3,7 +3,7 @@ import { useState } from "react";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import styled from "styled-components";
 import SharpButton from "../Button/SharpButton";
-import { TestContract, MintTestContract, SsafyNFTContract } from "../../web3Config";
+import { SsafyNFTContract } from "../../web3Config";
 
 type Props = {};
 

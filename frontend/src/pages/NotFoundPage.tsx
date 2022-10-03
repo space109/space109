@@ -45,7 +45,7 @@ const Frame = styled.div`
     content: '';
     position: absolute;
     width: 8px; height: 8px;
-    top: -40px; left: 50.3%;
+    top: -24px; left: 50.3%;
     z-index: 5;
     border-radius: 50% 50%;
     background: #000;
@@ -56,7 +56,7 @@ const Frame = styled.div`
     position: absolute;  
     width: 30px; height: 30px;  
     border: 1px solid var(--grey-100);
-    top: -32px; left: 48%;
+    top: -16px; left: 48%;
     z-index: 0;
     border-bottom: none;
     border-right: none;

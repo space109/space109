@@ -82,15 +82,15 @@ const CATEGORY = [
 export default function ProfilePage({}: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>("");
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null);
   const [fileImage, setFileImage] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [title, setTitle] = useState<any>("");
   const [description, setDescription] = useState<string>("");
   const [isOpend, setIsOpend] = useState<any>(true);
   const [category, setCategory] = useState<any>(13);
-  const [ isOnModal, setIsOnModal ] = useState(false);
-  const [ nickname, setNickname ] = useState("");
+  const [isOnModal, setIsOnModal] = useState(false);
+  const [nickname, setNickname] = useState("");
   const [textIsOpend, setTextIsOpend] = useState("");
   const [textCategory, setTextCategory] = useState("");
 
@@ -172,8 +172,6 @@ export default function ProfilePage({}: Props) {
   }, [textIsOpend, textCategory]);
 
   const submitHandler = async () => {
-
-    console.log("뭐임?",updateData)
     const formData = new FormData();
 
     Object.entries(updateData).forEach((item) =>

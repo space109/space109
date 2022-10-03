@@ -47,7 +47,7 @@ contract SsafyNFT is ERC721Enumerable {
         return tokenId;
     }
 
-    function tokenIDsoftWallet(address _owner)
+    function tokenIDsofWallet(address _owner)
         public
         view
         returns (uint256[] memory)
