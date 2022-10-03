@@ -10,6 +10,8 @@ const SearchArea = styled.div`
   flex-direction: column;
   align-items: center;
   background: var(--grey-600);
+  box-shadow: -1px 3px 5px rgba(0, 0, 0, 0.5);
+
 `
 
 const Background = styled.div`
@@ -18,7 +20,7 @@ const Background = styled.div`
   left: 0;
   width: 100%;
   min-height: 100vh;
-  background-color: var(--ocean-300);
+  background-color: var(--grey-200);
   z-index: -10;
 `
 
@@ -33,7 +35,14 @@ const FilterDiv = styled.div`
 `
 
 const Content = styled.div`
+  box-sizing: border-box;
+`
 
+const SearchDiv = styled.div`
+  width: 60%;
+  @media screen and (max-width: ${screenSizes.md + "px"}) {
+    width: 80%;
+  }
 `
 
 function GalleryListPage() {
@@ -91,15 +100,16 @@ function GalleryListPage() {
       </Background>
       <NavArea />
       <SearchArea>
-        <Div w="60%">
+        <SearchDiv>
           <SearchBar setValue={setSearchValue}/>
-        </Div>
+        </SearchDiv>
         <FilterDiv>
           <FilterButtons List={CATEGORY} setValue={setTheme} />
         </FilterDiv>
       </SearchArea>
       <Content>
         <GalleryList gallerys={gallerys}></GalleryList>
+        {/* <GalleryList></GalleryList> */}
       </Content>
     </>
   );
