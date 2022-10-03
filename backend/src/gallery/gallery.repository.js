@@ -80,7 +80,7 @@ class GalleryRepository {
     if (thumbnail != false) sql += `thumbnail='${thumbnail}',`;
     if (category_id != "null") sql += `category_id= ${category_id},`;
     if (description != "null") sql += `description= '${description}',`;
-    if (title != "null") sql += `title= '${title}','`;
+    if (title != "null") sql += `title= '${title}',`;
     if (isOpen != "null") sql += `IS_OPEN= ${isOpenBool},`;
     sql = sql.slice(0, -1);
     sql += sqlTail;
