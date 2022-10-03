@@ -5,14 +5,13 @@ const Wall = (props) => {
   const [ref, api] = useBox(() =>({
     mass: 0,
     ...props,
-    color: 'grey'
   }))
 
   return (
     <>
       <mesh ref={ref} api={api}>
         <boxGeometry args={props.args}/>
-        <meshPhongMaterial />
+        <meshPhongMaterial color="0x1d1d1d"/>
       </mesh>
     </>
   );

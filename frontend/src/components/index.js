@@ -31,6 +31,9 @@ export {
   CommunityOverlay,
   CommunityBackdrop,
   RockChair,
+  Plant1,
+  MainCharacter,
+  Owl
 } from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";

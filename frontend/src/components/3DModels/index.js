@@ -31,4 +31,7 @@ export { default as CommunityModal } from "./CommunityModal";
 export { default as CommunityOverlay } from "./CommunityOverlay";
 export { default as CommunityBackdrop } from "./CommunityBackdrop";
 export { default as RockChair } from "./RockChair";
+export { default as Plant1 } from "./Plant1";
+export { default as MainCharacter } from "./MainCharacter";
+export { default as Owl } from "./Owl";
 

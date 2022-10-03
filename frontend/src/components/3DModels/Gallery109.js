@@ -75,6 +75,22 @@ export default function Gallery109(props) {
         material={materials["Material #563"]}
         position={[232.37, 53.34, -23.26]}
       />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.MainEnter01.geometry}
+        material={materials["Grey Wall Paint"]}
+        position={[33.12, 14.25, -69.08]}
+        rotation={[Math.PI / 2, 0, 0]}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.MainEnter02.geometry}
+        material={materials["Grey Wall Paint"]}
+        position={[32.97, 14.73, -68.07]}
+        rotation={[Math.PI / 2, 0, 0]}
+      />
       <group position={[135.85, 0, -138.69]}>
         <mesh
           castShadow
@@ -101,22 +117,6 @@ export default function Gallery109(props) {
           material={materials.Dark}
         />
       </group>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.MainEnter01.geometry}
-        material={materials["Grey Wall Paint"]}
-        position={[33.12, 14.25, -69.08]}
-        rotation={[Math.PI / 2, 0, 0]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.MainEnter02.geometry}
-        material={materials["Grey Wall Paint"]}
-        position={[32.97, 14.73, -68.07]}
-        rotation={[Math.PI / 2, 0, 0]}
-      />
       <group position={[138.43, 0, -137.44]}>
         <mesh
           castShadow
@@ -278,28 +278,48 @@ export default function Gallery109(props) {
           material={materials["Grey Wall Paint"]}
         />
       </group>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Room2Ceil.geometry}
-        material={materials["Wall Paint"]}
-        position={[32.98, 50.8, -251.96]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Room4Ceil.geometry}
-        material={materials["Wall Paint"]}
-        position={[247.61, 50.8, -236.72]}
-        rotation={[0, 1.57, 0]}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Room6Ceil.geometry}
-        material={materials["Wall Paint"]}
-        position={[232.37, 50.8, -23.25]}
-      />
+      <group position={[32.98, 50.8, -251.96]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room2Ceil_1.geometry}
+          material={materials["Wall Paint"]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room2Ceil_2.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group position={[247.61, 50.8, -236.72]} rotation={[0, 1.57, 0]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room4Ceil_1.geometry}
+          material={materials["Wall Paint"]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room4Ceil_2.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group position={[232.37, 50.8, -23.25]}>
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room6Ceil_1.geometry}
+          material={materials["Wall Paint"]}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room6Ceil_2.geometry}
+          material={materials.Light}
+        />
+      </group>
       <group position={[33.95, 38.1, -150.36]}>
         <mesh
           castShadow
@@ -312,6 +332,12 @@ export default function Gallery109(props) {
           receiveShadow
           geometry={nodes.Room1Ceil_2.geometry}
           material={materials.Black}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room1Ceil_3.geometry}
+          material={materials.Light}
         />
       </group>
       <mesh
@@ -349,6 +375,12 @@ export default function Gallery109(props) {
           geometry={nodes.Room1Ceil001_2.geometry}
           material={materials.Black}
         />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room1Ceil001_3.geometry}
+          material={materials.Light}
+        />
       </group>
       <group position={[232.37, 38.1, -124.27]}>
         <mesh
@@ -363,6 +395,12 @@ export default function Gallery109(props) {
           geometry={nodes.Room1Ceil002_2.geometry}
           material={materials.Black}
         />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room1Ceil002_3.geometry}
+          material={materials.Light}
+        />
       </group>
       <group position={[170.14, 38.1, -38.49]} rotation={[0, 1.57, 0]}>
         <mesh
@@ -376,6 +414,12 @@ export default function Gallery109(props) {
           receiveShadow
           geometry={nodes.Room1Ceil003_2.geometry}
           material={materials.Black}
+        />
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Room1Ceil003_3.geometry}
+          material={materials.Light}
         />
       </group>
     </group>

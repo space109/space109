@@ -86,13 +86,13 @@ const RECT_AREA_LIGHT_POSITION = [
     intensity: 2,
     height: 30.45,
   },
-  // {
-  //   position: [33, 40, -120],
-  //   rotation: [-Math.PI / 2, 0, Math.PI / 2],
-  //   width: 150,
-  //   intensity: 2,
-  //   height: 50.45,
-  // },
+  {
+    position: [33, 40, -130],
+    rotation: [-Math.PI / 2, 0, Math.PI / 2],
+    width: 100,
+    intensity: 2,
+    height: 33.45,
+  },
 ];
 
 const RectAreaLightGroup = () => {
