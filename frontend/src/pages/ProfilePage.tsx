@@ -81,15 +81,14 @@ const CATEGORY = [
 
 export default function ProfilePage({}: Props) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [optionData, setOptionData] = useState<string>("");
   const [data, setData] = useState<any>("");
   const [file, setFile] = useState("");
   const [fileImage, setFileImage] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [title, setTitle] = useState<any>("");
   const [description, setDescription] = useState<string>("");
-  const [isOpend, setIsOpend] = useState<any>(1);
-  const [category, setCategory] = useState<any>(10);
+  const [isOpend, setIsOpend] = useState<any>(true);
+  const [category, setCategory] = useState<any>(13);
   const [ isOnModal, setIsOnModal ] = useState(false);
   const [ nickname, setNickname ] = useState("");
   const [textIsOpend, setTextIsOpend] = useState("");
@@ -160,14 +159,14 @@ export default function ProfilePage({}: Props) {
     title: title,
     description: description,
     thumbnail: file,
-    is_open: isOpend,
+    isOpen: isOpend,
   };
 
   useEffect(() => {
     if (textIsOpend === "ON") {
-      setIsOpend(1)
+      setIsOpend(true)
     } else if (textIsOpend === "OFF") {
-      setIsOpend(0)
+      setIsOpend(false)
     }
     setCategory(CategoryId(textCategory));
   }, [textIsOpend, textCategory]);
