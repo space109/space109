@@ -5,7 +5,7 @@ import { Input, SharpButton, NavArea } from "../components";
 import { dupCheck, join, getMetadata } from "../apis";
 import { MintTestContract, SsafyNFTContract } from "../web3Config";
 import { useAccount } from "../hooks";
-import Cropper from 'react-easy-crop';
+import { useNavigate } from "react-router-dom";
 
 interface PropsStyle {
   imgURL?: any;
@@ -51,7 +51,7 @@ function SignUpPage() {
 
   const [account, logined] = useAccount();
 
-  // const [ metaDatas, setMetadatas ] = useState<any>();
+  const navigate = useNavigate();
 
   const aaaa = async () => {
     const totalNum = await SsafyNFTContract.methods.name().call();
@@ -79,9 +79,12 @@ function SignUpPage() {
       const isJoin = await join(account, nickname);
       if (isJoin) {
         console.log("성공했당");
+        alert("성공적으로 가입되었습니다.")
+        navigate("/");
         // 메인으로 이동시키기 이전꺼 기억 가넝.,.?
       } else {
         console.log("회원가입실패");
+        alert("회원가입에 실패하였습니다");
       }
     } else if (helpMsg === "\u00A0") {
       setColor("--carmine-100");

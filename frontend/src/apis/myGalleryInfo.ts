@@ -2,7 +2,6 @@ import axios from "axios";
 import apiPath from "../common/apiPath";
 
 const myGalleryInfo = async (oa: string) => {
-  console.log("111", apiPath.gallery.myGalleryInfo());
   try {
     const {
       data: { result, data },

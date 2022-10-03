@@ -146,7 +146,7 @@ function MyNftPage() {
 
   useEffect(() => {
     getData();
-  }, [account])
+  }, [account, viewPage])
 
   const NftCols = (num:any) => {
     const result = [];
@@ -214,16 +214,16 @@ function MyNftPage() {
   // }
 
   // const checkIsSell = async () => {
-  //   const response = await SaleFactoryContract.methods.getSaleData(3).call();
-  //   console.log(response);
+  //   const ww = await SsafyNFTContract.methods.setApprovalForAll("0x0062D4A6a68cE375445Bf8F3b864EA8c71BE76AC", true).send({ from: window.ethereum.selectedAddress});
+  //   console.log(ww);
   // }
 
   // const buyToken = async () => {
   //   // const allow = await SsafyTokenContract.methods.approve(window.ethereum.selectedAddress, 1).send({from: window.ethereum.selectedAddress});
   //   // console.log(allow);
-  //   const allow = await SsafyTokenContract.methods.approve("0x1E86CB0e6820928235Aab6c21B034CD6d7A7B19D", 1).send({from: window.ethereum.selectedAddress});
+  //   const allow = await SsafyTokenContract.methods.approve("0x0062D4A6a68cE375445Bf8F3b864EA8c71BE76AC", 5).send({from: window.ethereum.selectedAddress});
   //   console.log(allow)
-  //   const response = await TestSaleContract.methods.purchase().send({ from: window.ethereum.selectedAddress});
+  //   const response = await TestSaleContract.methods.purchase().send({from: window.ethereum.selectedAddress});
   //   console.log(response);
   // }
 

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback, Suspense } from "react";
 import styled from "styled-components";
-import { DropDown, SharpButton, NavArea, CropModal, SelectBox, alertModal } from "../components";
+import { SharpButton, NavArea, CropModal, SelectBox } from "../components";
 import { Div } from "../styles/BaseStyles";
 import { myGalleryInfo, myGalleryInfoUpdate, login } from "../apis";
 import { useNavigate } from "react-router-dom";
+import { CategoryTitle, CategoryId } from "../common/category";
 
 interface Props {}
 
@@ -24,13 +25,13 @@ const InputDiv = styled.div`
   display: flex;
   align-items: start;
   padding-top: 3px;
-  height: 100%;
+  height: 50%;
 `
 
 const TextDiv = styled.div`
   display: flex;
   align-items: center;
-  height: 100%;
+  height: 50%;
   font-size: var(--h5);
   font-weight: var(--semi-bold);
 `
@@ -62,19 +63,36 @@ const TitleDiv = styled.div`
   font-weight: var(--bold);
 `
 
+const CATEGORY = [
+  "판타지",
+  "팝아트",
+  "봄",
+  "캘리그라피",
+  "추상",
+  "여름",
+  "사물",
+  "게임",
+  "가을",
+  "일상",
+  "일러스트",
+  "겨울",
+  "기타",
+]
+
 export default function ProfilePage({}: Props) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [optionData, setOptionData] = useState<string>("");
   const [data, setData] = useState<any>("");
   const [file, setFile] = useState("");
   const [fileImage, setFileImage] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [title, setTitle] = useState<any>("");
   const [description, setDescription] = useState<string>("");
-  const [isOpend, setIsOpend] = useState<any>(false);
-  const [category, setCategory] = useState<any>(10);
+  const [isOpend, setIsOpend] = useState<any>(true);
+  const [category, setCategory] = useState<any>(13);
   const [ isOnModal, setIsOnModal ] = useState(false);
   const [ nickname, setNickname ] = useState("");
+  const [textIsOpend, setTextIsOpend] = useState("");
+  const [textCategory, setTextCategory] = useState("");
 
   const eth = window?.ethereum;
 
@@ -84,13 +102,6 @@ export default function ProfilePage({}: Props) {
   const closeModal = () => {
     setIsOnModal(false);
   }
-
-  const isOpendHandler = (data: string): void => {
-    setIsOpend(data);
-  };
-  const categoryHandler = (data: string): void => {
-    setCategory(data);
-  };
 
   const onFileChange = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -111,6 +122,9 @@ export default function ProfilePage({}: Props) {
     setIsOpend(data[0].is_open);
     setCategory(data[0].category_id);
     setData(data[0]);
+
+    data[0].is_open ? setTextIsOpend("ON") : setTextIsOpend("OFF");
+    setTextCategory(CategoryTitle(data[0].category_id));
 
     setLoading(false);
   }, []);
@@ -141,14 +155,25 @@ export default function ProfilePage({}: Props) {
 
   const updateData = {
     oa: eth.selectedAddress,
-    category_id: 2,
+    category_id: category,
     title: title,
     description: description,
     thumbnail: file,
-    isOpen: true,
+    isOpen: isOpend,
   };
 
+  useEffect(() => {
+    if (textIsOpend === "ON") {
+      setIsOpend(true)
+    } else if (textIsOpend === "OFF") {
+      setIsOpend(false)
+    }
+    setCategory(CategoryId(textCategory));
+  }, [textIsOpend, textCategory]);
+
   const submitHandler = async () => {
+
+    console.log("뭐임?",updateData)
     const formData = new FormData();
 
     Object.entries(updateData).forEach((item) =>
@@ -199,7 +224,7 @@ export default function ProfilePage({}: Props) {
         >
           <Suspense fallback={null}>
             <TitleDiv>
-              {!loading && `${nickname} 님의 갤러리`}
+              {!loading && `${nickname} 님의 공간`}
             </TitleDiv>
           </Suspense>
           <SharpButton
@@ -253,10 +278,10 @@ export default function ProfilePage({}: Props) {
                     flexDirection="column"
                     justifyContent="center"
                   >
-                    <TextDiv style={{"padding":"0 0 0 1rem"}}>
+                    <TextDiv style={{"padding":"0 0 0 1rem", "borderBottom":"4px solid var(--grey-650)"}}>
                       공개여부
                     </TextDiv>
-                    <SelectBox></SelectBox>
+                    <SelectBox options={["OFF", "ON"]} labelText={textIsOpend} setValue={setTextIsOpend}/>
                   </Div>
                   <Div
                     borderLeft="4px solid var(--grey-650)"
@@ -266,10 +291,10 @@ export default function ProfilePage({}: Props) {
                     flexDirection="column"
                     justifyContent="center"
                   >
-                    <TextDiv style={{"padding":"0 0 0 1rem"}}>
+                    <TextDiv style={{"padding":"0 0 0 1rem", "borderBottom":"4px solid var(--grey-650)"}}>
                       갤러리 테마
                     </TextDiv>
-                    <SelectBox></SelectBox>
+                    <SelectBox options={CATEGORY} labelText={textCategory} setValue={setTextCategory}/>
                   </Div>
                 </Div>
                 <Div
@@ -415,7 +440,6 @@ export default function ProfilePage({}: Props) {
         </Div>
         <Div bgColor="--grey-100" w="7%"></Div>
       </Div>
-      <SelectBox></SelectBox>
     </>
   );
 }

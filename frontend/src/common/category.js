@@ -20,7 +20,7 @@ const CategoryTitle = (index) => {
 }
 
 const CategoryId = (title) => {
-    for (let i; i < CATEGORY.length; i++) {
+    for (let i=0; i < CATEGORY.length; i++) {
         if (title === CATEGORY[i]) return i;
     }
 }

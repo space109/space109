@@ -2,7 +2,7 @@ import { useState, useEffect} from "react";
 import styled, { keyframes } from "styled-components";
 import { ModalPortal, Input, SharpButton } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
-import { SaleFactoryContract } from "../../web3Config";
+import { SaleFactoryContract, SsafyNFTContract } from "../../web3Config";
 
 interface PropsStyle{
   url?: any,
@@ -151,10 +151,11 @@ function NftDetailModal (props:any) {
   const ClickHandler = async () => {
     try {
       const response = await SaleFactoryContract.methods.createSale(
-        1, 1, process.env.REACT_APP_SSAFY_TOKEN, process.env.REACT_APP_SSAFY_NFT
+        4, 5, process.env.REACT_APP_SSAFY_TOKEN, "0x20F6AED97Dbbb84D3ceA079f1d8de517bE4A0488"
       ).send({from : window.ethereum.selectedAddress});
+      // const ww = await SsafyNFTContract.methods.setApprovalForAll(response[0], true).send({ from: window.ethereum.selectedAddress});
+      // console.log(ww);
 
-      console.log("응답", response)
       if (response.status) {
         setSaleStatus(true);
       }

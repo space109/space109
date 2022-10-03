@@ -13,7 +13,7 @@ const SaleFactory = artifacts.require("SaleFactory");
  * 가 배포되어야 합니다.
  */
 module.exports = function (deployer) {
-  // deployer.deploy(SsafyNFT);
+  deployer.deploy(SsafyNFT);
   // deployer.deploy(SsafyToken, "SSAFY", "SSF", 0);
   deployer.deploy(SaleFactory);
   // deployer.deploy(Test);
