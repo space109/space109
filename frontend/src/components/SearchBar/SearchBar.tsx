@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import SearchIcon from "../../assets/Icon/icons8.svg";
 import { Div } from "../../styles/BaseStyles";
 

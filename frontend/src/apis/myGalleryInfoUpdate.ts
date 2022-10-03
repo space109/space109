@@ -15,7 +15,7 @@ const myGalleryInfoUpdate = async (datas: any) => {
       url: apiPath.gallery.myGalleryInfo(),
       data: datas,
     });
-    console.log(data);
+    console.log("업데이트결과", data);
     if (result === "success") {
       console.log(data);
       return data;
