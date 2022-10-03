@@ -2,7 +2,7 @@ import { useState, useEffect} from "react";
 import styled, { keyframes } from "styled-components";
 import { ModalPortal, Input, SharpButton } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
-import { SaleFactoryContract, SsafyNFTContract } from "../../web3Config";
+import { SaleFactoryContract, SsafyNFTContract, SsafyNFTCA, SsafyTokenCA, SaleContract } from "../../web3Config";
 
 interface PropsStyle{
   url?: any,
@@ -134,6 +134,15 @@ const TitleText = styled(Div)`
   }  
 `
 
+const TokenIdDiv = styled(Div)`
+  color: var(--grey-400);
+  font-size: var(--h3);
+  font-weight: var(--bold);
+  @media screen and (max-width: ${screenSizes.lg + "px"}) {
+    font-size: var(--h4);
+  }  
+`
+
 const ContentText = styled(Div)`
   color: var(--grey-100);
   font-size: var(--h5);
@@ -145,18 +154,25 @@ const ContentText = styled(Div)`
 
 function NftDetailModal (props:any) {
 
-  const [ price, setPrice ] = useState();
-  const [ saleStatus, setSaleStatus ] = useState(false);
+  const [ price, setPrice ] = useState<any>("");
+  const [ saleStatus, setSaleStatus ] = useState<any>(false);
+  const [ saleData, setSaleData ] = useState<any>("");
 
-  const ClickHandler = async () => {
+  const SellNFT = async () => {
+    if (!price || price <= 0) {
+      alert("정확한 가격을 입력해주십시오");
+      return;
+    }
     try {
       const response = await SaleFactoryContract.methods.createSale(
-        4, 5, process.env.REACT_APP_SSAFY_TOKEN, "0x20F6AED97Dbbb84D3ceA079f1d8de517bE4A0488"
+        parseInt(props.tokenId), parseInt(price), SsafyTokenCA, SsafyNFTCA
       ).send({from : window.ethereum.selectedAddress});
-      // const ww = await SsafyNFTContract.methods.setApprovalForAll(response[0], true).send({ from: window.ethereum.selectedAddress});
-      // console.log(ww);
 
       if (response.status) {
+        const getSaleData = await SaleFactoryContract.methods.getSaleData(parseInt(props.tokenId)).call();
+        const response2 = await SsafyNFTContract.methods.setApprovalForAll(getSaleData.saleAddress, true).send({ from: window.ethereum.selectedAddress});
+        setPrice(getSaleData.purchasePrice);
+        setSaleData(getSaleData);
         setSaleStatus(true);
       }
     } catch (error) {
@@ -164,16 +180,31 @@ function NftDetailModal (props:any) {
     }
   }
 
-  const getAllSales = async () => {
-    const response = await SaleFactoryContract.methods.allSales().call();
-    console.log(response);
+  const CancelSell = async () => {
+    const response = await SaleContract(saleData.saleAddress).methods.cancelSales().send({ from: window.ethereum.selectedAddress});
+    setSaleStatus(false);
+    setSaleData("");
+    setPrice("");
+    console.log("판매 취소합니다")
   }
 
-  useEffect(() => {
-    if (saleStatus) {
-      getAllSales();
+  const getSaleInfo = async () => {
+    const getSaleData = await SaleFactoryContract.methods.getSaleData(parseInt(props.tokenId)).call();
+    console.log(getSaleData);
+    setSaleData(getSaleData);
+    return getSaleData.itemId;
+  }
+
+  const init = async () => {
+    if(await getSaleInfo() === "0") {
+      setSaleStatus(false);
+    } else {
+      setSaleStatus(true);
     }
-  }, [saleStatus])
+  }
+  useEffect(() => {
+    init();
+  }, []);
 
   return (
     <>
@@ -195,6 +226,7 @@ function NftDetailModal (props:any) {
           e.stopPropagation();
         }}>
           <Title>{props.name}</Title>
+          <TokenIdDiv>{`#` + props.tokenId.toString().padStart(4, '0')}</TokenIdDiv>
           <Div display="flex" gap="3rem">
             <Div display="flex" flexDirection="column" gap="0.3rem">
               <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">제작자</TitleText>
@@ -209,14 +241,45 @@ function NftDetailModal (props:any) {
             <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">작품 설명</TitleText>
             <ContentText color="--grey-100">{props.description}</ContentText>
           </Div>
-          <Div display="flex" gap="0.5rem">
-            <Input width="70%" placeholder="SSF" setValue={setPrice} type="number"/>
-            <SharpButton 
-              onClick={ClickHandler}
-              width="30%" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px">
-              판매하기
-            </SharpButton>
-          </Div>
+          {
+            saleStatus ? 
+            <Div display="flex" gap="01rem">
+              <Div display="flex" justifyContent="space-between" alignItems="center"
+                w="70%" color="--grey-100" fontWeight="--bold" fontSize="--h5"
+              >
+                <Div color="--grey-400">
+                  판매 가격&nbsp;
+                </Div>
+                <Div display="flex">
+                  <Div>
+                    {saleData.purchasePrice}&nbsp;
+                  </Div>
+                  <Div color="--grey-400">
+                    SSF
+                  </Div>
+                </Div>
+              </Div>
+              <SharpButton 
+                onClick={CancelSell}
+                width="30%" bg="--grey-100" color="--grey-750" 
+                borderColor="--grey-100" borderWidth="1px"
+                fontSize="--h5"  
+              >
+                취소하기
+              </SharpButton>
+            </Div> :
+            <Div display="flex" gap="0.5rem">
+              <Input width="70%" placeholder="SSF" setValue={setPrice} type="number" value={price}/>
+              <SharpButton 
+                onClick={SellNFT}
+                width="30%" bg="--grey-100" color="--grey-750" 
+                borderColor="--grey-100" borderWidth="1px"
+                fontSize="--h5"  
+              >
+                판매하기
+              </SharpButton>
+            </Div>
+          }
         </DetailSection>
       </Content>
       </BackGround>

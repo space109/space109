@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Div, Image } from "../../styles/BaseStyles";
 import { Input, SharpButton, alertModal } from "../";
 import { create as ipfsHttpClient } from "ipfs-http-client";
-import { TestContract, MintTestContract, SsafyNFTContract } from "../../web3Config";
+import { SsafyNFTContract } from "../../web3Config";
 import styled from "styled-components";
 import { useAccount } from "../../hooks";
 

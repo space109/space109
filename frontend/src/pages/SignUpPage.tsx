@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input, SharpButton, NavArea } from "../components";
 import { dupCheck, join, getMetadata } from "../apis";
-import { MintTestContract, SsafyNFTContract } from "../web3Config";
 import { useAccount } from "../hooks";
 import { useNavigate } from "react-router-dom";
 
@@ -52,11 +51,6 @@ function SignUpPage() {
   const [account, logined] = useAccount();
 
   const navigate = useNavigate();
-
-  const aaaa = async () => {
-    const totalNum = await SsafyNFTContract.methods.name().call();
-    console.log(totalNum);
-  }
 
   const dupCheckClick = async () => {
     if (!nickname) {
@@ -180,7 +174,6 @@ function SignUpPage() {
           </SharpButton>
         </DivWidth>
       </Div>
-      <SharpButton onClick={aaaa}>버튼</SharpButton>
     </>
   );
 }

@@ -3,7 +3,7 @@ import React, { Suspense, useState, useEffect, useCallback } from "react";
 import { Div } from "../styles/BaseStyles";
 import axios from "axios";
 import { Physics } from "@react-three/cannon";
-import { MintTestContract, SsafyNFTContract } from "../web3Config";
+import { SsafyNFTContract } from "../web3Config";
 import {
   GalleryMap,
   Player,
