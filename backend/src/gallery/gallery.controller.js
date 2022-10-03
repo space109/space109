@@ -113,6 +113,8 @@ router.put("/my", async function (req, res) {
   //   description: '1',
   //   title: '1'
   // }
+  logger.debug("req.body = " + JSON.stringify(req.body));
+
   thumbnail(req, res, async (err) => {
     // console.log("upload init");
     // console.log(req.body);
@@ -123,32 +125,26 @@ router.put("/my", async function (req, res) {
         result: "fail",
         data: 0,
       });
-    } else {
-      // 일단 서버에 이미지를 저장해주기 위해 경로를 담을 변수 하나를 생성해준다.
-      // 이미지가 정상적으로 저장되면
-      // thumbnail: undefined
-      // 이미지가 없는경우
-      // console.log("thumbnail: " + req.body.thumbnail);
-      // console.log(req.body);
-
-      const thumbnailPath =
-        req.body.thumbnail != undefined
-          ? "/image/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg"
-          : false;
-      // console.log(thumbnailPath);
-      logger.debug("req.body = " + JSON.stringify(req.body));
-      const { statusCode, responseBody } = await GalleryService.updateMyGallery(
-        req.body.oa,
-        req.body.category_id,
-        req.body.description,
-        req.body.title,
-        thumbnailPath,
-        req.body.isOpen
-      );
-      // console.log("await 나옴");
-      res.statusCode = statusCode;
-      res.send(responseBody);
     }
+    console.log("req.body = " + JSON.stringify(req.body));
+    let thumbnailPath =
+      "/image/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg";
+    if (req.body.thumbnail != "" && req.body.thumbnail != undefined) {
+      thumbnailPath = req.body.thumbnail;
+    }
+    // console.log(thumbnailPath);
+    logger.debug("req.body = " + JSON.stringify(req.body));
+    const { statusCode, responseBody } = await GalleryService.updateMyGallery(
+      req.body.oa,
+      req.body.category_id,
+      req.body.description,
+      req.body.title,
+      thumbnailPath,
+      req.body.isOpen
+    );
+    // console.log("await 나옴");
+    res.statusCode = statusCode;
+    res.send(responseBody);
   });
 });
 
