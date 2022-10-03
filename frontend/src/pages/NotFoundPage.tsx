@@ -23,6 +23,7 @@ const Background = styled.div`
   flex-direction: column;
   background-color: var(--ocean-300);
   min-height: 100vh;
+  height: auto;
   z-index: -1;
 `
 
@@ -67,6 +68,7 @@ const Focus = styled.div<Props>`
   position: absolute;
   width: 100%;
   height: 100%;
+  min-height: 100vh;
   background-color: rgba(0, 0, 0, 0.8);
   transition: top .1s, left .1s;
   z-index: 10;
