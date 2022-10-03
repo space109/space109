@@ -6,7 +6,6 @@ import { MintTestContract } from "../web3Config";
 import {
   GalleryMap,
   Player,
-  OverallLight,
   ImageFrame,
   EditModal,
   LogoBox,
@@ -15,11 +14,12 @@ import {
   Fog,
   RectAreaLightGroup,
   Gallery109,
+  Decorations,
+  Floor,
+  CommunityModal,
 } from "../components";
 import { useParams } from "react-router-dom";
 import { useAccount, useAxios } from "../hooks";
-import Wall from "./../components/3DModels/Wall";
-import { Environment } from "@react-three/drei";
 
 const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
@@ -114,6 +114,53 @@ const EditVirtualGallery = () => {
     [0.2, 27, 27],
     [0.2, 27, 27],
   ]);
+  const [post, setPost] = useState([
+    {
+      nickname: "사슴",
+      description:
+        "안녕하세요. 사슴입니다. 안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.",
+    },
+    {
+      nickname: "둘기",
+      description: "안녕하세요. 둘기입니다.",
+    },
+    {
+      nickname: "둘기",
+      description: "안녕하세요. 둘기입니다.",
+    },
+    {
+      nickname: "둘기",
+      description: "안녕하세요. 둘기입니다.",
+    },
+    {
+      nickname: "둘기",
+      description: "안녕하세요. 둘기입니다.",
+    },
+    {
+      nickname: "둘기",
+      description: "안녕하세요. 둘기입니다.",
+    },
+    {
+      nickname: "사슴",
+      description: "안녕하세요. 사슴입니다.",
+    },
+    {
+      nickname: "둘기",
+      description: "안녕하세요. 둘기입니다.",
+    },
+    {
+      nickname: "둘기",
+      description: "안녕하세요. 둘기입니다.",
+    },
+    {
+      nickname: "둘기",
+      description: "안녕하세요. 둘기입니다.",
+    },
+  ]);
+  //방명록에 댓글을 추가하는 함수
+  const addCommentHandler = useCallback((comment) => {
+    setPost([...post, {nickname: "닉네임이 들어갈 자리", description: comment}])
+  })
 
   //이미지 크기 조절 함수
   const ImageScaleHandler = useCallback((data) => {
@@ -153,22 +200,26 @@ const EditVirtualGallery = () => {
       setMyTokenList(tokenIds);
     }
   }, [ownerAddress]);
+
   //NFT id를 받아와 해당 인덱스의 NFT_ID에 할당
-  const nftIdHandler = useCallback((data) => {
-    let copyArr = [...countArray]
-    copyArr[toggleIdx] = {
-      NFT_ID: data.nftId,
-      METADATA: copyArr[toggleIdx].METADATA,
-      TOKEN_ID: copyArr[toggleIdx].TOKEN_ID,
-      POSITION: copyArr[toggleIdx].POSITION,
-      POSITIONXYZ: copyArr[toggleIdx].POSITIONXYZ,
-      ROTATION: copyArr[toggleIdx].ROTATION,
-      SCALE: copyArr[toggleIdx].SCALE,
-      GALLERY_ID: copyArr[toggleIdx].GALLERY_ID,
-      OA: copyArr[toggleIdx].OA,
-    };
-    setCountArray(copyArr)
-  }, [toggleIdx, countArray])
+  const nftIdHandler = useCallback(
+    (data) => {
+      let copyArr = [...countArray];
+      copyArr[toggleIdx] = {
+        NFT_ID: data.nftId,
+        METADATA: copyArr[toggleIdx].METADATA,
+        TOKEN_ID: copyArr[toggleIdx].TOKEN_ID,
+        POSITION: copyArr[toggleIdx].POSITION,
+        POSITIONXYZ: copyArr[toggleIdx].POSITIONXYZ,
+        ROTATION: copyArr[toggleIdx].ROTATION,
+        SCALE: copyArr[toggleIdx].SCALE,
+        GALLERY_ID: copyArr[toggleIdx].GALLERY_ID,
+        OA: copyArr[toggleIdx].OA,
+      };
+      setCountArray(copyArr);
+    },
+    [toggleIdx, countArray]
+  );
 
   //포지션에 맞게 계차 매핑, 나머지는 빈 객체로 초기화
   const indexMappingHandler = useCallback((data) => {
@@ -225,7 +276,13 @@ const EditVirtualGallery = () => {
       indexMappingHandler
     );
   }, [sendRequest, key, indexMappingHandler]);
-
+  const [open, setOpen] = useState(false);
+  const toggleOpen = useCallback(
+     () => {
+      setOpen((state) => !state);
+    },
+    []
+  );
   return (
     <Div w="100vw" h="100vh">
       <EditModal
@@ -244,11 +301,16 @@ const EditVirtualGallery = () => {
         setCountArray={setCountArray}
         nftIdHandler={nftIdHandler}
       />
+      <CommunityModal
+        open={open}
+        toggleOpen={toggleOpen}
+        post={post}
+        addCommentHandler={addCommentHandler}
+      />
       <Canvas style={{ background: "grey" }}>
         <Suspense fallback={null}>
           {/* 전역 안개, 빛 */}
-          <OverallLight />
-          {/* <Fog /> */}
+          <Fog />
           <ambientLight intensity={0.3} />
           <Physics gravity={[0, -50, 0]}>
             {/* 사각 조명 */}
@@ -272,25 +334,16 @@ const EditVirtualGallery = () => {
                 />
               );
             })}
+
             {/* 로고 이미지 */}
             {/* <LogoBox position={[52, 25, -68.7]} args={[16, 16, 0.1]} />
               <LogoBox position={[14, 25, -68.7]} args={[16, 16, 0.1]} /> */}
-            {/* <Floor position={[0, 0, 0]} rotatison={[-Math.PI / 2, 0, 0]} /> */}
-
-            {/* 가벽 */}
-
-            {/* 3번방 */}
-            {/* <Wall position={[232, 20, -158]} args={[1, 21, 20]} rotation={[0,Math.PI/2, 0]}/> */}
-            {/* <Wall position={[232, 20, -92]} args={[1, 21, 20]} rotation={[0,Math.PI/2, 0]}/> */}
-            <Wall position={[232, 20, -143]} args={[1, 21, 27]} />
-            <Wall position={[232, 20, -103]} args={[1, 21, 27]} />
-            {/* 2번방 */}
-            <Wall position={[128, 20, -244]} args={[1, 41, 35]} />
-            <Wall position={[163, 20, -230]} args={[1, 41, 35]} />
-            {/* <Gallery109 position={[0, 0, 0]}/> */}
-            <Environment preset="sunset" background />
-            <GalleryMap position={[0, 0, 0]} />
+            <Gallery109 position={[0, 0, 0]} />
+            <Floor position={[0, 10, 0]} />
+            <Decorations toggleOpen={toggleOpen} />
+            {/* <GalleryMap position={[0, 0, 0]} /> */}
             <Player
+              open={open}
               position={[33, 13, -40]}
               getPosition={getPlayerPosition}
               lockControl={toggle}

@@ -18,7 +18,19 @@ export {
   Fog,
   FrameDataHandler,
   ChangableOverlay,
-  Gallery109
+  Gallery109,
+  SkyEnvironment,
+  Wall,
+  WallGroup,
+  ShareText,
+  Desk,
+  Book,
+  Inkwell,
+  Decorations,
+  CommunityModal,
+  CommunityOverlay,
+  CommunityBackdrop,
+  RockChair,
 } from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";

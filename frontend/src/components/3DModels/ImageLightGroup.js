@@ -5,6 +5,13 @@ const ImageLightGroup = () => {
   return (
     <>
       <ImageLight
+        lightFrom={[49, 35, -54.8]}
+        lightTo={[49, 20, -54.8]}
+        angle={0.4}
+        intensity={1}
+        penumbra={0.1}
+      />
+      <ImageLight
         lightFrom={[52, 45, -67.4]}
         lightTo={[52, 20, -75]}
         angle={0.5}
@@ -121,13 +128,13 @@ const ImageLightGroup = () => {
         penumbra={0.4}
       />
       {/* 5번방 6개 */}
-      <ImageLight
+      {/* <ImageLight
         lightFrom={[230, 63, -160]}
         lightTo={[195, 10, -160]}
         angle={0.4}
         intensity={1}
         penumbra={0.1}
-      />
+      /> */}
       <ImageLight
         lightFrom={[230, 63, -125]}
         lightTo={[195, 10, -125]}
@@ -163,20 +170,20 @@ const ImageLightGroup = () => {
         intensity={1}
         penumbra={0.1}
       />
-      <ImageLight
+      {/* <ImageLight
         lightFrom={[230, 63, -90]}
         lightTo={[195, 10, -90]}
         angle={0.4}
         intensity={1}
         penumbra={0.1}
-      />
-      <ImageLight
+      /> */}
+      {/* <ImageLight
         lightFrom={[234, 63, -160]}
         lightTo={[271, 10, -160]}
         angle={0.4}
         intensity={1}
         penumbra={0.1}
-      />
+      /> */}
       <ImageLight
         lightFrom={[234, 63, -125]}
         lightTo={[271, 10, -125]}
@@ -184,13 +191,13 @@ const ImageLightGroup = () => {
         intensity={1}
         penumbra={0.1}
       />
-      <ImageLight
+      {/* <ImageLight
         lightFrom={[234, 63, -90]}
         lightTo={[271, 10, -90]}
         angle={0.4}
         intensity={1}
         penumbra={0.1}
-      />
+      /> */}
       {/* 6번방 1개 */}
       <ImageLight
         lightFrom={[231, 85, -58]}

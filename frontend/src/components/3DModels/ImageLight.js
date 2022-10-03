@@ -25,6 +25,7 @@ const ImageLight = ({
   return (
     <>
       <primitive
+      // ref={ref}
         object={light}
         position={lightFrom}
       />

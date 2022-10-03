@@ -12,14 +12,23 @@ export { default as OverallLight } from "./OverallLight";
 export { default as RectAreaLight } from "./RectAreaLight";
 export { default as EditModal } from "./EditModal";
 export { default as LogoBox } from "./LogoBox";
-export { default as RectAreaLightGroup } from './RectAreaLightGroup'
-export { default as CeilingBoxGroup } from './CeilingBoxGroup'
+export { default as RectAreaLightGroup } from "./RectAreaLightGroup";
+export { default as CeilingBoxGroup } from "./CeilingBoxGroup";
 export { default as ImageLightGroup } from "./ImageLightGroup";
 export { default as Fog } from "./Fog";
 export { default as FrameDataHandler } from "./FrameDataHandler";
 export { default as ChangableOverlay } from "./ChangableOverlay";
 export { default as Gallery109 } from "./Gallery109";
-
-
-
+export { default as SkyEnvironment } from "./SkyEnvironment";
+export { default as Wall } from "./Wall";
+export { default as WallGroup } from "./WallGroup";
+export { default as ShareText } from "./ShareText";
+export { default as Desk } from "./Desk";
+export { default as Book } from "./Book";
+export { default as Inkwell } from "./Inkwell";
+export { default as Decorations } from "./Decorations";
+export { default as CommunityModal } from "./CommunityModal";
+export { default as CommunityOverlay } from "./CommunityOverlay";
+export { default as CommunityBackdrop } from "./CommunityBackdrop";
+export { default as RockChair } from "./RockChair";
 

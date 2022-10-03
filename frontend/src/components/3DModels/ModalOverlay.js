@@ -31,7 +31,7 @@ const RightDiv = styled(Div)`
 
 const ImageList = styled.img`
   margin-top: 9%;
-  box-shadow: 1px 1px 3px grey;
+  box-shadow: 1px 1px 2px 0.2px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   transition: 0.2s ease;
   &:hover {
