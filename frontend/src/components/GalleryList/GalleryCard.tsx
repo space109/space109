@@ -269,7 +269,6 @@ function GalleryCard ({data}:any) {
     }
     <LI>
       <Image url={data.thumbnail + "?" + new Date().getTime()}  onClick={openModal}/>
-      {/* <Image style={{backgroundColor:"rgba(255, 255, 255, 0.4)"}} onClick={openModal}/> */}
     </LI>
     </>
   )

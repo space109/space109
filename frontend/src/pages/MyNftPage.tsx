@@ -72,7 +72,7 @@ const NftCol = styled(Div)`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  max-width: 400px;
+  max-width: 360px;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
     width: 25%;
   }
