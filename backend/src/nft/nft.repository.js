@@ -23,16 +23,19 @@ class NftRepository {
                 '${metadata}',
                 '${rotation}'
                 );`;
-    let returnBool = true;
+    let resultValue = null;
     const result = await connection
       .query(sql)
-      .then((data) => data[0])
+      // .then((data) => data[0])
+      .then((data) => {
+        console.log(data);
+        resultValue = data[0].insertId;
+      })
       .catch((e) => {
         logger.error(e);
-        returnBool = false;
       });
-    logger.debug("result = " + returnBool);
-    return returnBool;
+    logger.debug("result = " + resultValue);
+    return resultValue;
     // if (result.length == 1) return true;
     // else return false;
   }

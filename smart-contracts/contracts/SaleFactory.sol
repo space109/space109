@@ -10,6 +10,14 @@ import "./token/ERC721/extensions/ERC721enumerable.sol";
  * 상태 변수나 함수의 시그니처, 이벤트는 구현에 따라 변경할 수 있습니다.
  */
 contract SaleFactory is Ownable {
+    struct SaleData {
+        uint256 itemId;
+        uint256 purchasePrice;
+        address owner;
+        address currencyAddress;
+        address nftAddress;
+        address saleAddress;
+    }
     // 본 컨트랙트의 생성자이자 최고관리자
     address public admin;
     // 판매중인 NFT들의 컨트랙트 주소들을 저장하는 배열
@@ -19,14 +27,6 @@ contract SaleFactory is Ownable {
     // // 판매중인 NFT의 owner를 저장하는 배열
     // address[] public owners;
 
-    struct SaleData {
-        uint256 itemId;
-        uint256 purchasePrice;
-        address owner;
-        address currencyAddress;
-        address nftAddress;
-        address saleAddress;
-    }
     // 판매중인 NFT의 컨트랙트를 기반으로 안에 데이터들을 저장해주는 매핑
     // mapping(address => SaleData) saleDatas;
     SaleData[] public saleDatas;
@@ -59,6 +59,12 @@ contract SaleFactory is Ownable {
         // NFT 주소
         address nftAddress
     ) public returns (address) {
+        // 이미 판매중인 NFT를 판매하려고 할 경우 에러 발생
+        for (uint256 i = 0; i < saleDatas.length; i++) {
+            if (saleDatas[i].itemId == itemId) {
+                revert("Already on sale");
+            }
+        }
         address sale = address(
             // 아래 판매 컨트랙트 정의부분에서의 생성자에 필요한 목록들
             // address _admin,
