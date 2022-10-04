@@ -1,17 +1,15 @@
-import React, { useEffect } from "react";
+import React, { lazy } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
-import {
-  MainPage,
-  MonthlyThemePage,
-  GalleryListPage,
-  MyNftPage,
-  SignUpPage,
-  NotFoundPage,
-  ProfilePage,
-  VirtualGallery,
-  EditVirtualGallery,
-} from "./pages";
+const MainPage = lazy(() => import("./pages/MainPage"));
+const MonthlyThemePage = lazy(() => import("./pages/MonthlyThemePage"));
+const GalleryListPage = lazy(() => import("./pages/GalleryListPage"));
+const MyNftPage = lazy(() => import("./pages/MyNftPage"));
+const SignUpPage = lazy(() => import("./pages/SignUpPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
+const ProfilePage = lazy(() => import("./pages/ProfilePage"));
+const VirtualGallery = lazy(() => import("./pages/VirtualGallery"));
+const EditVirtualGallery = lazy(() => import("./pages/EditVirtualGallery"));
 
 function App() {
   return (
@@ -25,7 +23,10 @@ function App() {
             <Route path="/signUp" element={<SignUpPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/virtual-gallery/:key" element={<VirtualGallery/>} />
-            <Route path="/edit-virtual-gallery/:key" element={<EditVirtualGallery/>} />
+            <Route
+              path="/edit-virtual-gallery/:key"
+              element={<EditVirtualGallery />}
+            />
             <Route path="/myNft" element={<MyNftPage />}></Route>
           </Route>
           <Route path="/*" element={<NotFoundPage />} />

@@ -123,78 +123,77 @@ export const Player = (props) => {
 
   //플레이어 애니메이션 및 1인칭 카메라 기본 위치 설정
   useFrame(() => {
-    if (!props.toggle){ // 모달이 떠있으면 막는다.
-      camera.position.copy(
-        new Vector3(pos.current[0], pos.current[1] + 2.5, pos.current[2])
-      );
-      const direction = new Vector3();
-  
-      const frontVector = new Vector3(
-        0,
-        0,
-        (moveBackward ? 1 : 0) - (moveForward ? 1 : 0)
-      );
-      const sideVector = new Vector3(
-        (moveLeft ? 1 : 0) - (moveRight ? 1 : 0),
-        0,
-        0
-      );
-  
+    camera.position.copy(
+      new Vector3(pos.current[0], pos.current[1] + 5.5, pos.current[2])
+    );
+    const direction = new Vector3();
+
+    const frontVector = new Vector3(
+      0,
+      0,
+      (moveBackward ? 1 : 0) - (moveForward ? 1 : 0)
+    );
+    const sideVector = new Vector3(
+      (moveLeft ? 1 : 0) - (moveRight ? 1 : 0),
+      0,
+      0
+    );
+    if (!props.open) {
       direction
         .subVectors(frontVector, sideVector)
         .normalize()
         .multiplyScalar(SPEED)
         .applyEuler(camera.rotation);
-  
+
       api.velocity.set(direction.x, velocity.current[1], direction.z);
-  
-      // activeButton으로 위치값 호출
-      // pos.current = [왼오, 높이, 앞뒤]
-  
-      if (activeButton) {
-        if (0 < room < 7) {
-          let artList = artPositionList[room];
-  
-          let minIndex = 0; // 가장 가까운 작품 인덱스
-          let minValue = 0xffffff; // 가장 가까운 유클리드 거리값
-  
-          artList.forEach((artPos, index) => {
-            // 가장 가까운 작품 탐색
-            let euclidDist =
-              Math.abs(artPos[0] - pos.current[0]) +
-              Math.abs(artPos[1] - pos.current[2]);
-  
-            if (euclidDist < minValue) {
-              minValue = euclidDist;
-              minIndex = index;
-            }
-          });
-  
-          console.log("가장 가까운 작품 인덱스, 거리", minIndex, minValue);
-  
-          if (
-            objectDistance(artList[minIndex], room) &&
-            !props.toggle &&
-            readyTotoggle
-          ) {
-            // toggle off 상태일때 e를 누르면
-            props.setToggle(true);
-            setReadyTotoggle(false); // 활성화 키 true 유지시 상태 변화 불가 상태로 변경
-            targetArt(minIndex);
+    }
+
+    // activeButton으로 위치값 호출
+    // pos.current = [왼오, 높이, 앞뒤]
+
+    if (activeButton) {
+      if (0 < room < 7) {
+        let artList = artPositionList[room];
+
+        let minIndex = 0; // 가장 가까운 작품 인덱스
+        let minValue = 0xffffff; // 가장 가까운 유클리드 거리값
+
+        artList.forEach((artPos, index) => {
+          // 가장 가까운 작품 탐색
+          let euclidDist =
+            Math.abs(artPos[0] - pos.current[0]) +
+            Math.abs(artPos[1] - pos.current[2]);
+
+          if (euclidDist < minValue) {
+            minValue = euclidDist;
+            minIndex = index;
           }
-          if (props.toggle && readyTotoggle) {
-            props.setToggle(false);
-            setReadyTotoggle(false);
-          }
+        });
+
+        console.log("가장 가까운 작품 인덱스, 거리", minIndex, minValue);
+
+        if (
+          objectDistance(artList[minIndex], room) &&
+          !props.toggle &&
+          readyTotoggle
+        ) {
+          // toggle off 상태일때 e를 누르면
+          props.setToggle(true);
+          setReadyTotoggle(false); // 활성화 키 true 유지시 상태 변화 불가 상태로 변경
+          targetArt(minIndex);
         }
-      } else {
-        // 활성화 키 비 활성시 상태 변화 준비 상태로 변경
-        setReadyTotoggle(true);
+        if (props.toggle && readyTotoggle) {
+          props.setToggle(false);
+          setReadyTotoggle(false);
+        }
       }
-  
-      if (jump) {
-        api.velocity.set(velocity.current[0], 14, velocity.current[2]);
-      }
+    } else {
+      // 활성화 키 비 활성시 상태 변화 준비 상태로 변경
+      setReadyTotoggle(true);
+    }
+
+    if (jump && !props.open) {
+      api.velocity.set(velocity.current[0], 14, velocity.current[2]);
     }
   });
   return (

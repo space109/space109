@@ -1,4 +1,39 @@
-export { FPVControls, GalleryMap, InfoModal, MapBoundary, Player, Floor, ImageFrame, OverallLight, ImageLight, RectAreaLight, CeilingBox, EditModal, LogoBox } from "./3DModels"
+export {
+  FPVControls,
+  InfoModal,
+  MapBoundary,
+  Player,
+  Floor,
+  ImageFrame,
+  OverallLight,
+  ImageLight,
+  RectAreaLight,
+  CeilingBox,
+  EditModal,
+  LogoBox,
+  RectAreaLightGroup,
+  CeilingBoxGroup,
+  ImageLightGroup,
+  Fog,
+  FrameDataHandler,
+  ChangableOverlay,
+  GalleryMap,
+  SkyEnvironment,
+  Wall,
+  WallGroup,
+  ShareText,
+  Desk,
+  Book,
+  Inkwell,
+  Decorations,
+  CommunityModal,
+  CommunityOverlay,
+  CommunityBackdrop,
+  RockChair,
+  Plant1,
+  MainCharacter,
+  Owl
+} from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";
 export { DropDown } from "./DropDown";
