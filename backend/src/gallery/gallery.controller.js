@@ -148,6 +148,17 @@ router.put("/my", async function (req, res) {
   });
 });
 
+router.delete("/my", async function (req, res) {
+  logger.http("DELETE /gallery/my");
+  logger.debug("oa = " + req.query["oa"]);
+  const { statusCode, responseBody } = await GalleryService.resetMyGallery(
+    req.query["oa"]
+  );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
 router.post("/guestbook", async function (req, res) {
   logger.http("POST /gallery/guestbook");
   logger.debug("req.body = " + JSON.stringify(req.body));
