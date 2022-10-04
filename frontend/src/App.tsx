@@ -3,15 +3,17 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { debounce } from "lodash";
 import { NavBar } from "./components";
 import ScrollToTop from "./common/ScrollToTop";
-const MainPage = lazy(() => import("./pages/MainPage"));
-const MonthlyThemePage = lazy(() => import("./pages/MonthlyThemePage"));
-const GalleryListPage = lazy(() => import("./pages/GalleryListPage"));
-const MyNftPage = lazy(() => import("./pages/MyNftPage"));
-const SignUpPage = lazy(() => import("./pages/SignUpPage"));
-const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
-const ProfilePage = lazy(() => import("./pages/ProfilePage"));
-const VirtualGallery = lazy(() => import("./pages/VirtualGallery"));
-const EditVirtualGallery = lazy(() => import("./pages/EditVirtualGallery"));
+import {
+  MainPage,
+  MonthlyThemePage,
+  GalleryListPage,
+  MyNftPage,
+  SignUpPage,
+  NotFoundPage,
+  ProfilePage,
+  VirtualGallery,
+  EditVirtualGallery,
+} from "./pages";
 
 function App() {
   // 윈도우 사이즈를 저장할 스테이트

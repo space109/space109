@@ -128,7 +128,7 @@ const EditVirtualGallery = () => {
     if (window.confirm("정말로 방명록을 초기화 하시겠습니까?")) {
       setPost([]);
       sendRequest({
-        url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook?galleryId=${key}`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook?galleryId=${key}`,
         method: "DELETE",
         data: {
           galleryId: key,
@@ -150,7 +150,7 @@ const EditVirtualGallery = () => {
         ...state,
       ]);
       sendRequest({
-        url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook`,
         method: "POST",
         data: { galleryId: key, nickname: nickname, description: comment },
       });
@@ -258,7 +258,7 @@ const EditVirtualGallery = () => {
   useEffect(() => {
     sendRequest(
       {
-        url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook?galleryId=${key}&countPerPage=50`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook?galleryId=${key}&countPerPage=50`,
       },
       getCommentHandler
     );
@@ -273,7 +273,7 @@ const EditVirtualGallery = () => {
   useEffect(() => {
     sendRequest(
       {
-        url: `${process.env.REACT_APP_BACKEND_HOST2}/nft/display?galleryId=${key}`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display?galleryId=${key}`,
       },
       indexMappingHandler
     );

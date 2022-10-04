@@ -178,7 +178,7 @@ const EditModal = ({
     if (empty) {
       console.log("3333333333", countArray[index].NFT_ID);
       sendRequest({
-        url: `${process.env.REACT_APP_BACKEND_HOST2}/nft/display/change`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display/change`,
         method: "PUT",
         data: {
           nftId: countArray[index].NFT_ID,
@@ -193,7 +193,7 @@ const EditModal = ({
       console.log("444444444444");
       sendRequest(
         {
-          url: `${process.env.REACT_APP_BACKEND_HOST2}/nft/display`,
+          url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display`,
           method: "POST",
           data: {
             metadata: source,
@@ -225,7 +225,7 @@ const EditModal = ({
       })
     );
     sendRequest({
-      url: `${process.env.REACT_APP_BACKEND_HOST2}/nft/display`,
+      url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display`,
       method: "DELETE",
       data: {
         nftId: copyArr[index].NFT_ID,
