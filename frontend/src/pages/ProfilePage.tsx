@@ -19,14 +19,14 @@ const Input = styled.input`
   ::placeholder {
     color: var(--grey-300);
   }
-`
+`;
 
 const InputDiv = styled.div`
   display: flex;
   align-items: start;
   padding-top: 3px;
   height: 50%;
-`
+`;
 
 const TextDiv = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ const TextDiv = styled.div`
   height: 50%;
   font-size: var(--h5);
   font-weight: var(--semi-bold);
-`
+`;
 
 const Textarea = styled.textarea`
   all: unset;
@@ -44,24 +44,24 @@ const Textarea = styled.textarea`
   ::placeholder {
     color: var(--grey-300);
   }
-`
+`;
 
 const Thumbnail = styled.div`
   width: 22.5rem;
   height: 27rem;
   border: 8px solid var(--grey-100);
-  box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
-  transition: all .5s;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s;
   :hover {
     opacity: 0.5;
   }
-`
+`;
 
 const TitleDiv = styled.div`
   text-align: right;
-  font-size: var(--h3); 
+  font-size: var(--h3);
   font-weight: var(--bold);
-`
+`;
 
 const CATEGORY = [
   "판타지",
@@ -77,7 +77,7 @@ const CATEGORY = [
   "일러스트",
   "겨울",
   "기타",
-]
+];
 
 export default function ProfilePage({}: Props) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -98,10 +98,10 @@ export default function ProfilePage({}: Props) {
 
   const openModal = () => {
     setIsOnModal(true);
-  }
+  };
   const closeModal = () => {
     setIsOnModal(false);
-  }
+  };
 
   const onFileChange = async (e: any) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -117,7 +117,12 @@ export default function ProfilePage({}: Props) {
     const data = await myGalleryInfo(oa);
     setTitle(data[0].title);
     setDescription(data[0].description);
-    setThumbnail(process.env.REACT_APP_BACKEND_HOST + data[0].thumbnail + "?" + new Date().getTime());
+    setThumbnail(
+      process.env.REACT_APP_BACKEND_HOST +
+        data[0].thumbnail +
+        "?" +
+        new Date().getTime()
+    );
     setFile(data[0].thumbnail);
     setIsOpend(data[0].is_open);
     setCategory(data[0].category_id);
@@ -134,7 +139,7 @@ export default function ProfilePage({}: Props) {
     if (nameData.length) {
       setNickname(nameData[0].nickname);
     }
-  }
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -143,15 +148,15 @@ export default function ProfilePage({}: Props) {
     }, 100);
   }, [eth.selectedAddress, loadData]);
 
-  const InputOnChange = (e:any) => {
+  const InputOnChange = (e: any) => {
     setTitle(e.target.value);
     console.log(title);
-  }
+  };
 
-  const TextAreaOnChange = (e:any) => {
+  const TextAreaOnChange = (e: any) => {
     setDescription(e.target.value);
     console.log(description);
-  }
+  };
 
   const updateData = {
     oa: eth.selectedAddress,
@@ -164,9 +169,9 @@ export default function ProfilePage({}: Props) {
 
   useEffect(() => {
     if (textIsOpend === "ON") {
-      setIsOpend(true)
+      setIsOpend(true);
     } else if (textIsOpend === "OFF") {
-      setIsOpend(false)
+      setIsOpend(false);
     }
     setCategory(CategoryId(textCategory));
   }, [textIsOpend, textCategory]);
@@ -190,24 +195,24 @@ export default function ProfilePage({}: Props) {
 
   const GoEditVirtualGallery = () => {
     navigate(`/edit-virtual-gallery/${data.gallery_id}`);
-  }
+  };
 
   const GoMyGallery = () => {
-    navigate('/');
-  }
+    navigate("/");
+  };
 
   return (
     <>
-    {
-      isOnModal && <CropModal
-      closeModal={closeModal}
-      file={file}
-      fileImage={fileImage}
-      setFile={setFile}
-      setFileImage={setFileImage}
-      setThumbnail={setThumbnail}
-      />
-    }
+      {isOnModal && (
+        <CropModal
+          closeModal={closeModal}
+          file={file}
+          fileImage={fileImage}
+          setFile={setFile}
+          setFileImage={setFileImage}
+          setThumbnail={setThumbnail}
+        />
+      )}
       <NavArea />
 
       <Div w="100vw" h="calc(100vh - 120px)" display="flex">
@@ -221,9 +226,7 @@ export default function ProfilePage({}: Props) {
           gap="2rem"
         >
           <Suspense fallback={null}>
-            <TitleDiv>
-              {!loading && `${nickname} 님의 공간`}
-            </TitleDiv>
+            <TitleDiv>{!loading && `${nickname} 님의 공간`}</TitleDiv>
           </Suspense>
           <SharpButton
             width="240px"
@@ -276,10 +279,19 @@ export default function ProfilePage({}: Props) {
                     flexDirection="column"
                     justifyContent="center"
                   >
-                    <TextDiv style={{"padding":"0 0 0 1rem", "borderBottom":"4px solid var(--grey-650)"}}>
+                    <TextDiv
+                      style={{
+                        padding: "0 0 0 1rem",
+                        borderBottom: "4px solid var(--grey-650)",
+                      }}
+                    >
                       공개여부
                     </TextDiv>
-                    <SelectBox options={["OFF", "ON"]} labelText={textIsOpend} setValue={setTextIsOpend}/>
+                    <SelectBox
+                      options={["OFF", "ON"]}
+                      labelText={textIsOpend}
+                      setValue={setTextIsOpend}
+                    />
                   </Div>
                   <Div
                     borderLeft="4px solid var(--grey-650)"
@@ -289,10 +301,19 @@ export default function ProfilePage({}: Props) {
                     flexDirection="column"
                     justifyContent="center"
                   >
-                    <TextDiv style={{"padding":"0 0 0 1rem", "borderBottom":"4px solid var(--grey-650)"}}>
+                    <TextDiv
+                      style={{
+                        padding: "0 0 0 1rem",
+                        borderBottom: "4px solid var(--grey-650)",
+                      }}
+                    >
                       갤러리 테마
                     </TextDiv>
-                    <SelectBox options={CATEGORY} labelText={textCategory} setValue={setTextCategory}/>
+                    <SelectBox
+                      options={CATEGORY}
+                      labelText={textCategory}
+                      setValue={setTextCategory}
+                    />
                   </Div>
                 </Div>
                 <Div
@@ -306,11 +327,9 @@ export default function ProfilePage({}: Props) {
                   pl="1rem"
                   pr="1rem"
                 >
-                  <TextDiv>
-                    제목
-                  </TextDiv>
+                  <TextDiv>제목</TextDiv>
                   <InputDiv>
-                    <Input 
+                    <Input
                       placeholder="갤러리 제목을 입력해주세요"
                       value={title}
                       onChange={InputOnChange}
@@ -335,12 +354,11 @@ export default function ProfilePage({}: Props) {
                   boxSizing="border-box"
                   pl="1rem"
                   pr="1rem"
-
                   display="flex"
                   justifyContent="center"
                   alignItems="center"
                 >
-                  <Textarea 
+                  <Textarea
                     placeholder="갤러리에 대한 설명을 입력해주세요"
                     value={description}
                     onChange={TextAreaOnChange}
@@ -365,7 +383,7 @@ export default function ProfilePage({}: Props) {
                 >
                   <TextDiv>썸네일</TextDiv>
                 </Div>
-                <Div 
+                <Div
                   display="flex"
                   justifyContent="center"
                   alignItems="center"

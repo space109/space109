@@ -14,6 +14,7 @@ interface Props {
   borderColor?: string;
   fontWeight?: string;
   fontSize?: string;
+  type?: "button" | "submit" | "reset" | undefined;
 }
 
 interface PropStyle {
@@ -114,9 +115,11 @@ function NaviButton({
   borderColor = "--grey-750",
   fontWeight = "--bold",
   fontSize = "--h6",
+  type = "submit",
 }: Props) {
   return (
     <Square
+      type={type}
       onClick={onClick}
       w={width}
       h={height}
