@@ -44,7 +44,6 @@ function CropModal (props) {
   const [rotation, setRotation] = useState(0)
   const [zoom, setZoom] = useState(1)
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
-  const [croppedImage, setCroppedImage] = useState(null)
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels)
@@ -61,20 +60,25 @@ function CropModal (props) {
     } catch (e) {
       console.error(e)
     }
+    props.closeModal();
   }, [props.fileImage, props.file, croppedAreaPixels, rotation])
+
+  const CloseModal = useCallback((e) => {
+    props.closeModal();
+    e.stopPropagation();
+  }, []);
 
   return (
     <>
     <ModalPortal>
       <BackGround 
         onClick={(e) => {
-        props.closeModal();
-        e.stopPropagation();
+          e.stopPropagation();
         }}
       >
         <Content 
           onClick={(e) => {
-          e.stopPropagation();
+            e.stopPropagation();
           }}
         >
           <Cropper
@@ -87,17 +91,29 @@ function CropModal (props) {
             onRotationChange={setRotation}
             onCropComplete={onCropComplete}
             onZoomChange={setZoom}
+            width="100%"
           />
         </Content>
-        <Div >
+        <Div display="flex" gap="3rem">
+        <SharpButton 
+            onClick={CloseModal}
+            bg="--grey-650" 
+            color="--grey-100" 
+            borderColor="--grey-650" 
+            borderWidth="1px"
+            fontSize="--h6"
+          >
+            취소하기
+          </SharpButton>
           <SharpButton 
             onClick={CropImage}
             bg="--grey-100" 
             color="--grey-650" 
             borderColor="--grey-100" 
             borderWidth="1px"
+            fontSize="--h6"
           >
-            자르기
+            적용하기
           </SharpButton>
         </Div>
       </BackGround>

@@ -1,4 +1,5 @@
 const connection = require("../../config/connection").promise();
+const logger = require("../../config/log");
 
 class GalleryRepository {
   async categoryList() {
@@ -8,7 +9,7 @@ class GalleryRepository {
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
       });
 
     return result;
@@ -21,7 +22,7 @@ class GalleryRepository {
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
       });
 
     return result;
@@ -34,7 +35,20 @@ class GalleryRepository {
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
+      });
+
+    return result;
+  }
+
+  async getMyGalleryInfo(oa) {
+    const sql = `select gallery_id, oa, category_id, description, title, thumbnail, is_open from gallery where oa='${oa}'`;
+
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        logger.error(e);
       });
 
     return result;
@@ -50,7 +64,6 @@ class GalleryRepository {
   ) {
     // category_id, description, title, thumbnail, isOpen중 하나는 무조건 들어가야한다.
     // thumbnail은 이미지가 있으나 없으나 무조건 생성된다. 즉 fix다.
-    console.log("isOpen: " + isOpen);
     let isOpenBool = isOpen == "true" ? 1 : 0;
     const sqlHead = `update gallery set thumbnail='${thumbnail}' `;
     const sqlTail = ` where oa='${oa}'`;
@@ -62,13 +75,13 @@ class GalleryRepository {
     if (isOpen != "null") sql += `, IS_OPEN= '${isOpenBool}'`;
 
     sql += sqlTail;
-    // console.log(sql);
+    logger.debug(sql);
 
     const result = await connection
       .query(sql)
       .then((data) => data[0].affectedRows)
       .catch((e) => {
-        console.error(e);
+        logger.error(e);
       });
 
     return result;

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { Div, Image, screenSizes } from "../styles/BaseStyles";
 import { Input, SharpButton, NftCard, NftMake, LabelCheckBox, NftDetailModal, NavArea } from "../components";
-import ReactDOM from "react-dom";
 import { debounce } from "lodash";
 import { useAccount } from "../hooks";
-import { TestContract, MintTestContract } from "../web3Config";
+import { SsafyNFTContract, SsafyTokenContract, SaleFactoryContract, SaleContract } from "../web3Config";
 import { getMetadata } from "../apis";
+import { useDepthBuffer } from "@react-three/drei";
 
 interface propsStyle {
   isSet?: any;
@@ -72,7 +72,7 @@ const NftCol = styled(Div)`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  max-width: 400px;
+  max-width: 360px;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
     width: 25%;
   }
@@ -93,10 +93,13 @@ function MyNftPage() {
 
   const [ account, nickname ] = useAccount();
   const [ metaDatas, setMetadatas ] = useState<any>();
+  const [ NFTIds, setNFTIds ] = useState<any>();
   const [ windowSize, setWindowSize ] = useState({
     width: window.innerWidth,
     height: window.innerHeight
   });
+  const [ isChecked, setIsChecked ] = useState(false);
+  const [ mySellData, setMySellData ] = useState<string[]>([]);
 
   const [viewPage, setViewPage] = useState(0);
 
@@ -114,8 +117,8 @@ function MyNftPage() {
   }
 
   const onModal = (props:any) => {
-    openModal();
     setModalInfo(props)
+    openModal();
   }
 
   const handleResize = debounce(() => {
@@ -123,17 +126,24 @@ function MyNftPage() {
       width: window.innerWidth,
       height: window.innerHeight
     });
-    console.log(windowSize.width, windowSize.height)
   }, 200);
 
   const getData = async () => {
-    const tokenURIs = await MintTestContract.methods.tokenURIsofWallet(account).call();
+    const tokenURIs = await SsafyNFTContract.methods.tokenURIsofWallet(account).call();
+    const tokenIds = await SsafyNFTContract.methods.tokenIDsofWallet(account).call();
+    setNFTIds(tokenIds);
     const Metas = [];
     for (let i = 0; i < tokenURIs.length; i++) {
       const Meta = await getMetadata(tokenURIs[i]);
       Metas.push(Meta);
     }
     setMetadatas(Metas);
+  }
+
+  const getMySellData = async () => {
+    const response = await SaleFactoryContract.methods.getMySaleNftList().call({from: window.ethereum.selectedAddress});
+    console.log(response);
+    setMySellData(response);
   }
   
   useEffect(() => {
@@ -145,22 +155,58 @@ function MyNftPage() {
 
   useEffect(() => {
     getData();
-  }, [account])
+  }, [account, viewPage, isChecked])
+
+  useEffect(() => {
+    if (isChecked) {
+      getMySellData();
+      let DataList:string[] = [];
+      for (let item of mySellData) {
+        if (item === '0') return;
+        DataList.push(item);
+      }
+      setMySellData(DataList);
+    }
+  }, [isChecked]);
 
   const NftCols = (num:any) => {
     const result = [];
-    for (let i = 0; i < num; i++) {
-      result.push(
-      <NftCol key={i}>
-      {
-        metaDatas.map((metaData:any, index:any) => {
-          if (index % num == i) {
-            return <NftCard key={index} cardClick={onModal} {...metaData} nickname={nickname}/>
-          }
-        })
+    // 판매중인 애들만
+    if (isChecked) {
+      for (let i = 0; i < num; i++) {
+        let count = -1; // 아래에서 바로 ++ 해줌
+        result.push(
+        <NftCol key={i}>
+        {
+          metaDatas.map((metaData:any, index:any) => {
+            if (mySellData.includes(NFTIds[index])) {
+              count++; // 왜 이거 아래 if문 밑에서 동작하게 하면 count++하기 전에 아래 if문으로 들어가지?
+              if (count % num == i) {
+                console.log("들어왔음", NFTIds[index], count, num, i)
+                return <NftCard key={index} cardClick={onModal} tokenId={NFTIds[index]} {...metaData} nickname={nickname}/>  
+              }
+            }
+          })
+        }
+        </NftCol>
+        )
       }
-      </NftCol>
-      )
+    }
+    // 내 NFT 전체 목록 
+    else { 
+      for (let i = 0; i < num; i++) {
+        result.push(
+        <NftCol key={i}>
+        {
+          metaDatas.map((metaData:any, index:any) => {
+            if (index % num == i) {
+              return <NftCard key={index} cardClick={onModal} tokenId={NFTIds[index]} {...metaData} nickname={nickname}/>
+            }
+          })
+        }
+        </NftCol>
+        )
+      }
     }
     return result;
   };
@@ -207,6 +253,28 @@ function MyNftPage() {
     viewContent = <NftMake></NftMake>;
   }
 
+  // const getAllSales = async () => {
+  //   const response = await SaleFactoryContract.methods.allSales().call();
+  //   console.log(response);
+  // }
+
+  // const buyToken = async () => {
+  //   const allow = await SsafyTokenContract.methods.approve("0x311aa0843FdC988a9E7d29a7Ae3Db445494ba97E", 20).send({from: window.ethereum.selectedAddress});
+  //   console.log(allow)
+  //   const response = await SaleContract("0x311aa0843FdC988a9E7d29a7Ae3Db445494ba97E").methods.purchase().send({from: window.ethereum.selectedAddress});
+  //   console.log(response);
+  // }
+
+  // const getSaleInfo = async () => {
+  //   const response = await SaleFactoryContract.methods.getSaleData(4).call();
+  //   console.log(response);
+  // }
+
+  // const SeeMyNft = async () => {
+  //   const response = await SsafyNFTContract.methods.tokenIDsofWallet(window.ethereum.selectedAddress).call();
+  //   console.log(response)
+  // }
+
   return (
     <Div bgColor="--grey-600" w="100vw" minHeight="100vh">
     {
@@ -230,12 +298,17 @@ function MyNftPage() {
             NFT 생성하기
           </ViewButton>
         </Div>
-        {viewPage===0 ? <LabelCheckBox>판매 중인 NFT 보기</LabelCheckBox> : null}
+        {viewPage===0 ? <LabelCheckBox setCheck={setIsChecked}>판매 중인 NFT 보기</LabelCheckBox> : null}
       </ButtonSection>
       <ContentSection>
         {viewContent}
       </ContentSection>
     </Content>
+    {/* <SharpButton onClick={getAllSales}>판매중인애들 보기</SharpButton> */}
+    {/* <SharpButton onClick={buyToken}>구매하기</SharpButton> */}
+    {/* <SharpButton onClick={getSaleInfo}>겟세일인포</SharpButton>
+    <SharpButton onClick={SeeMyNft}>fkdfkk</SharpButton>
+    <SharpButton onClick={getMySellData}>겟마이세일리스트</SharpButton> */}
     </Div>
   );
 }

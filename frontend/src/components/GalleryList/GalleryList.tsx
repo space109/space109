@@ -5,18 +5,21 @@ import GalleryCard from "./GalleryCard";
 const UL = styled.ul`
   display: grid;
   grid-template-columns: repeat(var(--columns), 1fr);
-  margin: 200px -40px;
+  margin: auto;
+  margin-top: 240px;
+  margin-left: -40px;
   @media screen and screen and (min-width: 450px) {
-    margin: 190px 40px;
+    margin: auto;
   }
   list-style: none;
   box-sizing: border-box;
-  border: 10px solid blue;
+  place-items: center;
+  grid-column-gap: 3px;
 `;
 
 const Box = styled.div`
   box-sizing: border-box;
-  border: 10px solid red;
+  width: 100%;
 `
 
 const GalleryList = ({gallerys}:any) => {
@@ -48,58 +51,82 @@ GalleryList.defaultProps = {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아",
-      "title": "t아아아아아아아아아아아아아앙아아아아아아아아아!!!",
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
       "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
     },
     {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ17nsQEKYpc0pgQBAB6WL-s6tgULypZS1nDg&usqp=CAU"
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
+      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
     },
     {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book01.jpg"
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
+      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
     },
     {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book04.jpg"
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
+      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
     },
     {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book05.jpg"
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
+      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
     },
     {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book06.jpg"
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
+      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
     },
     {
       "gallery_id": 1,
       "oa": "123",
       "category_id": 2,
-      "description": "test2",
-      "title": "title!!!!!!!!",
-      "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4YU2uvMzskBXmMHXW8rgb9928Lu0dnN-8Iw&usqp=CAU"
-    }
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
+      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+    },
+    {
+      "gallery_id": 1,
+      "oa": "123",
+      "category_id": 2,
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
+      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+    },
+    {
+      "gallery_id": 1,
+      "oa": "123",
+      "category_id": 2,
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
+      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+    },
+    {
+      "gallery_id": 1,
+      "oa": "123",
+      "category_id": 2,
+      "description": "오늘은금요일내일은토요일내일내일은일요일",
+      "title": "월화수목금토일!!!",
+      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+    },
   ]
 }
 

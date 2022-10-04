@@ -3,7 +3,6 @@ import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input, SharpButton, NavArea } from "../components";
 import { dupCheck, join, login } from "../apis";
-import { MintTestContract } from "../web3Config";
 import { useAccount } from "../hooks";
 import { useNavigate } from "react-router-dom";
 import Cropper from "react-easy-crop";
@@ -53,23 +52,6 @@ function SignUpPage() {
 
   const [account, logined] = useAccount();
 
-  // const [ metaDatas, setMetadatas ] = useState<any>();
-
-  // const aaaa = async () => {
-  //   const totalNum = await MintTestContract.methods.balanceOf(window.ethereum.selectedAddress).call();
-  //   const total = await MintTestContract.methods.totalSupply().call();
-  //   const tokenIds = await MintTestContract.methods.tokenIDsofWallet(window.ethereum.selectedAddress).call();
-  //   console.log(tokenIds);
-  //   const tokenURIs = await MintTestContract.methods.tokenURIsofWallet(window.ethereum.selectedAddress).call();
-  //   const Metas = [];
-  //   for (let i = 0; i < tokenURIs.length; i++) {
-  //     const Meta = await getMetadata(tokenURIs[i]);
-  //     Metas.push(Meta);
-  //   }
-  //   console.log('zzz',Metas)
-  //   setMetadatas(Metas);
-  // }
-
   const dupCheckClick = async () => {
     if (!nickname) {
       setColor("--carmine-100");
@@ -91,9 +73,12 @@ function SignUpPage() {
       const isJoin = await join(account, nickname);
       if (isJoin) {
         console.log("성공했당");
+        alert("성공적으로 가입되었습니다.");
+        navigate("/");
         // 메인으로 이동시키기 이전꺼 기억 가넝.,.?
       } else {
         console.log("회원가입실패");
+        alert("회원가입에 실패하였습니다");
       }
     } else if (helpMsg === "\u00A0") {
       setColor("--carmine-100");

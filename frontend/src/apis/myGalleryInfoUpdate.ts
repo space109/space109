@@ -2,7 +2,7 @@ import axios from "axios";
 import apiPath from "../common/apiPath";
 
 const myGalleryInfoUpdate = async (datas: any) => {
-  console.log(apiPath.gallery.myGalleryInfo());
+  console.log("헤이", datas);
   let entries = datas.entries();
   for (const pair of entries) {
     console.log(pair[0] + ", " + pair[1]);
@@ -15,7 +15,7 @@ const myGalleryInfoUpdate = async (datas: any) => {
       url: apiPath.gallery.myGalleryInfo(),
       data: datas,
     });
-    console.log(data);
+    console.log("업데이트결과", data);
     if (result === "success") {
       console.log(data);
       return data;
