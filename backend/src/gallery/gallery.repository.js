@@ -129,6 +129,10 @@ class GalleryRepository {
       // logger.debug("deleteGuestbookSql : " + deleteGuestbookSql);
       // let deleteResult = await connection.query(deleteGuestbookSql);
       // result += deleteResult[0].affectedRows;
+      const deleteNftSql = `delete from nft where gallery_id = (select gallery_id from gallery where OA = '${oa}');`;
+      logger.debug("deleteNftSql : " + deleteNftSql);
+      let deleteResult = await connection.query(deleteNftSql);
+      result += deleteResult[0].affectedRows;
       await connection.commit();
       logger.debug("result : " + result);
     } catch (e) {
