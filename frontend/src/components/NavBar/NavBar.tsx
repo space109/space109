@@ -163,6 +163,7 @@ function NavBar({ windowSize }: Props) {
       });
       // checkNetwork();
       // console.log(nickname);
+      getName();
     }
   }, []);
 

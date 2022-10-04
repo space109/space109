@@ -27,8 +27,5 @@ export { GalleryList } from "./GalleryList";
 export { SearchBar } from "./SearchBar";
 export { FilterButtons } from "./FilterButtons";
 export { alertModal } from "./Alert";
-<<<<<<< HEAD
 export { Loading } from "./Loading";
-=======
 export { SelectBox } from "./SelectBox";
->>>>>>> FE

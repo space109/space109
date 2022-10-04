@@ -37,14 +37,26 @@ const Reg = keyframes`
 	}
 `;
 
+const Dot = keyframes`
+  0% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  100% {
+    content: "...";
+  }
+`;
+
 const BackGround = styled.div`
   position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  /* background-color: var(--modal-bg); */
-  /* filter: blur(4px); */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
   gap: 1rem;
   width: 100%;
   height: 100vh;
@@ -76,6 +88,12 @@ const LoadingText = styled.div`
   font-style: normal;
   text-align: center;
   font-size: var(--h4);
+  margin-bottom: 20px;
+
+  &:after {
+    animation: ${Dot} 3s linear infinite;
+    content: "";
+  }
 `;
 
 const Cell = styled.div`
@@ -150,7 +168,7 @@ function Loading({ HelpText = "도움" }: Props) {
                 </Block>
               </Loader>
             </Cell>
-            <LoadingText>{HelpText}</LoadingText>
+            <LoadingText className="letterChanger">{HelpText}</LoadingText>
           </Content>
         </BackGround>
       </ModalPortal>
