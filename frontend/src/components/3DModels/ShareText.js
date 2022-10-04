@@ -16,7 +16,7 @@ const ShareText = () => {
         bevelOffset={0.02}
       >
         방명록
-        <meshStandardMaterial color="white" />
+        <meshStandardMaterial color="orange" />
       </Text3D>
     </>
   );

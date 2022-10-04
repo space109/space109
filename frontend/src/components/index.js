@@ -32,7 +32,10 @@ export {
   RockChair,
   Plant1,
   MainCharacter,
-  Owl
+  Owl,
+  ControlBackdrop,
+  ControlModal,
+  ControlOverlay
 } from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";
