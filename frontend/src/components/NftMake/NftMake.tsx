@@ -56,6 +56,8 @@ function NftMake(props: any) {
   const [type, setType] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [helpText, setHelpText] = useState<string>("helpText");
+  const [helpMsg, setHelpMsg] = useState("\u00A0");
+  const [color, setColor] = useState("--grey-650");
 
   // IPFS 키
   const projectId = process.env.REACT_APP_PROJECT_ID;
