@@ -91,6 +91,59 @@ class GalleryRepository {
       .then((data) => data[0].affectedRows)
       .catch((e) => {
         logger.error(e);
+        return 0;
+      });
+
+    return result;
+  }
+
+  async writeGuestbook(galleryId, nickname, description) {
+    const sql = `insert into guest_book (gallery_id, nickname, description) 
+    values (${galleryId}, '${nickname}', '${description}')`;
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0].affectedRows)
+      .catch((e) => {
+        logger.error(e);
+        return 0;
+      });
+
+    return result;
+  }
+
+  async getGuestbookFinalPageNo(galleryId, countPerPage) {
+    const sql = `select count(*) from guest_book where gallery_id=${galleryId}`;
+
+    const result = await connection
+      .query(sql)
+      .then((data) => {
+        const total = data[0][0]["count(*)"];
+        const finalPageNo = Math.ceil(total / countPerPage);
+        return finalPageNo;
+      })
+      .catch((e) => {
+        logger.error(e);
+        return false;
+      });
+
+    return result;
+  }
+
+  async guestbookList(galleryId, countPerPage, currentPage) {
+    console.log("galleryId", galleryId);
+    console.log("countPerPage", countPerPage);
+    console.log("currentPage", currentPage);
+    const sql = `select * from guest_book 
+                  where gallery_id=${galleryId} 
+                    order by guest_book_id desc
+                      limit ${countPerPage} 
+                        offset ${countPerPage * (currentPage - 1)}`;
+
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0])
+      .catch((e) => {
+        logger.error(e);
       });
 
     return result;
