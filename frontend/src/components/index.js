@@ -1,6 +1,5 @@
 export {
   FPVControls,
-  GalleryMap,
   InfoModal,
   MapBoundary,
   Player,
@@ -12,6 +11,31 @@ export {
   CeilingBox,
   EditModal,
   LogoBox,
+  RectAreaLightGroup,
+  CeilingBoxGroup,
+  ImageLightGroup,
+  Fog,
+  FrameDataHandler,
+  ChangableOverlay,
+  GalleryMap,
+  SkyEnvironment,
+  Wall,
+  WallGroup,
+  ShareText,
+  Desk,
+  Book,
+  Inkwell,
+  Decorations,
+  CommunityModal,
+  CommunityOverlay,
+  CommunityBackdrop,
+  RockChair,
+  Plant1,
+  MainCharacter,
+  Owl,
+  ControlBackdrop,
+  ControlModal,
+  ControlOverlay
 } from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";
