@@ -36,4 +36,5 @@ export { default as Owl } from "./Owl";
 export { default as ControlModal } from "./ControlModal";
 export { default as ControlOverlay } from "./ControlOverlay";
 export { default as ControlBackdrop } from "./ControlBackdrop";
+export { default as LoadingProgress } from "./LoadingProgress";
 
