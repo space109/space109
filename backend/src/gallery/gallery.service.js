@@ -68,6 +68,16 @@ class GallerysService {
     };
   }
 
+  async resetMyGallery(oa) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await GalleryRepository.resetMyGallery(oa),
+      },
+    };
+  }
+
   async writeGuestbook(galleryId, nickname, description) {
     return {
       statusCode: 200,

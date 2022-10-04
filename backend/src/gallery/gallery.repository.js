@@ -97,6 +97,49 @@ class GalleryRepository {
     return result;
   }
 
+  async resetMyGallery(oa) {
+    // let sql;
+    // sql = `update gallery set title= concat((select nickname from user where user.OA = '${oa}'),"의 갤러리"),
+    // DESCRIPTION = concat((select nickname from user where user.OA = '${oa}'), "의 갤러리 입니다."),
+    // CATEGORY_ID = 13, THUMBNAIL = '/image/thumbnail/default/thumbnail.jpg' where OA='${oa}';`;
+    // const result = await connection
+    //   .query(sql)
+    //   .then((data) => data[0].affectedRows)
+    //   .catch((e) => {
+    //     logger.error(e);
+    //     return 0;
+    //   });
+    // return result;
+    await connection.beginTransaction();
+    let result = 0;
+    try {
+      const getNicknameSql = `select nickname from user where OA = '${oa}';`;
+      logger.debug(getNicknameSql);
+      let nickname = await connection.query(getNicknameSql);
+      nickname = nickname[0][0].nickname;
+      logger.debug("nickname : " + nickname);
+      const updateSql = `update gallery set title= "${nickname}의 갤러리",
+      DESCRIPTION = "${nickname}의 갤러리 입니다.",
+      CATEGORY_ID = 13, THUMBNAIL = '/image/thumbnail/default/thumbnail.jpg' where OA='${oa}';`;
+      logger.debug(updateSql);
+      let updateResult = await connection.query(updateSql);
+      result = updateResult[0].affectedRows;
+      logger.debug("result : " + result);
+      // const deleteGuestbookSql = `delete from guest_book where gallery_id = (select gallery_id from gallery where OA = '${oa}');`;
+      // logger.debug("deleteGuestbookSql : " + deleteGuestbookSql);
+      // let deleteResult = await connection.query(deleteGuestbookSql);
+      // result += deleteResult[0].affectedRows;
+      await connection.commit();
+      logger.debug("result : " + result);
+    } catch (e) {
+      logger.error("resetMyGallery error : transaction rollback");
+      await connection.rollback();
+      result = 0;
+      return result;
+    }
+    return result;
+  }
+
   async writeGuestbook(galleryId, nickname, description) {
     const sql = `insert into guest_book (gallery_id, nickname, description) 
     values (${galleryId}, '${nickname}', '${description}')`;
