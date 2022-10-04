@@ -148,6 +148,18 @@ class GalleryRepository {
 
     return result;
   }
+  async resetGuestbook(galleryId) {
+    const sql = `delete from guest_book where gallery_id=${galleryId}`;
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0].affectedRows)
+      .catch((e) => {
+        logger.error(e);
+        return 0;
+      });
+
+    return result;
+  }
 }
 
 module.exports = GalleryRepository;

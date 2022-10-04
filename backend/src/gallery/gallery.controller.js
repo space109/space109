@@ -188,7 +188,7 @@ router.get("/guestbook/finalPageNo", async function (req, res) {
 
 router.get("/guestbook", async function (req, res) {
   logger.http("GET /gallery/guestbook");
-  logger.debug("req.params = " + JSON.stringify(req.query));
+  logger.debug("req.query = " + JSON.stringify(req.query));
   // page size
   let countPerPage = req.query["countPerPage"];
   // page number
@@ -217,6 +217,17 @@ router.get("/guestbook", async function (req, res) {
     req.query["galleryId"],
     countPerPage,
     currentPage
+  );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
+router.delete("/guestbook", async function (req, res) {
+  logger.http("DELETE /gallery/guestbook");
+  logger.debug("req.query = " + JSON.stringify(req.query));
+  const { statusCode, responseBody } = await GalleryService.resetGuestbook(
+    req.query["galleryId"]
   );
 
   res.statusCode = statusCode;
