@@ -258,12 +258,12 @@ function MyNftPage() {
   //   console.log(response);
   // }
 
-  // const buyToken = async () => {
-  //   const allow = await SsafyTokenContract.methods.approve("0x311aa0843FdC988a9E7d29a7Ae3Db445494ba97E", 20).send({from: window.ethereum.selectedAddress});
-  //   console.log(allow)
-  //   const response = await SaleContract("0x311aa0843FdC988a9E7d29a7Ae3Db445494ba97E").methods.purchase().send({from: window.ethereum.selectedAddress});
-  //   console.log(response);
-  // }
+  const buyToken = async () => {
+    const allow = await SsafyTokenContract.methods.approve("0x9dd008b9eB06C150d75738AF2581d1a380a8aC71", 100).send({from: window.ethereum.selectedAddress});
+    console.log(allow)
+    const response = await SaleContract("0x9dd008b9eB06C150d75738AF2581d1a380a8aC71").methods.purchase().send({from: window.ethereum.selectedAddress});
+    console.log(response);
+  }
 
   // const getSaleInfo = async () => {
   //   const response = await SaleFactoryContract.methods.getSaleData(4).call();
@@ -305,7 +305,7 @@ function MyNftPage() {
       </ContentSection>
     </Content>
     {/* <SharpButton onClick={getAllSales}>판매중인애들 보기</SharpButton> */}
-    {/* <SharpButton onClick={buyToken}>구매하기</SharpButton> */}
+    <SharpButton onClick={buyToken}>구매하기</SharpButton>
     {/* <SharpButton onClick={getSaleInfo}>겟세일인포</SharpButton>
     <SharpButton onClick={SeeMyNft}>fkdfkk</SharpButton>
     <SharpButton onClick={getMySellData}>겟마이세일리스트</SharpButton> */}

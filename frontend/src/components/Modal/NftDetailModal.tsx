@@ -176,6 +176,7 @@ function NftDetailModal (props:any) {
         setSaleStatus(true);
       }
     } catch (error) {
+      console.log("fff")
       console.error(error);
     }
   }
@@ -225,8 +226,8 @@ function NftDetailModal (props:any) {
         <DetailSection onClick={(e) => {
           e.stopPropagation();
         }}>
-          <Title>{props.name}</Title>
           <TokenIdDiv>{`#` + props.tokenId.toString().padStart(4, '0')}</TokenIdDiv>
+          <Title>{props.name}</Title>
           <Div display="flex" gap="3rem">
             <Div display="flex" flexDirection="column" gap="0.3rem">
               <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">제작자</TitleText>
