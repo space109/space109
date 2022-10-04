@@ -24,7 +24,7 @@ function App() {
             <Route path="/gallery" element={<GalleryListPage />} />
             <Route path="/signUp" element={<SignUpPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/virtual-gallery" element={<VirtualGallery/>} />
+            <Route path="/virtual-gallery/:key" element={<VirtualGallery/>} />
             <Route path="/edit-virtual-gallery/:key" element={<EditVirtualGallery/>} />
             <Route path="/myNft" element={<MyNftPage />}></Route>
           </Route>
