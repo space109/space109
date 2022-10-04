@@ -108,6 +108,15 @@ class GallerysService {
       },
     };
   }
+  async resetGuestbook(galleryId) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await GalleryRepository.resetGuestbook(galleryId),
+      },
+    };
+  }
 }
 
 module.exports = GallerysService;
