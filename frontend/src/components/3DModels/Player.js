@@ -151,46 +151,46 @@ export const Player = (props) => {
     // activeButton으로 위치값 호출
     // pos.current = [왼오, 높이, 앞뒤]
 
-    if (activeButton) {
-      if (0 < room < 7) {
-        let artList = artPositionList[room];
+    // if (activeButton) {
+    //   if (0 < room < 7) {
+    //     let artList = artPositionList[room];
 
-        let minIndex = 0; // 가장 가까운 작품 인덱스
-        let minValue = 0xffffff; // 가장 가까운 유클리드 거리값
+    //     let minIndex = 0; // 가장 가까운 작품 인덱스
+    //     let minValue = 0xffffff; // 가장 가까운 유클리드 거리값
 
-        artList.forEach((artPos, index) => {
-          // 가장 가까운 작품 탐색
-          let euclidDist =
-            Math.abs(artPos[0] - pos.current[0]) +
-            Math.abs(artPos[1] - pos.current[2]);
+    //     artList.forEach((artPos, index) => {
+    //       // 가장 가까운 작품 탐색
+    //       let euclidDist =
+    //         Math.abs(artPos[0] - pos.current[0]) +
+    //         Math.abs(artPos[1] - pos.current[2]);
 
-          if (euclidDist < minValue) {
-            minValue = euclidDist;
-            minIndex = index;
-          }
-        });
+    //       if (euclidDist < minValue) {
+    //         minValue = euclidDist;
+    //         minIndex = index;
+    //       }
+    //     });
 
-        console.log("가장 가까운 작품 인덱스, 거리", minIndex, minValue);
+    //     console.log("가장 가까운 작품 인덱스, 거리", minIndex, minValue);
 
-        if (
-          objectDistance(artList[minIndex], room) &&
-          !props.toggle &&
-          readyTotoggle
-        ) {
-          // toggle off 상태일때 e를 누르면
-          props.setToggle(true);
-          setReadyTotoggle(false); // 활성화 키 true 유지시 상태 변화 불가 상태로 변경
-          targetArt(minIndex);
-        }
-        if (props.toggle && readyTotoggle) {
-          props.setToggle(false);
-          setReadyTotoggle(false);
-        }
-      }
-    } else {
-      // 활성화 키 비 활성시 상태 변화 준비 상태로 변경
-      setReadyTotoggle(true);
-    }
+    //     if (
+    //       objectDistance(artList[minIndex], room) &&
+    //       !props.toggle &&
+    //       readyTotoggle
+    //     ) {
+    //       // toggle off 상태일때 e를 누르면
+    //       props.setToggle(true);
+    //       setReadyTotoggle(false); // 활성화 키 true 유지시 상태 변화 불가 상태로 변경
+    //       targetArt(minIndex);
+    //     }
+    //     if (props.toggle && readyTotoggle) {
+    //       props.setToggle(false);
+    //       setReadyTotoggle(false);
+    //     }
+    //   }
+    // } else {
+    //   // 활성화 키 비 활성시 상태 변화 준비 상태로 변경
+    //   setReadyTotoggle(true);
+    // }
 
     if (jump && !props.open) {
       api.velocity.set(velocity.current[0], 14, velocity.current[2]);

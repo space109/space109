@@ -408,8 +408,7 @@ const VirtualGallery = () => {
       <InfoModal
         toggleModal={toggleModal}
         toggle={toggle}
-        toggleIdx={toggleIdx}
-        countArray={countArray}
+        meta={countArray ? countArray[toggleIdx]?.METADATA : ""}
       />
       <CommunityModal
         open={open}
