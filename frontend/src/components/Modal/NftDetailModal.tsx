@@ -2,6 +2,7 @@ import { useState, useEffect} from "react";
 import styled, { keyframes } from "styled-components";
 import { ModalPortal, Input, SharpButton } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
+import { SaleFactoryContract, SsafyNFTContract, SsafyNFTCA, SsafyTokenCA, SaleContract } from "../../web3Config";
 
 interface PropsStyle{
   url?: any,
@@ -17,6 +18,9 @@ const On = keyframes`
 `
 
 const BackGround = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   background-color: var(--modal-bg);
   width: 100%;
@@ -31,51 +35,48 @@ const Content = styled(Div)`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 5%;
   box-sizing: border-box;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
   width: 100%;
-  height: auto;
-  z-index: 110;
+  height: 100vh;
   animation: ${On} 0.3s ease;
-  @media screen and (max-width: ${screenSizes.sm + "px"}) {
+  @media screen and (max-width: ${screenSizes.xl + "px"}) {
+    gap: 2.5%;
+  }
+  @media screen and (max-width: ${screenSizes.md + "px"}) {
     flex-direction: column;
+    gap: 1.5rem;
   }
   overflow: auto;
+
 `
 
 const ImageSection = styled(Div)`
-display: flex;
-justify-content: center;
-align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
-  width: 50%;
-  height: auto;
-  padding: 0 2% 0 12%;
+  width: 30%;
+  height: 100vh;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
-    padding: 0 2% 0 12%;
+    width: 40%;
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
-    padding: 0 2% 0 8%;
+    width: 45%;
   }
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
-    padding: 0 1%;
+    
   }
   @media screen and (max-width: ${screenSizes.md + "px"}) {
-    padding: 0 1%;
+    width: 90%;
+    height: 40%;
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    padding: 0;
-    width: 80%
+
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    padding: 0;
-    width: 80%
-  }
+
+  } 
 `
 
 const DetailSection = styled(Div)`
@@ -83,30 +84,25 @@ const DetailSection = styled(Div)`
   flex-direction: column;
   gap: 1.5rem;
   box-sizing: border-box;
-  width: 50%;
-  height: auto;
-  padding: 0 12% 0 2%;
+  width: 30%;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
-    padding: 0 12% 0 2%;
+    width: 40%;
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
-    padding: 0 8% 0 2%;
+    width: 45%;
   }
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
-    padding: 0 1%;
+
   }
   @media screen and (max-width: ${screenSizes.md + "px"}) {
-    padding: 0 1%;
+    width: 90%;
+    height: 40%;
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    width: 80%;
-    margin-top: 1rem;
-    gap: 1rem;
+
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    width: 80%;
-    margin-top: 1rem;
-    gap: 1rem;
+
   }
 `
 
@@ -115,6 +111,9 @@ const Image = styled.img.attrs<PropsStyle>(props => ({
   alt: "NFT 이미지",
   }))<PropsStyle>`
   width: 100%;
+  height: 90%;
+  object-fit: contain;
+
 `
 
 const Title = styled(Div)`
@@ -135,6 +134,15 @@ const TitleText = styled(Div)`
   }  
 `
 
+const TokenIdDiv = styled(Div)`
+  color: var(--grey-400);
+  font-size: var(--h3);
+  font-weight: var(--bold);
+  @media screen and (max-width: ${screenSizes.lg + "px"}) {
+    font-size: var(--h4);
+  }  
+`
+
 const ContentText = styled(Div)`
   color: var(--grey-100);
   font-size: var(--h5);
@@ -146,7 +154,57 @@ const ContentText = styled(Div)`
 
 function NftDetailModal (props:any) {
 
-  const [ price, setPrice ] = useState();
+  const [ price, setPrice ] = useState<any>("");
+  const [ saleStatus, setSaleStatus ] = useState<any>(false);
+  const [ saleData, setSaleData ] = useState<any>("");
+
+  const SellNFT = async () => {
+    if (!price || price <= 0) {
+      alert("정확한 가격을 입력해주십시오");
+      return;
+    }
+    try {
+      const response = await SaleFactoryContract.methods.createSale(
+        parseInt(props.tokenId), parseInt(price), SsafyTokenCA, SsafyNFTCA
+      ).send({from : window.ethereum.selectedAddress});
+
+      if (response.status) {
+        const getSaleData = await SaleFactoryContract.methods.getSaleData(parseInt(props.tokenId)).call();
+        const response2 = await SsafyNFTContract.methods.setApprovalForAll(getSaleData.saleAddress, true).send({ from: window.ethereum.selectedAddress});
+        setPrice(getSaleData.purchasePrice);
+        setSaleData(getSaleData);
+        setSaleStatus(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const CancelSell = async () => {
+    const response = await SaleContract(saleData.saleAddress).methods.cancelSales().send({ from: window.ethereum.selectedAddress});
+    setSaleStatus(false);
+    setSaleData("");
+    setPrice("");
+    console.log("판매 취소합니다")
+  }
+
+  const getSaleInfo = async () => {
+    const getSaleData = await SaleFactoryContract.methods.getSaleData(parseInt(props.tokenId)).call();
+    console.log(getSaleData);
+    setSaleData(getSaleData);
+    return getSaleData.itemId;
+  }
+
+  const init = async () => {
+    if(await getSaleInfo() === "0") {
+      setSaleStatus(false);
+    } else {
+      setSaleStatus(true);
+    }
+  }
+  useEffect(() => {
+    init();
+  }, []);
 
   return (
     <>
@@ -154,8 +212,8 @@ function NftDetailModal (props:any) {
       <BackGround onClick={(e) => {
         props.closeModal();
         e.stopPropagation();
-      }}        
-      />
+      }}
+      >
       <Content onClick={(e) => {
         props.closeModal();
         e.stopPropagation();
@@ -168,6 +226,7 @@ function NftDetailModal (props:any) {
           e.stopPropagation();
         }}>
           <Title>{props.name}</Title>
+          <TokenIdDiv>{`#` + props.tokenId.toString().padStart(4, '0')}</TokenIdDiv>
           <Div display="flex" gap="3rem">
             <Div display="flex" flexDirection="column" gap="0.3rem">
               <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">제작자</TitleText>
@@ -182,14 +241,48 @@ function NftDetailModal (props:any) {
             <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">작품 설명</TitleText>
             <ContentText color="--grey-100">{props.description}</ContentText>
           </Div>
-          <Div display="flex" gap="0.5rem" mb="3rem">
-            <Input width="70%" placeholder="SSF" setValue={setPrice}/>
-            <SharpButton width="30%" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px">
-              판매하기
-            </SharpButton>
-          </Div>
+          {
+            saleStatus ? 
+            <Div display="flex" gap="01rem">
+              <Div display="flex" justifyContent="space-between" alignItems="center"
+                w="70%" color="--grey-100" fontWeight="--bold" fontSize="--h5"
+              >
+                <Div color="--grey-400">
+                  판매 가격&nbsp;
+                </Div>
+                <Div display="flex">
+                  <Div>
+                    {saleData.purchasePrice}&nbsp;
+                  </Div>
+                  <Div color="--grey-400">
+                    SSF
+                  </Div>
+                </Div>
+              </Div>
+              <SharpButton 
+                onClick={CancelSell}
+                width="30%" bg="--grey-100" color="--grey-750" 
+                borderColor="--grey-100" borderWidth="1px"
+                fontSize="--h5"  
+              >
+                취소하기
+              </SharpButton>
+            </Div> :
+            <Div display="flex" gap="0.5rem">
+              <Input width="70%" placeholder="SSF" setValue={setPrice} type="number" value={price}/>
+              <SharpButton 
+                onClick={SellNFT}
+                width="30%" bg="--grey-100" color="--grey-750" 
+                borderColor="--grey-100" borderWidth="1px"
+                fontSize="--h5"  
+              >
+                판매하기
+              </SharpButton>
+            </Div>
+          }
         </DetailSection>
       </Content>
+      </BackGround>
     </ModalPortal>
     </>
   );

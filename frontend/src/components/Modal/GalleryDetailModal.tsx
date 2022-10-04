@@ -19,6 +19,9 @@ const On = keyframes`
 `
 
 const BackGround = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   background-color: var(--modal-bg);
   width: 100%;
@@ -34,21 +37,17 @@ const Content = styled(Div)`
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 10%;
   box-sizing: border-box;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
   width: 100%;
-  min-height: 100vh;
-  height: auto;
-  z-index: 110;
+  height: 100vh;
   animation: ${On} 0.3s ease;
-  @media screen and (max-width: ${screenSizes.sm + "px"}) {
+  @media screen and (max-width: ${screenSizes.xl + "px"}) {
+    gap: 2.5%;
+  }
+  @media screen and (max-width: ${screenSizes.md + "px"}) {
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
   }
   overflow: auto;
 `
@@ -58,66 +57,61 @@ const ImageSection = styled(Div)`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-  width: 50%;
-  height: auto;
-  padding: 0% 2% 0% 12%;
+  width: 30%;
+  height: 100vh;
   @media screen and (max-width: ${screenSizes.xxl + "px"}) {
-    padding: 0% 2% 0% 12%;
   }
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
-    padding: 0 2% 0 4%;
+    width: 45%;
   }
   @media screen and (max-width: ${screenSizes.lg + "px"}) {
-    padding: 0 1%;
+    
   }
   @media screen and (max-width: ${screenSizes.md + "px"}) {
-    padding: 0 1%;
+    width: 90%;
+    height: 40%;
   }
   @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    width: 90%;
+
   }
   @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    width: 90%;
+
   } 
 `
 
 const DetailSection = styled(Div)`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  box-sizing: border-box;
-  width: 50%;
-  height: auto;
-  padding: 0 12% 0 2%;
-  @media screen and (max-width: ${screenSizes.xxl + "px"}) {
-    padding: 0 12% 0 2%;
-  }
-  @media screen and (max-width: ${screenSizes.xl + "px"}) {
-    padding: 0 4% 0 2%;
-  }
-  @media screen and (max-width: ${screenSizes.lg + "px"}) {
-    padding: 0 1%;
-  }
-  @media screen and (max-width: ${screenSizes.md + "px"}) {
-    padding: 0 1%;
-  }
-  @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    width: 90%;
-  }
-  @media screen and (max-width: ${screenSizes.xs + "px"}) {
-    width: 90%;
-  }
+display: flex;
+flex-direction: column;
+gap: 1.5rem;
+box-sizing: border-box;
+width: 30%;
+@media screen and (max-width: ${screenSizes.xxl + "px"}) {
+}
+@media screen and (max-width: ${screenSizes.xl + "px"}) {
+  width: 45%;
+}
+@media screen and (max-width: ${screenSizes.lg + "px"}) {
+
+}
+@media screen and (max-width: ${screenSizes.md + "px"}) {
+  width: 90%;
+  height: 40%;
+}
+@media screen and (max-width: ${screenSizes.sm + "px"}) {
+
+}
+@media screen and (max-width: ${screenSizes.xs + "px"}) {
+
+}
 `
 
 const Image = styled.img.attrs<PropsStyle>(props => ({
   src: props.url,
-  alt: "NFT 이미지",
+  alt: "갤러리 썸네일",
   }))<PropsStyle>`
-  width: 80%;
-  @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    width: 100%
-  }
-  
+  width: 100%;
+  height: 90%;
+  object-fit: contain;
 `
 
 const Title = styled(Div)`
@@ -165,41 +159,42 @@ function GalleryDetailModal (props:any) {
       <BackGround onClick={(e) => {
         props.closeModal();
         e.stopPropagation();
-      }}        
-      />
-      <Content onClick={(e) => {
-        props.closeModal();
-        e.stopPropagation();
-      }}
+        }}        
       >
-        <ImageSection>
-          <Image url={process.env.REACT_APP_BACKEND_HOST2 + props.data.thumbnail} />
-        </ImageSection>
-        <DetailSection onClick={(e) => {
+        <Content onClick={(e) => {
+          props.closeModal();
           e.stopPropagation();
-        }}>
-          <Title>{props.data.title}</Title>
-          <Div display="flex" gap="3rem">
-            <Div display="flex" flexDirection="column" gap="0.3rem">
-              <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">테마</TitleText>
-              <ContentText color="--grey-100" fontWeight="--bold" fontSize="--h5">{CategoryTitle(props.data.category_id)}</ContentText>
+        }}
+        >
+          <ImageSection>
+            <Image url={process.env.REACT_APP_BACKEND_HOST + props.data.thumbnail + "?" + new Date().getTime()} />
+          </ImageSection>
+          <DetailSection onClick={(e) => {
+            e.stopPropagation();
+          }}>
+            <Title>{props.data.title}</Title>
+            <Div display="flex" gap="3rem">
+              <Div display="flex" flexDirection="column" gap="0.3rem">
+                <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">테마</TitleText>
+                <ContentText color="--grey-100" fontWeight="--bold" fontSize="--h5">{CategoryTitle(props.data.category_id)}</ContentText>
+              </Div>
+              <Div display="flex" flexDirection="column" gap="0.3rem">
+                <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">호스트</TitleText>
+                <ContentText color="--grey-100" fontWeight="--bold" fontSize="--h5">{hostNickname}</ContentText>
+              </Div>
             </Div>
-            <Div display="flex" flexDirection="column" gap="0.3rem">
-              <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">호스트</TitleText>
-              <ContentText color="--grey-100" fontWeight="--bold" fontSize="--h5">{hostNickname}</ContentText>
+            <Div display="flex" flexDirection="column" gap="0.5rem">
+              <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">소개</TitleText>
+              <ContentText color="--grey-100">{props.data.description}</ContentText>
             </Div>
-          </Div>
-          <Div display="flex" flexDirection="column" gap="0.5rem">
-            <TitleText color="--grey-400" fontWeight="--bold" fontSize="--h5">소개</TitleText>
-            <ContentText color="--grey-100">{props.data.description}</ContentText>
-          </Div>
-          <Div mt="1rem" mb="3rem">
-            <SharpButton width="100%" height="3rem" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px" fontSize="--h5">
-              입장하기
-            </SharpButton>
-          </Div>
-        </DetailSection>
-      </Content>
+            <Div mt="1rem" mb="3rem">
+              <SharpButton width="100%" height="3rem" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px" fontSize="--h5">
+                입장하기
+              </SharpButton>
+            </Div>
+          </DetailSection>
+        </Content>
+      </BackGround>
     </ModalPortal>
     </>
   );
