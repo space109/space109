@@ -2,10 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import styled, { css } from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input, SharpButton, NavArea } from "../components";
-import { dupCheck, join, getMetadata } from "../apis";
+import { dupCheck, join, login } from "../apis";
 import { MintTestContract } from "../web3Config";
 import { useAccount } from "../hooks";
-import Cropper from 'react-easy-crop';
+import { useNavigate } from "react-router-dom";
+import Cropper from "react-easy-crop";
 
 interface PropsStyle {
   imgURL?: any;
@@ -48,6 +49,7 @@ function SignUpPage() {
   const [nickname, setNickname] = useState("");
   const [helpMsg, setHelpMsg] = useState("\u00A0");
   const [color, setColor] = useState("--grey-650");
+  const navigate = useNavigate();
 
   const [account, logined] = useAccount();
 
@@ -99,20 +101,40 @@ function SignUpPage() {
     }
   };
 
+  const nicknameCheck = async () => {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      const nameData = await login(accounts[0]);
+      if (nameData.length) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     setColor("--grey-650");
     setHelpMsg("\u00A0");
   }, [nickname]);
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 })
-  const [rotation, setRotation] = useState(0)
-  const [zoom, setZoom] = useState(1)
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+  useEffect(() => {
+    nicknameCheck();
+  }, []);
 
-  const onCropComplete = useCallback((croppedArea:any, croppedAreaPixels:any) => {
-    setCroppedAreaPixels(croppedAreaPixels)
-  }, [])
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [rotation, setRotation] = useState(0);
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
 
+  const onCropComplete = useCallback(
+    (croppedArea: any, croppedAreaPixels: any) => {
+      setCroppedAreaPixels(croppedAreaPixels);
+    },
+    []
+  );
 
   return (
     <>

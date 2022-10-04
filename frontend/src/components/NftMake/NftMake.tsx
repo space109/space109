@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Div, Image } from "../../styles/BaseStyles";
-import { Input, SharpButton, alertModal } from "../";
+import { Input, SharpButton, Loading } from "../";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { TestContract, MintTestContract } from "../../web3Config";
 import styled from "styled-components";
@@ -11,11 +11,51 @@ interface Ipfs {
   path: string;
 }
 
+const DataArea = styled.div`
+  display: flex;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const TextArea = styled.div``;
+
+const FileArea = styled.div`
+  flex: 3;
+  border-left: 3px solid #1d1d1d;
+  padding: 20px;
+
+  @media (max-width: 992px) {
+    flex: 2;
+  }
+
+  @media (max-width: 768px) {
+    border-top: 3px solid #1d1d1d;
+    border-left: 0px;
+  }
+`;
+
+const NftImage = styled.img`
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+`;
+
+const NftVideo = styled.video`
+  /* object-fit: contain; */
+  width: 100%;
+  height: 100%;
+`;
+
 function NftMake(props: any) {
   const [image, setImage] = useState<Ipfs | any>("");
   const [json, setJson] = useState<Ipfs | string>("");
   const [file, setFile] = useState("");
   const [account, nickname] = useAccount();
+  const [type, setType] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [helpText, setHelpText] = useState<string>("helpText");
 
   // IPFS 키
   const projectId = process.env.REACT_APP_PROJECT_ID;
@@ -33,15 +73,19 @@ function NftMake(props: any) {
   // 민팅 함수
   const onSubmitHandler = async (event: any) => {
     event.preventDefault();
-    // setLoading(true);
+    setLoading(true);
+    setHelpText("IPFS 생성중입니다.");
     const form = event.target;
     console.log(form);
 
     const files = form[2].files;
 
-    alertModal(form[0].value, "작품이름을 입력해 주세요");
-    alertModal(form[1].value, "작품설명을 입력해주세요");
-
+    if (!files || form[0].value === 0) {
+      return alert("작품이름을 입력해 주세요");
+    }
+    if (!files || form[1].value === 0) {
+      return alert("작품설명을 입력해주세요");
+    }
     if (!files || files.length === 0) {
       return alert("선택된 파일이 없어요");
     }
@@ -76,6 +120,8 @@ function NftMake(props: any) {
 
     // setLoadingMeta(true);
 
+    setHelpText("서명해주세요");
+
     const response = await MintTestContract.methods
       .create(
         window.ethereum.selectedAddress,
@@ -86,7 +132,7 @@ function NftMake(props: any) {
     console.log(response);
 
     // setLoadingMint(true);
-
+    setLoading(false);
     // await setTimeout(() => {
     //   setLoading(false);
     //   setLoadingIpfs(false);
@@ -97,16 +143,32 @@ function NftMake(props: any) {
   };
 
   // 이미지 업로드
-  const onChange = async (e: any) => {
+  const onChange = (e: any) => {
+    const fileType = ["image/gif", "image/png", "image/jpeg", "image/jpg"];
+    const maxSize = 10 * 1024 * 1024; // 10MB
     const file = e.target.files[0];
+    if (!fileType.includes(file.type)) {
+      return alert("이미지만 업로드 가능합니다.");
+    }
+
+    if (maxSize < file.size) {
+      return alert("파일은 최대 10MB까지 업로드 가능합니다.");
+    }
+
+    if (file.type === "video/mp4") {
+      setType(true);
+    } else {
+      setType(false);
+    }
     setFile(URL.createObjectURL(file));
   };
 
   return (
-    <div>
+    <>
+      {loading && <Loading HelpText={helpText} />}
       <Div display="flex" flexDirection="column" bgColor="--grey-100">
         <form onSubmit={onSubmitHandler}>
-          <Div display="flex">
+          <DataArea>
             <Div flex="7" display="flex" flexDirection="column">
               <Div borderBottom="3px solid #1d1d1d">
                 <Div
@@ -153,7 +215,7 @@ function NftMake(props: any) {
                 </Div>
               </Div>
             </Div>
-            <Div flex="3" borderLeft="3px solid #1d1d1d" p="20px">
+            <FileArea>
               <Div fontWeight="--bold" fontSize="--h4" mb="16px" ml="12px">
                 파일
               </Div>
@@ -178,11 +240,11 @@ function NftMake(props: any) {
                     justifyContent="center"
                     onClick={() => console.log("click")}
                   >
-                    <img
-                      src={file}
-                      alt="preview image"
-                      style={{ maxWidth: "400px", margin: "15px" }}
-                    />
+                    {type ? (
+                      <NftVideo autoPlay src={file} muted></NftVideo>
+                    ) : (
+                      <NftImage src={file} alt="preview image" />
+                    )}
                   </Div>
                 ) : (
                   <Div
@@ -210,12 +272,12 @@ function NftMake(props: any) {
                 type="file"
                 name="file"
                 id="file"
-                // accept=".jpg .jpeg .mp4 .gif .png"
+                accept=".jpg, .jpeg, .mp4, .gif, .png"
                 onChange={onChange}
                 style={{ display: "none" }}
               />
-            </Div>
-          </Div>
+            </FileArea>
+          </DataArea>
           <Div
             display="flex"
             justifyContent="center"
@@ -224,7 +286,12 @@ function NftMake(props: any) {
             borderTop="3px solid #1d1d1d"
           >
             <Div mr="15%">
-              <SharpButton width="250px" height="80px" fontSize="--h5">
+              <SharpButton
+                width="250px"
+                height="80px"
+                fontSize="--h5"
+                type="button"
+              >
                 취소하기
               </SharpButton>
             </Div>
@@ -244,7 +311,7 @@ function NftMake(props: any) {
           </Div>
         </form>
       </Div>
-    </div>
+    </>
   );
 }
 
