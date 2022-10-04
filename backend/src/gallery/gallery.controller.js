@@ -148,4 +148,79 @@ router.put("/my", async function (req, res) {
   });
 });
 
+router.post("/guestbook", async function (req, res) {
+  logger.http("POST /gallery/guestbook");
+  logger.debug("req.body = " + JSON.stringify(req.body));
+  const { statusCode, responseBody } = await GalleryService.writeGuestbook(
+    req.body.galleryId,
+    req.body.nickname,
+    req.body.description
+  );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
+router.get("/guestbook/finalPageNo", async function (req, res) {
+  logger.http("GET /gallery/guestbook/totalPageNo");
+  logger.debug("req.query = " + JSON.stringify(req.query));
+  // page size
+  let countPerPage = req.query["countPerPage"];
+  if (
+    countPerPage == undefined ||
+    typeof countPerPage == "undefined" ||
+    countPerPage == null ||
+    Number.isNaN(parseInt(countPerPage))
+  ) {
+    countPerPage = 10;
+  } else {
+    countPerPage = parseInt(countPerPage);
+  }
+  const { statusCode, responseBody } =
+    await GalleryService.getGuestbookFinalPageNo(
+      req.query["galleryId"],
+      countPerPage
+    );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
+router.get("/guestbook", async function (req, res) {
+  logger.http("GET /gallery/guestbook");
+  logger.debug("req.params = " + JSON.stringify(req.query));
+  // page size
+  let countPerPage = req.query["countPerPage"];
+  // page number
+  let currentPage = req.query["currentPage"];
+  if (
+    countPerPage == undefined ||
+    typeof countPerPage == "undefined" ||
+    countPerPage == null ||
+    Number.isNaN(parseInt(countPerPage))
+  ) {
+    countPerPage = 10;
+  } else {
+    countPerPage = parseInt(countPerPage);
+  }
+  if (
+    currentPage == undefined ||
+    typeof currentPage == "undefined" ||
+    currentPage == null ||
+    Number.isNaN(parseInt(currentPage))
+  ) {
+    currentPage = 1;
+  } else {
+    currentPage = parseInt(currentPage);
+  }
+  const { statusCode, responseBody } = await GalleryService.guestbookList(
+    req.query["galleryId"],
+    countPerPage,
+    currentPage
+  );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
 module.exports = router;
