@@ -125,10 +125,10 @@ class GalleryRepository {
       let updateResult = await connection.query(updateSql);
       result = updateResult[0].affectedRows;
       logger.debug("result : " + result);
-      const deleteGuestbookSql = `delete from guest_book where gallery_id = (select gallery_id from gallery where OA = '${oa}');`;
-      logger.debug("deleteGuestbookSql : " + deleteGuestbookSql);
-      let deleteResult = await connection.query(deleteGuestbookSql);
-      result += deleteResult[0].affectedRows;
+      // const deleteGuestbookSql = `delete from guest_book where gallery_id = (select gallery_id from gallery where OA = '${oa}');`;
+      // logger.debug("deleteGuestbookSql : " + deleteGuestbookSql);
+      // let deleteResult = await connection.query(deleteGuestbookSql);
+      // result += deleteResult[0].affectedRows;
       await connection.commit();
       logger.debug("result : " + result);
     } catch (e) {
