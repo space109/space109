@@ -12,6 +12,7 @@ const CommunityModal = (props) => {
           toggleOpen={props.toggleOpen}
           post={props.post}
           addCommentHandler={props.addCommentHandler}
+          resetCommentHandler={props.resetCommentHandler}
         />,
         document.getElementById("community-overlay-root")
       )}

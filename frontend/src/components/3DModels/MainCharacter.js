@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 
 export default function MainCharacter(props) {
@@ -11,7 +11,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.face_face1_0.geometry}
+              geometry={useMemo(() => nodes.face_face1_0.geometry, [])}
               material={materials.face1}
             />
           </group>
@@ -19,7 +19,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.right_ear_orange_0.geometry}
+              geometry={useMemo(() => nodes.right_ear_orange_0.geometry,[])}
               material={materials.orange}
             />
           </group>
@@ -27,7 +27,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.left_ear_orange_0.geometry}
+              geometry={useMemo(() => nodes.left_ear_orange_0.geometry,[])}
               material={materials.orange}
             />
           </group>
@@ -35,7 +35,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.hairtie_red_0.geometry}
+              geometry={useMemo(() => nodes.hairtie_red_0.geometry,[])}
               material={materials.material}
             />
           </group>
@@ -43,7 +43,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.big_bun_hair_0.geometry}
+              geometry={useMemo(() => nodes.big_bun_hair_0.geometry, [])}
               material={materials.hair}
             />
           </group>
@@ -51,7 +51,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.small_bun_hair_0.geometry}
+              geometry={useMemo(() => nodes.small_bun_hair_0.geometry,[])}
               material={materials.hair}
             />
           </group>
@@ -59,7 +59,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.left_bangs_yellow_0.geometry}
+              geometry={useMemo(() => nodes.left_bangs_yellow_0.geometry,[])}
               material={materials.yellow}
             />
           </group>
@@ -67,7 +67,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.right_bangs_yellow_0.geometry}
+              geometry={useMemo(() => nodes.right_bangs_yellow_0.geometry,[])}
               material={materials.yellow}
             />
           </group>
@@ -75,7 +75,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.left_arm_yellow_0.geometry}
+              geometry={useMemo(() => nodes.left_arm_yellow_0.geometry,[])}
               material={materials.yellow}
             />
           </group>
@@ -83,7 +83,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.left_sleeve_white_0.geometry}
+              geometry={useMemo(() => nodes.left_sleeve_white_0.geometry,[])}
               material={materials.white}
             />
           </group>
@@ -91,7 +91,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.right_sleeve_white_0.geometry}
+              geometry={useMemo(() => nodes.right_sleeve_white_0.geometry, [])}
               material={materials.white}
             />
           </group>
@@ -99,7 +99,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.right_arm_yellow_0.geometry}
+              geometry={useMemo(() => nodes.right_arm_yellow_0.geometry,[])}
               material={materials.yellow}
             />
           </group>
@@ -107,7 +107,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.top_button_white_buttons_0.geometry}
+              geometry={useMemo(() => nodes.top_button_white_buttons_0.geometry,[])}
               material={materials.white_buttons}
             />
           </group>
@@ -115,7 +115,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.bottom_button_white_buttons_0.geometry}
+              geometry={useMemo(() => nodes.bottom_button_white_buttons_0.geometry,[])}
               material={materials.white_buttons}
             />
           </group>
@@ -123,7 +123,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.left_collar_white_0.geometry}
+              geometry={useMemo(() => nodes.left_collar_white_0.geometry,[])}
               material={materials.white}
             />
           </group>
@@ -131,7 +131,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.right_collar_white_0.geometry}
+              geometry={useMemo(() => nodes.right_collar_white_0.geometry,[])}
               material={materials.white}
             />
           </group>
@@ -139,7 +139,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.bow1_red_0.geometry}
+              geometry={useMemo(() => nodes.bow1_red_0.geometry,[])}
               material={materials.material}
             />
           </group>
@@ -147,19 +147,19 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.body_green_0.geometry}
+              geometry={useMemo(() => nodes.body_green_0.geometry,[])}
               material={materials.green}
             />
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.body_white_0.geometry}
+              geometry={useMemo(() => nodes.body_white_0.geometry,[])}
               material={materials.white}
             />
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.body_shirt_0.geometry}
+              geometry={useMemo(() => nodes.body_shirt_0.geometry,[])}
               material={materials.shirt}
             />
           </group>
@@ -167,7 +167,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.skirt_blue_0.geometry}
+              geometry={useMemo(() => nodes.skirt_blue_0.geometry,[])}
               material={materials.blue}
             />
           </group>
@@ -175,7 +175,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.left_leg_yellow_0.geometry}
+              geometry={useMemo(() => nodes.left_leg_yellow_0.geometry,[])}
               material={materials.yellow}
             />
           </group>
@@ -183,7 +183,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.right_leg_yellow_0.geometry}
+              geometry={useMemo(() => nodes.right_leg_yellow_0.geometry, [])}
               material={materials.yellow}
             />
           </group>
@@ -191,7 +191,7 @@ export default function MainCharacter(props) {
             <mesh
               castShadow
               receiveShadow
-              geometry={nodes.tail_tail1_0.geometry}
+              geometry={useMemo(() => nodes.tail_tail1_0.geometry,[])}
               material={materials.tail1}
             />
           </group>

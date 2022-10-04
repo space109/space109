@@ -4,7 +4,6 @@ import { Div } from "../styles/BaseStyles";
 import { Physics } from "@react-three/cannon";
 import { MintTestContract } from "../web3Config";
 import {
-  GalleryMap,
   Player,
   ImageFrame,
   EditModal,
@@ -13,7 +12,7 @@ import {
   ImageLightGroup,
   Fog,
   RectAreaLightGroup,
-  Gallery109,
+  GalleryMap,
   Decorations,
   Floor,
   CommunityModal,
@@ -66,21 +65,21 @@ const EditVirtualGallery = () => {
     [53, 25, -115],
     [53, 25, -150],
     [53, 25, -185],
-    [33, 25, -260],
+    [33, 25, -264],
     [111, 25, -216.8], //2번방 1
     [146, 25, -257], //2
     [164, 25, -231], //3
     [127.5, 25, -241], //4
     [162.2, 25, -231], //5
     [181, 25, -216.8], //6
-    [255, 25, -238],
+    [259, 25, -238],
     [232.7, 20, -143], //3번방 1
     [252, 25, -125], //2
     [232.7, 20, -103], //3
     [231.5, 20, -143], //4
     [212, 25, -125], //5
     [231.5, 20, -103], //6
-    [231, 25, -20],
+    [231, 25, -12],
     [115, 25, -18.5],
     [150, 25, -18.5],
     [115, 25, -58.8],
@@ -114,73 +113,67 @@ const EditVirtualGallery = () => {
     [0.2, 27, 27],
     [0.2, 27, 27],
   ]);
-  const [post, setPost] = useState([
-    {
-      nickname: "사슴",
-      description:
-        "안녕하세요. 사슴입니다. 안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.안녕하세요. 사슴입니다.",
-    },
-    {
-      nickname: "둘기",
-      description: "안녕하세요. 둘기입니다.",
-    },
-    {
-      nickname: "둘기",
-      description: "안녕하세요. 둘기입니다.",
-    },
-    {
-      nickname: "둘기",
-      description: "안녕하세요. 둘기입니다.",
-    },
-    {
-      nickname: "둘기",
-      description: "안녕하세요. 둘기입니다.",
-    },
-    {
-      nickname: "둘기",
-      description: "안녕하세요. 둘기입니다.",
-    },
-    {
-      nickname: "사슴",
-      description: "안녕하세요. 사슴입니다.",
-    },
-    {
-      nickname: "둘기",
-      description: "안녕하세요. 둘기입니다.",
-    },
-    {
-      nickname: "둘기",
-      description: "안녕하세요. 둘기입니다.",
-    },
-    {
-      nickname: "둘기",
-      description: "안녕하세요. 둘기입니다.",
-    },
-  ]);
+  const [open, setOpen] = useState(false);
+  const [post, setPost] = useState([]);
+
+  //방명록 초기화
+  const resetCommentHandler = useCallback(() => {
+    if (window.confirm("정말로 방명록을 초기화 하시겠습니까?")) {
+      setPost([]);
+      sendRequest({
+        url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook?galleryId=${key}`,
+        method: "DELETE",
+        data: {
+          galleryId: key
+        }
+      });
+    }
+  }, [key, sendRequest]);
+
+  //최초 방명록 업데이트
+  const getCommentHandler = useCallback((data) => {
+    setPost(data.data)
+  }, [])
+
   //방명록에 댓글을 추가하는 함수
   const addCommentHandler = useCallback((comment) => {
-    setPost([...post, {nickname: "닉네임이 들어갈 자리", description: comment}])
-  })
+    setPost((state) => [
+      { GALLERY_ID:key , NICKNAME: nickname, DESCRIPTION: comment },
+      ...state,
+    ]);
+    sendRequest({
+      url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook`,
+      method: "POST",
+      data: { galleryId: key, nickname: nickname, description: comment },
+    });
+  }, [key, nickname, sendRequest])
 
+  //방명록 오픈
+  const toggleOpen = useCallback(
+     () => {
+      setOpen((state) => !state);
+    },
+    []
+  );
   //이미지 크기 조절 함수
   const ImageScaleHandler = useCallback((data) => {
     setFrameScale(data);
   }, []);
-
+  
   //이미지 위치 조절 함수
   const ImagePositionHandler = useCallback((data) => {
     setFramePosition(data);
   }, []);
-
+  
   const ImageRotationHandler = useCallback((data) => {
     setFrameRotation(data);
   }, []);
-
+  
   //ImageFrame에서 선택한 인덱스를 가져옴
   const getIndexOfFrame = useCallback((index) => {
     setToggleIdx(index);
   }, []);
-
+  
   // 모달 토글 함수
   const toggleModal = (e) => {
     setToggle((state) => !state);
@@ -263,11 +256,20 @@ const EditVirtualGallery = () => {
   const targetIndex = (e) => {
     setIndex(e);
   };
+  
+  //방명록 데이터 READ
+  useEffect(() =>  {
+    sendRequest({
+      url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook?galleryId=${key}&countPerPage=50`,
+    }, getCommentHandler);
+  }, [key, sendRequest, getCommentHandler])
 
+  //메타데이터 리스트 호출
   useEffect(() => {
     getNFTList();
   }, [getNFTList]);
 
+  //최초 데이터 계수로 매핑
   useEffect(() => {
     sendRequest(
       {
@@ -276,13 +278,7 @@ const EditVirtualGallery = () => {
       indexMappingHandler
     );
   }, [sendRequest, key, indexMappingHandler]);
-  const [open, setOpen] = useState(false);
-  const toggleOpen = useCallback(
-     () => {
-      setOpen((state) => !state);
-    },
-    []
-  );
+  
   return (
     <Div w="100vw" h="100vh">
       <EditModal
@@ -306,6 +302,7 @@ const EditVirtualGallery = () => {
         toggleOpen={toggleOpen}
         post={post}
         addCommentHandler={addCommentHandler}
+        resetCommentHandler={resetCommentHandler}
       />
       <Canvas style={{ background: "grey" }}>
         <Suspense fallback={null}>
@@ -338,7 +335,7 @@ const EditVirtualGallery = () => {
             {/* 로고 이미지 */}
             {/* <LogoBox position={[52, 25, -68.7]} args={[16, 16, 0.1]} />
               <LogoBox position={[14, 25, -68.7]} args={[16, 16, 0.1]} /> */}
-            <Gallery109 position={[0, 0, 0]} />
+            <GalleryMap position={[0, 0, 0]} />
             <Floor position={[0, 10, 0]} />
             <Decorations toggleOpen={toggleOpen} />
             {/* <GalleryMap position={[0, 0, 0]} /> */}

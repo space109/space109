@@ -1,6 +1,5 @@
 export { default as FPVControls } from "./FPVControls";
 export { default as InfoModal } from "./InfoModal";
-export { default as GalleryMap } from "./GalleryMap";
 export { default as MapBoundary } from "./MapBoundary";
 export { default as Player } from "./Player";
 export { default as CeilingBox } from "./CeilingBox";
@@ -18,7 +17,7 @@ export { default as ImageLightGroup } from "./ImageLightGroup";
 export { default as Fog } from "./Fog";
 export { default as FrameDataHandler } from "./FrameDataHandler";
 export { default as ChangableOverlay } from "./ChangableOverlay";
-export { default as Gallery109 } from "./Gallery109";
+export { default as GalleryMap } from "./GalleryMap";
 export { default as SkyEnvironment } from "./SkyEnvironment";
 export { default as Wall } from "./Wall";
 export { default as WallGroup } from "./WallGroup";

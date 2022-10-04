@@ -1,6 +1,5 @@
 export {
   FPVControls,
-  GalleryMap,
   InfoModal,
   MapBoundary,
   Player,
@@ -18,7 +17,7 @@ export {
   Fog,
   FrameDataHandler,
   ChangableOverlay,
-  Gallery109,
+  GalleryMap,
   SkyEnvironment,
   Wall,
   WallGroup,

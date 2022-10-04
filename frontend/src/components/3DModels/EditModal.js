@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { getMetadata } from "../../apis";
 import { useParams } from "react-router-dom";
 import { useAccount, useAxios } from "../../hooks";
-import ChangableOverlay from './ChangableOverlay';
+import ChangableOverlay from "./ChangableOverlay";
 import ModalOverlay from "./ModalOverlay";
 
 const BackDropDiv = styled.div`
@@ -91,42 +91,67 @@ const EditModal = ({
       OA: ownerAddress,
     };
 
-    //이미 NFT가 존재하는데 중복된다면 alert 띄우기
+    //이미 액자에 게시되었는데 중복이 있다면 alert 띄우기
     //NFT 배정이 안된 경우, 중복검사
+    console.log(countArray)
     if (Object.keys(countArray[index]).length) {
+      //액자에 같은 작품이 존재
       if (parseInt(tokenId) === countArray[index].TOKEN_ID) {
-        alert("중복되는 NFT를 선택했습니다.");
+        alert("이미 작품이 전시되어 있습니다.");
       }
-      //액자에 다른NFT 존재 && 인덱스가
+      //액자에 다른 NFT 존재 && 다른 액자에 이미 전시된 NFT
       else {
         let flag = false;
-        for (let item of countArray) {
+        for (const [itemIdx, item] of countArray.entries()) {
+          console.log(itemIdx)
           if (
             item?.TOKEN_ID === parseInt(tokenId) &&
             parseInt(tokenId) !== countArray[index].TOKEN_ID
           ) {
-            alert("중복되는 NFT를 선택했습니다.2");
+            console.log("1번 케이스");
+            if (
+              window.confirm(
+                "다른 액자에 전시된 작품입니다. 기존에 전시된 작품을 지우고 전시하시겠습니까?"
+              )
+            ) {
+              //중복이니 기존 인덱스를 비우고, 새로운 인덱스에 넣어줌
+              copyArr[itemIdx] = {};
+              removeNFT(itemIdx)
+              setCountArray(copyArr);
+            }
+
             flag = true;
             break;
           }
         }
+        //중복이 아니므로 그대로 저장
         if (!flag) {
           setCountArray(copyArr);
         }
       }
-    } else {
+    }
+    //액자에 아무 작품도 없지만 다른 액자에 이미 전시된 NFT 선택.
+    else {
       let flag = false;
-      for (let item of countArray) {
+      for (let [itemIdx, item] of countArray.entries()) {
         if (item?.TOKEN_ID === parseInt(tokenId)) {
-          alert("중복되는 NFT를 선택했습니다.3");
-          flag = true;
+          console.log("2번 케이스")
+          if (
+            window.confirm(
+              "다른 액자에 전시된 작품입니다. 기존에 전시된 작품을 지우고 전시하시겠습니까?"
+            )
+          ) {
+            //중복이니 기존 인덱스를 비우고, 새로운 인덱스에 넣어줌
+            copyArr[itemIdx] = {};
+            setCountArray(copyArr);
+            removeNFT(itemIdx);
+          } else {
+            flag = true;
+          }
           break;
         }
       }
-      if (flag) {
-        copyArr[index] = {};
-        setCountArray(copyArr);
-      } else {
+      if (!flag) {
         setCountArray(copyArr);
       }
     }

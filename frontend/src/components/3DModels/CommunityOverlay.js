@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import closeIcon from "../.././assets/close-icon.png";
+import { useAccount } from "../../hooks";
 import { Div } from "../../styles/BaseStyles";
 import { SharpButton } from "../Button";
 const modalActive = keyframes`
@@ -133,6 +134,8 @@ const CommunityOverlay = (props) => {
     minRows: 1,
     maxRows: 10,
   });
+  const [ownerAddress, nickname] = useAccount();
+  if (!props.open) return null;
   const handleChange = (e) => {
     const lineHeight = 24;
 
@@ -158,7 +161,6 @@ const CommunityOverlay = (props) => {
     });
   };
 
-  if (!props.open) return null;
 
   return (
     <>
@@ -190,7 +192,8 @@ const CommunityOverlay = (props) => {
           >
             <SharpButton
               width="100%"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 props.addCommentHandler(textVal.value);
                 setTextVal({ value: "", rows: 1, minRows: 1, maxRows: 10 });
               }}
@@ -207,38 +210,41 @@ const CommunityOverlay = (props) => {
           h="60%"
         >
           <RowDiv>
-            {props.post.map((item, idx) => {
+            {props.post?.map((item, idx) => {
               if (idx % 3 === 0)
                 return (
                   <InnerDiv>
-                    <TitleDiv>작성자:{item.nickname}</TitleDiv>
-                    <TextDiv>{item.description}</TextDiv>
+                    <TitleDiv>작성자:{item.NICKNAME}</TitleDiv>
+                    <TextDiv>{item.DESCRIPTION}</TextDiv>
                   </InnerDiv>
                 );
             })}
           </RowDiv>
           <RowDiv>
-            {props.post.map((item, idx) => {
+            {props.post?.map((item, idx) => {
               if (idx % 3 === 1)
                 return (
                   <InnerDiv>
-                    <TitleDiv>작성자:{item.nickname}</TitleDiv>
-                    <TextDiv>{item.description}</TextDiv>
+                    <TitleDiv>작성자:{item.NICKNAME}</TitleDiv>
+                    <TextDiv>{item.DESCRIPTION}</TextDiv>
                   </InnerDiv>
                 );
             })}
           </RowDiv>
           <RowDiv>
-            {props.post.map((item, idx) => {
+            {props.post?.map((item, idx) => {
               if (idx % 3 === 2)
                 return (
                   <InnerDiv>
-                    <TitleDiv>작성자:{item.nickname}</TitleDiv>
-                    <TextDiv>{item.description}</TextDiv>
+                    <TitleDiv>작성자:{item.NICKNAME}</TitleDiv>
+                    <TextDiv>{item.DESCRIPTION}</TextDiv>
                   </InnerDiv>
                 );
             })}
           </RowDiv>
+        </Div>
+        <Div position="absolute" bottom="3%" right="3%">
+          <SharpButton bg="--carmine-100" borderRadius="20px" width="70px" height="70px" fontSize="--h7" onClick={props.resetCommentHandler}>RESET</SharpButton>
         </Div>
       </ModalDiv>
     </>

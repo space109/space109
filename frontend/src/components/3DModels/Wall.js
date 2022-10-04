@@ -11,7 +11,7 @@ const Wall = (props) => {
     <>
       <mesh ref={ref} api={api}>
         <boxGeometry args={props.args}/>
-        <meshPhongMaterial color="0x1d1d1d"/>
+        <meshPhongMaterial color="black"/>
       </mesh>
     </>
   );
