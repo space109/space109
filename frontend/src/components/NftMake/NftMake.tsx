@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Div, Image } from "../../styles/BaseStyles";
-import { Input, SharpButton, alertModal } from "../";
+import { SharpButton, Loading } from "../";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { SsafyNFTContract } from "../../web3Config";
 import styled from "styled-components";
@@ -11,11 +11,102 @@ interface Ipfs {
   path: string;
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: var(--grey-100);
+  max-width: 1800px;
+  width: 100%;
+
+  border-radius: 2px;
+`;
+
+const DataArea = styled.div`
+  display: flex;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+`;
+
+const Textarea = styled.textarea`
+  all: unset;
+  padding: 20px 24px 20px 24px;
+  width: calc(100% - 48px);
+  font-size: var(--h5);
+  ::placeholder {
+    color: var(--grey-300);
+  }
+`;
+
+const Input = styled.input`
+  all: unset;
+  width: calc(100% - 48px);
+  height: 100%;
+  padding: 20px 24px 20px 24px;
+  font-size: var(--h5);
+
+  ::placeholder {
+    color: var(--grey-300);
+  }
+`;
+
+const FileArea = styled.div`
+  flex: 3;
+  border-left: 3px solid #1d1d1d;
+
+  @media (max-width: 992px) {
+    flex: 2;
+  }
+
+  @media (max-width: 768px) {
+    border-top: 3px solid #1d1d1d;
+    border-left: 0px;
+  }
+`;
+
+const NftImage = styled.img`
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+`;
+
+const NftVideo = styled.video`
+  /* object-fit: contain; */
+  width: 100%;
+  height: 100%;
+`;
+
+const ImageArea = styled.div`
+  margin: 60px 60px 60px 60px;
+  aspect-ratio: 1;
+  min-width: 300px;
+  border: 3px dashed #1d1d1d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const MessageArea = styled.div`
+  color: var(--carmine-100);
+  font-size: var(--body);
+  font-weight: var(--medium);
+  margin: 5px 10px;
+`;
+
 function NftMake(props: any) {
   const [image, setImage] = useState<Ipfs | any>("");
   const [json, setJson] = useState<Ipfs | string>("");
   const [file, setFile] = useState("");
   const [account, nickname] = useAccount();
+  const [type, setType] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [helpText, setHelpText] = useState<string>("helpText");
+  const [helpMsg, setHelpMsg] = useState("\u00A0");
+  const [color, setColor] = useState("--grey-650");
+  const [nameMessage, setNameMessage] = useState<string>("");
+  const [descriptionMessage, setDescriptionMessage] = useState<string>("");
+  const [fileMessage, setFileMessage] = useState<string>("");
 
   // IPFS 키
   const projectId = process.env.REACT_APP_PROJECT_ID;
@@ -30,21 +121,44 @@ function NftMake(props: any) {
     },
   });
 
+  // 민팅 계약
+  const NftMint = async (Json: any) => {
+    try {
+      await SsafyNFTContract.methods
+        .create(
+          window.ethereum.selectedAddress,
+          "https://skywalker.infura-ipfs.io/ipfs/" + Json.path
+        )
+        .send({ from: window.ethereum.selectedAddress });
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
   // 민팅 함수
   const onSubmitHandler = async (event: any) => {
     event.preventDefault();
-    // setLoading(true);
+
     const form = event.target;
-    console.log(form);
 
     const files = form[2].files;
 
-    alertModal(form[0].value, "작품이름을 입력해 주세요");
-    alertModal(form[1].value, "작품설명을 입력해주세요");
-
-    if (!files || files.length === 0) {
-      return alert("선택된 파일이 없어요");
+    if (!files || form[0].value.length === 0) {
+      setNameMessage("작품명은 필수입니다.");
+      return;
     }
+    if (!files || form[1].value.length === 0) {
+      setDescriptionMessage("설명은 필수입니다.");
+      return;
+    }
+    if (!files || files.length === 0) {
+      setFileMessage("이미지는 필수입니다.");
+      return;
+    }
+
+    setLoading(true);
+    setHelpText("IPFS 생성중입니다");
 
     const file = files[0];
     // upload files
@@ -54,9 +168,6 @@ function NftMake(props: any) {
       cid: result.cid,
       path: result.path,
     });
-    console.log(result.path);
-
-    // setLoadingIpfs(true);
 
     const Json = await ipfs.add(
       JSON.stringify({
@@ -68,67 +179,74 @@ function NftMake(props: any) {
         type: file.type,
       })
     );
-    console.log("1", Json);
     setJson(Json.path);
 
     form.reset();
     setFile("");
 
-    // setLoadingMeta(true);
+    setHelpText("민팅 진행중입니다");
+    await NftMint(Json);
 
-    const response = await SsafyNFTContract.methods
-      .create(
-        window.ethereum.selectedAddress,
-        "https://skywalker.infura-ipfs.io/ipfs/" + Json.path
-      )
-      .send({ from: window.ethereum.selectedAddress });
-
-    console.log(response);
-
-    // setLoadingMint(true);
-
-    // await setTimeout(() => {
-    //   setLoading(false);
-    //   setLoadingIpfs(false);
-    //   setLoadingMeta(false);
-    //   setLoadingMint(false);
-    //   setFile("");
-    // }, 1000);
+    setLoading(false);
   };
 
   // 이미지 업로드
-  const onChange = async (e: any) => {
+  const onChange = (e: any) => {
+    const fileType = ["image/gif", "image/png", "image/jpeg", "image/jpg"];
+    const maxSize = 10 * 1024 * 1024; // 10MB
     const file = e.target.files[0];
+    setFileMessage("");
+    if (!fileType.includes(file.type)) {
+      return alert("gif, jpg, jpeg, png 파일만 업로드 가능합니다.");
+    }
+
+    if (maxSize < file.size) {
+      return alert("파일은 최대 10MB까지 업로드 가능합니다.");
+    }
+
+    if (file.type === "video/mp4") {
+      setType(true);
+    } else {
+      setType(false);
+    }
     setFile(URL.createObjectURL(file));
   };
 
   return (
-    <div>
-      <Div display="flex" flexDirection="column" bgColor="--grey-100">
+    <>
+      {loading && <Loading HelpText={helpText} />}
+      <Container>
         <form onSubmit={onSubmitHandler}>
-          <Div display="flex">
+          <DataArea>
             <Div flex="7" display="flex" flexDirection="column">
               <Div borderBottom="3px solid #1d1d1d">
                 <Div
                   fontWeight="--bold"
-                  fontSize="--h4"
-                  mb="16px"
-                  ml="12px"
-                  mt="12px"
+                  fontSize="--h5"
+                  pl="12px"
+                  pt="20px"
+                  pb="20px"
+                  pr="12px"
+                  flexDirection="row"
+                  display="flex"
                 >
-                  이름
+                  작품명 <MessageArea>{nameMessage}</MessageArea>
                 </Div>
-                <Div fontSize="--h4" ml="12px" mb="30px">
-                  <Input fontSize="--h4"></Input>
+                <Div>
+                  <Input
+                    placeholder="작품명을 입력해주세요."
+                    onChange={() => setNameMessage("")}
+                  ></Input>
                 </Div>
               </Div>
               <Div>
                 <Div
                   fontWeight="--bold"
-                  fontSize="--h4"
-                  ml="12px"
-                  mt="24px"
-                  mb="24px"
+                  fontSize="--h5"
+                  pl="12px"
+                  pt="20px"
+                  pb="20px"
+                  pr="12px"
                 >
                   작가명
                 </Div>
@@ -137,28 +255,45 @@ function NftMake(props: any) {
                 bgColor="--grey-650"
                 color="--grey-100"
                 pl="24px"
-                pt="24px"
-                pb="24px"
+                pt="20px"
+                pb="20px"
                 pr="24px"
-                mb="30px"
               >
-                <Div fontSize="--h4">{nickname}</Div>
+                <Div fontSize="--h5">{nickname}</Div>
               </Div>
               <Div>
-                <Div fontWeight="--bold" fontSize="--h4" mb="16px" ml="12px">
-                  설명
+                <Div
+                  fontWeight="--bold"
+                  fontSize="--h5"
+                  pl="12px"
+                  pt="20px"
+                  pb="20px"
+                  pr="12px"
+                  flexDirection="row"
+                  display="flex"
+                >
+                  설명 <MessageArea>{descriptionMessage}</MessageArea>
                 </Div>
-                <Div ml="12px">
-                  <Input fontSize="--h4"></Input>
+                <Div h="100%">
+                  <Textarea
+                    placeholder="설명을 입력해주세요."
+                    onChange={() => setDescriptionMessage("")}
+                  />
                 </Div>
               </Div>
             </Div>
-            <Div flex="3" borderLeft="3px solid #1d1d1d" p="20px">
-              <Div fontWeight="--bold" fontSize="--h4" mb="16px" ml="12px">
-                파일
-              </Div>
-              <Div fontSize="--h4" mb="160px" ml="20px">
-                미디어 파일만 올려주세요.
+            <FileArea>
+              <Div
+                fontWeight="--bold"
+                fontSize="--h5"
+                pl="12px"
+                pt="20px"
+                pb="20px"
+                pr="12px"
+                flexDirection="row"
+                display="flex"
+              >
+                이미지 <MessageArea>{fileMessage}</MessageArea>
               </Div>
 
               <label
@@ -166,85 +301,58 @@ function NftMake(props: any) {
                 style={{ cursor: "pointer", margin: "auto" }}
               >
                 {file ? (
-                  <Div
-                    ml="auto"
-                    mr="auto"
-                    mb="36px"
-                    h="400px"
-                    w="400px"
-                    border="3px dashed #1d1d1d"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    onClick={() => console.log("click")}
-                  >
-                    <img
-                      src={file}
-                      alt="preview image"
-                      style={{ maxWidth: "400px", margin: "15px" }}
-                    />
-                  </Div>
+                  <ImageArea>
+                    {type ? (
+                      <NftVideo autoPlay src={file} muted></NftVideo>
+                    ) : (
+                      <NftImage src={file} alt="preview image" />
+                    )}
+                  </ImageArea>
                 ) : (
-                  <Div
-                    ml="auto"
-                    mr="auto"
-                    mb="36px"
-                    h="400px"
-                    w="400px"
-                    border="3px dashed #1d1d1d"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    onClick={() => console.log("click")}
-                  >
+                  <ImageArea>
                     <div>
                       <Image
                         alt="plus_vector"
                         src="https://user-images.githubusercontent.com/97648026/191902640-fb114b10-38bf-4ab9-834f-526067ac997d.png"
                       ></Image>
                     </div>
-                  </Div>
+                  </ImageArea>
                 )}
               </label>
               <input
                 type="file"
                 name="file"
                 id="file"
-                // accept=".jpg .jpeg .mp4 .gif .png"
+                accept=".jpg, .jpeg, .mp4, .gif, .png"
                 onChange={onChange}
                 style={{ display: "none" }}
               />
-            </Div>
-          </Div>
+            </FileArea>
+          </DataArea>
           <Div
             display="flex"
             justifyContent="center"
             alignItems="center"
-            h="140px"
+            h="100px"
             borderTop="3px solid #1d1d1d"
           >
-            <Div mr="15%">
-              <SharpButton width="250px" height="80px" fontSize="--h5">
-                취소하기
-              </SharpButton>
-            </Div>
             <Div>
-              <SharpButton width="250px" height="80px" fontSize="--h5">
+              <SharpButton
+                width="200px"
+                height="50px"
+                fontSize="--h5"
+                fontWeight="--semi-bold"
+                borderColor="--grey-650"
+                borderWidth="3px"
+                bg="--grey-650"
+              >
                 저장하기
               </SharpButton>
-              {json && (
-                <a
-                  href={`https://skywalker.infura-ipfs.io/ipfs/${json}`}
-                  target="blank"
-                >
-                  주소
-                </a>
-              )}
             </Div>
           </Div>
         </form>
-      </Div>
-    </div>
+      </Container>
+    </>
   );
 }
 

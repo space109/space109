@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { debounce } from "lodash";
-import NavBar from "./components/NavBar/NavBar";
+import { NavBar } from "./components";
 import ScrollToTop from "./common/ScrollToTop";
 import {
   MainPage,
@@ -40,7 +40,7 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <ScrollToTop/>
+        <ScrollToTop />
         <Routes>
           <Route element={<NavBar windowSize={windowSize} />}>
             <Route path="/" element={<MainPage />} />
@@ -48,8 +48,11 @@ function App() {
             <Route path="/gallery" element={<GalleryListPage />} />
             <Route path="/signUp" element={<SignUpPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/virtual-gallery" element={<VirtualGallery/>} />
-            <Route path="/edit-virtual-gallery/:key" element={<EditVirtualGallery/>} />
+            <Route path="/virtual-gallery" element={<VirtualGallery />} />
+            <Route
+              path="/edit-virtual-gallery/:key"
+              element={<EditVirtualGallery />}
+            />
             <Route path="/myNft" element={<MyNftPage />}></Route>
             <Route path="/*" element={<NotFoundPage />} />
           </Route>
