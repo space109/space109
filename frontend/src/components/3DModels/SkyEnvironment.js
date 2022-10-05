@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sky } from '@react-three/drei';
-import { Cloud } from '@react-three/drei';
+// import { Cloud } from '@react-three/drei';
 
 const SkyEnvironment = () => {
   return (
@@ -12,7 +12,7 @@ const SkyEnvironment = () => {
         inclination={0.6}
         distance={1000}
       />
-      <Cloud
+      {/* <Cloud
         position={[0, 250, 0]}
         speed={0}
         opacity={0.6}
@@ -25,7 +25,7 @@ const SkyEnvironment = () => {
         opacity={0.6}
         width={200}
         segments={600}
-      />
+      /> */}
     </>
   );
 };
