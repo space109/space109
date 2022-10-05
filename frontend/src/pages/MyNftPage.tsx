@@ -183,7 +183,8 @@ function MyNftPage() {
   const init = async () => {
     if (account) {
       const response = await myGalleryInfo(account);
-      setGalleryID(response.gallery_id);
+      console.log("갤러리리스폰스", response);
+      setGalleryID(response[0].gallery_id);
     }
   }
 
