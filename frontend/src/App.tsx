@@ -29,7 +29,7 @@ function App() {
     }, 8000);
     setTimeout(() => {
       setLoading(false);
-    }, 11000);
+    }, 10000);
   };
 
   // 윈도우 사이즈를 저장할 스테이트

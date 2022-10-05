@@ -46,88 +46,88 @@ const GalleryList = ({gallerys, load}:any) => {
 };
 
 GalleryList.defaultProps = {
-  gallerys: [
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-    {
-      "gallery_id": 1,
-      "oa": "123",
-      "category_id": 2,
-      "description": "오늘은금요일내일은토요일내일내일은일요일",
-      "title": "월화수목금토일!!!",
-      "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
-    },
-  ]
+  // gallerys: [
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  //   {
+  //     "gallery_id": 1,
+  //     "oa": "123",
+  //     "category_id": 2,
+  //     "description": "오늘은금요일내일은토요일내일내일은일요일",
+  //     "title": "월화수목금토일!!!",
+  //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
+  //   },
+  // ]
 }
 
 export default GalleryList;
