@@ -6,7 +6,9 @@ import { myGalleryInfo, myGalleryInfoUpdate, login } from "../apis";
 import { useNavigate } from "react-router-dom";
 import { CategoryTitle, CategoryId } from "../common/category";
 
-interface Props {}
+interface Props {
+  load: any;
+}
 
 const BorderBox = styled(Div)`
   border-left: 0.3rem var(--grey-650) solid;
@@ -79,7 +81,7 @@ const CATEGORY = [
   "기타",
 ];
 
-export default function ProfilePage({}: Props) {
+export default function ProfilePage({ load }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>("");
   const [file, setFile] = useState(null);
@@ -194,7 +196,10 @@ export default function ProfilePage({}: Props) {
   const navigate = useNavigate();
 
   const GoEditVirtualGallery = () => {
-    navigate(`/edit-virtual-gallery/${data.gallery_id}`);
+    load();
+    setTimeout(() => {
+      navigate(`/edit-virtual-gallery/${data.gallery_id}`);
+    }, 2000);
   };
 
   const GoMyGallery = () => {
