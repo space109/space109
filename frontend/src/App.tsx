@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { debounce } from "lodash";
 import { NavBar } from "./components";
@@ -67,14 +67,14 @@ function App() {
               <Route path="/gallery" element={<GalleryListPage />} />
               <Route path="/signUp" element={<SignUpPage />} />
               <Route path="/profile" element={<ProfilePage load={load} />} />
-              <Route path="/virtual-gallery" element={<VirtualGallery />} />
-              <Route
-                path="/edit-virtual-gallery/:key"
-                element={<EditVirtualGallery />}
-              />
               <Route path="/myNft" element={<MyNftPage />}></Route>
               <Route path="/*" element={<NotFoundPage />} />
             </Route>
+            <Route path="/virtual-gallery/:key" element={<VirtualGallery />} />
+            <Route
+              path="/edit-virtual-gallery/:key"
+              element={<EditVirtualGallery />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
