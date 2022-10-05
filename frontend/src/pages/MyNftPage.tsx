@@ -190,6 +190,7 @@ function MyNftPage() {
   const isSell = async () => {
     const response = await sellCheck(galleryID);
     console.log("팔린 데이터", response);
+    alert(`팔린 데이터${response}`);
   }
 
   useEffect(() => {

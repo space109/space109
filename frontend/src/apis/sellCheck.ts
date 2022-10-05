@@ -5,7 +5,7 @@ const sellCheck = async (galleryId:any) => {
   try {
     const { data: { result, data } } : any = await axios({
       method: 'GET',
-      url: apiPath.nft.drop(), 
+      url: apiPath.wallet.sellCheck(), 
       params: {
         "galleryId": galleryId,
       }
