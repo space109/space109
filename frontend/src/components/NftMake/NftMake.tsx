@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Div, Image } from "../../styles/BaseStyles";
-import { SharpButton, Loading } from "../";
+import { SharpButton, Loading, GalleryLoading } from "../";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { SsafyNFTContract } from "../../web3Config";
 import styled from "styled-components";
@@ -101,13 +101,13 @@ function NftMake(props: any) {
   const [account, nickname] = useAccount();
   const [type, setType] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [helpText, setHelpText] = useState<string>("helpText");
+  const [helpText, setHelpText] = useState<string>("에몽이와 함께하는 즐거운");
   const [helpMsg, setHelpMsg] = useState("\u00A0");
   const [color, setColor] = useState("--grey-650");
   const [nameMessage, setNameMessage] = useState<string>("");
   const [descriptionMessage, setDescriptionMessage] = useState<string>("");
   const [fileMessage, setFileMessage] = useState<string>("");
-
+  const [active, setActive] = useState<any>("");
   // IPFS 키
   const projectId = process.env.REACT_APP_PROJECT_ID;
   const projectSecretKey = process.env.REACT_APP_PROJECT_SECRET_KEY;
@@ -156,7 +156,7 @@ function NftMake(props: any) {
       setFileMessage("이미지는 필수입니다.");
       return;
     }
-
+    setActive("start");
     setLoading(true);
     setHelpText("IPFS 생성중입니다");
 
@@ -186,8 +186,12 @@ function NftMake(props: any) {
 
     setHelpText("민팅 진행중입니다");
     await NftMint(Json);
-
-    setLoading(false);
+    setActive("end");
+    console.log("끝");
+    setTimeout(() => {
+      console.log("끝2");
+      setLoading(false);
+    }, 2000);
   };
 
   // 이미지 업로드
@@ -214,7 +218,8 @@ function NftMake(props: any) {
 
   return (
     <>
-      {loading && <Loading HelpText={helpText} />}
+      {/* {loading && <Loading HelpText={helpText} />} */}
+      {loading && <GalleryLoading HelpText={helpText} animationName={active} />}
       <Container>
         <form onSubmit={onSubmitHandler}>
           <DataArea>
@@ -225,7 +230,7 @@ function NftMake(props: any) {
                   fontSize="--h5"
                   pl="12px"
                   pt="20px"
-                  pb="20px"
+                  // pb="20px"
                   pr="12px"
                   flexDirection="row"
                   display="flex"
@@ -267,7 +272,7 @@ function NftMake(props: any) {
                   fontSize="--h5"
                   pl="12px"
                   pt="20px"
-                  pb="20px"
+                  // pb="20px"
                   pr="12px"
                   flexDirection="row"
                   display="flex"

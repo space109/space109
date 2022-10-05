@@ -111,7 +111,7 @@ export const PrimayMenuItem = styled.li<StyleProps>`
   padding-right: 3.5%;
   list-style: none;
   color: var(--grey-100);
-  transition: 5s;
+  transition: 0.5s;
   text-decoration: ${(props) => (props.active ? "underline" : "none")};
   cursor: pointer;
 
@@ -126,7 +126,7 @@ export const SecondaryMenuItem = styled.li<StyleProps>`
   margin-left: 3%;
   list-style: none;
   color: var(--grey-100);
-  transition: 5s;
+  transition: 0.5s;
   text-decoration: ${(props) => (props.active ? "underline" : "none")};
   cursor: pointer;
 

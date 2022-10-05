@@ -13,9 +13,25 @@ import {
   ProfilePage,
   VirtualGallery,
   EditVirtualGallery,
+  BackStage,
 } from "./pages";
 
 function App() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [animation, setAnimation] = useState("");
+
+  const load = () => {
+    setAnimation("start");
+    setLoading(true);
+
+    setTimeout(() => {
+      setAnimation("end");
+    }, 5000);
+    setTimeout(() => {
+      setLoading(false);
+    }, 7000);
+  };
+
   // 윈도우 사이즈를 저장할 스테이트
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -42,20 +58,24 @@ function App() {
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
-          <Route element={<NavBar windowSize={windowSize} />}>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/monthlyTheme" element={<MonthlyThemePage />} />
-            <Route path="/gallery" element={<GalleryListPage />} />
-            <Route path="/signUp" element={<SignUpPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/myNft" element={<MyNftPage />}></Route>
-            <Route path="/*" element={<NotFoundPage />} />
-          </Route>
-          <Route path="/virtual-gallery/:key" element={<VirtualGallery />} />
           <Route
-            path="/edit-virtual-gallery/:key"
-            element={<EditVirtualGallery />}
-          />
+            element={<BackStage loading={loading} animation={animation} />}
+          >
+            <Route element={<NavBar windowSize={windowSize} />}>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/monthlyTheme" element={<MonthlyThemePage />} />
+              <Route path="/gallery" element={<GalleryListPage />} />
+              <Route path="/signUp" element={<SignUpPage />} />
+              <Route path="/profile" element={<ProfilePage load={load} />} />
+              <Route path="/myNft" element={<MyNftPage />}></Route>
+              <Route path="/*" element={<NotFoundPage />} />
+            </Route>
+            <Route path="/virtual-gallery/:key" element={<VirtualGallery />} />
+            <Route
+              path="/edit-virtual-gallery/:key"
+              element={<EditVirtualGallery />}
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>
