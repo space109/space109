@@ -1,7 +1,7 @@
-import React, { lazy, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { debounce } from "lodash";
-import { NavBar } from "./components";
+import { LoadingProgress, NavBar } from "./components";
 import ScrollToTop from "./common/ScrollToTop";
 import {
   MainPage,
@@ -11,9 +11,10 @@ import {
   SignUpPage,
   NotFoundPage,
   ProfilePage,
-  VirtualGallery,
-  EditVirtualGallery,
 } from "./pages";
+
+const VirtualGallery = lazy(() => import("./pages/VirtualGallery"));
+const EditVirtualGallery = lazy(() => import("./pages/EditVirtualGallery"));
 
 function App() {
   // 윈도우 사이즈를 저장할 스테이트
@@ -41,22 +42,24 @@ function App() {
     <div>
       <BrowserRouter>
         <ScrollToTop />
-        <Routes>
-          <Route element={<NavBar windowSize={windowSize} />}>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/monthlyTheme" element={<MonthlyThemePage />} />
-            <Route path="/gallery" element={<GalleryListPage />} />
-            <Route path="/signUp" element={<SignUpPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/myNft" element={<MyNftPage />}></Route>
-            <Route path="/*" element={<NotFoundPage />} />
-          </Route>
-          <Route path="/virtual-gallery/:key" element={<VirtualGallery />} />
-          <Route
-            path="/edit-virtual-gallery/:key"
-            element={<EditVirtualGallery />}
-          />
-        </Routes>
+        <Suspense fallback={<div>로딩중...</div>}>
+          <Routes>
+            <Route element={<NavBar windowSize={windowSize} />}>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/monthlyTheme" element={<MonthlyThemePage />} />
+              <Route path="/gallery" element={<GalleryListPage />} />
+              <Route path="/signUp" element={<SignUpPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/myNft" element={<MyNftPage />}></Route>
+              <Route path="/*" element={<NotFoundPage />} />
+            </Route>
+            <Route path="/virtual-gallery/:key" element={<VirtualGallery />} />
+            <Route
+              path="/edit-virtual-gallery/:key"
+              element={<EditVirtualGallery />}
+            />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </div>
   );

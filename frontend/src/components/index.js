@@ -35,7 +35,8 @@ export {
   Owl,
   ControlBackdrop,
   ControlModal,
-  ControlOverlay
+  ControlOverlay,
+  LoadingProgress,
 } from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";
