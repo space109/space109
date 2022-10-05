@@ -191,6 +191,7 @@ function NftMake(props: any) {
     setTimeout(() => {
       console.log("끝2");
       setLoading(false);
+      props.setCheck((pre:any) => !pre);
     }, 2000);
   };
 
@@ -218,8 +219,8 @@ function NftMake(props: any) {
 
   return (
     <>
-      {/* {loading && <Loading HelpText={helpText} />} */}
-      {loading && <GalleryLoading HelpText={helpText} animationName={active} />}
+      {loading && <Loading HelpText={helpText} />}
+      {/* {loading && <GalleryLoading HelpText={helpText} animationName={active} />} */}
       <Container>
         <form onSubmit={onSubmitHandler}>
           <DataArea>
