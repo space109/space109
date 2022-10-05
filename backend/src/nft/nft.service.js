@@ -35,7 +35,8 @@ class NftService {
     position,
     positionXYZ,
     metadata,
-    rotation
+    rotation,
+    tokenId
   ) {
     return {
       statusCode: 200,
@@ -47,7 +48,8 @@ class NftService {
           position,
           positionXYZ,
           metadata,
-          rotation
+          rotation,
+          tokenId
         ),
       },
     };
