@@ -168,7 +168,7 @@ const Backdrop = (props) => {
 const ModalOverlay = ({
   toggle,
   toggleModal,
-  meta="",
+  meta=""
 }) => {
   const [title, setTitle] = useState("제목");
   const [author, setAuthor] = useState("작가");
@@ -177,12 +177,13 @@ const ModalOverlay = ({
   const [price, setPrice] = useState("가격");
 
   useEffect(() => {
+    console.log(meta);
     if (meta !== "") {
       console.log("InfoModal");
       axios
         .get(meta)
         .then((res) => {
-          setTitle(res?.data.name);
+          setTitle(res?.data.name); 
           setAuthor(res?.data.author);
           setDescription(res?.data.description);
           setImage(res?.data.image);

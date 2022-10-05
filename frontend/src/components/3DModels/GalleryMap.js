@@ -56,14 +56,6 @@ export default function GalleryMap(props) {
     () => toConvexProps(nodes.MoveFloor_2.geometry),
     [nodes]
   );
-  const MoveFloor_3 = useMemo(
-    () => toConvexProps(nodes.MoveFloor_3.geometry),
-    [nodes]
-  );
-  const MoveFloor_4 = useMemo(
-    () => toConvexProps(nodes.MoveFloor_4.geometry),
-    [nodes]
-  );
   const CenterWall_1 = useMemo(
     () => toConvexProps(nodes.CenterWall_1.geometry),
     [nodes]
@@ -72,16 +64,32 @@ export default function GalleryMap(props) {
     () => toConvexProps(nodes.CenterWall_2.geometry),
     [nodes]
   );
-  const NorthBorder = useMemo(
-    () => toConvexProps(nodes.NorthBorder.geometry),
+  const CenterWall_3 = useMemo(
+    () => toConvexProps(nodes.CenterWall_3.geometry),
     [nodes]
   );
-  const SouthBorder = useMemo(
-    () => toConvexProps(nodes.SouthBorder.geometry),
+  const NorthBorder_1 = useMemo(
+    () => toConvexProps(nodes.NorthBorder_1.geometry),
     [nodes]
   );
-  const EastBorder = useMemo(
-    () => toConvexProps(nodes.EastBorder.geometry),
+  const NorthBorder_2 = useMemo(
+    () => toConvexProps(nodes.NorthBorder_2.geometry),
+    [nodes]
+  );
+  const SouthBorder_1 = useMemo(
+    () => toConvexProps(nodes.SouthBorder_1.geometry),
+    [nodes]
+  );
+  const SouthBorder_2 = useMemo(
+    () => toConvexProps(nodes.SouthBorder_2.geometry),
+    [nodes]
+  );
+  const EastBorder_1 = useMemo(
+    () => toConvexProps(nodes.EastBorder_1.geometry),
+    [nodes]
+  );
+  const EastBorder_2 = useMemo(
+    () => toConvexProps(nodes.EastBorder_2.geometry),
     [nodes]
   );
   const WestBorder_1 = useMemo(
@@ -92,12 +100,24 @@ export default function GalleryMap(props) {
     () => toConvexProps(nodes.WestBorder_2.geometry),
     [nodes]
   );
-  const NorthWall = useMemo(
-    () => toConvexProps(nodes.NorthWall.geometry),
+  const WestBorder_3 = useMemo(
+    () => toConvexProps(nodes.WestBorder_3.geometry),
     [nodes]
   );
-  const EastWall = useMemo(
-    () => toConvexProps(nodes.EastWall.geometry),
+  const NorthWall_1 = useMemo(
+    () => toConvexProps(nodes.NorthWall_1.geometry),
+    [nodes]
+  );
+  const NorthWall_2 = useMemo(
+    () => toConvexProps(nodes.NorthWall_2.geometry),
+    [nodes]
+  );
+  const EastWall_1 = useMemo(
+    () => toConvexProps(nodes.EastWall_1.geometry),
+    [nodes]
+  );
+  const EastWall_2 = useMemo(
+    () => toConvexProps(nodes.EastWall_2.geometry),
     [nodes]
   );
   const SouthWall_1 = useMemo(
@@ -108,12 +128,20 @@ export default function GalleryMap(props) {
     () => toConvexProps(nodes.SouthWall_2.geometry),
     [nodes]
   );
+  const SouthWall_3 = useMemo(
+    () => toConvexProps(nodes.SouthWall_3.geometry),
+    [nodes]
+  );
   const WestWall_1 = useMemo(
     () => toConvexProps(nodes.WestWall_1.geometry),
     [nodes]
   );
   const WestWall_2 = useMemo(
     () => toConvexProps(nodes.WestWall_2.geometry),
+    [nodes]
+  );
+  const WestWall_3 = useMemo(
+    () => toConvexProps(nodes.WestWall_3.geometry),
     [nodes]
   );
   const Ceiling01_1 = useMemo(
@@ -124,28 +152,56 @@ export default function GalleryMap(props) {
     () => toConvexProps(nodes.Ceiling01_2.geometry),
     [nodes]
   );
-  const Ceiling02 = useMemo(
-    () => toConvexProps(nodes.Ceiling02.geometry),
+  const Ceiling01_3 = useMemo(
+    () => toConvexProps(nodes.Ceiling01_3.geometry),
     [nodes]
   );
-  const Ceiling03 = useMemo(
-    () => toConvexProps(nodes.Ceiling03.geometry),
+  const Ceiling02_1 = useMemo(
+    () => toConvexProps(nodes.Ceiling02_1.geometry),
     [nodes]
   );
-  const Ceiling04 = useMemo(
-    () => toConvexProps(nodes.Ceiling04.geometry),
+  const Ceiling02_2 = useMemo(
+    () => toConvexProps(nodes.Ceiling02_2.geometry),
     [nodes]
   );
-  const Ceiling05 = useMemo(
-    () => toConvexProps(nodes.Ceiling05.geometry),
+  const Ceiling03_1 = useMemo(
+    () => toConvexProps(nodes.Ceiling03_1.geometry),
     [nodes]
   );
-  const Ceiling06 = useMemo(
-    () => toConvexProps(nodes.Ceiling06.geometry),
+  const Ceiling03_2 = useMemo(
+    () => toConvexProps(nodes.Ceiling03_2.geometry),
     [nodes]
   );
-  const Ceiling07 = useMemo(
-    () => toConvexProps(nodes.Ceiling07.geometry),
+  const Ceiling04_1 = useMemo(
+    () => toConvexProps(nodes.Ceiling04_1.geometry),
+    [nodes]
+  );
+  const Ceiling04_2 = useMemo(
+    () => toConvexProps(nodes.Ceiling04_2.geometry),
+    [nodes]
+  );
+  const Ceiling05_1 = useMemo(
+    () => toConvexProps(nodes.Ceiling05_1.geometry),
+    [nodes]
+  );
+  const Ceiling05_2 = useMemo(
+    () => toConvexProps(nodes.Ceiling05_2.geometry),
+    [nodes]
+  );
+  const Ceiling06_1 = useMemo(
+    () => toConvexProps(nodes.Ceiling06_1.geometry),
+    [nodes]
+  );
+  const Ceiling06_2 = useMemo(
+    () => toConvexProps(nodes.Ceiling06_2.geometry),
+    [nodes]
+  );
+  const Ceiling07_1 = useMemo(
+    () => toConvexProps(nodes.Ceiling07_1.geometry),
+    [nodes]
+  );
+  const Ceiling07_2 = useMemo(
+    () => toConvexProps(nodes.Ceiling07_2.geometry),
     [nodes]
   );
   const Ceiling08_1 = useMemo(
@@ -156,28 +212,20 @@ export default function GalleryMap(props) {
     () => toConvexProps(nodes.Ceiling08_2.geometry),
     [nodes]
   );
-  const Room2Ceil_1 = useMemo(
-    () => toConvexProps(nodes.Room2Ceil_1.geometry),
+  const Ceiling08_3 = useMemo(
+    () => toConvexProps(nodes.Ceiling08_3.geometry),
     [nodes]
   );
-  const Room2Ceil_2 = useMemo(
-    () => toConvexProps(nodes.Room2Ceil_2.geometry),
+  const Room2Ceil = useMemo(
+    () => toConvexProps(nodes.Room2Ceil.geometry),
     [nodes]
   );
-  const Room4Ceil_1 = useMemo(
-    () => toConvexProps(nodes.Room4Ceil_1.geometry),
+  const Room4Ceil = useMemo(
+    () => toConvexProps(nodes.Room4Ceil.geometry),
     [nodes]
   );
-  const Room4Ceil_2 = useMemo(
-    () => toConvexProps(nodes.Room4Ceil_2.geometry),
-    [nodes]
-  );
-  const Room6Ceil_1 = useMemo(
-    () => toConvexProps(nodes.Room6Ceil_1.geometry),
-    [nodes]
-  );
-  const Room6Ceil_2 = useMemo(
-    () => toConvexProps(nodes.Room6Ceil_2.geometry),
+  const Room6Ceil = useMemo(
+    () => toConvexProps(nodes.Room6Ceil.geometry),
     [nodes]
   );
   const Room1Ceil_1 = useMemo(
@@ -186,10 +234,6 @@ export default function GalleryMap(props) {
   );
   const Room1Ceil_2 = useMemo(
     () => toConvexProps(nodes.Room1Ceil_2.geometry),
-    [nodes]
-  );
-  const Room1Ceil_3 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil_3.geometry),
     [nodes]
   );
   const Ceil001 = useMemo(() => toConvexProps(nodes.Ceil001.geometry), [nodes]);
@@ -215,20 +259,12 @@ export default function GalleryMap(props) {
     () => toConvexProps(nodes.Room1Ceil002_2.geometry),
     [nodes]
   );
-  const Room1Ceil002_3 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil002_3.geometry),
-    [nodes]
-  );
   const Room1Ceil003_1 = useMemo(
     () => toConvexProps(nodes.Room1Ceil003_1.geometry),
     [nodes]
   );
   const Room1Ceil003_2 = useMemo(
     () => toConvexProps(nodes.Room1Ceil003_2.geometry),
-    [nodes]
-  );
-  const Room1Ceil003_3 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil003_3.geometry),
     [nodes]
   );
 
@@ -419,7 +455,7 @@ export default function GalleryMap(props) {
             castShadow
             receiveShadow
             geometry={nodes.MoveFloor_1.geometry}
-            material={materials.Grey}
+            material={materials.Dark}
           />
         </group>
         <group
@@ -436,38 +472,6 @@ export default function GalleryMap(props) {
             receiveShadow
             geometry={nodes.MoveFloor_2.geometry}
             material={materials.Floor}
-          />
-        </group>
-        <group
-          ref={
-            useConvexPolyhedron(() => ({
-              mass: 0,
-              args: MoveFloor_3,
-              position: [135.85, 0, -138.69],
-            }))[0]
-          }
-        >
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.MoveFloor_3.geometry}
-            material={materials.Light}
-          />
-        </group>
-        <group
-          ref={
-            useConvexPolyhedron(() => ({
-              mass: 0,
-              args: MoveFloor_4,
-              position: [135.85, 0, -138.69],
-            }))[0]
-          }
-        >
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.MoveFloor_4.geometry}
-            material={materials.Dark}
           />
         </group>
       </group>
@@ -504,12 +508,28 @@ export default function GalleryMap(props) {
             material={materials["Grey Wall Paint"]}
           />
         </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: CenterWall_3,
+              position: [138.43, 0, -137.44],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.CenterWall_3.geometry}
+            material={materials.Light}
+          />
+        </group>
       </group>
       <group
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: NorthBorder,
+            args: NorthBorder_1,
             position: [133.99, 0, -284.85],
           }))[0]
         }
@@ -517,7 +537,7 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.NorthBorder.geometry}
+          geometry={nodes.NorthBorder_1.geometry}
           material={materials["Wall Paint"]}
         />
       </group>
@@ -525,15 +545,31 @@ export default function GalleryMap(props) {
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: SouthBorder,
-            position: [133.99, 0, -12.97],
+            args: NorthBorder_2,
+            position: [133.99, 0, -284.85],
           }))[0]
         }
       >
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.SouthBorder.geometry}
+          geometry={nodes.NorthBorder_2.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: SouthBorder_1,
+            position: [133.99, 0, -11.18],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.SouthBorder_1.geometry}
           material={materials["Wall Paint"]}
         />
       </group>
@@ -541,7 +577,23 @@ export default function GalleryMap(props) {
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: EastBorder,
+            args: SouthBorder_2,
+            position: [133.99, 0, -11.18],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.SouthBorder_2.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: EastBorder_1,
             position: [278, 0, -163.98],
           }))[0]
         }
@@ -549,8 +601,24 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.EastBorder.geometry}
+          geometry={nodes.EastBorder_1.geometry}
           material={materials["Wall Paint"]}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: EastBorder_2,
+            position: [278, 0, -163.98],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.EastBorder_2.geometry}
+          material={materials.Light}
         />
       </group>
 
@@ -587,12 +655,28 @@ export default function GalleryMap(props) {
             material={materials["Grey Wall Paint"]}
           />
         </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: WestBorder_3,
+              position: [-74.95, 0, -137.2],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.WestBorder_3.geometry}
+            material={materials.Light}
+          />
+        </group>
       </group>
       <group
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: NorthWall,
+            args: NorthWall_1,
             position: [170.39, 0, -255.06],
           }))[0]
         }
@@ -600,7 +684,7 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.NorthWall.geometry}
+          geometry={nodes.NorthWall_1.geometry}
           material={materials["Wall Paint"]}
         />
       </group>
@@ -608,7 +692,23 @@ export default function GalleryMap(props) {
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: EastWall,
+            args: NorthWall_2,
+            position: [170.39, 0, -255.06],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.NorthWall_2.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: EastWall_1,
             position: [250.7, 0, -100.01],
           }))[0]
         }
@@ -616,8 +716,24 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.EastWall.geometry}
+          geometry={nodes.EastWall_1.geometry}
           material={materials["Wall Paint"]}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: EastWall_2,
+            position: [250.7, 0, -100.01],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.EastWall_2.geometry}
+          material={materials.Light}
         />
       </group>
       <group>
@@ -651,6 +767,22 @@ export default function GalleryMap(props) {
             receiveShadow
             geometry={nodes.SouthWall_2.geometry}
             material={materials["Grey Wall Paint"]}
+          />
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: SouthWall_3,
+              position: [106.38, 0, -24.5],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.SouthWall_3.geometry}
+            material={materials.Light}
           />
         </group>
       </group>
@@ -687,6 +819,22 @@ export default function GalleryMap(props) {
             material={materials["Grey Wall Paint"]}
           />
         </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: WestWall_3,
+              position: [18.94, 0, -150.36],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.WestWall_3.geometry}
+            material={materials.Light}
+          />
+        </group>
       </group>
       <group>
         <group
@@ -721,12 +869,28 @@ export default function GalleryMap(props) {
             material={materials["Grey Wall Paint"]}
           />
         </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: Ceiling01_3,
+              position: [32.98, 25.4, -84.32],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Ceiling01_3.geometry}
+            material={materials.Light}
+          />
+        </group>
       </group>
       <group
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: Ceiling02,
+            args: Ceiling02_1,
             position: [32.98, 30.48, -216.4],
           }))[0]
         }
@@ -734,7 +898,23 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Ceiling02.geometry}
+          geometry={nodes.Ceiling02_1.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: Ceiling02_2,
+            position: [32.98, 30.48, -216.4],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Ceiling02_2.geometry}
           material={materials["Wall Paint"]}
         />
       </group>
@@ -742,7 +922,7 @@ export default function GalleryMap(props) {
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: Ceiling03,
+            args: Ceiling03_1,
             position: [79.97, 30.48, -236.72],
           }))[0]
         }
@@ -750,7 +930,7 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Ceiling03.geometry}
+          geometry={nodes.Ceiling03_1.geometry}
           material={materials["Wall Paint"]}
         />
       </group>
@@ -758,7 +938,23 @@ export default function GalleryMap(props) {
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: Ceiling04,
+            args: Ceiling03_2,
+            position: [79.97, 30.48, -236.72],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Ceiling03_2.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: Ceiling04_1,
             position: [212.05, 30.48, -236.72],
           }))[0]
         }
@@ -766,7 +962,7 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Ceiling04.geometry}
+          geometry={nodes.Ceiling04_1.geometry}
           material={materials["Wall Paint"]}
         />
       </group>
@@ -774,7 +970,23 @@ export default function GalleryMap(props) {
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: Ceiling05,
+            args: Ceiling04_2,
+            position: [212.05, 30.48, -236.72],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Ceiling04_2.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: Ceiling05_1,
             position: [232.37, 30.48, -189.73],
           }))[0]
         }
@@ -782,7 +994,23 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Ceiling05.geometry}
+          geometry={nodes.Ceiling05_1.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: Ceiling05_2,
+            position: [232.37, 30.48, -189.73],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Ceiling05_2.geometry}
           material={materials["Wall Paint"]}
         />
       </group>
@@ -790,7 +1018,7 @@ export default function GalleryMap(props) {
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: Ceiling06,
+            args: Ceiling06_1,
             position: [232.37, 30.48, -58.81],
           }))[0]
         }
@@ -798,7 +1026,23 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Ceiling06.geometry}
+          geometry={nodes.Ceiling06_1.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: Ceiling06_2,
+            position: [232.37, 30.48, -58.81],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Ceiling06_2.geometry}
           material={materials["Wall Paint"]}
         />
       </group>
@@ -806,7 +1050,7 @@ export default function GalleryMap(props) {
         ref={
           useConvexPolyhedron(() => ({
             mass: 0,
-            args: Ceiling07,
+            args: Ceiling07_1,
             position: [185.38, 30.48, -38.49],
           }))[0]
         }
@@ -814,7 +1058,23 @@ export default function GalleryMap(props) {
         <mesh
           castShadow
           receiveShadow
-          geometry={nodes.Ceiling07.geometry}
+          geometry={nodes.Ceiling07_1.geometry}
+          material={materials.Light}
+        />
+      </group>
+      <group
+        ref={
+          useConvexPolyhedron(() => ({
+            mass: 0,
+            args: Ceiling07_2,
+            position: [185.38, 30.48, -38.49],
+          }))[0]
+        }
+      >
+        <mesh
+          castShadow
+          receiveShadow
+          geometry={nodes.Ceiling07_2.geometry}
           material={materials["Wall Paint"]}
         />
       </group>
@@ -832,7 +1092,7 @@ export default function GalleryMap(props) {
             castShadow
             receiveShadow
             geometry={nodes.Ceiling08_1.geometry}
-            material={materials["Wall Paint"]}
+            material={materials.Light}
           />
         </group>
         <group
@@ -848,6 +1108,22 @@ export default function GalleryMap(props) {
             castShadow
             receiveShadow
             geometry={nodes.Ceiling08_2.geometry}
+            material={materials["Wall Paint"]}
+          />
+        </group>
+        <group
+          ref={
+            useConvexPolyhedron(() => ({
+              mass: 0,
+              args: Ceiling08_3,
+              position: [79.97, 30.48, -38.49],
+            }))[0]
+          }
+        >
+          <mesh
+            castShadow
+            receiveShadow
+            geometry={nodes.Ceiling08_3.geometry}
             material={materials["Grey Wall Paint"]}
           />
         </group>
@@ -857,7 +1133,7 @@ export default function GalleryMap(props) {
           ref={
             useConvexPolyhedron(() => ({
               mass: 0,
-              args: Room2Ceil_1,
+              args: Room2Ceil,
               position: [32.98, 50.8, -251.96],
             }))[0]
           }
@@ -865,23 +1141,7 @@ export default function GalleryMap(props) {
           <mesh
             castShadow
             receiveShadow
-            geometry={nodes.Room2Ceil_1.geometry}
-            material={materials["Wall Paint"]}
-          />
-        </group>
-        <group
-          ref={
-            useConvexPolyhedron(() => ({
-              mass: 0,
-              args: Room2Ceil_2,
-              position: [32.98, 50.8, -251.96],
-            }))[0]
-          }
-        >
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Room2Ceil_2.geometry}
+            geometry={nodes.Room2Ceil.geometry}
             material={materials.Light}
           />
         </group>
@@ -891,7 +1151,7 @@ export default function GalleryMap(props) {
           ref={
             useConvexPolyhedron(() => ({
               mass: 0,
-              args: Room4Ceil_1,
+              args: Room4Ceil,
               position: [247.61, 50.8, -236.72],
               rotation: [0, 1.57, 0],
             }))[0]
@@ -900,34 +1160,18 @@ export default function GalleryMap(props) {
           <mesh
             castShadow
             receiveShadow
-            geometry={nodes.Room4Ceil_1.geometry}
-            material={materials["Wall Paint"]}
-          />
-        </group>
-        <group
-          ref={
-            useConvexPolyhedron(() => ({
-              mass: 0,
-              args: Room4Ceil_2,
-              position: [247.61, 50.8, -236.72],
-              rotation: [0, 1.57, 0],
-            }))[0]
-          }
-        >
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Room4Ceil_2.geometry}
+            geometry={nodes.Room4Ceil.geometry}
             material={materials.Light}
           />
         </group>
+
       </group>
       <group>
         <group
           ref={
             useConvexPolyhedron(() => ({
               mass: 0,
-              args: Room6Ceil_1,
+              args: Room6Ceil,
               position: [232.37, 50.8, -23.25],
             }))[0]
           }
@@ -935,23 +1179,7 @@ export default function GalleryMap(props) {
           <mesh
             castShadow
             receiveShadow
-            geometry={nodes.Room6Ceil_1.geometry}
-            material={materials["Wall Paint"]}
-          />
-        </group>
-        <group
-          ref={
-            useConvexPolyhedron(() => ({
-              mass: 0,
-              args: Room6Ceil_2,
-              position: [232.37, 50.8, -23.25],
-            }))[0]
-          }
-        >
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Room6Ceil_2.geometry}
+            geometry={nodes.Room6Ceil.geometry}
             material={materials.Light}
           />
         </group>
@@ -970,7 +1198,7 @@ export default function GalleryMap(props) {
             castShadow
             receiveShadow
             geometry={nodes.Room1Ceil_1.geometry}
-            material={materials["Wall Paint"]}
+            material={materials.Black}
           />
         </group>
         <group
@@ -986,22 +1214,6 @@ export default function GalleryMap(props) {
             castShadow
             receiveShadow
             geometry={nodes.Room1Ceil_2.geometry}
-            material={materials.Black}
-          />
-        </group>
-        <group
-          ref={
-            useConvexPolyhedron(() => ({
-              mass: 0,
-              args: Room1Ceil_3,
-              position: [33.95, 38.1, -150.36],
-            }))[0]
-          }
-        >
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Room1Ceil_3.geometry}
             material={materials.Light}
           />
         </group>
@@ -1019,7 +1231,7 @@ export default function GalleryMap(props) {
           castShadow
           receiveShadow
           geometry={nodes.Ceil001.geometry}
-          material={materials["Wall Paint"]}
+          material={materials.Light}
         />
       </group>
       <group
@@ -1036,7 +1248,7 @@ export default function GalleryMap(props) {
           castShadow
           receiveShadow
           geometry={nodes.Ceil002.geometry}
-          material={materials["Wall Paint"]}
+          material={materials.Light}
         />
       </group>
       <group
@@ -1052,7 +1264,7 @@ export default function GalleryMap(props) {
           castShadow
           receiveShadow
           geometry={nodes.Ceil003.geometry}
-          material={materials["Wall Paint"]}
+          material={materials.Light}
         />
       </group>
       <group>
@@ -1122,7 +1334,7 @@ export default function GalleryMap(props) {
             castShadow
             receiveShadow
             geometry={nodes.Room1Ceil002_1.geometry}
-            material={materials["Wall Paint"]}
+            material={materials.Black}
           />
         </group>
         <group
@@ -1138,22 +1350,6 @@ export default function GalleryMap(props) {
             castShadow
             receiveShadow
             geometry={nodes.Room1Ceil002_2.geometry}
-            material={materials.Black}
-          />
-        </group>
-        <group
-          ref={
-            useConvexPolyhedron(() => ({
-              mass: 0,
-              args: Room1Ceil002_3,
-              position: [232.37, 38.1, -124.27],
-            }))[0]
-          }
-        >
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Room1Ceil002_3.geometry}
             material={materials.Light}
           />
         </group>
@@ -1173,7 +1369,7 @@ export default function GalleryMap(props) {
             castShadow
             receiveShadow
             geometry={nodes.Room1Ceil003_1.geometry}
-            material={materials["Wall Paint"]}
+            material={materials.Black}
           />
         </group>
         <group
@@ -1190,23 +1386,6 @@ export default function GalleryMap(props) {
             castShadow
             receiveShadow
             geometry={nodes.Room1Ceil003_2.geometry}
-            material={materials.Black}
-          />
-        </group>
-        <group
-          ref={
-            useConvexPolyhedron(() => ({
-              mass: 0,
-              args: Room1Ceil003_3,
-              position: [170.14, 38.1, -38.49],
-              rotation: [0, 1.57, 0],
-            }))[0]
-          }
-        >
-          <mesh
-            castShadow
-            receiveShadow
-            geometry={nodes.Room1Ceil003_3.geometry}
             material={materials.Light}
           />
         </group>

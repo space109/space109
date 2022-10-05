@@ -5,7 +5,7 @@ import { TextureLoader } from "three/src/loaders/TextureLoader";
 import axios from "axios";
 import { Physics, useBox } from "@react-three/cannon";
 import { useParams } from "react-router-dom";
-import { PerspectiveCamera } from '@react-three/drei'
+import { PerspectiveCamera } from "@react-three/drei";
 import { useAccount, useAxios } from "../hooks";
 
 import {
@@ -250,66 +250,67 @@ const VirtualGallery = () => {
         url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook?galleryId=${key}`,
         method: "DELETE",
         data: {
-          galleryId: key
-        }
+          galleryId: key,
+        },
       });
     }
   }, [key, sendRequest]);
 
   //최초 방명록 업데이트
   const getCommentHandler = useCallback((data) => {
-    setPost(data.data)
-  }, [])
+    setPost(data.data);
+  }, []);
 
   //방명록에 댓글을 추가하는 함수
-  const addCommentHandler = useCallback((comment) => {
-    setPost((state) => [
-      { GALLERY_ID:key , NICKNAME: nickname, DESCRIPTION: comment },
-      ...state,
-    ]);
-    sendRequest({
-      url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook`,
-      method: "POST",
-      data: { galleryId: key, nickname: nickname, description: comment },
-    });
-  }, [key, nickname, sendRequest])
+  const addCommentHandler = useCallback(
+    (comment) => {
+      setPost((state) => [
+        { GALLERY_ID: key, NICKNAME: nickname, DESCRIPTION: comment },
+        ...state,
+      ]);
+      sendRequest({
+        url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook`,
+        method: "POST",
+        data: { galleryId: key, nickname: nickname, description: comment },
+      });
+    },
+    [key, nickname, sendRequest]
+  );
 
   //방명록 오픈
-  const toggleOpen = useCallback(
-     () => {
-      setOpen((state) => !state);
-    },
-    []
-  );
+  const toggleOpen = useCallback(() => {
+    setOpen((state) => !state);
+  }, []);
 
   const [metalist, setMetaList] = useState([{ hello: "hello" }]); //기존에 업로드 되었던 목록을 가져옴(업로드 되었던 목록에서 변화)
   const [targetMeta, setTargetMeta] = useState(""); // 모달에 띄울 메타데이터
-  const [imageMeta, setImageMeta] = useState({ // ImageFrame에 넣어줄 메타데이터
-    0: '',
-    1: '',
-    2: '',
-    3: '',
-    4: '',
-    5: '',
-    6: '',
-    7: '',
-    8: '',
-    9: '',
-    10: '',
-    11: '',
-    12: '',
-    13: '',
-    14: '',
-    15: '',
-    16: '',
-    17: '',
-    18: '',
-    19: '',
-    20: '',
-    21: '',
-    22: '',
-    23: '',
-    24: '',
+  const [imageMeta, setImageMeta] = useState({
+    // ImageFrame에 넣어줄 메타데이터
+    0: "",
+    1: "",
+    2: "",
+    3: "",
+    4: "",
+    5: "",
+    6: "",
+    7: "",
+    8: "",
+    9: "",
+    10: "",
+    11: "",
+    12: "",
+    13: "",
+    14: "",
+    15: "",
+    16: "",
+    17: "",
+    18: "",
+    19: "",
+    20: "",
+    21: "",
+    22: "",
+    23: "",
+    24: "",
   });
 
   //ImageFrame에서 선택한 인덱스를 가져옴
@@ -344,6 +345,7 @@ const VirtualGallery = () => {
         OA: copyArr[toggleIdx].OA,
       };
       setCountArray(copyArr);
+      console.log("copyArr: ", copyArr);
     },
     [toggleIdx, countArray]
   );
@@ -358,11 +360,11 @@ const VirtualGallery = () => {
     for (let item of data?.data) {
       newArr[item?.POSITION] = item;
     }
-    for (let i = 0; i < newArr.length; i++) {
-      if (!newArr[i]) {
-        newArr[i] = {};
-      }
-    }
+    // for (let i = 0; i < newArr.length; i++) {
+    //   if (!newArr[i]) {
+    //     newArr[i] = {};
+    //   }
+    // }
     for (let idx in newArr) {
       if (Object.keys(newArr[idx]).length) {
         posArr[idx] = JSON.parse(newArr[idx]?.POSITIONXYZ);
@@ -397,7 +399,7 @@ const VirtualGallery = () => {
   useEffect(() => {
     sendRequest(
       {
-        url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display?galleryId=${key}`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}nft/display?galleryId=${key}`,
       },
       indexMappingHandler
     );
@@ -408,8 +410,7 @@ const VirtualGallery = () => {
       <InfoModal
         toggleModal={toggleModal}
         toggle={toggle}
-        toggleIdx={toggleIdx}
-        countArray={countArray}
+        meta={countArray ? countArray[toggleIdx]?.METADATA : ""}
       />
       <CommunityModal
         open={open}

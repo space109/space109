@@ -20,7 +20,7 @@ const ModalDiv = styled.div`
   top: 15%;
   left: 25%;
   width: 50%;
-  z-index: 100;
+  z-index: 101;
   overflow: hidden;
   height: 70%;
   background-color: var(--grey-250);
@@ -35,7 +35,7 @@ const Img = styled.img`
   position: absolute;
   right: 10px;
   top: 10px;
-  z-index: 400;
+  z-index: 102;
   cursor: pointer;
 `;
 
