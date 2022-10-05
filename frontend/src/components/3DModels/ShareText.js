@@ -5,7 +5,7 @@ const ShareText = () => {
   return (
     <>
       <Text3D
-        font="/Pretendard.json"
+        font="/JuaRegular.json"
         position={[52, 26, -65]}
         rotation={[Math.PI / 7, -Math.PI/4, Math.PI / 9]}
         size={3}
