@@ -9,6 +9,7 @@ const apiPath = {
     login: () => HOST + WALLET,
     join: () => HOST + WALLET + "/join",
     dupCheck: () => HOST + WALLET + "/check",
+    sellCheck: () => HOST + WALLET + "/sellCheck",
   },
   gallery: {
     gallery: () => HOST + GALLERY + "/list",
@@ -18,7 +19,8 @@ const apiPath = {
   },
   nft: {
     display: () => HOST + NFT + "/display",
-
+    delete: () => HOST + NFT + "/deleteFrame",
+    drop: () => HOST + NFT + "/sell",
   },
 };
 

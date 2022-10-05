@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, Suspense } from "react";
-import styled, {keyframes} from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html, useGLTF, useProgress, softShadows, OrbitControls } from "@react-three/drei";
@@ -76,6 +76,24 @@ const Center = styled.div`
   }
   animation: ${flipin} 3s alternate infinite linear;
   position: absolute;
+
+  ${({bgColor}) => {
+    if (bgColor === '--ocean-300'){
+      return css`
+        color: var(--ocean-200);
+      `
+    }
+    else if (bgColor === '--spinach-300'){
+      return css`
+        color: var(--spinach-200);
+      `
+    }
+    else if (bgColor === '--grape-100'){
+      return css`
+        color: var(--navy-100);
+      `
+    }
+  }}
 `
 
 const BackCenter = styled.div`
@@ -104,7 +122,26 @@ const BackCenter = styled.div`
   }
   position: absolute;
   color: transparent;
+  
   -webkit-text-stroke: 0.1px var(--grey-100);
+
+  ${({bgColor}) => {
+    if (bgColor === '--ocean-300'){
+      return css`
+        -webkit-text-stroke: 0.1px var(--grey-100);
+      `
+    }
+    else if (bgColor === '--spinach-300'){
+      return css`
+        -webkit-text-stroke: 0.1px var(--grey-100);
+      `
+    }
+    else if (bgColor === '--grape-100'){
+      return css`
+        -webkit-text-stroke: 0.1px var(--grey-100);
+      `
+    }
+  }}
 `
 
 const ScrollArea = styled.div`
@@ -129,13 +166,50 @@ const NavArea = styled.div`
 const GoGallery = styled.div`
   cursor: pointer;
   color: var(--grape-100);
+  border: 1px solid red;
+  height: 40%;
+  width: 80%;
 `
+
+const Button = styled.div`
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 2px;
+  color: var(--grey-100);
+  outline: 2px solid var(--grey-100);
+  padding: 30px 60px;
+  position: relative;
+  overflow: hidden;
+  transition: color 1s;
+
+  &:hover {
+    color: var(--grape-100);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50px;
+    width: 0;
+    height: 100%;
+    background-color: var(--grey-100);
+    transform: skewX(35deg);
+    z-index: 0;
+    transition: width 1s;
+
+    &:hover::before {
+      width: 150%;
+    }
+  }
+` 
 
 const LastContent = ({setClicked}) => {
 
   return (
     <GoGallery onClick={() => setClicked(true)}>
-      지금 바로 전시 중인 갤러리 관람 하러가기
+      지금 바로 갤러리 관람하러 가기
+      <Button>하이</Button>
     </GoGallery>
   );
 }
@@ -195,10 +269,10 @@ const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color,
     <Section factor={1.5} offset={1}>
       <group position={[0, positionY, 0]}>
         <Html portal={domContent} fullscreen>
-          <BackCenter ref={refItem}>
+          <BackCenter ref={refItem} bgColor={bgColor}>
             {children}
           </BackCenter>
-          <Center>
+          <Center bgColor={bgColor}>
             {children}
           </Center>
         </Html>
@@ -239,7 +313,7 @@ const MainPage = () => {
             공간 109에서 디지털 작품을 NFT로 만들고 나만의 갤러리에 전시해보세요
           </HTMLContent>
           <HTMLContent domContent={domContent} positionY={10} setColor={setColor} bgColor="--spinach-300" scrollArea={scrollArea}>
-            SSF를 사용하여 서로의 NFT를 거래해보세요
+            싸피 토큰 SSF를 사용하여 서로의 NFT를 거래해보세요
           </HTMLContent>
           <HTMLContent domContent={domContent} positionY={-240} setColor={setColor} 
             bgColor="--grape-100" color={color}

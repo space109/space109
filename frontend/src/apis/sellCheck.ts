@@ -1,13 +1,13 @@
 import axios from 'axios';
 import apiPath from '../common/apiPath';
 
-const selledNFT = async (nftId:any) => {
+const sellCheck = async (galleryId:any) => {
   try {
     const { data: { result, data } } : any = await axios({
-      method: 'POST',
-      url: apiPath.nft.display(), 
-      data: {
-        "nftId": nftId,
+      method: 'GET',
+      url: apiPath.nft.drop(), 
+      params: {
+        "galleryId": galleryId,
       }
     });
     console.log(result, data);
@@ -21,4 +21,4 @@ const selledNFT = async (nftId:any) => {
   }
 };
 
-export default selledNFT;
+export default sellCheck;

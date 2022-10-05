@@ -18,7 +18,7 @@ import {
   SaleFactoryContract,
   SaleContract,
 } from "../web3Config";
-import { getMetadata } from "../apis";
+import { getMetadata, sellCheck, myGalleryInfo } from "../apis";
 import { useDepthBuffer } from "@react-three/drei";
 
 interface propsStyle {
@@ -135,6 +135,8 @@ function MyNftPage() {
   const [isOnModal, setIsOnModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
 
+  const [galleryID, setGalleryID] = useState();
+
   const openModal = () => {
     setIsOnModal(true);
   };
@@ -178,7 +180,20 @@ function MyNftPage() {
     setMySellData(response);
   };
 
+  const init = async () => {
+    if (account) {
+      const response = await myGalleryInfo(account);
+      setGalleryID(response.gallery_id);
+    }
+  }
+
+  const isSell = async () => {
+    const response = await sellCheck(galleryID);
+    console.log("팔린 데이터", response);
+  }
+
   useEffect(() => {
+    init();
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -200,6 +215,12 @@ function MyNftPage() {
       setMySellData(DataList);
     }
   }, [isChecked]);
+
+  useEffect(() => {
+    if (viewPage === 0) {
+      isSell();
+    }
+  }, [viewPage]);
 
   const NftCols = (num: any) => {
     const result = [];
