@@ -53,6 +53,30 @@ class WalletRepository {
 
     if (result[0].affectedRows == 1 && result[1].affectedRows == 1) return true;
   }
+
+  async count(gallery_id) {
+    const sql1 = `select count(*) cnt from nft where sell=1 and gallery_id=${gallery_id}`;
+    const sql2 = `select nft_id, gallery_id, oa, metadata, token_id from nft where sell=1 and gallery_id=${gallery_id}`;
+
+    const result1 = await connection
+      .query(sql1)
+      .then((data) => data[0])
+      .catch((e) => {
+        logger.error(e);
+        return result1;
+      });
+
+    if (result1[0].cnt > 0) {
+      const result2 = await connection
+        .query(sql2)
+        .then((data) => data[0])
+        .catch((e) => {
+          logger.error(e);
+        });
+
+      return result2;
+    }
+  }
 }
 
 module.exports = WalletRepository;

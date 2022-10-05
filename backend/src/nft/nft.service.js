@@ -63,12 +63,23 @@ class NftService {
     };
   }
 
-  async deleteNft(nftId) {
+  async sellNft(nftId) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.deleteNft(nftId),
+        data: await nftRepository.sellNft(nftId),
+      },
+    };
+  }
+
+  async checkDelete(galleryId) {
+    const result = await nftRepository.checkDelete(galleryId);
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: result,
       },
     };
   }
