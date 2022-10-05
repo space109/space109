@@ -13,7 +13,7 @@ import {
   ProfilePage,
   BackStage,
   VirtualGallery,
-  EditVirtualGallery
+  EditVirtualGallery,
 } from "./pages";
 
 function App() {
@@ -26,10 +26,10 @@ function App() {
 
     setTimeout(() => {
       setAnimation("end");
-    }, 5000);
+    }, 8000);
     setTimeout(() => {
       setLoading(false);
-    }, 7000);
+    }, 11000);
   };
 
   // 윈도우 사이즈를 저장할 스테이트

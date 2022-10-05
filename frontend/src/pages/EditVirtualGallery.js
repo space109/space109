@@ -26,8 +26,6 @@ const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
   const [toggleIdx, setToggleIdx] = useState(0);
   const [countArray, setCountArray] = useState([]);
-  const [room, setRoom] = useState(0);
-  const [index, setIndex] = useState(0);
   const { key } = useParams();
   const sendRequest = useAxios();
   const [ownerAddress, nickname] = useAccount();
