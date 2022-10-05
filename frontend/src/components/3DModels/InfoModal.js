@@ -198,6 +198,7 @@ const ModalOverlay = ({
         const response2 = await SaleContract(saleData.saleAddress).methods.purchase().send({from: window.ethereum.selectedAddress});
         if (response2.status) {
           setLoading(false);
+          setSaleStatus(true);
           const response = await selledNFT(tokenId);
           if (response) {
             alert("작품을 성공적으로 구매하였습니다.");
@@ -237,6 +238,7 @@ const ModalOverlay = ({
           setAuthor(res?.data.author);
           setDescription(res?.data.description);
           setImage(res?.data.image);
+          init();
         })
         .catch((err) => console.log(err));
     } else {
@@ -245,10 +247,9 @@ const ModalOverlay = ({
       setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, ");
       setImage(uploadImage);
     }
-  }, [meta]);
+  }, [meta, saleStatus]);
 
   useEffect(() => {
-    init();
     return (() => {
       setTitle("");
       setAuthor("");
