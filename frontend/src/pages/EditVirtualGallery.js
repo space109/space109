@@ -121,7 +121,7 @@ const EditVirtualGallery = () => {
   const navigate = useNavigate();
   //컨트롤 설명서
   const toggleControlInfo = useCallback(() => {
-    setControlInfo((state) => !state);
+      setControlInfo((state) => !state);
   }, []);
 
   //방명록 초기화
