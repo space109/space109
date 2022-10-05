@@ -242,7 +242,7 @@ export default function ProfilePage({ load }: Props) {
           display="flex"
           alignItems="end"
           flexDirection="column"
-          mt="2rem"
+          pt="2rem"
           gap="2rem"
         >
           <Suspense fallback={null}>
