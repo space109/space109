@@ -113,6 +113,8 @@ router.put("/my", async function (req, res) {
   //   description: '1',
   //   title: '1'
   // }
+  logger.debug("req.body = " + JSON.stringify(req.body));
+
   thumbnail(req, res, async (err) => {
     // console.log("upload init");
     // console.log(req.body);
@@ -123,30 +125,124 @@ router.put("/my", async function (req, res) {
         result: "fail",
         data: 0,
       });
-    } else {
-      // 일단 서버에 이미지를 저장해주기 위해 경로를 담을 변수 하나를 생성해준다.
-      // 이미지가 정상적으로 저장되면
-      // thumbnail: undefined
-      // 이미지가 없는경우
-      // console.log("thumbnail: " + req.body.thumbnail);
-      // console.log(req.body);
-      const thumbnailPath =
-        "/image/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg";
-      // console.log(thumbnailPath);
-      logger.debug("req.body = " + JSON.stringify(req.body));
-      const { statusCode, responseBody } = await GalleryService.updateMyGallery(
-        req.body.oa,
-        req.body.category_id,
-        req.body.description,
-        req.body.title,
-        thumbnailPath,
-        req.body.isOpen
-      );
-      // console.log("await 나옴");
-      res.statusCode = statusCode;
-      res.send(responseBody);
     }
+    console.log("req.body = " + JSON.stringify(req.body));
+    let thumbnailPath =
+      "/image/thumbnail" + "/" + req.body.oa + "/" + "thumbnail" + ".jpg";
+    if (req.body.thumbnail != "" && req.body.thumbnail != undefined) {
+      thumbnailPath = req.body.thumbnail;
+    }
+    // console.log(thumbnailPath);
+    logger.debug("req.body = " + JSON.stringify(req.body));
+    const { statusCode, responseBody } = await GalleryService.updateMyGallery(
+      req.body.oa,
+      req.body.category_id,
+      req.body.description,
+      req.body.title,
+      thumbnailPath,
+      req.body.isOpen
+    );
+    // console.log("await 나옴");
+    res.statusCode = statusCode;
+    res.send(responseBody);
   });
+});
+
+router.delete("/my", async function (req, res) {
+  logger.http("DELETE /gallery/my");
+  logger.debug("oa = " + req.query["oa"]);
+  const { statusCode, responseBody } = await GalleryService.resetMyGallery(
+    req.query["oa"]
+  );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
+router.post("/guestbook", async function (req, res) {
+  logger.http("POST /gallery/guestbook");
+  logger.debug("req.body = " + JSON.stringify(req.body));
+  const { statusCode, responseBody } = await GalleryService.writeGuestbook(
+    req.body.galleryId,
+    req.body.nickname,
+    req.body.description
+  );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
+router.get("/guestbook/finalPageNo", async function (req, res) {
+  logger.http("GET /gallery/guestbook/totalPageNo");
+  logger.debug("req.query = " + JSON.stringify(req.query));
+  // page size
+  let countPerPage = req.query["countPerPage"];
+  if (
+    countPerPage == undefined ||
+    typeof countPerPage == "undefined" ||
+    countPerPage == null ||
+    Number.isNaN(parseInt(countPerPage))
+  ) {
+    countPerPage = 10;
+  } else {
+    countPerPage = parseInt(countPerPage);
+  }
+  const { statusCode, responseBody } =
+    await GalleryService.getGuestbookFinalPageNo(
+      req.query["galleryId"],
+      countPerPage
+    );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
+router.get("/guestbook", async function (req, res) {
+  logger.http("GET /gallery/guestbook");
+  logger.debug("req.query = " + JSON.stringify(req.query));
+  // page size
+  let countPerPage = req.query["countPerPage"];
+  // page number
+  let currentPage = req.query["currentPage"];
+  if (
+    countPerPage == undefined ||
+    typeof countPerPage == "undefined" ||
+    countPerPage == null ||
+    Number.isNaN(parseInt(countPerPage))
+  ) {
+    countPerPage = 10;
+  } else {
+    countPerPage = parseInt(countPerPage);
+  }
+  if (
+    currentPage == undefined ||
+    typeof currentPage == "undefined" ||
+    currentPage == null ||
+    Number.isNaN(parseInt(currentPage))
+  ) {
+    currentPage = 1;
+  } else {
+    currentPage = parseInt(currentPage);
+  }
+  const { statusCode, responseBody } = await GalleryService.guestbookList(
+    req.query["galleryId"],
+    countPerPage,
+    currentPage
+  );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
+router.delete("/guestbook", async function (req, res) {
+  logger.http("DELETE /gallery/guestbook");
+  logger.debug("req.query = " + JSON.stringify(req.query));
+  const { statusCode, responseBody } = await GalleryService.resetGuestbook(
+    req.query["galleryId"]
+  );
+
+  res.statusCode = statusCode;
+  res.send(responseBody);
 });
 
 module.exports = router;
