@@ -54,27 +54,27 @@ class WalletRepository {
     if (result[0].affectedRows == 1 && result[1].affectedRows == 1) return true;
   }
 
-  async count(gallery_id) {
-    const sql1 = `select count(*) cnt from nft where sell=1 and gallery_id=${gallery_id}`;
-    const sql2 = `select nft_id, gallery_id, oa, metadata, token_id from nft where sell=1 and gallery_id=${gallery_id}`;
-
-    const result1 = await connection
-      .query(sql1)
-      .then((data) => data[0])
-      .catch((e) => {
-        logger.error(e);
-        return result1;
-      });
-
-    if (result1[0].cnt > 0) {
-      const result2 = await connection
-        .query(sql2)
-        .then((data) => data[0])
-        .catch((e) => {
-          logger.error(e);
-        });
-
-      return result2;
+  // 팔린게 있는지 확인하고 있다면 그 token목록을 뽑아 온다.
+  async sellCheck(gallery_id) {
+    try {
+      await connection.beginTransaction();
+      // log 테이블에 팔린게 있는지 확인
+      const sql1 = `select * from log where gallery_id=${gallery_id}`;
+      console.debug(sql1);
+      const sellList = await connection.query(sql1);
+      console.debug(sellList[0]);
+      // 만약 판매된 NFT가 하나도 없을 경우
+      if (sellList[0].length == 0) {
+        // 0을 리턴
+        return 0;
+      }
+      const sql2 = `delete from log where gallery_id=${gallery_id}`;
+      await connection.query(sql2);
+      await connection.commit();
+      return sellList[0];
+    } catch (e) {
+      await connection.rollback();
+      return 0;
     }
   }
 }
