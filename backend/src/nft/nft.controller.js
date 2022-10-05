@@ -64,4 +64,14 @@ router.delete("/checkDelete", async function (req, res) {
   res.send(responseBody);
 });
 
+router.delete("/deleteFrame", async function (req, res) {
+  logger.http("DELETE /nft/deleteFrame");
+  logger.debug("req.body = " + JSON.stringify(req.body));
+  const { statusCode, responseBody } = await nftService.deleteFrame(
+    req.body.nftId
+  );
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
 module.exports = router;
