@@ -65,12 +65,12 @@ class NftService {
     };
   }
 
-  async sellNft(nftId) {
+  async sellNft(tokenId) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.sellNft(nftId),
+        data: await nftRepository.sellNft(tokenId),
       },
     };
   }

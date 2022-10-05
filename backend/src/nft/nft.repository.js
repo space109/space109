@@ -98,34 +98,15 @@ class NftRepository {
   }
 
   // 판매됐을떄
-  async sellNft(nftId) {
-    // const sql = `update nft set sell=1 WHERE NFT_ID = '${nftId}';`;
-    // console.log(sql);
-    // let returnBool = true;
-    // const result = await connection
-    //   .query(sql)
-    //   .then((data) => {
-    //     returnBool = data[0].affectedRows;
-    //   })
-    //   .catch((e) => {
-    //     logger.error(e);
-    //     returnBool = 0;
-    //   });
-    // if (returnBool === 0) {
-    //   return false;
-    // } else {
-    //   return true;
-    // }
-    // console.log(result);
-    // return returnBool;
+  async sellNft(tokenId) {
     await connection.beginTransaction();
     // 판매한 NFT 정보 로그에 추가
     try {
-      const sql1 = `insert into log(GALLERY_ID, OA,METADATA, TOKEN_ID) select GALLERY_ID, OA,METADATA, TOKEN_ID from nft where nft_id=${nftId}`;
+      const sql1 = `insert into log(GALLERY_ID, OA,METADATA, TOKEN_ID) select GALLERY_ID, OA,METADATA, TOKEN_ID from nft where token_id=${tokenId}`;
       const sql1Result = await connection.query(sql1);
 
       // 판매한 NFT 정보 삭제
-      const sql2 = `delete from nft where nft_id=${nftId}`;
+      const sql2 = `delete from nft where token_id=${tokenId}`;
       const sql2Result = await connection.query(sql2);
       await connection.commit();
     } catch (e) {
