@@ -12,10 +12,9 @@ import {
   NotFoundPage,
   ProfilePage,
   BackStage,
+  VirtualGallery,
+  EditVirtualGallery
 } from "./pages";
-
-const VirtualGallery = lazy(() => import("./pages/VirtualGallery"));
-const EditVirtualGallery = lazy(() => import("./pages/EditVirtualGallery"));
 
 function App() {
   const [loading, setLoading] = useState<boolean>(false);
