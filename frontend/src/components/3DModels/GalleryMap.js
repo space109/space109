@@ -808,7 +808,7 @@ export default function GalleryMap(props) {
             useConvexPolyhedron(() => ({
               mass: 0,
               args: WestWall_2,
-              position: [18.94, 0, -150.36],
+              position: [19.12, 0, -150.36],
             }))[0]
           }
         >
@@ -842,7 +842,7 @@ export default function GalleryMap(props) {
             useConvexPolyhedron(() => ({
               mass: 0,
               args: Ceiling01_1,
-              position: [32.98, 25.4, -84.32],
+              position: [32.78, 25.4, -84.32],
             }))[0]
           }
         >

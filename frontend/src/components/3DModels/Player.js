@@ -46,7 +46,7 @@ export const Player = (props) => {
       0,
       0
     );
-    if (!props.open && !props.controlInfo) {
+    if ((!props.open && !props.toggle)) {
       direction
         .subVectors(frontVector, sideVector)
         .normalize()
@@ -59,7 +59,7 @@ export const Player = (props) => {
     // activeButton으로 위치값 호출
     // pos.current = [왼오, 높이, 앞뒤]
 
-    if (jump && (!props.open && !props.controlInfo)) {
+    if (jump && ((!props.open && !props.toggle))) {
       api.velocity.set(velocity.current[0], 14, velocity.current[2]);
     }
   });

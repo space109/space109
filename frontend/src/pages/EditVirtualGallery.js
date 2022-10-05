@@ -115,12 +115,8 @@ const EditVirtualGallery = () => {
   ]);
   const [open, setOpen] = useState(false);
   const [post, setPost] = useState([]);
-  const [controlInfo, setControlInfo] = useState(false);
   const navigate = useNavigate();
   //컨트롤 설명서
-  const toggleControlInfo = useCallback(() => {
-      setControlInfo((state) => !state);
-  }, []);
 
   //방명록 초기화
   const resetCommentHandler = useCallback(() => {
@@ -254,11 +250,6 @@ const EditVirtualGallery = () => {
     setCountArray(newArr);
   }, []);
 
-  //최초에 조작키 오픈
-  useEffect(() => {
-    setControlInfo(true);
-  }, []);
-
   //방명록 데이터 READ
   useEffect(() => {
     sendRequest(
@@ -308,12 +299,9 @@ const EditVirtualGallery = () => {
         post={post}
         addCommentHandler={addCommentHandler}
         resetCommentHandler={resetCommentHandler}
+        disabled={false}
       />
-      <ControlModal
-        controlInfo={controlInfo}
-        toggleControlInfo={toggleControlInfo}
-      />
-      <Div position="absolute" bottom="10px" right="10px" zIndex={500}>
+      <Div position="absolute" bottom="10px" right="10px" zIndex={90}>
         <SharpButton
           fontSize="--h6"
           width="150px"
@@ -359,9 +347,7 @@ const EditVirtualGallery = () => {
             <GalleryMap position={[0, 0, 0]} />
             <Floor position={[0, 10, 0]} />
             <Decorations toggleOpen={toggleOpen} />
-            {/* <GalleryMap position={[0, 0, 0]} /> */}
             <Player
-              controlInfo={controlInfo}
               open={open}
               position={[33, 13, -40]}
               lockControl={toggle}

@@ -33,9 +33,6 @@ export {
   Plant1,
   MainCharacter,
   Owl,
-  ControlBackdrop,
-  ControlModal,
-  ControlOverlay,
   LoadingProgress,
 } from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";

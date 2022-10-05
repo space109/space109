@@ -53,6 +53,8 @@ const Img = styled.img`
   position: absolute;
   right: 10px;
   top: 10px;
+  cursor: pointer;
+  z-index: 300;
 `;
 
 const ThumbImg = styled.img`
