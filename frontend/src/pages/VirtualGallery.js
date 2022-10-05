@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import React, { Suspense, useState, useEffect, useCallback } from "react";
 import { Div } from "../styles/BaseStyles";
 import { Physics } from "@react-three/cannon";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAccount, useAxios } from "../hooks";
 
 import {
@@ -17,6 +17,8 @@ import {
   Floor,
   InfoModal,
   CommunityModal,
+  SharpButton,
+  LogoBox,
 } from "../components";
 
 const VirtualGallery = () => {
@@ -112,7 +114,7 @@ const VirtualGallery = () => {
 
   const [open, setOpen] = useState(false);
   const [post, setPost] = useState([]);
-
+  const navigate = useNavigate();
   //방명록 초기화
   //최초 방명록 업데이트
   const getCommentHandler = useCallback((data) => {
@@ -155,7 +157,11 @@ const VirtualGallery = () => {
   const isToggle = () => {
     return toggle;
   };
-
+    const ExitHandler = () => {
+      if (window.confirm("정말로 퇴장하시겠습니까?")) {
+        navigate("/profile");
+      }
+    };
 
   //포지션에 맞게 계차 매핑, 나머지는 빈 객체로 초기화
   const indexMappingHandler = useCallback((data) => {
@@ -222,6 +228,18 @@ const VirtualGallery = () => {
         addCommentHandler={addCommentHandler}
         disabled={true}
       />
+      <Div position="absolute" bottom="10px" right="10px" zIndex={90}>
+        <SharpButton
+          fontSize="--h6"
+          width="150px"
+          height="40px"
+          bg="--carmine-100"
+          borderRadius="8px"
+          onClick={ExitHandler}
+        >
+          퇴장하기
+        </SharpButton>
+      </Div>
       <Canvas style={{ background: "grey" }}>
         <Fog />
         <ambientLight intensity={0.1} />
@@ -234,6 +252,7 @@ const VirtualGallery = () => {
           {/* 스포트라이트 */}
           <ImageLightGroup />
           {/* 액자 리스트 */}
+          {/* <LogoBox/> */}
           {countArray.map((item, idx) => {
             return (
               <ImageFrame

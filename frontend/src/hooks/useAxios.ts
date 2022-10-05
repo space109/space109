@@ -11,7 +11,7 @@ const useAxios = () => {
         data: config.data ? config.data : null,
       })
         .then((res) => {
-          console.log(res)
+          console.log("값입니다", res)
           getData(res.data);
         })
         .catch((err) => console.log("에러", err.message));

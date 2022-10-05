@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import { useMemo } from "react";
 import * as THREE from "three";
 import { useHelper } from "@react-three/drei";
 import { HemisphereLightHelper } from "three";
@@ -10,15 +9,7 @@ const HemisphereLight = ({
   groundColor = "black",
   intensity = 0.5,
 }) => {
-  const light = useMemo(
-    () =>
-      new THREE.HemisphereLight(
-        skyColor,
-        groundColor,
-        intensity
-      ),
-    []
-  );
+  const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
   const ref = useRef();
   useHelper(ref, HemisphereLightHelper);
   //조명1: 조명

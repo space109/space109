@@ -16,7 +16,6 @@ import {
   Decorations,
   Floor,
   CommunityModal,
-  ControlModal,
   SharpButton,
 } from "../components";
 import { useNavigate, useParams } from "react-router-dom";
@@ -244,6 +243,7 @@ const EditVirtualGallery = () => {
         rotationArr[idx] = JSON.parse(newArr[idx]?.ROTATION);
       }
     }
+    console.log(newArr)
     setFrameRotation(rotationArr);
     setFramePosition(posArr);
     setFrameScale(scaleArr);
@@ -267,6 +267,7 @@ const EditVirtualGallery = () => {
 
   //최초 데이터 계수로 매핑
   useEffect(() => {
+    console.log("키값", key)
     sendRequest(
       {
         url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display?galleryId=${key}`,

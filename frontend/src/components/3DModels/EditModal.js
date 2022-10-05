@@ -142,6 +142,7 @@ const EditModal = ({
             )
           ) {
             //중복이니 기존 인덱스를 비우고, 새로운 인덱스에 넣어줌
+            copyArr[index].NFT_ID = copyArr[itemIdx].NFT_ID;
             copyArr[itemIdx] = {};
             setCountArray(copyArr);
             removeNFT(itemIdx);
@@ -162,7 +163,7 @@ const EditModal = ({
     let copyArr = [...countArray];
     //인덱스 내의 객체 변경(화면에 즉시 적용시키기 위함)
     copyArr[index] = {
-      NFT_ID: copyArr[index].NFT_ID,
+      NFT_ID: countArray[index].NFT_ID,
       METADATA: source,
       TOKEN_ID: tokenId,
       POSITION: index,
@@ -186,6 +187,7 @@ const EditModal = ({
           rotation: JSON.stringify(rot),
           position: index,
           metadata: source,
+          tokenId: tokenId,
         },
       });
     } else {
@@ -224,7 +226,7 @@ const EditModal = ({
       })
     );
     sendRequest({
-      url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display`,
+      url: `${process.env.REACT_APP_BACKEND_HOST}/nft/deleteFrame`,
       method: "DELETE",
       data: {
         nftId: copyArr[index].NFT_ID,
@@ -238,12 +240,13 @@ const EditModal = ({
   }, [getNFTList]);
   //초기에 있다면 PUT만 보내도록 하고 아니면 POST로 바꿈.
   useEffect(() => {
+    console.log("이상하네????/", countArray[toggleIdx]);
     if (countArray[toggleIdx] && Object.keys(countArray[toggleIdx]).length) {
       setEmpty(true);
     } else {
       setEmpty(false);
     }
-  }, [countArray, toggleIdx]);
+  }, [toggleIdx]);
   // 초기 위치, 스케일 조정
   useEffect(() => {
     handleUpdate({
