@@ -22,7 +22,7 @@ const Box = styled.div`
   width: 100%;
 `
 
-const GalleryList = ({gallerys}:any) => {
+const GalleryList = ({gallerys, load}:any) => {
   return (
     <Box>
       {/* <UL>
@@ -37,7 +37,7 @@ const GalleryList = ({gallerys}:any) => {
       <UL>
         {gallerys ? gallerys.map((gallery:any, i:number) => {
           return (
-            <GalleryCard key={i} data={gallery}/>
+            <GalleryCard key={i} data={gallery} load={load}/>
           )}) : null
         }
       </UL>

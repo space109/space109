@@ -250,7 +250,7 @@ const Image = styled.div<propsStyle>`
   cursor: pointer;
 `
 
-function GalleryCard ({data}:any) {
+function GalleryCard ({data, load}:any) {
 
   const [ isOnModal, setIsOnModal ] = useState(false);
   const openModal = () => {
@@ -265,6 +265,7 @@ function GalleryCard ({data}:any) {
       isOnModal && <GalleryDetailModal
       data={data}
       closeModal={closeModal}
+      load={load}
       />
     }
     <LI>

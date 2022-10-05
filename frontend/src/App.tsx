@@ -29,7 +29,7 @@ function App() {
     }, 8000);
     setTimeout(() => {
       setLoading(false);
-    }, 11000);
+    }, 10000);
   };
 
   // 윈도우 사이즈를 저장할 스테이트
@@ -64,7 +64,7 @@ function App() {
             <Route element={<NavBar windowSize={windowSize} />}>
               <Route path="/" element={<MainPage />} />
               <Route path="/monthlyTheme" element={<MonthlyThemePage />} />
-              <Route path="/gallery" element={<GalleryListPage />} />
+              <Route path="/gallery" element={<GalleryListPage load={load}/>} />
               <Route path="/signUp" element={<SignUpPage />} />
               <Route path="/profile" element={<ProfilePage load={load} />} />
               <Route path="/myNft" element={<MyNftPage />}></Route>
