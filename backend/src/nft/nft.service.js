@@ -83,5 +83,15 @@ class NftService {
       },
     };
   }
+
+  async deleteFrame(nftId) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await nftRepository.deleteFrame(nftId),
+      },
+    };
+  }
 }
 module.exports = NftService;

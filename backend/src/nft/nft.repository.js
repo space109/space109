@@ -126,5 +126,18 @@ class NftRepository {
 
     return result;
   }
+
+  async deleteFrame(nftId) {
+    const sql = `delete from nft where nft_id=${nftId}`;
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0].affectedRows)
+      .catch((e) => {
+        logger.error(e);
+      });
+
+    if (result == 0) return false;
+    return true;
+  }
 }
 module.exports = NftRepository;
