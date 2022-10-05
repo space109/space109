@@ -186,7 +186,6 @@ const ModalOverlay = ({
   const [ saleData, setSaleData ] = useState("");
   const [loading, setLoading] = useState(false);
   const [helpText, setHelpText] = useState("helpText");
-  const [ canSellStatus, setCanSellStatus ] = useState(false);
 
   const purchaseNFT = async () => {
     console.log(saleData.owner, window.ethereum.selectedAddress)
@@ -223,10 +222,8 @@ const ModalOverlay = ({
   const init = async () => {
     if(await getSaleInfo() === "0") {
       setSaleStatus(false);
-      setCanSellStatus(false);
     } else {
       setSaleStatus(true);
-      console.log(saleData.owner !== window.ethereum.selectedAddress, "가능???");
     }
   }
   useEffect(() => {
@@ -285,7 +282,7 @@ const ModalOverlay = ({
           </BodyDiv>
           <FooterDiv>
             { 
-              saleStatus && (saleData.owner !== window.ethereum.selectedAddress) &&
+              saleStatus && (saleData.owner.toLowerCase !== `${window.ethereum.selectedAddress}`.toLowerCase) &&
               <>
               <PriceDiv>
                 <CurrentPriceDiv>{saleData.purchasePrice}</CurrentPriceDiv>
