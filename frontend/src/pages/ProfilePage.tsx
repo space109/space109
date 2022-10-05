@@ -49,8 +49,8 @@ const Textarea = styled.textarea`
 `;
 
 const Thumbnail = styled.div`
-  width: 22.5rem;
-  height: 27rem;
+  width: 70%;
+  aspect-ratio: 5/6;
   border: 8px solid var(--grey-100);
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
   transition: all 0.5s;
@@ -242,7 +242,7 @@ export default function ProfilePage({ load }: Props) {
           display="flex"
           alignItems="end"
           flexDirection="column"
-          mt="2rem"
+          pt="2rem"
           gap="2rem"
         >
           <Suspense fallback={null}>
@@ -416,12 +416,15 @@ export default function ProfilePage({ load }: Props) {
                   <TextDiv>썸네일</TextDiv>
                 </Div>
                 <Div
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
                   h="92%"
                 >
-                  <label htmlFor="file" style={{ cursor: "crosshair" }}>
+                  <label htmlFor="file" 
+                    style={{ 
+                      cursor: "crosshair", width: "100%", height: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}>
                     <Thumbnail>
                       <img
                         alt={`Uploaded #`}

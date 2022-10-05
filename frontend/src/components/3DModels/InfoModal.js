@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
-import closeIcon from "../../assets/close-icon.png";
+import closeIcon from "../../assets/close-icon-white.png";
 import uploadImage from "../../assets/uploadImage.png"
 import { useAxios } from "../../hooks";
 import { Div } from "../../styles/BaseStyles";
@@ -198,11 +198,12 @@ const ModalOverlay = ({
         const response2 = await SaleContract(saleData.saleAddress).methods.purchase().send({from: window.ethereum.selectedAddress});
         if (response2.status) {
           setLoading(false);
+          setSaleStatus(true);
           const response = await selledNFT(tokenId);
           if (response) {
             alert("작품을 성공적으로 구매하였습니다.");
           } else {
-            alert("구매에 실패하였습니다.");
+            alert("액자를 갤러리에서 내리지 못했습니다.");
           }
         }
       }
@@ -237,6 +238,7 @@ const ModalOverlay = ({
           setAuthor(res?.data.author);
           setDescription(res?.data.description);
           setImage(res?.data.image);
+          init();
         })
         .catch((err) => console.log(err));
     } else {
@@ -245,10 +247,18 @@ const ModalOverlay = ({
       setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, ");
       setImage(uploadImage);
     }
-  }, [meta]);
+  }, [meta, saleStatus]);
 
   useEffect(() => {
-    init();
+    return (() => {
+      setTitle("");
+      setAuthor("");
+      setDescription("");
+      setImage("");
+      setSaleStatus("");
+      setSaleData("");
+    }
+    )
   }, [meta])
 
   if (!toggle) return null;
@@ -258,7 +268,7 @@ const ModalOverlay = ({
       {loading && <Loading HelpText={helpText} />}
       <ThumbImg src={image} alt="" className="thumb-active"/>
       <ModalDiv className="modal-active">
-        <Img src={closeIcon} alt="" onClick={toggleModal} />
+        <Img src={closeIcon} onClick={toggleModal} alt={`${title}썸네일`}/>
         <Div flex="4"></Div>
         <Div flex="8">
           <HeadDiv>
@@ -282,7 +292,7 @@ const ModalOverlay = ({
           </BodyDiv>
           <FooterDiv>
             { 
-              saleStatus && (saleData.owner.toLowerCase !== `${window.ethereum.selectedAddress}`.toLowerCase) &&
+              saleStatus && (`${saleData.owner}`.toLowerCase() !== `${window.ethereum.selectedAddress}`.toLowerCase()) &&
               <>
               <PriceDiv>
                 <CurrentPriceDiv>{saleData.purchasePrice}</CurrentPriceDiv>

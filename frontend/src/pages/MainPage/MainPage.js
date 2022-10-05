@@ -114,6 +114,7 @@ const ScrollArea = styled.div`
   width: 100vw;
   height: calc(100vh - 120px);
   overflow: auto;
+  z-index: 1;
 `
 
 const NavArea = styled.div`
@@ -152,7 +153,7 @@ const Lights = () => {
   );
 }
 
-const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color}) => {
+const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color, scrollArea}) => {
 
   const mesh = useRef()
   useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
@@ -163,6 +164,7 @@ const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color}
 
   useEffect(() => {
     inView && (
+      // scrollArea.current.style.background = `var(${bgColor})`
       document.body.style.background = `var(${bgColor})`
     )
     if (inView) {
@@ -181,7 +183,6 @@ const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color}
   return (
     <>
     <mesh ref={mesh} position={[56, 6, 10]} scale={50}>
-
       <boxGeometry attach='geometry'/>
       <meshStandardMaterial attach='material' color={color}/>
     </mesh>
@@ -197,7 +198,7 @@ const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color}
           <BackCenter ref={refItem}>
             {children}
           </BackCenter>
-          <Center ref={refItem}>
+          <Center>
             {children}
           </Center>
         </Html>
@@ -234,14 +235,15 @@ const MainPage = () => {
         <Lights/>
         <OrbitControls/>
         <Suspense fallback={null}>
-          <HTMLContent domContent={domContent} positionY={260} setColor={setColor} bgColor="--ocean-300">
+          <HTMLContent domContent={domContent} positionY={260} setColor={setColor} bgColor="--ocean-300" scrollArea={scrollArea}>
             공간 109에서 디지털 작품을 NFT로 만들고 나만의 갤러리에 전시해보세요
           </HTMLContent>
-          <HTMLContent domContent={domContent} positionY={10} setColor={setColor} bgColor="--spinach-300">
+          <HTMLContent domContent={domContent} positionY={10} setColor={setColor} bgColor="--spinach-300" scrollArea={scrollArea}>
             SSF를 사용하여 서로의 NFT를 거래해보세요
           </HTMLContent>
           <HTMLContent domContent={domContent} positionY={-240} setColor={setColor} 
             bgColor="--grape-100" color={color}
+            scrollArea={scrollArea}
           >
             <LastContent setClicked={setClicked}/>
           </HTMLContent>

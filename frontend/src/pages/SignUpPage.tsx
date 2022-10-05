@@ -38,6 +38,11 @@ const Img = styled.div<PropsStyle>`
   background-image: url("${({ imgURL }) => imgURL}");
 `;
 
+const BackGround = styled.div`
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--grey-150);
+`
 interface Props {
   account?: any;
 }
@@ -109,20 +114,8 @@ function SignUpPage() {
     nicknameCheck();
   }, []);
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [rotation, setRotation] = useState(0);
-  const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-
-  const onCropComplete = useCallback(
-    (croppedArea: any, croppedAreaPixels: any) => {
-      setCroppedAreaPixels(croppedAreaPixels);
-    },
-    []
-  );
-
   return (
-    <>
+    <BackGround>
       <NavArea />
       <Div
         display="flex"
@@ -194,7 +187,7 @@ function SignUpPage() {
           </SharpButton>
         </DivWidth>
       </Div>
-    </>
+    </BackGround>
   );
 }
 
