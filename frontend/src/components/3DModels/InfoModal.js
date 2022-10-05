@@ -168,7 +168,7 @@ const Backdrop = (props) => {
 const ModalOverlay = ({
   toggle,
   toggleModal,
-  meta
+  meta=""
 }) => {
   const [title, setTitle] = useState("제목");
   const [author, setAuthor] = useState("작가");
