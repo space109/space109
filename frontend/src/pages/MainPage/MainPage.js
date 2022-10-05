@@ -222,7 +222,7 @@ const Lights = () => {
       <directionalLight position={[10, 0, 0]} intensity={1.5} />
       <directionalLight position={[0, 0, 10]} intensity={1} />
       <pointLight position={[-10, 0, -20]} intensity={0.5}/>
-      <spotLight intensity={1} position={[1000, 0, 0]}  />
+      <spotLight intensity={1} position={[1000, 0, 0]} />
     </>
   );
 }
