@@ -34,6 +34,18 @@ class WalletsService {
       },
     };
   }
+
+  async count(gallery_id) {
+    let result = await walletRepository.count(gallery_id);
+    if (result == undefined) result = false;
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: result,
+      },
+    };
+  }
 }
 
 module.exports = WalletsService;

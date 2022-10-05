@@ -83,7 +83,7 @@ class NftRepository {
     return returnBool;
   }
   async getDisplayedNftList(galleryId) {
-    const sql = `SELECT * FROM nft WHERE GALLERY_ID = ${galleryId};`;
+    const sql = `SELECT * FROM nft WHERE GALLERY_ID = ${galleryId} and sell=0;`;
     const result = await connection
       .query(sql)
       .then((data) => data[0])
@@ -93,8 +93,9 @@ class NftRepository {
 
     return result;
   }
-  async deleteNft(nftId) {
-    const sql = `DELETE FROM nft WHERE NFT_ID = ${nftId};`;
+  async sellNft(nftId) {
+    const sql = `update nft set sell=1 WHERE NFT_ID = '${nftId}';`;
+    console.log(sql);
     let returnBool = true;
     const result = await connection
       .query(sql)
@@ -112,6 +113,31 @@ class NftRepository {
     }
     // console.log(result);
     // return returnBool;
+  }
+
+  async checkDelete(galleryId) {
+    const sql = `delete from nft where gallery_id=${galleryId} and sell=1`;
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0].affectedRows)
+      .catch((e) => {
+        logger.error(e);
+      });
+
+    return result;
+  }
+
+  async deleteFrame(nftId) {
+    const sql = `delete from nft where nft_id=${nftId}`;
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0].affectedRows)
+      .catch((e) => {
+        logger.error(e);
+      });
+
+    if (result == 0) return false;
+    return true;
   }
 }
 module.exports = NftRepository;

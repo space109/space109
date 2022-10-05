@@ -38,4 +38,14 @@ router.post("/join", async function (req, res) {
   res.send(responseBody);
 });
 
+router.post("/count", async function (req, res) {
+  logger.http("POST /wallet/count");
+  logger.debug("gallery_id = " + req.body.gallery_id);
+  const { statusCode, responseBody } = await walletService.count(
+    req.body.gallery_id
+  );
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
 module.exports = router;
