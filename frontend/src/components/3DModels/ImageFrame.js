@@ -62,6 +62,7 @@ const ImageFrame = ({
         }}
       >
         <boxGeometry args={args} />
+        <meshStandardMaterial color="white" />
         <meshPhongMaterial
           map={
             imageNFT
@@ -70,6 +71,7 @@ const ImageFrame = ({
                 : img
               : uploadImageTexture
           }
+          transparent
           color="white"
         />
       </mesh>

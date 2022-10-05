@@ -74,7 +74,7 @@ const EditModal = ({
   //DB에 저장하는 로직X
   const getBasicInfo = (index, source, tokenId, scale, pos, rot) => {
     let copyArr = [...countArray];
-    console.log(countArray[index]);
+    console.log("맞게 저장되는가??", countArray[index]);
     if (Object.keys(countArray[index]).length) {
       setEmpty(true);
     }
@@ -93,7 +93,7 @@ const EditModal = ({
 
     //이미 액자에 게시되었는데 중복이 있다면 alert 띄우기
     //NFT 배정이 안된 경우, 중복검사
-    console.log(countArray)
+    console.log("왜ㅐㅐㅐㅐㅐㅐㅐㅐㅐ", countArray);
     if (Object.keys(countArray[index]).length) {
       //액자에 같은 작품이 존재
       if (parseInt(tokenId) === countArray[index].TOKEN_ID) {
@@ -103,7 +103,7 @@ const EditModal = ({
       else {
         let flag = false;
         for (const [itemIdx, item] of countArray.entries()) {
-          console.log(itemIdx)
+          console.log(itemIdx);
           if (
             item?.TOKEN_ID === parseInt(tokenId) &&
             parseInt(tokenId) !== countArray[index].TOKEN_ID
@@ -116,7 +116,7 @@ const EditModal = ({
             ) {
               //중복이니 기존 인덱스를 비우고, 새로운 인덱스에 넣어줌
               copyArr[itemIdx] = {};
-              removeNFT(itemIdx)
+              removeNFT(itemIdx);
               setCountArray(copyArr);
             }
 
@@ -135,13 +135,14 @@ const EditModal = ({
       let flag = false;
       for (let [itemIdx, item] of countArray.entries()) {
         if (item?.TOKEN_ID === parseInt(tokenId)) {
-          console.log("2번 케이스")
+          console.log("2번 케이스");
           if (
             window.confirm(
               "다른 액자에 전시된 작품입니다. 기존에 전시된 작품을 지우고 전시하시겠습니까?"
             )
           ) {
             //중복이니 기존 인덱스를 비우고, 새로운 인덱스에 넣어줌
+            copyArr[index].NFT_ID = copyArr[itemIdx].NFT_ID;
             copyArr[itemIdx] = {};
             setCountArray(copyArr);
             removeNFT(itemIdx);
@@ -160,10 +161,9 @@ const EditModal = ({
   //저장한 NFT에 해당되는 정보를 업로드
   const pickNFT = (index, source, tokenId, scale, pos, rot) => {
     let copyArr = [...countArray];
-
     //인덱스 내의 객체 변경(화면에 즉시 적용시키기 위함)
     copyArr[index] = {
-      NFT_ID: copyArr[index].NFT_ID,
+      NFT_ID: countArray[index].NFT_ID,
       METADATA: source,
       TOKEN_ID: tokenId,
       POSITION: index,
@@ -187,6 +187,7 @@ const EditModal = ({
           rotation: JSON.stringify(rot),
           position: index,
           metadata: source,
+          tokenId: tokenId,
         },
       });
     } else {
@@ -225,7 +226,7 @@ const EditModal = ({
       })
     );
     sendRequest({
-      url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display`,
+      url: `${process.env.REACT_APP_BACKEND_HOST}/nft/deleteFrame`,
       method: "DELETE",
       data: {
         nftId: copyArr[index].NFT_ID,
@@ -237,7 +238,15 @@ const EditModal = ({
   useEffect(() => {
     getNFTList();
   }, [getNFTList]);
-
+  //초기에 있다면 PUT만 보내도록 하고 아니면 POST로 바꿈.
+  useEffect(() => {
+    console.log("이상하네????/", countArray[toggleIdx]);
+    if (countArray[toggleIdx] && Object.keys(countArray[toggleIdx]).length) {
+      setEmpty(true);
+    } else {
+      setEmpty(false);
+    }
+  }, [toggleIdx]);
   // 초기 위치, 스케일 조정
   useEffect(() => {
     handleUpdate({

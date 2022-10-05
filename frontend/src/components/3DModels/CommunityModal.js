@@ -13,6 +13,7 @@ const CommunityModal = (props) => {
           post={props.post}
           addCommentHandler={props.addCommentHandler}
           resetCommentHandler={props.resetCommentHandler}
+          disabled={props.disabled}
         />,
         document.getElementById("community-overlay-root")
       )}

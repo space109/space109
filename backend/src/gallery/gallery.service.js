@@ -67,6 +67,66 @@ class GallerysService {
       },
     };
   }
+
+  async resetMyGallery(oa) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await GalleryRepository.resetMyGallery(oa),
+      },
+    };
+  }
+
+  async writeGuestbook(galleryId, nickname, description) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await GalleryRepository.writeGuestbook(
+          galleryId,
+          nickname,
+          description
+        ),
+      },
+    };
+  }
+
+  async getGuestbookFinalPageNo(galleryId, countPerPage) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await GalleryRepository.getGuestbookFinalPageNo(
+          galleryId,
+          countPerPage
+        ),
+      },
+    };
+  }
+
+  async guestbookList(galleryId, countPerPage, currentPage) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await GalleryRepository.guestbookList(
+          galleryId,
+          countPerPage,
+          currentPage
+        ),
+      },
+    };
+  }
+  async resetGuestbook(galleryId) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await GalleryRepository.resetGuestbook(galleryId),
+      },
+    };
+  }
 }
 
 module.exports = GallerysService;

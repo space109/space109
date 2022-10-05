@@ -243,9 +243,9 @@ const CommunityOverlay = (props) => {
             })}
           </RowDiv>
         </Div>
-        <Div position="absolute" bottom="3%" right="3%">
+        {!props.disabled && <Div position="absolute" bottom="3%" right="3%">
           <SharpButton bg="--carmine-100" borderRadius="20px" width="70px" height="70px" fontSize="--h7" onClick={props.resetCommentHandler}>RESET</SharpButton>
-        </Div>
+        </Div>}
       </ModalDiv>
     </>
   );

@@ -1,5 +1,4 @@
-import React, { useRef } from "react";
-import { useMemo } from "react";
+import React from "react";
 import * as THREE from "three";
 // import { useHelper } from '@react-three/drei';
 // import { SpotLightHelper } from "three";
@@ -14,10 +13,8 @@ const ImageLight = ({
   penumbra = 0.2,
   decay=1,
 }) => {
-  const light = useMemo(
-    () => new THREE.SpotLight(lightColor, intensity, distance, angle, penumbra, decay),
-    []
-  );
+  const light = new THREE.SpotLight(lightColor, intensity, distance, angle, penumbra, decay)
+
   // const ref = useRef();
   // useHelper(ref, SpotLightHelper);
   // //조명1: 조명

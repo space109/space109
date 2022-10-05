@@ -1,11 +1,8 @@
-import { Canvas, useLoader } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import React, { Suspense, useState, useEffect, useCallback } from "react";
 import { Div } from "../styles/BaseStyles";
-import { TextureLoader } from "three/src/loaders/TextureLoader";
-import axios from "axios";
-import { Physics, useBox } from "@react-three/cannon";
-import { useParams } from "react-router-dom";
-import { PerspectiveCamera } from "@react-three/drei";
+import { Physics } from "@react-three/cannon";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAccount, useAxios } from "../hooks";
 
 import {
@@ -20,133 +17,9 @@ import {
   Floor,
   InfoModal,
   CommunityModal,
+  SharpButton,
+  LogoBox,
 } from "../components";
-
-const CEILING_POSITION = [
-  [8, 40, -48.7],
-  [14, 40, -48.7],
-  [20, 40, -48.7],
-  [44, 40, -48.7],
-  [50, 40, -48.7],
-  [56, 40, -48.7],
-];
-
-const RECT_AREA_LIGHT_POSITION = [
-  {
-    position: [33, 40, -48.7],
-    rotation: [-Math.PI / 2, 0, 0],
-    width: 61.5,
-    intensity: 2,
-    height: 39,
-  },
-  {
-    position: [33, 25.3, -84.3],
-    rotation: [-Math.PI / 2, 0, 0],
-    width: 4.5,
-    intensity: 2,
-    height: 30.5,
-  },
-  {
-    position: [33, 30.3, -216.4],
-    rotation: [-Math.PI / 2, 0, 0],
-    width: 4.5,
-    intensity: 2,
-    height: 30.45,
-  },
-  {
-    position: [33, 0.5, -257],
-    rotation: [Math.PI / 2, 0, 0],
-    width: 70,
-    intensity: 2,
-    height: 35,
-  },
-  {
-    position: [79.97, 30.35, -236.5],
-    rotation: [-Math.PI / 2, 0, Math.PI / 2],
-    width: 4.5,
-    intensity: 2,
-    height: 30.45,
-  },
-  {
-    position: [212.05, 30.35, -236.5],
-    rotation: [-Math.PI / 2, 0, Math.PI / 2],
-    width: 4.5,
-    intensity: 2,
-    height: 30.45,
-  },
-  {
-    position: [251, 0.5, -240],
-    rotation: [Math.PI / 2, 0, Math.PI / 2],
-    width: 70,
-    intensity: 2,
-    height: 35,
-  },
-  {
-    position: [232.3, 30.45, -189.73],
-    rotation: [Math.PI / 2, 0, 0],
-    width: 4.5,
-    intensity: 2,
-    height: 30.45,
-  },
-  {
-    position: [232.3, 30.45, -58.81],
-    rotation: [-Math.PI / 2, 0, 0],
-    width: 4.5,
-    intensity: 2,
-    height: 30.45,
-  },
-  {
-    position: [231, 0.5, -20],
-    rotation: [Math.PI / 2, 0, 0],
-    width: 70,
-    intensity: 2,
-    height: 35,
-  },
-  {
-    position: [185.37, 30.45, -38.5],
-    rotation: [-Math.PI / 2, 0, Math.PI / 2],
-    width: 4.5,
-    intensity: 2,
-    height: 30.45,
-  },
-  {
-    position: [79.96, 30.45, -38.5],
-    rotation: [-Math.PI / 2, 0, Math.PI / 2],
-    width: 4.5,
-    intensity: 2,
-    height: 30.45,
-  },
-];
-
-const IMAGE_FRAME_ROTATION = [
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-  [0, Math.PI / 2, 0],
-];
-
-//조명을 조절하는 함수
 
 const VirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
@@ -241,21 +114,8 @@ const VirtualGallery = () => {
 
   const [open, setOpen] = useState(false);
   const [post, setPost] = useState([]);
-
+  const navigate = useNavigate();
   //방명록 초기화
-  const resetCommentHandler = useCallback(() => {
-    if (window.confirm("정말로 방명록을 초기화 하시겠습니까?")) {
-      setPost([]);
-      sendRequest({
-        url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook?galleryId=${key}`,
-        method: "DELETE",
-        data: {
-          galleryId: key,
-        },
-      });
-    }
-  }, [key, sendRequest]);
-
   //최초 방명록 업데이트
   const getCommentHandler = useCallback((data) => {
     setPost(data.data);
@@ -282,37 +142,6 @@ const VirtualGallery = () => {
     setOpen((state) => !state);
   }, []);
 
-  const [metalist, setMetaList] = useState([{ hello: "hello" }]); //기존에 업로드 되었던 목록을 가져옴(업로드 되었던 목록에서 변화)
-  const [targetMeta, setTargetMeta] = useState(""); // 모달에 띄울 메타데이터
-  const [imageMeta, setImageMeta] = useState({
-    // ImageFrame에 넣어줄 메타데이터
-    0: "",
-    1: "",
-    2: "",
-    3: "",
-    4: "",
-    5: "",
-    6: "",
-    7: "",
-    8: "",
-    9: "",
-    10: "",
-    11: "",
-    12: "",
-    13: "",
-    14: "",
-    15: "",
-    16: "",
-    17: "",
-    18: "",
-    19: "",
-    20: "",
-    21: "",
-    22: "",
-    23: "",
-    24: "",
-  });
-
   //ImageFrame에서 선택한 인덱스를 가져옴
   const getIndexOfFrame = useCallback((index) => {
     setToggleIdx(index);
@@ -328,27 +157,11 @@ const VirtualGallery = () => {
   const isToggle = () => {
     return toggle;
   };
-
-  //NFT id를 받아와 해당 인덱스의 NFT_ID에 할당
-  const nftIdHandler = useCallback(
-    (data) => {
-      let copyArr = [...countArray];
-      copyArr[toggleIdx] = {
-        NFT_ID: data.nftId,
-        METADATA: copyArr[toggleIdx].METADATA,
-        TOKEN_ID: copyArr[toggleIdx].TOKEN_ID,
-        POSITION: copyArr[toggleIdx].POSITION,
-        POSITIONXYZ: copyArr[toggleIdx].POSITIONXYZ,
-        ROTATION: copyArr[toggleIdx].ROTATION,
-        SCALE: copyArr[toggleIdx].SCALE,
-        GALLERY_ID: copyArr[toggleIdx].GALLERY_ID,
-        OA: copyArr[toggleIdx].OA,
-      };
-      setCountArray(copyArr);
-      console.log("copyArr: ", copyArr);
-    },
-    [toggleIdx, countArray]
-  );
+    const ExitHandler = () => {
+      if (window.confirm("정말로 퇴장하시겠습니까?")) {
+        navigate("/profile");
+      }
+    };
 
   //포지션에 맞게 계차 매핑, 나머지는 빈 객체로 초기화
   const indexMappingHandler = useCallback((data) => {
@@ -360,11 +173,7 @@ const VirtualGallery = () => {
     for (let item of data?.data) {
       newArr[item?.POSITION] = item;
     }
-    // for (let i = 0; i < newArr.length; i++) {
-    //   if (!newArr[i]) {
-    //     newArr[i] = {};
-    //   }
-    // }
+
     for (let idx in newArr) {
       if (Object.keys(newArr[idx]).length) {
         posArr[idx] = JSON.parse(newArr[idx]?.POSITIONXYZ);
@@ -378,15 +187,6 @@ const VirtualGallery = () => {
     setCountArray(newArr);
   }, []);
 
-  //메타데이터를 모달에서 끌어옴. 데이터가 없을시 기본 값을 정해줄 것
-  //인덱스가 metalist의 배열 길이보다 짧은지 체크(나중에 아예 Curry로직을 사용할건지 고려)
-  const getMetaData = (index, data) => {
-    //인덱스에러 방지
-    if (metalist.length > index) {
-      setMetaList((state) => (state[index] = data));
-    }
-  };
-
   const getPlayerPosition = (playerPosition) => {
     // 플레이어 위치 정보 콘솔 출력 함수. 필요시 사용
     console.log(playerPosition);
@@ -395,6 +195,15 @@ const VirtualGallery = () => {
   const handleKeyDown = (e) => {
     console.log(e.target.value);
   };
+  //방명록 데이터 READ
+  useEffect(() => {
+    sendRequest(
+      {
+        url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook?galleryId=${key}&countPerPage=50`,
+      },
+      getCommentHandler
+    );
+  }, [key, sendRequest, getCommentHandler]);
 
   useEffect(() => {
     sendRequest(
@@ -419,13 +228,25 @@ const VirtualGallery = () => {
         toggleOpen={toggleOpen}
         post={post}
         addCommentHandler={addCommentHandler}
-        resetCommentHandler={resetCommentHandler}
+        disabled={true}
       />
+      <Div position="absolute" bottom="10px" right="10px" zIndex={90}>
+        <SharpButton
+          fontSize="--h6"
+          width="150px"
+          height="40px"
+          bg="--carmine-100"
+          borderRadius="8px"
+          onClick={ExitHandler}
+        >
+          퇴장하기
+        </SharpButton>
+      </Div>
       <Canvas style={{ background: "grey" }}>
         <Fog />
         <ambientLight intensity={0.1} />
         {/* <OrbitControls /> */}
-        <Physics gravity={[0, -50, 0]}>
+        <Physics gravity={[0, -60, 0]}>
           {/* 사각 조명 */}
           <RectAreaLightGroup />
           {/* 천장 박스 디자인 */}
@@ -433,12 +254,13 @@ const VirtualGallery = () => {
           {/* 스포트라이트 */}
           <ImageLightGroup />
           {/* 액자 리스트 */}
+          {/* <LogoBox/> */}
           {countArray.map((item, idx) => {
             return (
               <ImageFrame
                 key={`ImageFrameKey${idx}`}
                 position={framePosition[idx]}
-                rotation={IMAGE_FRAME_ROTATION[idx]}
+                rotation={frameRotation[idx]}
                 args={frameScale[idx]}
                 toggleModal={toggleModal}
                 getIndexOfFrame={getIndexOfFrame}
@@ -461,8 +283,8 @@ const VirtualGallery = () => {
             toggle={toggle}
             setToggle={setToggle}
             isToggle={isToggle}
+            open={open}
           />
-          {/* <PerspectiveCamera position={[100, 50, -100]} makeDefault={!toggle} /> */}
         </Physics>
       </Canvas>
     </Div>

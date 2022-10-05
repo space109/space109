@@ -8,7 +8,7 @@ type Props = {
 };
 
 function BackStage({ loading, animation }: Props) {
-  const [helpText, setHelpText] = useState<string>("에몽이와 함께하는 즐거운");
+  const [helpText, setHelpText] = useState<string>("E를 누르면 화면 전환이 가능합니다.");
   return (
     <>
       {loading && (

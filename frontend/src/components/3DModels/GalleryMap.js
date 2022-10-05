@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React from "react";
 import { useGLTF, PerspectiveCamera } from "@react-three/drei";
 import { Geometry } from "three-stdlib";
 import { useConvexPolyhedron } from "@react-three/cannon";
@@ -12,261 +12,73 @@ function toConvexProps(bufferGeometry) {
 export default function GalleryMap(props) {
   const { nodes, materials } = useGLTF("/GalleryMap.glb");
 
-  const Plane001_1 = useMemo(
-    () => toConvexProps(nodes.Plane001_1.geometry),
-    [nodes]
-  );
-  const Plane001_2 = useMemo(
-    () => toConvexProps(nodes.Plane001_2.geometry),
-    [nodes]
-  );
-  const Plane001_3 = useMemo(
-    () => toConvexProps(nodes.Plane001_3.geometry),
-    [nodes]
-  );
-  const Plane001_4 = useMemo(
-    () => toConvexProps(nodes.Plane001_4.geometry),
-    [nodes]
-  );
-  const SkySkelleton1 = useMemo(
-    () => toConvexProps(nodes.SkySkelleton1.geometry),
-    [nodes]
-  );
-  const SkySkelleton2 = useMemo(
-    () => toConvexProps(nodes.SkySkelleton2.geometry),
-    [nodes]
-  );
-  const SkySkelleton3 = useMemo(
-    () => toConvexProps(nodes.SkySkelleton3.geometry),
-    [nodes]
-  );
-  const MainEnter01 = useMemo(
-    () => toConvexProps(nodes.MainEnter01.geometry),
-    [nodes]
-  );
-  const MainEnter02 = useMemo(
-    () => toConvexProps(nodes.MainEnter02.geometry),
-    [nodes]
-  );
-  const MoveFloor_1 = useMemo(
-    () => toConvexProps(nodes.MoveFloor_1.geometry),
-    [nodes]
-  );
-  const MoveFloor_2 = useMemo(
-    () => toConvexProps(nodes.MoveFloor_2.geometry),
-    [nodes]
-  );
-  const CenterWall_1 = useMemo(
-    () => toConvexProps(nodes.CenterWall_1.geometry),
-    [nodes]
-  );
-  const CenterWall_2 = useMemo(
-    () => toConvexProps(nodes.CenterWall_2.geometry),
-    [nodes]
-  );
-  const CenterWall_3 = useMemo(
-    () => toConvexProps(nodes.CenterWall_3.geometry),
-    [nodes]
-  );
-  const NorthBorder_1 = useMemo(
-    () => toConvexProps(nodes.NorthBorder_1.geometry),
-    [nodes]
-  );
-  const NorthBorder_2 = useMemo(
-    () => toConvexProps(nodes.NorthBorder_2.geometry),
-    [nodes]
-  );
-  const SouthBorder_1 = useMemo(
-    () => toConvexProps(nodes.SouthBorder_1.geometry),
-    [nodes]
-  );
-  const SouthBorder_2 = useMemo(
-    () => toConvexProps(nodes.SouthBorder_2.geometry),
-    [nodes]
-  );
-  const EastBorder_1 = useMemo(
-    () => toConvexProps(nodes.EastBorder_1.geometry),
-    [nodes]
-  );
-  const EastBorder_2 = useMemo(
-    () => toConvexProps(nodes.EastBorder_2.geometry),
-    [nodes]
-  );
-  const WestBorder_1 = useMemo(
-    () => toConvexProps(nodes.WestBorder_1.geometry),
-    [nodes]
-  );
-  const WestBorder_2 = useMemo(
-    () => toConvexProps(nodes.WestBorder_2.geometry),
-    [nodes]
-  );
-  const WestBorder_3 = useMemo(
-    () => toConvexProps(nodes.WestBorder_3.geometry),
-    [nodes]
-  );
-  const NorthWall_1 = useMemo(
-    () => toConvexProps(nodes.NorthWall_1.geometry),
-    [nodes]
-  );
-  const NorthWall_2 = useMemo(
-    () => toConvexProps(nodes.NorthWall_2.geometry),
-    [nodes]
-  );
-  const EastWall_1 = useMemo(
-    () => toConvexProps(nodes.EastWall_1.geometry),
-    [nodes]
-  );
-  const EastWall_2 = useMemo(
-    () => toConvexProps(nodes.EastWall_2.geometry),
-    [nodes]
-  );
-  const SouthWall_1 = useMemo(
-    () => toConvexProps(nodes.SouthWall_1.geometry),
-    [nodes]
-  );
-  const SouthWall_2 = useMemo(
-    () => toConvexProps(nodes.SouthWall_2.geometry),
-    [nodes]
-  );
-  const SouthWall_3 = useMemo(
-    () => toConvexProps(nodes.SouthWall_3.geometry),
-    [nodes]
-  );
-  const WestWall_1 = useMemo(
-    () => toConvexProps(nodes.WestWall_1.geometry),
-    [nodes]
-  );
-  const WestWall_2 = useMemo(
-    () => toConvexProps(nodes.WestWall_2.geometry),
-    [nodes]
-  );
-  const WestWall_3 = useMemo(
-    () => toConvexProps(nodes.WestWall_3.geometry),
-    [nodes]
-  );
-  const Ceiling01_1 = useMemo(
-    () => toConvexProps(nodes.Ceiling01_1.geometry),
-    [nodes]
-  );
-  const Ceiling01_2 = useMemo(
-    () => toConvexProps(nodes.Ceiling01_2.geometry),
-    [nodes]
-  );
-  const Ceiling01_3 = useMemo(
-    () => toConvexProps(nodes.Ceiling01_3.geometry),
-    [nodes]
-  );
-  const Ceiling02_1 = useMemo(
-    () => toConvexProps(nodes.Ceiling02_1.geometry),
-    [nodes]
-  );
-  const Ceiling02_2 = useMemo(
-    () => toConvexProps(nodes.Ceiling02_2.geometry),
-    [nodes]
-  );
-  const Ceiling03_1 = useMemo(
-    () => toConvexProps(nodes.Ceiling03_1.geometry),
-    [nodes]
-  );
-  const Ceiling03_2 = useMemo(
-    () => toConvexProps(nodes.Ceiling03_2.geometry),
-    [nodes]
-  );
-  const Ceiling04_1 = useMemo(
-    () => toConvexProps(nodes.Ceiling04_1.geometry),
-    [nodes]
-  );
-  const Ceiling04_2 = useMemo(
-    () => toConvexProps(nodes.Ceiling04_2.geometry),
-    [nodes]
-  );
-  const Ceiling05_1 = useMemo(
-    () => toConvexProps(nodes.Ceiling05_1.geometry),
-    [nodes]
-  );
-  const Ceiling05_2 = useMemo(
-    () => toConvexProps(nodes.Ceiling05_2.geometry),
-    [nodes]
-  );
-  const Ceiling06_1 = useMemo(
-    () => toConvexProps(nodes.Ceiling06_1.geometry),
-    [nodes]
-  );
-  const Ceiling06_2 = useMemo(
-    () => toConvexProps(nodes.Ceiling06_2.geometry),
-    [nodes]
-  );
-  const Ceiling07_1 = useMemo(
-    () => toConvexProps(nodes.Ceiling07_1.geometry),
-    [nodes]
-  );
-  const Ceiling07_2 = useMemo(
-    () => toConvexProps(nodes.Ceiling07_2.geometry),
-    [nodes]
-  );
-  const Ceiling08_1 = useMemo(
-    () => toConvexProps(nodes.Ceiling08_1.geometry),
-    [nodes]
-  );
-  const Ceiling08_2 = useMemo(
-    () => toConvexProps(nodes.Ceiling08_2.geometry),
-    [nodes]
-  );
-  const Ceiling08_3 = useMemo(
-    () => toConvexProps(nodes.Ceiling08_3.geometry),
-    [nodes]
-  );
-  const Room2Ceil = useMemo(
-    () => toConvexProps(nodes.Room2Ceil.geometry),
-    [nodes]
-  );
-  const Room4Ceil = useMemo(
-    () => toConvexProps(nodes.Room4Ceil.geometry),
-    [nodes]
-  );
-  const Room6Ceil = useMemo(
-    () => toConvexProps(nodes.Room6Ceil.geometry),
-    [nodes]
-  );
-  const Room1Ceil_1 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil_1.geometry),
-    [nodes]
-  );
-  const Room1Ceil_2 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil_2.geometry),
-    [nodes]
-  );
-  const Ceil001 = useMemo(() => toConvexProps(nodes.Ceil001.geometry), [nodes]);
-  const Ceil002 = useMemo(() => toConvexProps(nodes.Ceil002.geometry), [nodes]);
-  const Ceil003 = useMemo(() => toConvexProps(nodes.Ceil003.geometry), [nodes]);
-  const Room1Ceil001_1 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil001_1.geometry),
-    [nodes]
-  );
-  const Room1Ceil001_2 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil001_2.geometry),
-    [nodes]
-  );
-  const Room1Ceil001_3 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil001_3.geometry),
-    [nodes]
-  );
-  const Room1Ceil002_1 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil002_1.geometry),
-    [nodes]
-  );
-  const Room1Ceil002_2 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil002_2.geometry),
-    [nodes]
-  );
-  const Room1Ceil003_1 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil003_1.geometry),
-    [nodes]
-  );
-  const Room1Ceil003_2 = useMemo(
-    () => toConvexProps(nodes.Room1Ceil003_2.geometry),
-    [nodes]
-  );
+  const Plane001_1 = toConvexProps(nodes.Plane001_1.geometry);
+  const Plane001_2 = toConvexProps(nodes.Plane001_2.geometry);
+  const Plane001_3 = toConvexProps(nodes.Plane001_3.geometry);
+  const Plane001_4 = toConvexProps(nodes.Plane001_4.geometry);
+  const SkySkelleton1 = toConvexProps(nodes.SkySkelleton1.geometry);
+  const SkySkelleton2 = toConvexProps(nodes.SkySkelleton2.geometry);
+  const SkySkelleton3 = toConvexProps(nodes.SkySkelleton3.geometry);
+  const MainEnter01 = toConvexProps(nodes.MainEnter01.geometry);
+  const MainEnter02 = toConvexProps(nodes.MainEnter02.geometry);
+
+  const MoveFloor_1 = toConvexProps(nodes.MoveFloor_1.geometry);
+  const MoveFloor_2 = toConvexProps(nodes.MoveFloor_2.geometry);
+  const CenterWall_1 = toConvexProps(nodes.CenterWall_1.geometry);
+  const CenterWall_2 = toConvexProps(nodes.CenterWall_2.geometry);
+  const CenterWall_3 = toConvexProps(nodes.CenterWall_3.geometry);
+  const NorthBorder_1 = toConvexProps(nodes.NorthBorder_1.geometry);
+  const NorthBorder_2 = toConvexProps(nodes.NorthBorder_2.geometry);
+  const SouthBorder_1 = toConvexProps(nodes.SouthBorder_1.geometry);
+  const SouthBorder_2 = toConvexProps(nodes.SouthBorder_2.geometry);
+  const EastBorder_1 = toConvexProps(nodes.EastBorder_1.geometry);
+  const EastBorder_2 = toConvexProps(nodes.EastBorder_2.geometry);
+  const WestBorder_1 = toConvexProps(nodes.WestBorder_1.geometry);
+  const WestBorder_2 = toConvexProps(nodes.WestBorder_2.geometry);
+  const WestBorder_3 = toConvexProps(nodes.WestBorder_3.geometry);
+  const NorthWall_1 = toConvexProps(nodes.NorthWall_1.geometry);
+  const NorthWall_2 = toConvexProps(nodes.NorthWall_2.geometry);
+  const EastWall_1 = toConvexProps(nodes.EastWall_1.geometry);
+  const EastWall_2 = toConvexProps(nodes.EastWall_2.geometry);
+  const SouthWall_1 = toConvexProps(nodes.SouthWall_1.geometry);
+  const SouthWall_2 = toConvexProps(nodes.SouthWall_2.geometry);
+  const SouthWall_3 = toConvexProps(nodes.SouthWall_3.geometry);
+  const WestWall_1 = toConvexProps(nodes.WestWall_1.geometry);
+  const WestWall_2 = toConvexProps(nodes.WestWall_2.geometry);
+  const WestWall_3 = toConvexProps(nodes.WestWall_3.geometry);
+  const Ceiling01_1 = toConvexProps(nodes.Ceiling01_1.geometry);
+  const Ceiling01_2 = toConvexProps(nodes.Ceiling01_2.geometry);
+  const Ceiling01_3 = toConvexProps(nodes.Ceiling01_3.geometry);
+  const Ceiling02_1 = toConvexProps(nodes.Ceiling02_1.geometry);
+  const Ceiling02_2 = toConvexProps(nodes.Ceiling02_2.geometry);
+  const Ceiling03_1 = toConvexProps(nodes.Ceiling03_1.geometry);
+  const Ceiling03_2 = toConvexProps(nodes.Ceiling03_2.geometry);
+  const Ceiling04_1 = toConvexProps(nodes.Ceiling04_1.geometry);
+  const Ceiling04_2 = toConvexProps(nodes.Ceiling04_2.geometry);
+  const Ceiling05_1 = toConvexProps(nodes.Ceiling05_1.geometry);
+  const Ceiling05_2 = toConvexProps(nodes.Ceiling05_2.geometry);
+  const Ceiling06_1 = toConvexProps(nodes.Ceiling06_1.geometry);
+  const Ceiling06_2 = toConvexProps(nodes.Ceiling06_2.geometry);
+  const Ceiling07_1 = toConvexProps(nodes.Ceiling07_1.geometry);
+  const Ceiling07_2 = toConvexProps(nodes.Ceiling07_2.geometry);
+  const Ceiling08_1 = toConvexProps(nodes.Ceiling08_1.geometry);
+  const Ceiling08_2 = toConvexProps(nodes.Ceiling08_2.geometry);
+  const Ceiling08_3 = toConvexProps(nodes.Ceiling08_3.geometry);
+  const Room2Ceil = toConvexProps(nodes.Room2Ceil.geometry);
+  const Room4Ceil = toConvexProps(nodes.Room4Ceil.geometry);
+  const Room6Ceil = toConvexProps(nodes.Room6Ceil.geometry);
+  const Room1Ceil_1 = toConvexProps(nodes.Room1Ceil_1.geometry);
+  const Room1Ceil_2 = toConvexProps(nodes.Room1Ceil_2.geometry);
+  const Ceil001 = toConvexProps(nodes.Ceil001.geometry)
+  const Ceil002 = toConvexProps(nodes.Ceil002.geometry)
+  const Ceil003 = toConvexProps(nodes.Ceil003.geometry)
+  const Room1Ceil001_1 = toConvexProps(nodes.Room1Ceil001_1.geometry)
+  const Room1Ceil001_2 = toConvexProps(nodes.Room1Ceil001_2.geometry)
+  const Room1Ceil001_3 = toConvexProps(nodes.Room1Ceil001_3.geometry)
+  const Room1Ceil002_1 = toConvexProps(nodes.Room1Ceil002_1.geometry)
+  const Room1Ceil002_2 = toConvexProps(nodes.Room1Ceil002_2.geometry)
+  const Room1Ceil003_1 = toConvexProps(nodes.Room1Ceil003_1.geometry)
+  const Room1Ceil003_2 = toConvexProps(nodes.Room1Ceil003_2.geometry)
 
   return (
     <group {...props} dispose={null}>
@@ -808,7 +620,7 @@ export default function GalleryMap(props) {
             useConvexPolyhedron(() => ({
               mass: 0,
               args: WestWall_2,
-              position: [18.94, 0, -150.36],
+              position: [19.12, 0, -150.36],
             }))[0]
           }
         >
@@ -842,7 +654,7 @@ export default function GalleryMap(props) {
             useConvexPolyhedron(() => ({
               mass: 0,
               args: Ceiling01_1,
-              position: [32.98, 25.4, -84.32],
+              position: [32.78, 25.4, -84.32],
             }))[0]
           }
         >
@@ -1164,7 +976,6 @@ export default function GalleryMap(props) {
             material={materials.Light}
           />
         </group>
-
       </group>
       <group>
         <group
