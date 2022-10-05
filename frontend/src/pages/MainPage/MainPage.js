@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, Suspense } from "react";
 import styled, {keyframes} from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Html, useGLTF, useProgress, softShadows } from "@react-three/drei";
+import { Html, useGLTF, useProgress, softShadows, OrbitControls } from "@react-three/drei";
 import { a, useTransition, useSpring } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
 import { Div, screenSizes } from "../../styles/BaseStyles";
@@ -127,6 +127,7 @@ const NavArea = styled.div`
 
 const GoGallery = styled.div`
   cursor: pointer;
+  color: var(--grape-100);
 `
 
 const LastContent = ({setClicked}) => {
@@ -178,7 +179,7 @@ const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color}
 
   return (
     <>
-    <mesh ref={mesh} position={[0, 6, 10]} scale={50}>
+    <mesh ref={mesh} position={[56, 6, 10]} scale={50}>
 
       <boxGeometry attach='geometry'/>
       <meshStandardMaterial attach='material' color={color}/>
@@ -230,6 +231,7 @@ const MainPage = () => {
     <Div w="100%" h="calc(100vh - 120px)">
       <Canvas camera={{position: [0, 0, 120], fov: 70}}>
         <Lights/>
+        <OrbitControls/>
         <Suspense fallback={null}>
           <HTMLContent domContent={domContent} positionY={260} setColor={setColor} bgColor="--ocean-300">
             공간 109에서 디지털 작품을 NFT로 만들고 나만의 갤러리에 전시해보세요
