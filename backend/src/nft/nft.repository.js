@@ -46,7 +46,8 @@ class NftRepository {
     position,
     positionXYZ,
     metadata,
-    rotation
+    rotation,
+    tokenId
   ) {
     // scale, position 둘 다 undefined일경우 무조건 return false를 넣어줘야함
     // typeof str == "undefined" || str == null || str == ""
@@ -68,6 +69,7 @@ class NftRepository {
     if (positionXYZ != null) sql += ` positionXYZ='${positionXYZ}',`;
     if (metadata != null) sql += ` metadata='${metadata}',`;
     if (rotation != null) sql += ` rotation='${rotation}',`;
+    if (tokenId != null) sql += ` token_id=${tokenId},`;
     sql = sql.slice(0, -1);
     sql += sqlTail;
     logger.debug(sql);
@@ -82,6 +84,7 @@ class NftRepository {
     logger.debug("result = " + returnBool);
     return returnBool;
   }
+
   async getDisplayedNftList(galleryId) {
     const sql = `SELECT * FROM nft WHERE GALLERY_ID = ${galleryId};`;
     const result = await connection
@@ -93,25 +96,59 @@ class NftRepository {
 
     return result;
   }
-  async deleteNft(nftId) {
-    const sql = `DELETE FROM nft WHERE NFT_ID = ${nftId};`;
-    let returnBool = true;
-    const result = await connection
-      .query(sql)
-      .then((data) => {
-        returnBool = data[0].affectedRows;
-      })
-      .catch((e) => {
-        logger.error(e);
-        returnBool = 0;
-      });
-    if (returnBool === 0) {
-      return false;
-    } else {
-      return true;
-    }
+
+  // 판매됐을떄
+  async sellNft(nftId) {
+    // const sql = `update nft set sell=1 WHERE NFT_ID = '${nftId}';`;
+    // console.log(sql);
+    // let returnBool = true;
+    // const result = await connection
+    //   .query(sql)
+    //   .then((data) => {
+    //     returnBool = data[0].affectedRows;
+    //   })
+    //   .catch((e) => {
+    //     logger.error(e);
+    //     returnBool = 0;
+    //   });
+    // if (returnBool === 0) {
+    //   return false;
+    // } else {
+    //   return true;
+    // }
     // console.log(result);
     // return returnBool;
+    await connection.beginTransaction();
+    // 판매한 NFT 정보 로그에 추가
+    try {
+      const sql1 = `insert into log(GALLERY_ID, OA,METADATA, TOKEN_ID) select GALLERY_ID, OA,METADATA, TOKEN_ID from nft where nft_id=${nftId}`;
+      const sql1Result = await connection.query(sql1);
+
+      // 판매한 NFT 정보 삭제
+      const sql2 = `delete from nft where nft_id=${nftId}`;
+      const sql2Result = await connection.query(sql2);
+      await connection.commit();
+    } catch (e) {
+      await connection.rollback();
+      logger.error(e);
+      return false;
+    }
+
+    return true;
+  }
+
+  //  단순히 전시에서 내리는거
+  async deleteFrame(nftId) {
+    const sql = `delete from nft where nft_id=${nftId}`;
+    const result = await connection
+      .query(sql)
+      .then((data) => data[0].affectedRows)
+      .catch((e) => {
+        logger.error(e);
+      });
+
+    if (result == 0) return false;
+    return true;
   }
 }
 module.exports = NftRepository;

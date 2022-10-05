@@ -35,7 +35,8 @@ class NftService {
     position,
     positionXYZ,
     metadata,
-    rotation
+    rotation,
+    tokenId
   ) {
     return {
       statusCode: 200,
@@ -47,7 +48,8 @@ class NftService {
           position,
           positionXYZ,
           metadata,
-          rotation
+          rotation,
+          tokenId
         ),
       },
     };
@@ -63,12 +65,22 @@ class NftService {
     };
   }
 
-  async deleteNft(nftId) {
+  async sellNft(nftId) {
     return {
       statusCode: 200,
       responseBody: {
         result: "success",
-        data: await nftRepository.deleteNft(nftId),
+        data: await nftRepository.sellNft(nftId),
+      },
+    };
+  }
+
+  async deleteFrame(nftId) {
+    return {
+      statusCode: 200,
+      responseBody: {
+        result: "success",
+        data: await nftRepository.deleteFrame(nftId),
       },
     };
   }

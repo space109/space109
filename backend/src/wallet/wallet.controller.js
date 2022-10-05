@@ -38,4 +38,14 @@ router.post("/join", async function (req, res) {
   res.send(responseBody);
 });
 
+router.get("/sellCheck", async function (req, res) {
+  logger.http("GET /wallet/sellCheck");
+  logger.debug("galleryId = " + req.query["galleryId"]);
+  const { statusCode, responseBody } = await walletService.sellCheck(
+    req.query["galleryId"]
+  );
+  res.statusCode = statusCode;
+  res.send(responseBody);
+});
+
 module.exports = router;
