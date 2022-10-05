@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import closeIcon from "../../assets/close-icon.png";
 import uploadImage from "../../assets/uploadImage.png"
+import { useAxios } from "../../hooks";
 import { Div } from "../../styles/BaseStyles";
 import { SharpButton } from "../Button";
 import ReactDOM from "react-dom";
 import axios from "axios";
+import { SaleContract, SaleFactoryContract, SsafyTokenContract } from "../../web3Config";
+import { selledNFT } from "../../apis";
+import { Loading } from "../../components";
 
 const BackDropDiv = styled.div`
   position: fixed;
@@ -53,6 +57,7 @@ const Img = styled.img`
   position: absolute;
   right: 10px;
   top: 10px;
+  cursor: pointer;
 `;
 
 const ThumbImg = styled.img`
@@ -168,14 +173,62 @@ const Backdrop = (props) => {
 const ModalOverlay = ({
   toggle,
   toggleModal,
-  meta=""
+  meta="",
+  tokenId=""
 }) => {
   const [title, setTitle] = useState("제목");
   const [author, setAuthor] = useState("작가");
   const [description, setDescription] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, ");
   const [image, setImage] = useState(uploadImage);
-  const [price, setPrice] = useState("가격");
 
+  const [price, setPrice] = useState("가격");
+  const [ saleStatus, setSaleStatus ] = useState(false);
+  const [ saleData, setSaleData ] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [helpText, setHelpText] = useState("helpText");
+  const [ canSellStatus, setCanSellStatus ] = useState(false);
+
+  const purchaseNFT = async () => {
+    console.log(saleData.owner, window.ethereum.selectedAddress)
+    try {
+      setLoading(true);
+      setHelpText("작품 구매 중... 서명을 진행해주세요(1/2)");
+      const response = await SsafyTokenContract.methods.approve(saleData.saleAddress, saleData.purchasePrice).send({from: window.ethereum.selectedAddress});
+      if (response.status) {
+        setHelpText("작품 구매 중... 서명을 진행해주세요(2/2)");
+        const response2 = await SaleContract(saleData.saleAddress).methods.purchase().send({from: window.ethereum.selectedAddress});
+        if (response2.status) {
+          setLoading(false);
+          const response = await selledNFT(tokenId);
+          if (response) {
+            alert("작품을 성공적으로 구매하였습니다.");
+          } else {
+            alert("구매에 실패하였습니다.");
+          }
+        }
+      }
+    } catch (e) {
+      setLoading(false);
+      alert("구매에 실패하였습니다.");
+      console.error(e);
+    }
+  }
+
+  const getSaleInfo = async () => {
+    const getSaleData = await SaleFactoryContract.methods.getSaleData(parseInt(tokenId)).call();
+    console.log(getSaleData);
+    setSaleData(getSaleData);
+    return getSaleData.itemId;
+  }
+  const init = async () => {
+    if(await getSaleInfo() === "0") {
+      setSaleStatus(false);
+      setCanSellStatus(false);
+    } else {
+      setSaleStatus(true);
+      console.log(saleData.owner !== window.ethereum.selectedAddress, "가능???");
+    }
+  }
   useEffect(() => {
     console.log(meta);
     if (meta !== "") {
@@ -197,10 +250,15 @@ const ModalOverlay = ({
     }
   }, [meta]);
 
+  useEffect(() => {
+    init();
+  }, [meta])
+
   if (!toggle) return null;
 
   return (
     <Div>
+      {loading && <Loading HelpText={helpText} />}
       <ThumbImg src={image} alt="" className="thumb-active"/>
       <ModalDiv className="modal-active">
         <Img src={closeIcon} alt="" onClick={toggleModal} />
@@ -226,13 +284,18 @@ const ModalOverlay = ({
             </DescriptionDiv>
           </BodyDiv>
           <FooterDiv>
-            <PriceDiv>
-              <CurrentPriceDiv>7.3SSF</CurrentPriceDiv>
-              <PriceTitleDiv>현재 가격</PriceTitleDiv>
-            </PriceDiv>
-            <PurchaseDiv>
-              <SharpButton>구매하기</SharpButton>
-            </PurchaseDiv>
+            { 
+              saleStatus && (saleData.owner !== window.ethereum.selectedAddress) &&
+              <>
+              <PriceDiv>
+                <CurrentPriceDiv>{saleData.purchasePrice}</CurrentPriceDiv>
+                <PriceTitleDiv>현재 가격</PriceTitleDiv>
+              </PriceDiv>
+              <PurchaseDiv>
+                <SharpButton onClick={purchaseNFT}>구매하기</SharpButton>
+              </PurchaseDiv>
+              </> 
+            }
           </FooterDiv>
         </Div>
       </ModalDiv>
@@ -240,7 +303,7 @@ const ModalOverlay = ({
   );
 };
 
-const InfoModal = ({ toggleModal, toggle, meta }) => {
+const InfoModal = ({ toggleModal, toggle, meta, tokenId }) => {
   return (
     <>
       {ReactDOM.createPortal(
@@ -248,7 +311,7 @@ const InfoModal = ({ toggleModal, toggle, meta }) => {
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay toggleModal={toggleModal} toggle={toggle} meta={meta} />,
+        <ModalOverlay toggleModal={toggleModal} toggle={toggle} meta={meta} tokenId={tokenId}/>,
         document.getElementById("overlay-root")
       )}
     </>

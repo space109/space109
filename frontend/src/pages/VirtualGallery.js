@@ -411,6 +411,7 @@ const VirtualGallery = () => {
         toggleModal={toggleModal}
         toggle={toggle}
         meta={countArray ? countArray[toggleIdx]?.METADATA : ""}
+        tokenId={countArray ? countArray[toggleIdx]?.TOKEN_ID : ""}
       />
       <CommunityModal
         open={open}
