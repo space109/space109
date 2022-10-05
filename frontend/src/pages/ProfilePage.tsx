@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, Suspense } from "react";
 import styled from "styled-components";
 import { SharpButton, NavArea, CropModal, SelectBox } from "../components";
 import { Div } from "../styles/BaseStyles";
-import { myGalleryInfo, myGalleryInfoUpdate, login } from "../apis";
+import { myGalleryInfo, myGalleryInfoUpdate, login, resetGallery } from "../apis";
 import { useNavigate } from "react-router-dom";
 import { CategoryTitle, CategoryId } from "../common/category";
 
@@ -136,6 +136,18 @@ export default function ProfilePage({ load }: Props) {
     setLoading(false);
   }, []);
 
+  const ResetGalleryFunc = async () => {
+    console.log("머임");
+    const data = await resetGallery(eth?.selectedAddress);
+    if (data > 1 ) {
+      alert("모든 액자를 내렸습니다.");
+    } else if (data === 1) {
+      alert("이미 비어있는 갤러리 입니다.");
+    } else if (data === 0) {
+      alert("에러");
+    }
+  };
+
   const getNickname = async () => {
     const nameData = await login(eth.selectedAddress);
     if (nameData.length) {
@@ -203,7 +215,10 @@ export default function ProfilePage({ load }: Props) {
   };
 
   const GoMyGallery = () => {
-    navigate("/");
+    load();
+    setTimeout(() => {
+      navigate(`/virtual-gallery/${data.gallery_id}`);
+    }, 2000);
   };
 
   return (
@@ -254,6 +269,18 @@ export default function ProfilePage({ load }: Props) {
             onClick={GoEditVirtualGallery}
           >
             갤러리 편집하기
+          </SharpButton>
+          <SharpButton
+            width="240px"
+            height="60px"
+            fontSize="--h4"
+            fontWeight="--semi-bold"
+            borderRadius="0"
+            bg="--grey-100"
+            color="--mandarin-300"
+            onClick={ResetGalleryFunc}
+          >
+            갤러리 비우기
           </SharpButton>
         </Div>
         <Div w="80%" bgColor="--grey-100">

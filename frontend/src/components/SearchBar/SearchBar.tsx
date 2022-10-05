@@ -38,6 +38,7 @@ const Image = styled.img.attrs<PropsStyle>(props => ({
     filter: opacity(1); 
   }
   transition: .3s;
+  cursor: pointer;
 `
 
 const Box = styled.div<PropsStyle>`

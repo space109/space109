@@ -62,7 +62,7 @@ const BackGround = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 150;
   animation: ${On} 0.5s ease;
 `;
 

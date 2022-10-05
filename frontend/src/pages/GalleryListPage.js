@@ -45,7 +45,7 @@ const SearchDiv = styled.div`
   }
 `
 
-function GalleryListPage() {
+function GalleryListPage({ load }) {
 
   const [ gallerys, setGallerys ] = useState();
   const [ searchValue, setSearchValue ] = useState();
@@ -108,7 +108,7 @@ function GalleryListPage() {
         </FilterDiv>
       </SearchArea>
       <Content>
-        <GalleryList gallerys={gallerys}></GalleryList>
+        <GalleryList gallerys={gallerys} load={load}></GalleryList>
         {/* <GalleryList></GalleryList> */}
       </Content>
     </>
