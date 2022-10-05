@@ -130,6 +130,8 @@ function MyNftPage() {
   const setNftListPage = () => setViewPage(0); // NFT 목록 페이지로 세팅
   const setNftMakePage = () => setViewPage(1); // NFT 생성 페이지로 세팅
 
+  const [check, setCheck ] = useState(false);
+
   const [isOnModal, setIsOnModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
 
@@ -185,7 +187,7 @@ function MyNftPage() {
 
   useEffect(() => {
     getData();
-  }, [account, viewPage, isChecked]);
+  }, [account, isChecked, check]);
 
   useEffect(() => {
     if (isChecked) {
@@ -219,6 +221,7 @@ function MyNftPage() {
                       tokenId={NFTIds[index]}
                       {...metaData}
                       nickname={nickname}
+                      setCheck={setCheck}
                     />
                   );
                 }
@@ -242,6 +245,7 @@ function MyNftPage() {
                     tokenId={NFTIds[index]}
                     {...metaData}
                     nickname={nickname}
+                    setCheck={setCheck}
                   />
                 );
               }
@@ -277,7 +281,7 @@ function MyNftPage() {
       </>
     );
   } else {
-    viewContent = <NftMake></NftMake>;
+    viewContent = <NftMake setCheck={setCheck}></NftMake>;
   }
 
   // const getAllSales = async () => {
@@ -285,12 +289,12 @@ function MyNftPage() {
   //   console.log(response);
   // }
 
-  const buyToken = async () => {
-    const allow = await SsafyTokenContract.methods.approve("0x9dd008b9eB06C150d75738AF2581d1a380a8aC71", 100).send({from: window.ethereum.selectedAddress});
-    console.log(allow)
-    const response = await SaleContract("0x9dd008b9eB06C150d75738AF2581d1a380a8aC71").methods.purchase().send({from: window.ethereum.selectedAddress});
-    console.log(response);
-  }
+  // const buyToken = async () => {
+  //   const allow = await SsafyTokenContract.methods.approve("0x9dd008b9eB06C150d75738AF2581d1a380a8aC71", 100).send({from: window.ethereum.selectedAddress});
+  //   console.log(allow)
+  //   const response = await SaleContract("0x9dd008b9eB06C150d75738AF2581d1a380a8aC71").methods.purchase().send({from: window.ethereum.selectedAddress});
+  //   console.log(response);
+  // }
 
   // const getSaleInfo = async () => {
   //   const response = await SaleFactoryContract.methods.getSaleData(4).call();

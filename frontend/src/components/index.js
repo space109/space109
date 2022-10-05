@@ -51,5 +51,5 @@ export { GalleryList } from "./GalleryList";
 export { SearchBar } from "./SearchBar";
 export { FilterButtons } from "./FilterButtons";
 export { alertModal } from "./Alert";
-export { Loading } from "./Loading";
+export { Loading, GalleryLoading } from "./Loading";
 export { SelectBox } from "./SelectBox";

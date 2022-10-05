@@ -158,7 +158,7 @@ function NftDetailModal (props:any) {
   const [ saleStatus, setSaleStatus ] = useState<any>(false);
   const [ saleData, setSaleData ] = useState<any>("");
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [helpText, setHelpText] = useState<string>("helpText");
 
   const SellNFT = async () => {
@@ -167,29 +167,47 @@ function NftDetailModal (props:any) {
       return;
     }
     try {
+      setLoading(true);
+      setHelpText("판매 등록 중... 서명을 진행해주세요(1/2)");
       const response = await SaleFactoryContract.methods.createSale(
         parseInt(props.tokenId), parseInt(price), SsafyTokenCA, SsafyNFTCA
       ).send({from : window.ethereum.selectedAddress});
 
       if (response.status) {
+        setHelpText("판매 등록 중... 서명을 진행해주세요(2/2)");
         const getSaleData = await SaleFactoryContract.methods.getSaleData(parseInt(props.tokenId)).call();
         const response2 = await SsafyNFTContract.methods.setApprovalForAll(getSaleData.saleAddress, true).send({ from: window.ethereum.selectedAddress});
         setPrice(getSaleData.purchasePrice);
         setSaleData(getSaleData);
         setSaleStatus(true);
+        setLoading(false);
+        props.setCheck((pre:any) => !pre);
+        alert("성공적으로 등록되었습니다.")
       }
     } catch (error) {
-      console.log("fff")
+      setLoading(false);
+      alert("판매 등록에 실패하였습니다.");
       console.error(error);
     }
   }
 
   const CancelSell = async () => {
-    const response = await SaleContract(saleData.saleAddress).methods.cancelSales().send({ from: window.ethereum.selectedAddress});
-    setSaleStatus(false);
-    setSaleData("");
-    setPrice("");
-    console.log("판매 취소합니다")
+    setLoading(true);
+    setHelpText("액자 내리는 중... 서명을 진행해주세요");
+    try {
+      const response = await SaleContract(saleData.saleAddress).methods.cancelSales().send({ from: window.ethereum.selectedAddress});
+      setSaleStatus(false);
+      setSaleData("");
+      setPrice("");
+      setLoading(false);
+      props.setCheck((pre:any) => !pre);
+      alert("성공적으로 판매가 취소되었습니다.")
+      console.log("판매 취소합니다")
+    } catch (e) {
+      setLoading(false);
+      alert("판매 취소에 실패하였습니다.")
+      console.error(e);
+    }
   }
 
   const getSaleInfo = async () => {
