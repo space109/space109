@@ -11,8 +11,6 @@ import {
   SignUpPage,
   NotFoundPage,
   ProfilePage,
-  VirtualGallery,
-  EditVirtualGallery,
   BackStage,
 } from "./pages";
 
