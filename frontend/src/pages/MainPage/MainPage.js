@@ -12,11 +12,12 @@ import Section from "./Section";
 // softShadows();
 
 
-const flipout = keyframes`
+const move = keyframes`
   100% {
-    transform: rotateX(360deg);
+    transform: translateX(100px);
   }  
 `;
+
 
 const flipin = keyframes`
   0%,
@@ -59,7 +60,7 @@ const Center = styled.div`
   justify-content: center;
   text-align: center;
   font-size: var(--h1);
-  color: var(--grey-100);
+  color: var(--grey-400);
   font-weight: var(--bold);
   word-break: keep-all;
   @media screen and (max-width: ${screenSizes.xl + "px"}) {
@@ -73,11 +74,8 @@ const Center = styled.div`
     font-size: var(--h3);
     width: 80%;
   }
-  @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    font-size: var(--h4);
-    width: 80%;
-  }
   animation: ${flipin} 3s alternate infinite linear;
+  position: absolute;
 `
 
 const BackCenter = styled.div`
@@ -104,11 +102,9 @@ const BackCenter = styled.div`
     font-size: var(--h3);
     width: 80%;
   }
-  @media screen and (max-width: ${screenSizes.sm + "px"}) {
-    font-size: var(--h4);
-    width: 80%;
-  }
-  animation: ${flipin} 3s alternate infinite linear;
+  position: absolute;
+  color: transparent;
+  -webkit-text-stroke: 0.1px var(--grey-100);
 `
 
 const ScrollArea = styled.div`
@@ -124,7 +120,6 @@ const NavArea = styled.div`
   height: 120px;
   color: transparent;
 `
-
 // const Model = () => {
 //   const gltf = useGLTF("/isabelle.glb");
 //   return <primitive object={gltf.scene} dispose={null}/>;
@@ -134,11 +129,11 @@ const GoGallery = styled.div`
   cursor: pointer;
 `
 
-const LastContent = () => {
+const LastContent = ({setClicked}) => {
 
   return (
-    <GoGallery>
-      마지막이다
+    <GoGallery onClick={() => setClicked(true)}>
+      지금 바로 전시 중인 갤러리 관람 하러가기
     </GoGallery>
   );
 }
@@ -197,9 +192,9 @@ const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color}
     <Section factor={1.5} offset={1}>
       <group position={[0, positionY, 0]}>
         <Html portal={domContent} fullscreen>
-          {/* <Center>
+          <BackCenter ref={refItem}>
             {children}
-          </Center> */}
+          </BackCenter>
           <Center ref={refItem}>
             {children}
           </Center>
@@ -219,6 +214,16 @@ const MainPage = () => {
   const [color, setColor] = useState('white');
   useEffect(() => void onScroll({target: scrollArea.current}), [])
 
+  const [clicked, setClicked] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(clicked) {
+      navigate('/gallery');
+    }
+  }, [clicked])
+
   return (
     <>
     <NavArea/>
@@ -227,15 +232,15 @@ const MainPage = () => {
         <Lights/>
         <Suspense fallback={null}>
           <HTMLContent domContent={domContent} positionY={260} setColor={setColor} bgColor="--ocean-300">
-            공간 109에서 디지털 작품을 NFT로 만들고 나만의 갤러리에 전시해보세요.
+            공간 109에서 디지털 작품을 NFT로 만들고 나만의 갤러리에 전시해보세요
           </HTMLContent>
           <HTMLContent domContent={domContent} positionY={10} setColor={setColor} bgColor="--spinach-300">
-            SSF를 이용하서 판매가 가능합니다
+            SSF를 사용하여 서로의 NFT를 거래해보세요
           </HTMLContent>
           <HTMLContent domContent={domContent} positionY={-240} setColor={setColor} 
             bgColor="--grape-100" color={color}
           >
-            다른 유저들의 갤러리도 관람해보세요
+            <LastContent setClicked={setClicked}/>
           </HTMLContent>
         </Suspense>
       </Canvas>
