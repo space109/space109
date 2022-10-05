@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 import styled, { keyframes } from "styled-components";
-import { ModalPortal, Input, SharpButton } from "..";
+import { ModalPortal, Input, SharpButton, Loading } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
 import { SaleFactoryContract, SsafyNFTContract, SsafyNFTCA, SsafyTokenCA, SaleContract } from "../../web3Config";
 
@@ -158,6 +158,9 @@ function NftDetailModal (props:any) {
   const [ saleStatus, setSaleStatus ] = useState<any>(false);
   const [ saleData, setSaleData ] = useState<any>("");
 
+  const [loading, setLoading] = useState<boolean>(true);
+  const [helpText, setHelpText] = useState<string>("helpText");
+
   const SellNFT = async () => {
     if (!price || price <= 0) {
       alert("정확한 가격을 입력해주십시오");
@@ -209,6 +212,7 @@ function NftDetailModal (props:any) {
 
   return (
     <>
+    {loading && <Loading HelpText={helpText} />}
     <ModalPortal>
       <BackGround onClick={(e) => {
         props.closeModal();
