@@ -8,4 +8,6 @@ export { default as myGalleryInfo } from "./myGalleryInfo";
 export { default as myGalleryInfoUpdate } from "./myGalleryInfoUpdate";
 export { default as getGalleryThemeList } from "./getGalleryThemeList";
 export { default as resetGallery } from "./resetGallery";
-export { default as selledNFT } from "./selledNFT";
+export { default as deleteFrame } from "./deleteFrame";
+export { default as dropNFT } from "./dropNFT";
+export { default as sellCheck } from "./sellCheck";

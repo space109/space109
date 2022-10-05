@@ -1,5 +1,6 @@
 import { useState, useEffect} from "react";
 import styled, { keyframes } from "styled-components";
+import { isConstructorDeclaration } from "typescript";
 import { ModalPortal, Input, SharpButton, Loading } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
 import { SaleFactoryContract, SsafyNFTContract, SsafyNFTCA, SsafyTokenCA, SaleContract } from "../../web3Config";

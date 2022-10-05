@@ -7,8 +7,8 @@ import { Div } from "../../styles/BaseStyles";
 import { SharpButton } from "../Button";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import { SaleContract, SaleFactoryContract, SsafyTokenContract } from "../../web3Config";
-import { selledNFT } from "../../apis";
+import { SaleContract, SaleFactoryContract, SsafyNFTContract, SsafyTokenContract } from "../../web3Config";
+import { login, dropNFT, sellCheck } from "../../apis";
 import { Loading } from "../../components";
 
 const BackDropDiv = styled.div`
@@ -79,7 +79,6 @@ const TitleDiv = styled.div`
   font-size: 48px;
   font-weight: 600;
   color: var(--grey-750);
-  margin-bottom: 3vh;
 `;
 
 const UserDiv = styled.div`
@@ -129,7 +128,7 @@ const DescriptionDiv = styled.div`
 // `;
 
 const FooterDiv = styled.div`
-  padding-top: 3vh;
+  padding-top: 1vh;
   border-top: 2px solid var(--grey-300);
   display: flex;
   justify-content: space-between;
@@ -137,11 +136,11 @@ const FooterDiv = styled.div`
 `;
 
 const HeadDiv = styled.div`
-  height: 15vh;
+  height: 17.5vh;
 `;
 
 const BodyDiv = styled.div`
-  height: 36vh;
+  height: 34vh;
   overflow: scroll;
 `;
 
@@ -175,7 +174,7 @@ const ModalOverlay = ({
   toggle,
   toggleModal,
   meta="",
-  tokenId=""
+  tokenId="",
 }) => {
   const [title, setTitle] = useState("제목");
   const [author, setAuthor] = useState("작가");
@@ -188,23 +187,25 @@ const ModalOverlay = ({
   const [loading, setLoading] = useState(false);
   const [helpText, setHelpText] = useState("helpText");
 
+  const [owner, setOwner] = useState("소유자");
+
   const purchaseNFT = async () => {
     console.log(saleData.owner, window.ethereum.selectedAddress)
     try {
       setLoading(true);
       setHelpText("작품 구매 중... 서명을 진행해주세요(1/2)");
-      const response = await SsafyTokenContract.methods.approve(saleData.saleAddress, saleData.purchasePrice).send({from: window.ethereum.selectedAddress});
+      const response = await SsafyTokenContract.methods.approve(saleData.saleAddress, parseInt(saleData.purchasePrice)).send({from: window.ethereum.selectedAddress});
       if (response.status) {
         setHelpText("작품 구매 중... 서명을 진행해주세요(2/2)");
         const response2 = await SaleContract(saleData.saleAddress).methods.purchase().send({from: window.ethereum.selectedAddress});
         if (response2.status) {
           setLoading(false);
-          setSaleStatus(true);
-          const response = await selledNFT(tokenId);
+          setSaleStatus(false);
+          const response = await dropNFT(parseInt(tokenId));
           if (response) {
             alert("작품을 성공적으로 구매하였습니다.");
           } else {
-            alert("액자를 갤러리에서 내리지 못했습니다.");
+            console.error("에러! 액자를 갤러리에서 내리지 못했습니다.");
           }
         }
       }
@@ -221,7 +222,21 @@ const ModalOverlay = ({
     setSaleData(getSaleData);
     return getSaleData.itemId;
   }
+  
+  const getTokenOwner = async () => {
+    try {
+      const tokenOwner = await SsafyNFTContract.methods.ownerOf(parseInt(tokenId)).call();
+      const nameData = await login(tokenOwner);
+      if (nameData.length) {
+        setOwner(nameData[0].nickname);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   const init = async () => {
+    getTokenOwner();
     if(await getSaleInfo() === "0") {
       setSaleStatus(false);
     } else {
@@ -231,7 +246,7 @@ const ModalOverlay = ({
   useEffect(() => {
     console.log(meta);
     if (meta !== "") {
-      console.log("InfoModal");
+      init();
       axios
         .get(meta)
         .then((res) => {
@@ -239,7 +254,6 @@ const ModalOverlay = ({
           setAuthor(res?.data.author);
           setDescription(res?.data.description);
           setImage(res?.data.image);
-          init();
         })
         .catch((err) => console.log(err));
     } else {
@@ -251,6 +265,7 @@ const ModalOverlay = ({
   }, [meta, saleStatus]);
 
   useEffect(() => {
+    init();
     return (() => {
       setTitle("");
       setAuthor("");
@@ -258,6 +273,7 @@ const ModalOverlay = ({
       setImage("");
       setSaleStatus("");
       setSaleData("");
+      setOwner("");
     }
     )
   }, [meta])
@@ -274,6 +290,7 @@ const ModalOverlay = ({
         <Div flex="8">
           <HeadDiv>
             <TitleDiv>{title}</TitleDiv>
+            <Div fontSize="--h5" color="--grey-400" mt="-0.6vh" mb="1.1vh">{`#` + tokenId.toString().padStart(4, '0')}</Div>
             <UserDiv>
               <AuthorDiv>
                 <H5Div>작가명</H5Div>
@@ -281,7 +298,7 @@ const ModalOverlay = ({
               </AuthorDiv>
               <Div>
                 <H5Div>소유자명</H5Div>
-                <H7Div>{author}</H7Div>
+                <H7Div>{owner}</H7Div>
               </Div>
             </UserDiv>
           </HeadDiv>
