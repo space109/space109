@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { debounce } from "lodash";
-import { LoadingProgress, NavBar } from "./components";
+import { NavBar } from "./components";
 import ScrollToTop from "./common/ScrollToTop";
 import {
   MainPage,
@@ -11,12 +11,30 @@ import {
   SignUpPage,
   NotFoundPage,
   ProfilePage,
+  VirtualGallery,
+  EditVirtualGallery,
+  BackStage,
 } from "./pages";
 
 const VirtualGallery = lazy(() => import("./pages/VirtualGallery"));
 const EditVirtualGallery = lazy(() => import("./pages/EditVirtualGallery"));
 
 function App() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [animation, setAnimation] = useState("");
+
+  const load = () => {
+    setAnimation("start");
+    setLoading(true);
+
+    setTimeout(() => {
+      setAnimation("end");
+    }, 5000);
+    setTimeout(() => {
+      setLoading(false);
+    }, 7000);
+  };
+
   // 윈도우 사이즈를 저장할 스테이트
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -42,14 +60,16 @@ function App() {
     <div>
       <BrowserRouter>
         <ScrollToTop />
-        <Suspense fallback={<div>로딩중...</div>}>
-          <Routes>
+        <Routes>
+          <Route
+            element={<BackStage loading={loading} animation={animation} />}
+          >
             <Route element={<NavBar windowSize={windowSize} />}>
               <Route path="/" element={<MainPage />} />
               <Route path="/monthlyTheme" element={<MonthlyThemePage />} />
               <Route path="/gallery" element={<GalleryListPage />} />
               <Route path="/signUp" element={<SignUpPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/profile" element={<ProfilePage load={load} />} />
               <Route path="/myNft" element={<MyNftPage />}></Route>
               <Route path="/*" element={<NotFoundPage />} />
             </Route>
@@ -58,8 +78,8 @@ function App() {
               path="/edit-virtual-gallery/:key"
               element={<EditVirtualGallery />}
             />
-          </Routes>
-        </Suspense>
+          </Route>
+        </Routes>
       </BrowserRouter>
     </div>
   );

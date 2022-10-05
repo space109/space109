@@ -7,3 +7,4 @@ export { default as SignUpPage } from "./SignUpPage";
 export { default as ProfilePage } from "./ProfilePage";
 export { default as VirtualGallery } from "./VirtualGallery";
 export { default as EditVirtualGallery } from "./EditVirtualGallery";
+export { default as BackStage } from "./BackStage";
