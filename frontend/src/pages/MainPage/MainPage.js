@@ -183,7 +183,6 @@ const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color,
   return (
     <>
     <mesh ref={mesh} position={[56, 6, 10]} scale={50}>
-
       <boxGeometry attach='geometry'/>
       <meshStandardMaterial attach='material' color={color}/>
     </mesh>

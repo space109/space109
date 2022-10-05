@@ -20,7 +20,7 @@ const Background = styled.div`
   left: 0;
   width: 100%;
   min-height: 100vh;
-  background-color: var(--grey-200);
+  background-color: var(--grey-150);
   z-index: -10;
 `
 
