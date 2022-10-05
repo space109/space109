@@ -165,17 +165,17 @@ const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color}
     inView && (
       document.body.style.background = `var(${bgColor})`
     )
-    // if (inView) {
-    //   if (bgColor === '--ocean-300'){
-    //     setColor('lightblue')
-    //   }
-    //   else if (bgColor === '--spinach-300'){
-    //     setColor('#648f82')
-    //   }
-    //   else if (bgColor === '--grape-100'){
-    //     setColor('lightyellow')
-    //   }
-    // }
+    if (inView) {
+      if (bgColor === '--ocean-300'){
+        setColor('lightblue')
+      }
+      else if (bgColor === '--spinach-300'){
+        setColor('#648f82')
+      }
+      else if (bgColor === '--grape-100'){
+        setColor('lightyellow')
+      }
+    }
   }, [inView])
 
   return (

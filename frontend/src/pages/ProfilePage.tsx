@@ -140,7 +140,7 @@ export default function ProfilePage({ load }: Props) {
     console.log("머임");
     const data = await resetGallery(eth?.selectedAddress);
     if (data > 1 ) {
-      alert("성공적으로 갤러리를 정리하였습니다.");
+      alert("모든 액자를 내렸습니다.");
     } else if (data === 1) {
       alert("이미 비어있는 갤러리 입니다.");
     } else if (data === 0) {

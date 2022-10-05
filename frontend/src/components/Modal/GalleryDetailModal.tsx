@@ -4,6 +4,7 @@ import { ModalPortal, Input, SharpButton } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
 import { login } from "../../apis";
 import { CategoryTitle } from "../../common/category";
+import { useNavigate } from "react-router-dom";
 
 interface PropsStyle{
   url?: any,
@@ -145,6 +146,14 @@ function GalleryDetailModal (props:any) {
 
   const [ hostNickname, setHostNickname ] = useState();
 
+  const navigate = useNavigate();
+
+  const GoGallery = () => {
+    props.load();
+    setTimeout(() => {
+      navigate(`/virtual-gallery/${props.data.gallery_id}`);
+    }, 2000);
+  }
   const init = async () => {
     const nameData = await login(props.data.oa);
     setHostNickname(nameData[0].nickname);
@@ -188,7 +197,12 @@ function GalleryDetailModal (props:any) {
               <ContentText color="--grey-100">{props.data.description}</ContentText>
             </Div>
             <Div mt="1rem" mb="3rem">
-              <SharpButton width="100%" height="3rem" bg="--grey-100" color="--grey-750" borderColor="--grey-100" borderWidth="1px" fontSize="--h5">
+              <SharpButton 
+                width="100%" height="3rem" bg="--grey-100" 
+                color="--grey-750" borderColor="--grey-100" 
+                borderWidth="1px" fontSize="--h5"
+                onClick={GoGallery}
+              >
                 입장하기
               </SharpButton>
             </Div>
