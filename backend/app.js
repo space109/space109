@@ -33,9 +33,9 @@ app.use("/image", express.static(path.join("/", "tmp", "space109")));
 
 // app.use("/items", itemsRouter);
 // app.use("/sales", salesRouter);
-app.use("/wallet", walletRouter);
-app.use("/nft", nftRouter);
-app.use("/gallery", galleryRouter);
+app.use("/api/wallet", walletRouter);
+app.use("/api/nft", nftRouter);
+app.use("/api/gallery", galleryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res) {
