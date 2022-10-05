@@ -46,7 +46,8 @@ class NftRepository {
     position,
     positionXYZ,
     metadata,
-    rotation
+    rotation,
+    tokenId
   ) {
     // scale, position 둘 다 undefined일경우 무조건 return false를 넣어줘야함
     // typeof str == "undefined" || str == null || str == ""
@@ -68,6 +69,7 @@ class NftRepository {
     if (positionXYZ != null) sql += ` positionXYZ='${positionXYZ}',`;
     if (metadata != null) sql += ` metadata='${metadata}',`;
     if (rotation != null) sql += ` rotation='${rotation}',`;
+    if (tokenId != null) sql += ` token_id=${tokenId},`;
     sql = sql.slice(0, -1);
     sql += sqlTail;
     logger.debug(sql);

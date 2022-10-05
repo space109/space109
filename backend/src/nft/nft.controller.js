@@ -30,7 +30,8 @@ router.put("/display/change", async function (req, res) {
     req.body.position,
     req.body.positionXYZ,
     req.body.metadata,
-    req.body.rotation
+    req.body.rotation,
+    req.body.tokenId
   );
   res.statusCode = statusCode;
   res.send(responseBody);
