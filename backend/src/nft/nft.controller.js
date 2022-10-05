@@ -46,19 +46,12 @@ router.get("/display", async function (req, res) {
   res.send(responseBody);
 });
 
-router.put("/display", async function (req, res) {
-  logger.http("PUT /nft/display");
-  logger.debug("req.body = " + JSON.stringify(req.body));
-  const { statusCode, responseBody } = await nftService.sellNft(req.body.nftId);
-  res.statusCode = statusCode;
-  res.send(responseBody);
-});
-
-router.delete("/checkDelete", async function (req, res) {
-  logger.http("DELETE /nft/checkDelete");
-  logger.debug("req.body = " + JSON.stringify(req.body));
-  const { statusCode, responseBody } = await nftService.checkDelete(
-    req.body.galleryId
+// NFT를 구매했을때 그 NFT를 NFT 테이블에서 제거해주고 LOG테이블로 옮겨준다.
+router.delete("/sell", async function (req, res) {
+  logger.http("DELETE /nft/sell");
+  logger.debug("req.query = " + JSON.stringify(req.query));
+  const { statusCode, responseBody } = await nftService.sellNft(
+    req.query["nftId"]
   );
   res.statusCode = statusCode;
   res.send(responseBody);
