@@ -47,6 +47,7 @@ function NftCard(props: any) {
       name: props.name, 
       nickname: props.nickname,
       tokenId: props.tokenId,
+      setCheck: props.setCheck,
     }
     );
   }
