@@ -269,7 +269,7 @@ const VirtualGallery = () => {
         ...state,
       ]);
       sendRequest({
-        url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook`,
         method: "POST",
         data: { galleryId: key, nickname: nickname, description: comment },
       });
@@ -399,7 +399,7 @@ const VirtualGallery = () => {
   useEffect(() => {
     sendRequest(
       {
-        url: `${process.env.REACT_APP_BACKEND_HOST}nft/display?galleryId=${key}`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display?galleryId=${key}`,
       },
       indexMappingHandler
     );
