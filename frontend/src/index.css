@@ -59,6 +59,7 @@ body {
   --spinach-200: #019168;
   --spinach-300: #016549;
   --modal-bg: rgba(0, 0, 0, 0.8);
+  --trans: transparent;
 
   --title: 96px;
   --h1: 60px;
@@ -77,4 +78,38 @@ body {
   --regular: 400;
   --light: 300;
   --thin: 100;
+
+  --columns: 3;
 }
+
+@media (min-width: 750px) {
+  :root {
+    --columns: 5;
+  }
+}
+@media (min-width: 1200px) {
+  :root {
+    --columns: 7;
+  }
+}
+@media (min-width: 1500px) {
+  :root {
+    --columns: 9;
+  }
+}
+@media (min-width: 2000px) {
+  :root {
+    --columns: 11;
+  }
+}
+@media (min-width: 2300px) {
+  :root {
+    --columns: 13;
+  }
+}
+@media (min-width: 2500px) {
+  :root {
+    --columns: 15;
+  }
+}
+

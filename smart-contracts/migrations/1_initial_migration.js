@@ -14,7 +14,7 @@ const SaleFactory = artifacts.require("SaleFactory");
  */
 module.exports = function (deployer) {
   deployer.deploy(SsafyNFT);
-  deployer.deploy(SsafyToken, "SSAFY", "SSF", 0);
+  // deployer.deploy(SsafyToken, "SSAFY", "SSF", 0);
   deployer.deploy(SaleFactory);
   // deployer.deploy(Test);
   // deployer.deploy(NFT);

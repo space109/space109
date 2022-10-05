@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as Logo } from "../../assets/title.svg";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useConnectWallet } from "../../hooks";
+import { login } from "../../apis";
 
-// type Props = {}
+interface Props {
+  windowSize: any;
+}
 
 interface StyleProps {
   active?: boolean;
@@ -53,9 +57,14 @@ const NavBox = styled.div`
   position: relative;
   width: 100%;
   max-width: 1800px;
-  margin-right: auto;
-  margin-left: auto;
+  padding-right: 60px;
+  padding-left: 60px;
   margin-bottom: 0;
+
+  @media (max-width: 1366px) {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
 `;
 
 const Menu = styled.ul`
@@ -73,8 +82,7 @@ const Menu = styled.ul`
   display: flex;
 
   flex-direction: column;
-
-  @media (max-width: 1000px) {
+  @media (max-width: 992px) {
     display: none;
   }
 `;
@@ -130,33 +138,194 @@ const SecondaryMenuItem = styled.li<StyleProps>`
   }
 `;
 
-function NavBar() {
-  const navigate = useNavigate();
+const HamburgerMenu = styled.div<StyleProps>`
+  font-family: "Pretendard Variable";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  color: var(--grey-100);
+  margin-top: 0;
 
-  const [selected, setSelected] = useState(0);
+  @media (min-width: 992px) {
+    display: none;
+  }
+`;
+
+function NavBar({ windowSize }: Props) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [selected, setSelected] = useState<string>("/");
+  // console.log("메타마스크 있음?:", eth.isMetaMask);
+  // console.log("연결됨?:", eth.isConnected());
+  // console.log("아이디 있음?:", eth.selectedAddress);
+
+  // 임시 ------------------------
+  const [account, setAccount] = useState();
+  const [nickname, setNickname] = useState<string>("");
+  console.log(windowSize);
+
+  const SSAFY_CHAIN_ID = "0x79f5";
+  const EXTENSION_DOWNLOAD_URL = "https://metamask.io";
+
+  const getChainId = async () => {
+    const chainId = await window.ethereum.request({
+      method: "eth_chainId",
+    });
+
+    return chainId;
+  };
+
+  const getAccountnName = async () => {
+    const nameData = await login(account);
+    if (nameData.length) {
+      setNickname(nameData[0].nickname);
+    } else {
+      if (window.confirm("회원가입 해주십시오.")) {
+        navigate("/signUp");
+      }
+    }
+  };
+
+  const getName = async () => {
+    try {
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      setAccount(accounts[0]);
+
+      const nameData = await login(accounts[0]);
+
+      if (nameData.length) {
+        setNickname(nameData[0].nickname);
+      } else {
+        setNickname("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const switchSSFNetwork = async () => {
+    try {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: SSAFY_CHAIN_ID }],
+      });
+    } catch (error: any) {
+      // MetaMask에 해당 네트워크가 없는 경우 발생하는 에러
+      if (error.code === 4902) {
+        console.error("This network is not found in your network!");
+        // 현재 addSSFNetwork 실행시 rpcUrls 어쩌구 하면서 에러남,, 왜인지 모르겠음...
+        // addSSFNetwork();
+      } else {
+        console.error("Failed to switch this network");
+      }
+    }
+  };
+
+  const init = async () => {
+    try {
+      const chainId = await getChainId();
+      // console.log('체인 아이디 : ', chainId);
+      if (SSAFY_CHAIN_ID !== chainId) {
+        // 추가는 해야할 것 같은데 전환은 여기서 할 게 맞나 싶어서 일단 주석
+
+        try {
+          await window.ethereum.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: SSAFY_CHAIN_ID }],
+          });
+        } catch (error: any) {
+          // alert("SSAFY 네트워크 추가하고 오세요");
+
+          alert("SSAFY 네트워크를 추가해주세요");
+          window.open(
+            "https://lace-raptorex-71b.notion.site/SSAFY-af21aeede5834fb1a721ffd87ced99bd",
+            "_blank"
+          );
+        }
+      }
+
+      getAccountnName();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const checkNetwork = async () => {
+    try {
+      const chainId = await getChainId();
+      if (SSAFY_CHAIN_ID === chainId) {
+        getName();
+      } else {
+        setNickname("");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 임시끝 -----------------------------------
+
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("chainChanged", () => {
+        // window.location.reload();
+        navigate("/");
+        console.log(selected);
+
+        console.log("체인 바뀜");
+        checkNetwork();
+        console.log("체인 바꼈을때", nickname);
+      });
+      window.ethereum.on("accountsChanged", () => {
+        // window.location.reload();
+
+        navigate("/");
+        console.log(selected);
+
+        console.log("아이디 바뀜");
+        checkNetwork();
+        console.log(nickname);
+      });
+      checkNetwork();
+      console.log(nickname);
+    }
+  }, []);
+
+  useEffect(() => {
+    setSelected(location.pathname);
+  }, [location]);
 
   const goHome = () => {
     navigate("/");
-    setSelected(0);
   };
   const goTheme = () => {
     navigate("/monthlyTheme");
-    setSelected(1);
   };
   const goGallery = () => {
     navigate("/gallery");
-    setSelected(2);
   };
   const goSignUp = () => {
-    navigate("/signUp");
-    setSelected(3);
+    if (window.ethereum) {
+      init();
+      // window.ethereum.on("accountsChanged", getAccountnName);
+    } else {
+      if (
+        window.confirm("메타마스크가 설치되어 있지 않습니다. 설치하시겠습니까?")
+      ) {
+        window.open(EXTENSION_DOWNLOAD_URL, "_blank");
+      }
+    }
   };
   const goProfile = () => {
     navigate("/profile");
-    setSelected(4);
   };
-  const checkActive = (num: number) => {
-    return selected === num;
+  const goMyNFT = () => {
+    navigate("/myNft");
+  };
+  const checkActive = (path: string) => {
+    return selected === path;
   };
 
   return (
@@ -166,24 +335,51 @@ function NavBar() {
           <LogoDiv>
             <Logo onClick={goHome}></Logo>
           </LogoDiv>
-          <Menu>
-            <SecondaryMenu>
-              <SecondaryMenuItem onClick={goSignUp} active={checkActive(3)}>
-                지갑연결
-              </SecondaryMenuItem>
-              <SecondaryMenuItem onClick={goProfile} active={checkActive(4)}>
-                프로필
-              </SecondaryMenuItem>
-            </SecondaryMenu>
-            <PrimayMenu>
-              <PrimayMenuItem onClick={goTheme} active={checkActive(1)}>
-                월간테마
-              </PrimayMenuItem>
-              <PrimayMenuItem onClick={goGallery} active={checkActive(2)}>
-                갤러리
-              </PrimayMenuItem>
-            </PrimayMenu>
-          </Menu>
+          {windowSize.width > 992 ? (
+            <Menu>
+              <SecondaryMenu>
+                {!nickname ? (
+                  <SecondaryMenuItem
+                    onClick={goSignUp}
+                    active={checkActive("/signUp")}
+                  >
+                    지갑연결
+                  </SecondaryMenuItem>
+                ) : (
+                  <>
+                    <SecondaryMenuItem
+                      onClick={goProfile}
+                      active={checkActive("/profile")}
+                    >
+                      프로필
+                    </SecondaryMenuItem>
+                    <SecondaryMenuItem
+                      onClick={goMyNFT}
+                      active={checkActive("/myNft")}
+                    >
+                      내NFT
+                    </SecondaryMenuItem>
+                  </>
+                )}
+              </SecondaryMenu>
+              <PrimayMenu>
+                <PrimayMenuItem
+                  onClick={goTheme}
+                  active={checkActive("/monthlyTheme")}
+                >
+                  월간테마
+                </PrimayMenuItem>
+                <PrimayMenuItem
+                  onClick={goGallery}
+                  active={checkActive("/gallery")}
+                >
+                  갤러리
+                </PrimayMenuItem>
+              </PrimayMenu>
+            </Menu>
+          ) : (
+            <HamburgerMenu>메뉴</HamburgerMenu>
+          )}
         </NavBox>
       </Nav>
       <Outlet></Outlet>
