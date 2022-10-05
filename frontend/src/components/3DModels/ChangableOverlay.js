@@ -18,7 +18,7 @@ const ChangableDiv = styled.div`
   right: 3%;
   width: 30%;
   z-index: 101;
-  height: 60%;
+  height: 90%;
   overflow: hidden;
   background: transparent;
   border-radius: 8px;

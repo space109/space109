@@ -17,8 +17,9 @@ import {
   Floor,
   CommunityModal,
   ControlModal,
+  SharpButton,
 } from "../components";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAccount, useAxios } from "../hooks";
 
 const EditVirtualGallery = () => {
@@ -117,7 +118,7 @@ const EditVirtualGallery = () => {
   const [open, setOpen] = useState(false);
   const [post, setPost] = useState([]);
   const [controlInfo, setControlInfo] = useState(false);
-
+  const navigate = useNavigate();
   //컨트롤 설명서
   const toggleControlInfo = useCallback(() => {
     setControlInfo((state) => !state);
@@ -184,6 +185,12 @@ const EditVirtualGallery = () => {
   // 모달 토글 함수
   const toggleModal = (e) => {
     setToggle((state) => !state);
+  };
+
+  const ExitHandler = () => {
+    if (window.confirm("정말로 퇴장하시겠습니까?")) {
+      navigate("/profile");
+    }
   };
 
   //지갑의 NFT 전체 리스트, 토큰ID 리스트를 가져오는 요청
@@ -308,6 +315,18 @@ const EditVirtualGallery = () => {
         controlInfo={controlInfo}
         toggleControlInfo={toggleControlInfo}
       />
+      <Div position="absolute" bottom="10px" right="10px" zIndex={500}>
+        <SharpButton
+          fontSize="--h6"
+          width="150px"
+          height="40px"
+          bg="--carmine-100"
+          borderRadius="8px"
+          onClick={ExitHandler}
+        >
+          퇴장하기
+        </SharpButton>
+      </Div>
       <Canvas style={{ background: "grey" }}>
         <Suspense fallback={null}>
           {/* 전역 안개, 빛 */}

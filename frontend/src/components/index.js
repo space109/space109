@@ -36,7 +36,7 @@ export {
   ControlBackdrop,
   ControlModal,
   ControlOverlay,
-  LoadingProgress
+  LoadingProgress,
 } from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";
