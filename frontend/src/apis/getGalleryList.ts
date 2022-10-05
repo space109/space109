@@ -5,9 +5,8 @@ const getGalleryList = async () => {
   try {
     const { data: { result, data } } : any = await axios({
       method: 'GET',
-      url: apiPath.gallery.gallery(), 
+      url: apiPath.gallery.gallery(),
     });
-    console.log(result, data);
     if (result === 'success') {
       return data;
     } else {

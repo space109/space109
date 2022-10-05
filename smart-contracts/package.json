@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "@openzeppelin/contracts": "^4.7.3",
+    "@remix-project/remixd": "^0.6.6",
     "@truffle/hdwallet-provider": "^2.0.14",
     "dotenv": "^16.0.2",
     "web3": "^1.6.1"

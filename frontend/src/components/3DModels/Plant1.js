@@ -14,7 +14,7 @@ export default function Plant1(props) {
               geometry={nodes.potTall_aglaonema_phong1_0.geometry}
               material={materials.phong1}
             >
-              <meshPhongMaterial color="hotpink"/>
+              
             </mesh>
             <mesh
               castShadow

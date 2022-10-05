@@ -33,4 +33,7 @@ export { default as RockChair } from "./RockChair";
 export { default as Plant1 } from "./Plant1";
 export { default as MainCharacter } from "./MainCharacter";
 export { default as Owl } from "./Owl";
+export { default as ControlModal } from "./ControlModal";
+export { default as ControlOverlay } from "./ControlOverlay";
+export { default as ControlBackdrop } from "./ControlBackdrop";
 

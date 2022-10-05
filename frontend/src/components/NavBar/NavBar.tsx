@@ -1,146 +1,29 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import {
+  Nav,
+  NavBox,
+  LogoDiv,
+  Menu,
+  PrimayMenu,
+  SecondaryMenu,
+  PrimayMenuItem,
+  SecondaryMenuItem,
+  HamburgerMenu,
+} from "./styles/NavStyle";
 import { ReactComponent as Logo } from "../../assets/title.svg";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useConnectWallet } from "../../hooks";
 import { login } from "../../apis";
+import HamburgerModal from "./HamburgerModal";
 
-// type Props = {}
-
-interface StyleProps {
-  active?: boolean;
+interface Props {
+  windowSize: any;
 }
 
-const Nav = styled.div`
-  position: absolute;
-  z-index: 100;
-  width: 100%;
-  height: 120px;
-
-  background-color: rgba(0, 0, 0, 0);
-
-  display: flex;
-  flex-direction: row;
-  transition: 0.5s;
-
-  opacity: 1;
-  width: 100%;
-  top: 0;
-  &:hover {
-    background-color: var(--grey-650);
-  }
-`;
-
-const LogoDiv = styled.div`
-  width: 25%;
-
-  & svg {
-    cursor: pointer;
-    float: left;
-    display: block;
-    position: relative;
-    top: 0px;
-    height: 87px px;
-    overflow: hidden;
-  }
-`;
-
-const NavBox = styled.div`
-  max-width: 1800px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  position: relative;
-  width: 100%;
-  max-width: 1800px;
-  padding-right: 60px;
-  padding-left: 60px;
-  margin-bottom: 0;
-
-  @media (max-width: 1366px) {
-    padding-right: 32px;
-    padding-left: 32px;
-  }
-`;
-
-const Menu = styled.ul`
-  user-select: none;
-  width: 320px;
-  box-sizing: border-box;
-
-  display: inline-block;
-  white-space: nowrap;
-  position: relative;
-  margin-top: 3px;
-
-  /* identical to box height, or 42px */
-
-  display: flex;
-
-  flex-direction: column;
-
-  @media (max-width: 992px) {
-    display: none;
-  }
-`;
-
-const PrimayMenu = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  font-family: "Pretendard Variable";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 30px;
-  line-height: 140%;
-`;
-
-const SecondaryMenu = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  margin-top: 10px;
-
-  font-family: "Pretendard Variable";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 17px;
-  line-height: 140%;
-`;
-
-const PrimayMenuItem = styled.li<StyleProps>`
-  padding-right: 3.5%;
-  list-style: none;
-  color: var(--grey-100);
-  transition: 5s;
-  text-decoration: ${(props) => (props.active ? "underline" : "none")};
-  cursor: pointer;
-
-  &:hover {
-    color: var(--grey-350);
-    /* text-decoration: underline; */
-  }
-`;
-
-const SecondaryMenuItem = styled.li<StyleProps>`
-  display: inline-block;
-  margin-left: 3%;
-  list-style: none;
-  color: var(--grey-100);
-  transition: 5s;
-  text-decoration: ${(props) => (props.active ? "underline" : "none")};
-  cursor: pointer;
-
-  &:hover {
-    color: var(--grey-350);
-  }
-`;
-
-function NavBar() {
+function NavBar({ windowSize }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [selected, setSelected] = useState<string>("/");
+  const [isOnModal, setIsOnModal] = useState(false);
   // console.log("메타마스크 있음?:", eth.isMetaMask);
   // console.log("연결됨?:", eth.isConnected());
   // console.log("아이디 있음?:", eth.selectedAddress);
@@ -161,13 +44,17 @@ function NavBar() {
   };
 
   const getAccountnName = async () => {
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    setAccount(accounts[0]);
     const nameData = await login(account);
+    console.log("이름", nameData);
     if (nameData.length) {
       setNickname(nameData[0].nickname);
+      navigate("/");
     } else {
-      if (window.confirm("회원가입 해주십시오.")) {
-        navigate("/signUp");
-      }
+      navigate("/signUp");
     }
   };
 
@@ -211,10 +98,8 @@ function NavBar() {
   const init = async () => {
     try {
       const chainId = await getChainId();
-      // console.log('체인 아이디 : ', chainId);
-      if (SSAFY_CHAIN_ID !== chainId) {
-        // 추가는 해야할 것 같은데 전환은 여기서 할 게 맞나 싶어서 일단 주석
 
+      if (SSAFY_CHAIN_ID !== chainId) {
         try {
           await window.ethereum.request({
             method: "wallet_switchEthereumChain",
@@ -273,14 +158,26 @@ function NavBar() {
         checkNetwork();
         console.log(nickname);
       });
-      checkNetwork();
-      console.log(nickname);
+      window.ethereum.on("message", (message: any) => {
+        console.log("메세지:", message);
+      });
+      // checkNetwork();
+      // console.log(nickname);
+      getName();
     }
   }, []);
 
   useEffect(() => {
     setSelected(location.pathname);
+    console.log(location.pathname);
   }, [location]);
+
+  useEffect(() => {
+    console.log(windowSize.width);
+    if (windowSize.width > 768) {
+      closeModal();
+    }
+  }, [windowSize.width]);
 
   const goHome = () => {
     navigate("/");
@@ -312,59 +209,77 @@ function NavBar() {
   const checkActive = (path: string) => {
     return selected === path;
   };
+  const openModal = () => {
+    setIsOnModal(true);
+  };
+  const closeModal = () => {
+    setIsOnModal(false);
+  };
 
   return (
-    <div>
+    <>
+      {isOnModal && (
+        <HamburgerModal
+          closeModal={closeModal}
+          goSignUp={goSignUp}
+          nickname={nickname}
+          selected={selected}
+        />
+      )}
       <Nav>
         <NavBox>
           <LogoDiv>
             <Logo onClick={goHome}></Logo>
           </LogoDiv>
-          <Menu>
-            <SecondaryMenu>
-              {!nickname ? (
-                <SecondaryMenuItem
-                  onClick={goSignUp}
-                  active={checkActive("/signUp")}
+          {windowSize.width > 768 ? (
+            <Menu>
+              <SecondaryMenu>
+                {!nickname ? (
+                  <SecondaryMenuItem
+                    onClick={goSignUp}
+                    active={checkActive("/signUp")}
+                  >
+                    지갑연결
+                  </SecondaryMenuItem>
+                ) : (
+                  <>
+                    <SecondaryMenuItem
+                      onClick={goProfile}
+                      active={checkActive("/profile")}
+                    >
+                      프로필
+                    </SecondaryMenuItem>
+                    <SecondaryMenuItem
+                      onClick={goMyNFT}
+                      active={checkActive("/myNft")}
+                    >
+                      내NFT
+                    </SecondaryMenuItem>
+                  </>
+                )}
+              </SecondaryMenu>
+              <PrimayMenu>
+                <PrimayMenuItem
+                  onClick={goTheme}
+                  active={checkActive("/monthlyTheme")}
                 >
-                  지갑연결
-                </SecondaryMenuItem>
-              ) : (
-                <>
-                  <SecondaryMenuItem
-                    onClick={goProfile}
-                    active={checkActive("/profile")}
-                  >
-                    프로필
-                  </SecondaryMenuItem>
-                  <SecondaryMenuItem
-                    onClick={goMyNFT}
-                    active={checkActive("/myNft")}
-                  >
-                    내NFT
-                  </SecondaryMenuItem>
-                </>
-              )}
-            </SecondaryMenu>
-            <PrimayMenu>
-              <PrimayMenuItem
-                onClick={goTheme}
-                active={checkActive("/monthlyTheme")}
-              >
-                월간테마
-              </PrimayMenuItem>
-              <PrimayMenuItem
-                onClick={goGallery}
-                active={checkActive("/gallery")}
-              >
-                갤러리
-              </PrimayMenuItem>
-            </PrimayMenu>
-          </Menu>
+                  월간테마
+                </PrimayMenuItem>
+                <PrimayMenuItem
+                  onClick={goGallery}
+                  active={checkActive("/gallery")}
+                >
+                  갤러리
+                </PrimayMenuItem>
+              </PrimayMenu>
+            </Menu>
+          ) : (
+            <HamburgerMenu onClick={openModal}>메뉴</HamburgerMenu>
+          )}
         </NavBox>
       </Nav>
       <Outlet></Outlet>
-    </div>
+    </>
   );
 }
 

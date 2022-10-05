@@ -78,7 +78,7 @@ function LabelCheckBox ({setCheck, children}:any) {
 
   const CheckHandler = () => {
     setIsCheck((pre) => !pre);
-    setCheck(isCheck);
+    setCheck((pre:boolean) => !pre);
   }
 
   return (

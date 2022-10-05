@@ -2,7 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import React, { Suspense, useState, useEffect, useCallback } from "react";
 import { Div } from "../styles/BaseStyles";
 import { Physics } from "@react-three/cannon";
-import { MintTestContract } from "../web3Config";
+import { SsafyNFTContract } from "../web3Config";
 import {
   Player,
   ImageFrame,
@@ -16,6 +16,7 @@ import {
   Decorations,
   Floor,
   CommunityModal,
+  ControlModal,
 } from "../components";
 import { useParams } from "react-router-dom";
 import { useAccount, useAxios } from "../hooks";
@@ -115,65 +116,71 @@ const EditVirtualGallery = () => {
   ]);
   const [open, setOpen] = useState(false);
   const [post, setPost] = useState([]);
+  const [controlInfo, setControlInfo] = useState(false);
+
+  //컨트롤 설명서
+  const toggleControlInfo = useCallback(() => {
+    setControlInfo((state) => !state);
+  }, []);
 
   //방명록 초기화
   const resetCommentHandler = useCallback(() => {
     if (window.confirm("정말로 방명록을 초기화 하시겠습니까?")) {
       setPost([]);
       sendRequest({
-        url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook?galleryId=${key}`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook?galleryId=${key}`,
         method: "DELETE",
         data: {
-          galleryId: key
-        }
+          galleryId: key,
+        },
       });
     }
   }, [key, sendRequest]);
 
   //최초 방명록 업데이트
   const getCommentHandler = useCallback((data) => {
-    setPost(data.data)
-  }, [])
+    setPost(data.data);
+  }, []);
 
   //방명록에 댓글을 추가하는 함수
-  const addCommentHandler = useCallback((comment) => {
-    setPost((state) => [
-      { GALLERY_ID:key , NICKNAME: nickname, DESCRIPTION: comment },
-      ...state,
-    ]);
-    sendRequest({
-      url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook`,
-      method: "POST",
-      data: { galleryId: key, nickname: nickname, description: comment },
-    });
-  }, [key, nickname, sendRequest])
+  const addCommentHandler = useCallback(
+    (comment) => {
+      setPost((state) => [
+        { GALLERY_ID: key, NICKNAME: nickname, DESCRIPTION: comment },
+        ...state,
+      ]);
+      sendRequest({
+        url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook`,
+        method: "POST",
+        data: { galleryId: key, nickname: nickname, description: comment },
+      });
+    },
+    [key, nickname, sendRequest]
+  );
 
   //방명록 오픈
-  const toggleOpen = useCallback(
-     () => {
-      setOpen((state) => !state);
-    },
-    []
-  );
+  const toggleOpen = useCallback(() => {
+    setOpen((state) => !state);
+  }, []);
   //이미지 크기 조절 함수
   const ImageScaleHandler = useCallback((data) => {
     setFrameScale(data);
   }, []);
-  
+
   //이미지 위치 조절 함수
   const ImagePositionHandler = useCallback((data) => {
     setFramePosition(data);
   }, []);
-  
+
   const ImageRotationHandler = useCallback((data) => {
     setFrameRotation(data);
   }, []);
-  
+
   //ImageFrame에서 선택한 인덱스를 가져옴
   const getIndexOfFrame = useCallback((index) => {
     setToggleIdx(index);
   }, []);
-  
+
   // 모달 토글 함수
   const toggleModal = (e) => {
     setToggle((state) => !state);
@@ -182,11 +189,11 @@ const EditVirtualGallery = () => {
   //지갑의 NFT 전체 리스트, 토큰ID 리스트를 가져오는 요청
   const getNFTList = useCallback(async () => {
     if (ownerAddress) {
-      const tokenIds = await MintTestContract.methods
+      const tokenIds = await SsafyNFTContract.methods
         .tokenIDsofWallet(ownerAddress)
         .call();
 
-      const tokenURIs = await MintTestContract.methods
+      const tokenURIs = await SsafyNFTContract.methods
         .tokenURIsofWallet(ownerAddress)
         .call();
       setMyNFT(tokenURIs);
@@ -242,27 +249,20 @@ const EditVirtualGallery = () => {
     setCountArray(newArr);
   }, []);
 
-  const getPlayerPosition = (playerPosition) => {
-    console.log(playerPosition);
-  };
-  const handleKeyDown = (e) => {
-    console.log(e.target.value);
-  };
+  //최초에 조작키 오픈
+  useEffect(() => {
+    setControlInfo(true);
+  }, []);
 
-  const targetRoom = (e) => {
-    setRoom(e);
-  };
-
-  const targetIndex = (e) => {
-    setIndex(e);
-  };
-  
   //방명록 데이터 READ
-  useEffect(() =>  {
-    sendRequest({
-      url: `${process.env.REACT_APP_BACKEND_HOST2}/gallery/guestbook?galleryId=${key}&countPerPage=50`,
-    }, getCommentHandler);
-  }, [key, sendRequest, getCommentHandler])
+  useEffect(() => {
+    sendRequest(
+      {
+        url: `${process.env.REACT_APP_BACKEND_HOST}/gallery/guestbook?galleryId=${key}&countPerPage=50`,
+      },
+      getCommentHandler
+    );
+  }, [key, sendRequest, getCommentHandler]);
 
   //메타데이터 리스트 호출
   useEffect(() => {
@@ -273,12 +273,12 @@ const EditVirtualGallery = () => {
   useEffect(() => {
     sendRequest(
       {
-        url: `${process.env.REACT_APP_BACKEND_HOST2}/nft/display?galleryId=${key}`,
+        url: `${process.env.REACT_APP_BACKEND_HOST}/nft/display?galleryId=${key}`,
       },
       indexMappingHandler
     );
   }, [sendRequest, key, indexMappingHandler]);
-  
+
   return (
     <Div w="100vw" h="100vh">
       <EditModal
@@ -304,12 +304,16 @@ const EditVirtualGallery = () => {
         addCommentHandler={addCommentHandler}
         resetCommentHandler={resetCommentHandler}
       />
+      <ControlModal
+        controlInfo={controlInfo}
+        toggleControlInfo={toggleControlInfo}
+      />
       <Canvas style={{ background: "grey" }}>
         <Suspense fallback={null}>
           {/* 전역 안개, 빛 */}
           <Fog />
           <ambientLight intensity={0.3} />
-          <Physics gravity={[0, -50, 0]}>
+          <Physics gravity={[0, -60, 0]}>
             {/* 사각 조명 */}
             <RectAreaLightGroup />
             {/* 천장 디자인 */}
@@ -340,16 +344,13 @@ const EditVirtualGallery = () => {
             <Decorations toggleOpen={toggleOpen} />
             {/* <GalleryMap position={[0, 0, 0]} /> */}
             <Player
+              controlInfo={controlInfo}
               open={open}
               position={[33, 13, -40]}
-              getPosition={getPlayerPosition}
               lockControl={toggle}
-              onKeyDown={handleKeyDown}
               toggleModal={toggleModal}
               toggle={toggle}
               setToggle={setToggle}
-              targetRoom={targetRoom}
-              targetIndex={targetIndex}
             />
           </Physics>
         </Suspense>
