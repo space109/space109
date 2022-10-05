@@ -17,9 +17,9 @@ const apiPath = {
     theme: () => HOST + GALLERY + "/theme",
   },
   nft: {
+    display: () => HOST + NFT + "/display",
 
   },
-  nft: {},
 };
 
 export default apiPath;
