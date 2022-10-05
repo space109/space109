@@ -181,11 +181,8 @@ function MyNftPage() {
   };
 
   const init = async () => {
-    if (account) {
-      const response = await myGalleryInfo(account);
-      console.log("갤러리리스폰스", response);
-      setGalleryID(response[0].gallery_id);
-    }
+    const response = await myGalleryInfo(window.ethereum.selectedAddress);
+    setGalleryID(response[0].gallery_id);
   }
 
   const isSell = async () => {
