@@ -29,7 +29,7 @@ class GalleryRepository {
   }
 
   async listByCategory(category_id) {
-    const sql = `select gallery_id, oa, category_id, description, title, thumbnail from gallery where category_id=${category_id} and is_open=1`;
+    const sql = `select g.gallery_id, g.oa, g.category_id, g.description, g.title, g.thumbnail, u.nickname from gallery g left outer join user u using (oa) where category_id=${category_id} and is_open=1`;
 
     const result = await connection
       .query(sql)
