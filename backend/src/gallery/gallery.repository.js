@@ -111,19 +111,20 @@ class GalleryRepository {
     //     return 0;
     //   });
     // return result;
-    await pool.beginTransaction();
+    const conn = await pool.getConnection();
     let result = 0;
     try {
+      await conn.beginTransaction();
       const getNicknameSql = `select nickname from user where OA = '${oa}';`;
       logger.debug(getNicknameSql);
-      let nickname = await pool.query(getNicknameSql);
+      let nickname = await conn.query(getNicknameSql);
       nickname = nickname[0][0].nickname;
       logger.debug("nickname : " + nickname);
       const updateSql = `update gallery set title= "${nickname}의 갤러리",
       DESCRIPTION = "${nickname}의 갤러리 입니다.",
       CATEGORY_ID = 13, THUMBNAIL = '/image/thumbnail/default/thumbnail.jpg' where OA='${oa}';`;
       logger.debug(updateSql);
-      let updateResult = await pool.query(updateSql);
+      let updateResult = await conn.query(updateSql);
       result = updateResult[0].affectedRows;
       logger.debug("result : " + result);
       // const deleteGuestbookSql = `delete from guest_book where gallery_id = (select gallery_id from gallery where OA = '${oa}');`;
@@ -132,17 +133,17 @@ class GalleryRepository {
       // result += deleteResult[0].affectedRows;
       const deleteNftSql = `delete from nft where gallery_id = (select gallery_id from gallery where OA = '${oa}');`;
       logger.debug("deleteNftSql : " + deleteNftSql);
-      let deleteResult = await pool.query(deleteNftSql);
+      let deleteResult = await conn.query(deleteNftSql);
       result += deleteResult[0].affectedRows;
-      await pool.commit();
+      await conn.commit();
       logger.debug("result : " + result);
     } catch (e) {
       logger.error("resetMyGallery error : transaction rollback");
-      await pool.rollback();
+      await conn.rollback();
       result = 0;
       return result;
     } finally {
-      await pool.release();
+      await conn.release();
     }
     return result;
   }
