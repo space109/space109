@@ -99,7 +99,8 @@ function GalleryListPage({ load }) {
           }
         }
         setGallerys(result);
-      } else {
+      }
+      else {
         setGallerys(datas);
       }
     }

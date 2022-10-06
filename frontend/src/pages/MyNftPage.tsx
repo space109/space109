@@ -9,6 +9,7 @@ import {
   LabelCheckBox,
   NftDetailModal,
   NavArea,
+  SellAlarm
 } from "../components";
 import { debounce } from "lodash";
 import { useAccount } from "../hooks";
@@ -135,6 +136,9 @@ function MyNftPage() {
   const [isOnModal, setIsOnModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
 
+  const [isOnAlarm, setIsOnAlarm] = useState(false);
+  const [selledDatas, setSelledDatas] = useState<any>([]);
+
   const [galleryID, setGalleryID] = useState();
 
   const openModal = () => {
@@ -147,6 +151,13 @@ function MyNftPage() {
   const onModal = (props: any) => {
     setModalInfo(props);
     openModal();
+  };
+
+  const openAlarm = () => {
+    setIsOnAlarm(true);
+  };
+  const closeAlarm = () => {
+    setIsOnAlarm(false);
   };
 
   const handleResize = debounce(() => {
@@ -191,10 +202,11 @@ function MyNftPage() {
       console.log(galleryID)
       const response = await sellCheck(galleryID);
       if (response) {
-        alert(`팔린 데이터${response}`);
+        console.log(`팔린데이터 ${response}`);
+        setSelledDatas(response);
+        openAlarm();
       }
     }
-    // alert(`팔린 데이터${response}`);
   }
 
   useEffect(() => {
@@ -207,7 +219,6 @@ function MyNftPage() {
 
   useEffect(() => {
     getData();
-    console.log("체크바뀜?",check);
   }, [account, isChecked, check]);
 
   useEffect(() => {
@@ -311,31 +322,10 @@ function MyNftPage() {
     viewContent = <NftMake setCheck={setCheck}></NftMake>;
   }
 
-  // const getAllSales = async () => {
-  //   const response = await SaleFactoryContract.methods.allSales().call();
-  //   console.log(response);
-  // }
-
-  // const buyToken = async () => {
-  //   const allow = await SsafyTokenContract.methods.approve("0x9dd008b9eB06C150d75738AF2581d1a380a8aC71", 100).send({from: window.ethereum.selectedAddress});
-  //   console.log(allow)
-  //   const response = await SaleContract("0x9dd008b9eB06C150d75738AF2581d1a380a8aC71").methods.purchase().send({from: window.ethereum.selectedAddress});
-  //   console.log(response);
-  // }
-
-  // const getSaleInfo = async () => {
-  //   const response = await SaleFactoryContract.methods.getSaleData(4).call();
-  //   console.log(response);
-  // }
-
-  // const SeeMyNft = async () => {
-  //   const response = await SsafyNFTContract.methods.tokenIDsofWallet(window.ethereum.selectedAddress).call();
-  //   console.log(response)
-  // }
-
   return (
     <Background>
       {isOnModal && <NftDetailModal closeModal={closeModal} {...modalInfo} />}
+      {isOnAlarm && <SellAlarm closeAlarm={closeAlarm} datas={selledDatas} isOnAlarm={isOnAlarm}/>}
       <NavArea></NavArea>
       <Content>
         <ButtonSection>
@@ -355,11 +345,6 @@ function MyNftPage() {
         </ButtonSection>
         <ContentSection>{viewContent}</ContentSection>
       </Content>
-      {/* <SharpButton onClick={getAllSales}>판매중인애들 보기</SharpButton> */}
-      {/* <SharpButton onClick={buyToken}>구매하기</SharpButton> */}
-      {/* <SharpButton onClick={getSaleInfo}>겟세일인포</SharpButton>
-    <SharpButton onClick={SeeMyNft}>fkdfkk</SharpButton>
-    <SharpButton onClick={getMySellData}>겟마이세일리스트</SharpButton> */}
     </Background>
   );
 }

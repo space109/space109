@@ -221,7 +221,6 @@ const VirtualGallery = () => {
         toggle={toggle}
         meta={countArray ? countArray[toggleIdx]?.METADATA : ""}
         tokenId={countArray ? countArray[toggleIdx]?.TOKEN_ID : ""}
-        nftId={countArray ? countArray[toggleIdx]?.NFT_ID : ""}
       />
       <CommunityModal
         open={open}
@@ -244,7 +243,7 @@ const VirtualGallery = () => {
       </Div>
       <Canvas style={{ background: "grey" }}>
         <Fog />
-        <ambientLight intensity={0.1} />
+        <ambientLight intensity={0.5} />
         {/* <OrbitControls /> */}
         <Physics gravity={[0, -60, 0]}>
           {/* 사각 조명 */}
