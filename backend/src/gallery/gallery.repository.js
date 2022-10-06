@@ -1,12 +1,12 @@
-// const connection = require("../../config/connection").promise();
-const pool = require("../../config/connection");
+const connection = require("../../config/connection").promise();
 const logger = require("../../config/log");
 
 class GalleryRepository {
   async categoryList() {
     const sql = `select category_id,category_title from category`;
+    logger.debug("sql = " + sql);
 
-    const result = await pool
+    const result = await connection
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -18,8 +18,9 @@ class GalleryRepository {
 
   async listAll() {
     const sql = `select gallery_id, oa, category_id, description, title, thumbnail from gallery where is_open=1`;
+    logger.debug("sql = ", sql);
 
-    const result = await pool
+    const result = await connection
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -31,8 +32,9 @@ class GalleryRepository {
 
   async listByCategory(category_id) {
     const sql = `select g.gallery_id, g.oa, g.category_id, g.description, g.title, g.thumbnail, u.nickname from gallery g left outer join user u using (oa) where category_id=${category_id} and is_open=1`;
+    logger.debug("sql = " + sql);
 
-    const result = await pool
+    const result = await connection
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -44,8 +46,9 @@ class GalleryRepository {
 
   async getMyGalleryInfo(oa) {
     const sql = `select gallery_id, oa, category_id, description, title, thumbnail, is_open from gallery where oa='${oa}'`;
+    logger.debug("sql = " + sql);
 
-    const result = await pool
+    const result = await connection
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -85,9 +88,9 @@ class GalleryRepository {
     if (isOpen != "null") sql += `IS_OPEN= ${isOpenBool},`;
     sql = sql.slice(0, -1);
     sql += sqlTail;
-    logger.debug(sql);
+    logger.debug("sql = " + sql);
 
-    const result = await pool
+    const result = await connection
       .query(sql)
       .then((data) => data[0].affectedRows)
       .catch((e) => {
@@ -99,51 +102,33 @@ class GalleryRepository {
   }
 
   async resetMyGallery(oa) {
-    // let sql;
-    // sql = `update gallery set title= concat((select nickname from user where user.OA = '${oa}'),"의 갤러리"),
-    // DESCRIPTION = concat((select nickname from user where user.OA = '${oa}'), "의 갤러리 입니다."),
-    // CATEGORY_ID = 13, THUMBNAIL = '/image/thumbnail/default/thumbnail.jpg' where OA='${oa}';`;
-    // const result = await connection
-    //   .query(sql)
-    //   .then((data) => data[0].affectedRows)
-    //   .catch((e) => {
-    //     logger.error(e);
-    //     return 0;
-    //   });
-    // return result;
-    const conn = await pool.getConnection();
     let result = 0;
     try {
-      await conn.beginTransaction();
       const getNicknameSql = `select nickname from user where OA = '${oa}';`;
       logger.debug(getNicknameSql);
-      let nickname = await conn.query(getNicknameSql);
-      nickname = nickname[0][0].nickname;
+      let nickname = await connection
+        .query(getNicknameSql)
+        .then((data) => data[0][0].nickname);
       logger.debug("nickname : " + nickname);
       const updateSql = `update gallery set title= "${nickname}의 갤러리",
       DESCRIPTION = "${nickname}의 갤러리 입니다.",
       CATEGORY_ID = 13, THUMBNAIL = '/image/thumbnail/default/thumbnail.jpg' where OA='${oa}';`;
       logger.debug(updateSql);
-      let updateResult = await conn.query(updateSql);
-      result = updateResult[0].affectedRows;
+      let updateResult = await connection
+        .query(updateSql)
+        .then((data) => data[0].affectedRows);
       logger.debug("result : " + result);
-      // const deleteGuestbookSql = `delete from guest_book where gallery_id = (select gallery_id from gallery where OA = '${oa}');`;
-      // logger.debug("deleteGuestbookSql : " + deleteGuestbookSql);
-      // let deleteResult = await connection.query(deleteGuestbookSql);
-      // result += deleteResult[0].affectedRows;
       const deleteNftSql = `delete from nft where gallery_id = (select gallery_id from gallery where OA = '${oa}');`;
       logger.debug("deleteNftSql : " + deleteNftSql);
-      let deleteResult = await conn.query(deleteNftSql);
-      result += deleteResult[0].affectedRows;
-      await conn.commit();
+      let deleteResult = await connection
+        .query(deleteNftSql)
+        .then((data) => data[0].affectedRows);
+      result = updateResult + deleteResult;
       logger.debug("result : " + result);
     } catch (e) {
       logger.error("resetMyGallery error : transaction rollback");
-      await conn.rollback();
       result = 0;
       return result;
-    } finally {
-      await conn.release();
     }
     return result;
   }
@@ -151,7 +136,9 @@ class GalleryRepository {
   async writeGuestbook(galleryId, nickname, description) {
     const sql = `insert into guest_book (gallery_id, nickname, description) 
     values (${galleryId}, '${nickname}', '${description}')`;
-    const result = await pool
+    logger.debug("sql = " + sql);
+
+    const result = await connection
       .query(sql)
       .then((data) => data[0].affectedRows)
       .catch((e) => {
@@ -164,8 +151,9 @@ class GalleryRepository {
 
   async getGuestbookFinalPageNo(galleryId, countPerPage) {
     const sql = `select count(*) from guest_book where gallery_id=${galleryId}`;
+    logger.debug("sql = " + sql);
 
-    const result = await pool
+    const result = await connection
       .query(sql)
       .then((data) => {
         const total = data[0][0]["count(*)"];
@@ -189,8 +177,9 @@ class GalleryRepository {
                     order by guest_book_id desc
                       limit ${countPerPage} 
                         offset ${countPerPage * (currentPage - 1)}`;
+    logger.debug("sql = " + sql);
 
-    const result = await pool
+    const result = await connection
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -201,7 +190,9 @@ class GalleryRepository {
   }
   async resetGuestbook(galleryId) {
     const sql = `delete from guest_book where gallery_id=${galleryId}`;
-    const result = await pool
+    logger.debug("sql = " + sql);
+
+    const result = await connection
       .query(sql)
       .then((data) => data[0].affectedRows)
       .catch((e) => {
