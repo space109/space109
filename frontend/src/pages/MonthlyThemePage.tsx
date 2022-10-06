@@ -329,7 +329,7 @@ export default function MonthlyThemePage({ load, onClick }: Props) {
           특별전 갤러리
         </Div>
       </Div>
-      <Div w="100vw" h="100vh" bgColor="--grey-750" ref={ref}>
+      <Div w="100vw" h="100vh" bgColor="--grey-650" ref={ref}>
         <Div display="flex" flexWrap="wrap">
           {dataGallery.map((data, index) => {
             return (
