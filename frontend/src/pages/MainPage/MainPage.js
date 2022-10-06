@@ -10,12 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   Html,
-  useGLTF,
-  useProgress,
-  softShadows,
   OrbitControls,
 } from "@react-three/drei";
-import { a, useTransition, useSpring } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
 import { Div, screenSizes } from "../../styles/BaseStyles";
 import state from "./state";
@@ -279,7 +275,12 @@ const HTMLContent = ({
   scrollArea,
 }) => {
   const mesh = useRef();
-  useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
+  useFrame(() => {
+
+    mesh.current.rotation.y += 0.003
+    mesh.current.rotation.x -= 0.002
+    
+  })
 
   const [refItem, inView] = useInView({
     threshold: 0,
@@ -302,9 +303,9 @@ const HTMLContent = ({
 
   return (
     <>
-      <mesh ref={mesh} position={[56, 6, 10]} scale={50}>
+      <mesh ref={mesh} position={[58, 6, 10]} scale={50}>
         <boxGeometry attach="geometry" />
-        <meshStandardMaterial attach="material" color={color} />
+        <meshPhysicalMaterial attach="material" color={color} />
       </mesh>
       {/* <group>
       <mesh rotation={[-Math.PI/2, 0, 0]} position={[0, -25, 0]}>
