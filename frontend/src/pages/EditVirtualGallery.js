@@ -318,7 +318,7 @@ const EditVirtualGallery = () => {
         <Suspense fallback={null}>
           {/* 전역 안개, 빛 */}
           <Fog />
-          <ambientLight intensity={0.3} />
+          <ambientLight intensity={0.5} />
           <Physics gravity={[0, -60, 0]}>
             {/* 사각 조명 */}
             <RectAreaLightGroup />

@@ -244,7 +244,7 @@ const VirtualGallery = () => {
       </Div>
       <Canvas style={{ background: "grey" }}>
         <Fog />
-        <ambientLight intensity={0.1} />
+        <ambientLight intensity={0.5} />
         {/* <OrbitControls /> */}
         <Physics gravity={[0, -60, 0]}>
           {/* 사각 조명 */}
