@@ -159,7 +159,7 @@ const VirtualGallery = () => {
   };
     const ExitHandler = () => {
       if (window.confirm("정말로 퇴장하시겠습니까?")) {
-        navigate("/profile");
+        navigate(-1);
       }
     };
 

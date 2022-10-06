@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSphere } from "@react-three/cannon";
+import { useBox, useSphere } from "@react-three/cannon";
 import { useThree, useFrame } from "@react-three/fiber";
 import { FPVControls } from "./";
 import { useKeyboardControls } from "../../hooks/useKeyboardControls";
