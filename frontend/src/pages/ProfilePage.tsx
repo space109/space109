@@ -130,7 +130,15 @@ export default function ProfilePage({ load }: Props) {
     setCategory(data[0].category_id);
     setData(data[0]);
 
-    data[0].is_open ? setTextIsOpend("ON") : setTextIsOpend("OFF");
+    console.log("???", data[0].is_open);
+
+    if (data[0].is_open)  {
+      setTextIsOpend("ON");
+      setIsOpend(true);
+    } else {
+      setTextIsOpend("OFF");
+      setIsOpend(false);
+    }
     setTextCategory(CategoryTitle(data[0].category_id));
 
     setLoading(false);
@@ -179,11 +187,12 @@ export default function ProfilePage({ load }: Props) {
     title: title,
     description: description,
     thumbnail: file,
-    isOpen: isOpend,
+    isOpen: isOpend
   };
 
   useEffect(() => {
     if (textIsOpend === "ON") {
+      console.log("안들어오너???");
       setIsOpend(true);
     } else if (textIsOpend === "OFF") {
       setIsOpend(false);

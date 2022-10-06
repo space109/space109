@@ -9,9 +9,12 @@ import {
   PrimayMenuItem,
   SecondaryMenuItem,
   HamburgerMenu,
+  TokenAddMenuItem,
+  TokenAmount,
 } from "./styles/NavStyle";
 import { ReactComponent as Logo } from "../../assets/title.svg";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { SsafyNFTContract, SsafyTokenContract } from "../../web3Config";
 import { login } from "../../apis";
 import HamburgerModal from "./HamburgerModal";
 
@@ -24,6 +27,9 @@ function NavBar({ windowSize }: Props) {
   const location = useLocation();
   const [selected, setSelected] = useState<string>("/");
   const [isOnModal, setIsOnModal] = useState(false);
+  const [token, setToken] = useState("없음");
+  const [tokenCheck, setTokenCheck] = useState<boolean>(false);
+
   // console.log("메타마스크 있음?:", eth.isMetaMask);
   // console.log("연결됨?:", eth.isConnected());
   // console.log("아이디 있음?:", eth.selectedAddress);
@@ -77,24 +83,6 @@ function NavBar({ windowSize }: Props) {
     }
   };
 
-  const switchSSFNetwork = async () => {
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: SSAFY_CHAIN_ID }],
-      });
-    } catch (error: any) {
-      // MetaMask에 해당 네트워크가 없는 경우 발생하는 에러
-      if (error.code === 4902) {
-        console.error("This network is not found in your network!");
-        // 현재 addSSFNetwork 실행시 rpcUrls 어쩌구 하면서 에러남,, 왜인지 모르겠음...
-        // addSSFNetwork();
-      } else {
-        console.error("Failed to switch this network");
-      }
-    }
-  };
-
   const init = async () => {
     try {
       const chainId = await getChainId();
@@ -135,6 +123,43 @@ function NavBar({ windowSize }: Props) {
     }
   };
 
+  const getToken = async () => {
+    try {
+      const amount = await SsafyTokenContract.methods.balanceOf(account).call();
+      console.log(amount);
+      setToken(amount);
+      setTokenCheck(true);
+    } catch (error) {
+      setTokenCheck(false);
+      console.error(error);
+    }
+  };
+
+  const addToken = async () => {
+    await window.ethereum
+      .request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20",
+          options: {
+            address: "0x0c54E456CE9E4501D2c43C38796ce3F06846C966",
+            symbol: "SSF",
+            decimals: 0,
+            image: "",
+          },
+        },
+      })
+      .then((success: any) => {
+        if (success) {
+          console.log("FOO successfully added to wallet!");
+          getToken();
+        } else {
+          throw new Error("Something went wrong.");
+        }
+      })
+      .catch(console.error);
+  };
+
   // 임시끝 -----------------------------------
 
   useEffect(() => {
@@ -158,22 +183,25 @@ function NavBar({ windowSize }: Props) {
         checkNetwork();
         console.log(nickname);
       });
-      window.ethereum.on("message", (message: any) => {
-        console.log("메세지:", message);
-      });
+      // window.ethereum.on("message", (message: any) => {
+      //   console.log("메세지:", message);
+      // });
       // checkNetwork();
       // console.log(nickname);
+      console.log("try");
       getName();
+      getToken();
     }
   }, []);
 
   useEffect(() => {
+    getName();
+    getToken();
     setSelected(location.pathname);
     console.log(location.pathname);
   }, [location]);
 
   useEffect(() => {
-    console.log(windowSize.width);
     if (windowSize.width > 768) {
       closeModal();
     }
@@ -243,6 +271,16 @@ function NavBar({ windowSize }: Props) {
                   </SecondaryMenuItem>
                 ) : (
                   <>
+                    {tokenCheck ? (
+                      <TokenAmount>
+                        {token}
+                        <div>SSF</div>
+                      </TokenAmount>
+                    ) : (
+                      <TokenAddMenuItem onClick={addToken}>
+                        토큰 연동
+                      </TokenAddMenuItem>
+                    )}
                     <SecondaryMenuItem
                       onClick={goProfile}
                       active={checkActive("/profile")}

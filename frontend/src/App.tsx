@@ -63,8 +63,14 @@ function App() {
           >
             <Route element={<NavBar windowSize={windowSize} />}>
               <Route path="/" element={<MainPage />} />
-              <Route path="/monthlyTheme" element={<MonthlyThemePage />} />
-              <Route path="/gallery" element={<GalleryListPage load={load}/>} />
+              <Route
+                path="/monthlyTheme"
+                element={<MonthlyThemePage load={load} />}
+              />
+              <Route
+                path="/gallery"
+                element={<GalleryListPage load={load} />}
+              />
               <Route path="/signUp" element={<SignUpPage />} />
               <Route path="/profile" element={<ProfilePage load={load} />} />
               <Route path="/myNft" element={<MyNftPage />}></Route>

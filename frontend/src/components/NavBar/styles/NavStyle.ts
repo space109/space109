@@ -108,7 +108,7 @@ export const SecondaryMenu = styled.div`
 `;
 
 export const PrimayMenuItem = styled.li<StyleProps>`
-  padding-right: 3.5%;
+  padding-right: 4.5%;
   list-style: none;
   color: var(--grey-100);
   transition: 0.5s;
@@ -123,7 +123,7 @@ export const PrimayMenuItem = styled.li<StyleProps>`
 
 export const SecondaryMenuItem = styled.li<StyleProps>`
   display: inline-block;
-  margin-left: 3%;
+  margin-left: 4%;
   list-style: none;
   color: var(--grey-100);
   transition: 0.5s;
@@ -132,6 +132,27 @@ export const SecondaryMenuItem = styled.li<StyleProps>`
 
   &:hover {
     color: var(--grey-350);
+  }
+`;
+
+export const TokenAddMenuItem = styled(SecondaryMenuItem)`
+  color: var(--mandarin-100);
+
+  &:hover {
+    color: var(--mandarin-200);
+  }
+`;
+
+export const TokenAmount = styled.li<StyleProps>`
+  display: flex;
+  margin-left: 4%;
+  list-style: none;
+  color: var(--mandarin-100);
+
+  & div {
+    display: inline-block;
+    color: var(--grey-100);
+    font-weight: 400;
   }
 `;
 
