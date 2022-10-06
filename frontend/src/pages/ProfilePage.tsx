@@ -137,14 +137,15 @@ export default function ProfilePage({ load }: Props) {
   }, []);
 
   const ResetGalleryFunc = async () => {
-    console.log("머임");
-    const data = await resetGallery(eth?.selectedAddress);
-    if (data > 1 ) {
-      alert("모든 액자를 내렸습니다.");
-    } else if (data === 1) {
-      alert("이미 비어있는 갤러리 입니다.");
-    } else if (data === 0) {
-      alert("에러");
+    if (window.confirm("정말로 갤러리의 작품을 모두 내리시겠습니까?")) {
+      const data = await resetGallery(eth?.selectedAddress);
+      if (data > 1 ) {
+        alert("모든 액자를 내렸습니다.");
+      } else if (data === 1) {
+        alert("이미 비어있는 갤러리 입니다.");
+      } else if (data === 0) {
+        alert("에러");
+      }
     }
   };
 
