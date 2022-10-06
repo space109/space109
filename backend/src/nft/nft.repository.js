@@ -113,6 +113,8 @@ class NftRepository {
       await connection.rollback();
       logger.error(e);
       return false;
+    } finally {
+      connection.release();
     }
 
     return true;

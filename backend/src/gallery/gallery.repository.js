@@ -140,6 +140,8 @@ class GalleryRepository {
       await connection.rollback();
       result = 0;
       return result;
+    } finally {
+      connection.release();
     }
     return result;
   }
