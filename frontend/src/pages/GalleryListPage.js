@@ -85,6 +85,8 @@ function GalleryListPage({ load }) {
         setGallerys(result);
       }
       else {
+        console.log("ddddd", datas);
+
         setGallerys(datas);
       } 
     }
