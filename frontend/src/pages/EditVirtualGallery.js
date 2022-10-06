@@ -23,7 +23,7 @@ import { useAccount, useAxios } from "../hooks";
 
 const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
-  const [toggleIdx, setToggleIdx] = useState(0);
+  const [toggleIdx, setToggleIdx] = useState(20);
   const [countArray, setCountArray] = useState([]);
   const { key } = useParams();
   const sendRequest = useAxios();
