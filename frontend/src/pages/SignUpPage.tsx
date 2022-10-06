@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
-import styled, { css } from "styled-components";
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import { Div, screenSizes } from "../styles/BaseStyles";
 import { Input, SharpButton, NavArea } from "../components";
 import { dupCheck, join, login } from "../apis";
 import { useAccount } from "../hooks";
 import { useNavigate } from "react-router-dom";
-import Cropper from "react-easy-crop";
 
 interface PropsStyle {
   imgURL?: any;

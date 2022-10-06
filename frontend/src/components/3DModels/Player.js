@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useBox, useSphere } from "@react-three/cannon";
+import React, { useEffect, useRef } from "react";
+import { useSphere } from "@react-three/cannon";
 import { useThree, useFrame } from "@react-three/fiber";
 import { FPVControls } from "./";
 import { useKeyboardControls } from "../../hooks/useKeyboardControls";
 import { Vector3 } from "three";
 
-const SPEED = 30;
+const SPEED = 22;
 
 export const Player = (props) => {
   const { camera } = useThree();

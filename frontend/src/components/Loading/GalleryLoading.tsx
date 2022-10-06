@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { keyframes } from "styled-components";
 import { ModalPortal } from "..";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   HelpText: string;
