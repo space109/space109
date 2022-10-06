@@ -221,7 +221,6 @@ const VirtualGallery = () => {
         toggle={toggle}
         meta={countArray ? countArray[toggleIdx]?.METADATA : ""}
         tokenId={countArray ? countArray[toggleIdx]?.TOKEN_ID : ""}
-        nftId={countArray ? countArray[toggleIdx]?.NFT_ID : ""}
       />
       <CommunityModal
         open={open}
