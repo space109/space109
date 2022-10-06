@@ -1,13 +1,11 @@
-// const connection = require("../../config/connection").promise();
-const pool = require("../../config/connection");
-
+const connection = require("../../config/connection").promise();
 const logger = require("../../config/log");
 
 class WalletRepository {
   async searchWallet(oa) {
     const sql = `select user_id,oa,nickname from user where oa='${oa}'`;
-
-    const result = await pool
+    logger.debug("sql = ", sql);
+    const result = await connection
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -19,8 +17,9 @@ class WalletRepository {
 
   async checkNickname(nickname) {
     const sql = `select nickname from user where nickname='${nickname}'`;
+    logger.debug("sql = ", sql);
 
-    const result = await pool
+    const result = await connection
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -34,10 +33,12 @@ class WalletRepository {
   async insert(oa, nickname) {
     const sql1 = `insert into user (oa,nickname) values ('${oa}','${nickname}')`;
     const sql2 = `insert into gallery(oa,category_id,description, title, thumbnail) values('${oa}',13,'${nickname}님의 갤러리입니다.', '${nickname}님의 갤러리','/image/thumbnail/default/thumbnail.jpg')`;
+    logger.debug("sql = ", sql1);
+    logger.debug("sql = ", sql2);
 
     const result = [];
 
-    result[0] = await pool
+    result[0] = await connection
       .query(sql1)
       .then((data) => data[0])
       .catch((e) => {
@@ -45,7 +46,7 @@ class WalletRepository {
         return false;
       });
 
-    result[1] = await pool
+    result[1] = await connection
       .query(sql2)
       .then((data) => data[0])
       .catch((e) => {
@@ -58,29 +59,25 @@ class WalletRepository {
 
   // 팔린게 있는지 확인하고 있다면 그 token목록을 뽑아 온다.
   async sellCheck(gallery_id) {
-    const conn = await pool.getConnection();
-
     try {
-      await conn.beginTransaction();
       // log 테이블에 팔린게 있는지 확인
       const sql1 = `select * from log where gallery_id=${gallery_id}`;
       console.debug(sql1);
-      const sellList = await conn.query(sql1);
-      console.debug(sellList[0]);
+      const sellList = await connection.query(sql1).then((data) => data[0]);
+      console.debug(sellList);
       // 만약 판매된 NFT가 하나도 없을 경우
       if (sellList[0].length == 0) {
         // 0을 리턴
         return 0;
       }
       const sql2 = `delete from log where gallery_id=${gallery_id}`;
-      await conn.query(sql2);
-      await conn.commit();
-      return sellList[0];
+      logger.debug("sql = ", sql2);
+
+      let deleteResult = await connection.query(sql2).then((data) => data[0]);
+      console.log("deleteResult = ", deleteResult);
+      return sellList;
     } catch (e) {
-      await conn.rollback();
       return 0;
-    } finally {
-      await conn.release();
     }
   }
 }
