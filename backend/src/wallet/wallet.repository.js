@@ -1,11 +1,13 @@
-const connection = require("../../config/connection").promise();
+// const connection = require("../../config/connection").promise();
+const pool = require("../../config/connection");
+
 const logger = require("../../config/log");
 
 class WalletRepository {
   async searchWallet(oa) {
     const sql = `select user_id,oa,nickname from user where oa='${oa}'`;
 
-    const result = await connection
+    const result = await pool
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -18,7 +20,7 @@ class WalletRepository {
   async checkNickname(nickname) {
     const sql = `select nickname from user where nickname='${nickname}'`;
 
-    const result = await connection
+    const result = await pool
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -35,7 +37,7 @@ class WalletRepository {
 
     const result = [];
 
-    result[0] = await connection
+    result[0] = await pool
       .query(sql1)
       .then((data) => data[0])
       .catch((e) => {
@@ -43,7 +45,7 @@ class WalletRepository {
         return false;
       });
 
-    result[1] = await connection
+    result[1] = await pool
       .query(sql2)
       .then((data) => data[0])
       .catch((e) => {
@@ -57,11 +59,11 @@ class WalletRepository {
   // 팔린게 있는지 확인하고 있다면 그 token목록을 뽑아 온다.
   async sellCheck(gallery_id) {
     try {
-      await connection.beginTransaction();
+      await pool.beginTransaction();
       // log 테이블에 팔린게 있는지 확인
       const sql1 = `select * from log where gallery_id=${gallery_id}`;
       console.debug(sql1);
-      const sellList = await connection.query(sql1);
+      const sellList = await pool.query(sql1);
       console.debug(sellList[0]);
       // 만약 판매된 NFT가 하나도 없을 경우
       if (sellList[0].length == 0) {
@@ -69,14 +71,14 @@ class WalletRepository {
         return 0;
       }
       const sql2 = `delete from log where gallery_id=${gallery_id}`;
-      await connection.query(sql2);
-      await connection.commit();
+      await pool.query(sql2);
+      await pool.commit();
       return sellList[0];
     } catch (e) {
-      await connection.rollback();
+      await pool.rollback();
       return 0;
     } finally {
-      await connection.end();
+      await pool.release();
     }
   }
 }
