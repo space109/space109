@@ -285,7 +285,7 @@ const ModalOverlay = ({
       {loading && <Loading HelpText={helpText} />}
       <ThumbImg src={image} alt="" className="thumb-active"/>
       <ModalDiv className="modal-active">
-        <Img src={closeIcon} onClick={toggleModal} alt={`${title}썸네일`}/>
+        <Img src={closeIcon} onClick={toggleModal} alt="닫기 아이콘"/>
         <Div flex="4"></Div>
         <Div flex="8">
           <HeadDiv>

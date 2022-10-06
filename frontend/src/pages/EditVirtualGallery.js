@@ -23,7 +23,7 @@ import { useAccount, useAxios } from "../hooks";
 
 const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
-  const [toggleIdx, setToggleIdx] = useState(0);
+  const [toggleIdx, setToggleIdx] = useState(20);
   const [countArray, setCountArray] = useState([]);
   const { key } = useParams();
   const sendRequest = useAxios();
@@ -318,7 +318,7 @@ const EditVirtualGallery = () => {
         <Suspense fallback={null}>
           {/* 전역 안개, 빛 */}
           <Fog />
-          <ambientLight intensity={0.3} />
+          <ambientLight intensity={0.5} />
           <Physics gravity={[0, -60, 0]}>
             {/* 사각 조명 */}
             <RectAreaLightGroup />

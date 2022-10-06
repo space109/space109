@@ -243,7 +243,9 @@ const EditModal = ({
     console.log("이상하네????/", countArray[toggleIdx]);
     if (countArray[toggleIdx] && Object.keys(countArray[toggleIdx]).length) {
       setEmpty(true);
+      console.log('dddddddddddddd', true)
     } else {
+      console.log("eeeeeeeeeeeeeeeeee", true);
       setEmpty(false);
     }
   }, [toggleIdx]);

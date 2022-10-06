@@ -52,3 +52,4 @@ export { FilterButtons } from "./FilterButtons";
 export { alertModal } from "./Alert";
 export { Loading, GalleryLoading } from "./Loading";
 export { SelectBox } from "./SelectBox";
+export { SellAlarm } from "./SellAlarm";
