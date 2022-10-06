@@ -52,7 +52,7 @@ router.delete("/sell", async function (req, res) {
   logger.http("DELETE /nft/sell");
   logger.debug("req.query = " + JSON.stringify(req.query));
   const { statusCode, responseBody } = await nftService.sellNft(
-    req.query["nftId"]
+    req.query["tokenId"]
   );
   res.statusCode = statusCode;
   res.send(responseBody);
