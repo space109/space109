@@ -21,7 +21,7 @@ const pool = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_SCHEMA,
-  connectionLimit: 100,
+  connectionLimit: 10,
 });
 // pool.getConnection(function (err, connection) {
 //   if (err) {
