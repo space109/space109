@@ -181,16 +181,20 @@ function MyNftPage() {
   };
 
   const init = async () => {
-    if (account) {
-      const response = await myGalleryInfo(account);
-      setGalleryID(response.gallery_id);
-    }
+    const response = await myGalleryInfo(window.ethereum.selectedAddress);
+    console.log(response, response[0].gallery_id)
+    setGalleryID(response[0].gallery_id);
   }
 
   const isSell = async () => {
-    const response = await sellCheck(galleryID);
-    console.log("팔린 데이터", response);
-    alert(`팔린 데이터${response}`);
+    if (galleryID) {
+      console.log(galleryID)
+      const response = await sellCheck(galleryID);
+      if (response) {
+        alert(`팔린 데이터${response}`);
+      }
+    }
+    // alert(`팔린 데이터${response}`);
   }
 
   useEffect(() => {
@@ -203,6 +207,7 @@ function MyNftPage() {
 
   useEffect(() => {
     getData();
+    console.log("체크바뀜?",check);
   }, [account, isChecked, check]);
 
   useEffect(() => {
@@ -221,7 +226,7 @@ function MyNftPage() {
     if (viewPage === 0) {
       isSell();
     }
-  }, [viewPage]);
+  }, [viewPage, galleryID]);
 
   const NftCols = (num: any) => {
     const result = [];
