@@ -8,6 +8,7 @@ import { getMetadata } from "../../apis";
 interface PropsStyle {
   isOnAlarm?: any,
   url?: any;
+  isClose?: any;
 }
 
 const SlideOn = keyframes`
@@ -38,14 +39,15 @@ const SellAlarmDiv = styled.div<PropsStyle>`
   right: 0;
   bottom: 0;
   width: 500px;
-  height: 360px;
-  ${({isOnAlarm}) => {
-    if (isOnAlarm) {
+  ${({isClose}) => {
+    if (!isClose) {
       return css`
+        height: 360px;
         animation: ${SlideOn} .6s;
       `
     } else {
       return css`
+        height: 0;
         animation: ${SlideOff} .6s;
         opacity: 0;
       `
@@ -56,11 +58,7 @@ const SellAlarmDiv = styled.div<PropsStyle>`
   background-color: var(--grey-200);
   box-shadow: -5px -5px 15px rgba(0, 0, 0, 0.4);
   z-index: 1;
-
-  &.none {
-    display: none;
-  }
-`
+  `
 
 const ContentDiv = styled.div<PropsStyle>`
   margin: 5px 36px;
@@ -147,23 +145,20 @@ const Item = ({data}:any) => {
 
 const SellAlarm = ({closeAlarm, datas, isOnAlarm}:any) => {
   const [transClass, setTransClass] = useState("");
-  const [noneClass, setNoneClass] = useState("");
+  const [isClose, setIsClose] = useState<any>(false);
 
   const alarm = useRef<any>();
 
-  useEffect(() => {
-    if (!isOnAlarm) {
-      setTransClass("trans");
-    } else {
-      setNoneClass("");
-    }
-  }, [isOnAlarm])
+  const onClickHandler = () => {
+    setTransClass("trans")
+    setIsClose(true);
+  }
 
   return (
     <>
-    <SellAlarmDiv isOnAlarm={isOnAlarm} className={noneClass} ref={alarm}>
+    <SellAlarmDiv isClose={isClose} ref={alarm}>
       <ContentDiv className={transClass}>
-        <Img src={closeIcon} onClick={closeAlarm} alt={`닫기 아이콘`} />
+        <Img src={closeIcon} onClick={onClickHandler} alt={`닫기 아이콘`} />
         <Div fontSize="--h5" fontWeight="--bold">새로운 판매 알림!</Div>
         <TotalItemDiv>
           {

@@ -136,7 +136,7 @@ function MyNftPage() {
   const [isOnModal, setIsOnModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
 
-  const [isOnAlarm, setIsOnAlarm] = useState(true);
+  const [isOnAlarm, setIsOnAlarm] = useState(false);
   const [selledDatas, setSelledDatas] = useState<any>([]);
 
   const [galleryID, setGalleryID] = useState();
@@ -325,7 +325,7 @@ function MyNftPage() {
   return (
     <Background>
       {isOnModal && <NftDetailModal closeModal={closeModal} {...modalInfo} />}
-      <SellAlarm closeAlarm={closeAlarm} datas={selledDatas} isOnAlarm={isOnAlarm}/>
+      {isOnAlarm && <SellAlarm closeAlarm={closeAlarm} datas={selledDatas} isOnAlarm={isOnAlarm}/>}
       <NavArea></NavArea>
       <Content>
         <ButtonSection>
