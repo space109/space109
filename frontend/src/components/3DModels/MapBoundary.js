@@ -1,5 +1,5 @@
 import React from "react";
-import { useBox, useConvexPolyhedron } from "@react-three/cannon";
+import { useBox } from "@react-three/cannon";
 
 const MapBoundary = ({
   position = [0, 0, 0],

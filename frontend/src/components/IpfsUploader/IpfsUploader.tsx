@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { create as ipfsHttpClient } from "ipfs-http-client";
-import styled from "styled-components";
 import SharpButton from "../Button/SharpButton";
 import { SsafyNFTContract } from "../../web3Config";
 

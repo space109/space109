@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import closeIcon from "../../assets/close-icon-white.png";
 import uploadImage from "../../assets/uploadImage.png"
-import { useAxios } from "../../hooks";
 import { Div } from "../../styles/BaseStyles";
 import { SharpButton } from "../Button";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import { SaleContract, SaleFactoryContract, SsafyNFTContract, SsafyTokenContract } from "../../web3Config";
-import { login, dropNFT, sellCheck } from "../../apis";
+import { login, dropNFT } from "../../apis";
 import { Loading } from "../../components";
 
 const BackDropDiv = styled.div`

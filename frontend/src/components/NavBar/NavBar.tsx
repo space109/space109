@@ -14,7 +14,7 @@ import {
 } from "./styles/NavStyle";
 import { ReactComponent as Logo } from "../../assets/title.svg";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { SsafyNFTContract, SsafyTokenContract } from "../../web3Config";
+import { SsafyTokenContract } from "../../web3Config";
 import { login } from "../../apis";
 import HamburgerModal from "./HamburgerModal";
 

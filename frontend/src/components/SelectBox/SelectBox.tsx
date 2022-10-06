@@ -1,5 +1,5 @@
 import {useState, useRef, useEffect} from 'react';
-import styled, {css, keyframes} from 'styled-components';
+import styled, {css} from 'styled-components';
 import { Div } from '../../styles/BaseStyles';
 
 interface PropsStyle {
