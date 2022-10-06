@@ -58,12 +58,14 @@ class WalletRepository {
 
   // 팔린게 있는지 확인하고 있다면 그 token목록을 뽑아 온다.
   async sellCheck(gallery_id) {
+    const conn = await pool.getConnection();
+
     try {
-      await pool.beginTransaction();
+      await conn.beginTransaction();
       // log 테이블에 팔린게 있는지 확인
       const sql1 = `select * from log where gallery_id=${gallery_id}`;
       console.debug(sql1);
-      const sellList = await pool.query(sql1);
+      const sellList = await conn.query(sql1);
       console.debug(sellList[0]);
       // 만약 판매된 NFT가 하나도 없을 경우
       if (sellList[0].length == 0) {
@@ -71,14 +73,14 @@ class WalletRepository {
         return 0;
       }
       const sql2 = `delete from log where gallery_id=${gallery_id}`;
-      await pool.query(sql2);
-      await pool.commit();
+      await conn.query(sql2);
+      await conn.commit();
       return sellList[0];
     } catch (e) {
-      await pool.rollback();
+      await conn.rollback();
       return 0;
     } finally {
-      await pool.release();
+      await conn.release();
     }
   }
 }

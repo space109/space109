@@ -100,22 +100,24 @@ class NftRepository {
 
   // 판매됐을떄
   async sellNft(tokenId) {
-    await pool.beginTransaction();
+    const conn = await pool.getConnection();
+
     // 판매한 NFT 정보 로그에 추가
     try {
+      await conn.beginTransaction();
       const sql1 = `insert into log(GALLERY_ID, OA,METADATA, TOKEN_ID) select GALLERY_ID, OA,METADATA, TOKEN_ID from nft where token_id=${tokenId}`;
-      const sql1Result = await pool.query(sql1);
+      const sql1Result = await conn.query(sql1);
 
       // 판매한 NFT 정보 삭제
       const sql2 = `delete from nft where token_id=${tokenId}`;
-      const sql2Result = await pool.query(sql2);
-      await pool.commit();
+      const sql2Result = await conn.query(sql2);
+      await conn.commit();
     } catch (e) {
-      await pool.rollback();
+      await conn.rollback();
       logger.error(e);
       return false;
     } finally {
-      await pool.release();
+      await conn.release();
     }
 
     return true;
