@@ -1,4 +1,5 @@
-const connection = require("../../config/connection").promise();
+// const connection = require("../../config/connection").promise();
+const pool = require("../../config/connection");
 const logger = require("../../config/log");
 
 class NftRepository {
@@ -24,7 +25,7 @@ class NftRepository {
                 '${rotation}'
                 );`;
     let resultValue = null;
-    const result = await connection
+    const result = await pool
       .query(sql)
       // .then((data) => data[0])
       .then((data) => {
@@ -74,7 +75,7 @@ class NftRepository {
     sql += sqlTail;
     logger.debug(sql);
     let returnBool = true;
-    const result = await connection
+    const result = await pool
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -87,7 +88,7 @@ class NftRepository {
 
   async getDisplayedNftList(galleryId) {
     const sql = `SELECT * FROM nft WHERE GALLERY_ID = ${galleryId};`;
-    const result = await connection
+    const result = await pool
       .query(sql)
       .then((data) => data[0])
       .catch((e) => {
@@ -99,20 +100,24 @@ class NftRepository {
 
   // 판매됐을떄
   async sellNft(tokenId) {
-    await connection.beginTransaction();
+    const conn = await pool.getConnection();
+
     // 판매한 NFT 정보 로그에 추가
     try {
+      await conn.beginTransaction();
       const sql1 = `insert into log(GALLERY_ID, OA,METADATA, TOKEN_ID) select GALLERY_ID, OA,METADATA, TOKEN_ID from nft where token_id=${tokenId}`;
-      const sql1Result = await connection.query(sql1);
+      const sql1Result = await conn.query(sql1);
 
       // 판매한 NFT 정보 삭제
       const sql2 = `delete from nft where token_id=${tokenId}`;
-      const sql2Result = await connection.query(sql2);
-      await connection.commit();
+      const sql2Result = await conn.query(sql2);
+      await conn.commit();
     } catch (e) {
-      await connection.rollback();
+      await conn.rollback();
       logger.error(e);
       return false;
+    } finally {
+      await conn.release();
     }
 
     return true;
@@ -121,7 +126,7 @@ class NftRepository {
   //  단순히 전시에서 내리는거
   async deleteFrame(nftId) {
     const sql = `delete from nft where nft_id=${nftId}`;
-    const result = await connection
+    const result = await pool
       .query(sql)
       .then((data) => data[0].affectedRows)
       .catch((e) => {
