@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 import styled, { keyframes } from "styled-components";
-import { ModalPortal, Input, SharpButton } from "..";
+import { ModalPortal, SharpButton } from "..";
 import { Div, screenSizes } from "../../styles/BaseStyles";
 import { login } from "../../apis";
 import { CategoryTitle } from "../../common/category";

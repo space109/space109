@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Div, Image } from "../../styles/BaseStyles";
-import { SharpButton, Loading, GalleryLoading } from "../";
+import { SharpButton, Loading } from "../";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import { SsafyNFTContract } from "../../web3Config";
 import styled from "styled-components";

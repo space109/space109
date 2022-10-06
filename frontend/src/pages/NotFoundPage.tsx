@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import styled, { css, keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { NavArea } from "../components";
 import { Div } from "../styles/BaseStyles";
 import frameImage from "../assets/액자.png";

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import styled, { css, keyframes } from "styled-components";
-import { Div, Image, screenSizes } from "../styles/BaseStyles";
+import styled, { css } from "styled-components";
+import { Div, screenSizes } from "../styles/BaseStyles";
 import {
-  Input,
-  SharpButton,
   NftCard,
   NftMake,
   LabelCheckBox,
@@ -14,12 +12,9 @@ import { debounce } from "lodash";
 import { useAccount } from "../hooks";
 import {
   SsafyNFTContract,
-  SsafyTokenContract,
   SaleFactoryContract,
-  SaleContract,
 } from "../web3Config";
 import { getMetadata, sellCheck, myGalleryInfo } from "../apis";
-import { useDepthBuffer } from "@react-three/drei";
 
 interface propsStyle {
   isSet?: any;

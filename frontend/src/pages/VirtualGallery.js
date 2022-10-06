@@ -18,7 +18,6 @@ import {
   InfoModal,
   CommunityModal,
   SharpButton,
-  LogoBox,
 } from "../components";
 
 const VirtualGallery = () => {

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Div } from "../../styles/BaseStyles";
-import styled, { css } from "styled-components";
-import { NftDetailModal } from "../"
+import styled from "styled-components";
 
 interface PropsStyle{
   url?: any,

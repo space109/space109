@@ -1,4 +1,3 @@
-import { rgba } from "@react-spring/shared";
 import { useState } from "react";
 import styled from "styled-components";
 import { GalleryDetailModal } from "../"
