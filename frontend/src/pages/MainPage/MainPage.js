@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Suspense } from "react";
+import React, { useState, useEffect, useRef, Suspense, forwardRef } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -10,14 +10,6 @@ import state from "./state";
 import Section from "./Section";
 
 // softShadows();
-
-
-const move = keyframes`
-  100% {
-    transform: translateX(100px);
-  }  
-`;
-
 
 const flipin = keyframes`
   0%,
@@ -164,55 +156,78 @@ const NavArea = styled.div`
 // }
 
 const GoGallery = styled.div`
-  cursor: pointer;
   color: var(--grape-100);
-  border: 1px solid red;
-  height: 40%;
   width: 80%;
+  height: 25%;
+  box-sizing: border-box;
 `
 
-const Button = styled.div`
+const Button = styled.a`
+  cursor: pointer;
   text-decoration: none;
-  text-transform: none;
-  letter-spacing: 2px;
-  color: var(--grey-100);
-  outline: 2px solid var(--grey-100);
-  padding: 30px 60px;
+  color: lightyellow;
+  padding: 2rem 3rem;
+  border: 3px solid lightyellow;
   position: relative;
-  overflow: hidden;
-  transition: color 1s;
-
-  &:hover {
-    color: var(--grape-100);
-  }
-
-  &::before {
-    content: '';
+  font-weight: var(--light);
+  font-size: var(--h2);
+  ::before, ::after {
+    content: "";
     position: absolute;
-    top: 0;
-    left: -50px;
-    width: 0;
-    height: 100%;
-    background-color: var(--grey-100);
-    transform: skewX(35deg);
-    z-index: 0;
-    transition: width 1s;
-
-    &:hover::before {
-      width: 150%;
+    width: 40px;
+    height: 40px;
+    border: inherit;
+    transition: all .5s;
+  }
+  ::before {
+    top: -15px;
+    left: -15px;
+    border-width: 3px 0 0 3px;
+  }
+  ::after {
+    bottom: -15px;
+    right: -15px;
+    border-width: 0 3px 3px 0;
+  }
+  :hover::before, :hover::after {
+    width: calc(100% + 27px);
+    height: calc(100% + 27px);
+  }
+  @media screen and (max-width: 1760px) {
+    font-size: var(--h3);
+  }
+  @media screen and (max-width: 1500px) {
+    font-size: var(--h4);
+  }
+  @media screen and (max-width: 1060px) {
+    font-size: var(--h5);
+  }
+  @media screen and (max-width: 660px) {
+    font-size: var(--h6);
+    padding: 1rem 2rem;
+    ::before {
+      top: -10px;
+      left: -10px;
+    }
+    ::after {
+      bottom: -10px;
+      right: -10px;
+    }
+    :hover::before, :hover::after {
+      width: calc(100% + 16px);
+      height: calc(100% + 16px);
     }
   }
 ` 
 
-const LastContent = ({setClicked}) => {
+const LastContent = forwardRef(({setClicked}, ref) => {
 
   return (
-    <GoGallery onClick={() => setClicked(true)}>
-      지금 바로 갤러리 관람하러 가기
-      <Button>하이</Button>
+    <GoGallery ref={ref}>
+      <Button onClick={() => setClicked(true)}>전시 중인 갤러리 관람하러 가기</Button>
     </GoGallery>
   );
-}
+});
 
 const Lights = () => {
   return (
