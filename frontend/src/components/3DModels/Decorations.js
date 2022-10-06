@@ -7,7 +7,7 @@ import ShareText from "./ShareText";
 import SkyEnvironment from "./SkyEnvironment";
 import WallGroup from "./WallGroup";
 import MainCharacter from "./MainCharacter";
-import Owl from "./Owl";
+// import Owl from "./Owl";
 import LogoBox from "./LogoBox";
 
 const Decorations = (props) => {
