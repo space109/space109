@@ -347,8 +347,11 @@ export default function MonthlyThemePage({ load, onClick }: Props) {
                     <HoverDiv
                       bgImage={
                         process.env.REACT_APP_BACKEND_HOST +
-                        dataGallery[index].thumbnail
+                        dataGallery[index].thumbnail +
+                        "?" +
+                        new Date().getTime()
                       }
+                      bgColor="--grey-100"
                       bgSize="cover"
                       w="100%"
                       h="100%"
