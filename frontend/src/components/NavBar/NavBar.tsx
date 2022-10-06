@@ -66,17 +66,21 @@ function NavBar({ windowSize }: Props) {
 
   const getName = async () => {
     try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      setAccount(accounts[0]);
+      const chainId = await getChainId();
 
-      const nameData = await login(accounts[0]);
+      if (SSAFY_CHAIN_ID === chainId) {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setAccount(accounts[0]);
 
-      if (nameData.length) {
-        setNickname(nameData[0].nickname);
-      } else {
-        setNickname("");
+        const nameData = await login(accounts[0]);
+
+        if (nameData.length) {
+          setNickname(nameData[0].nickname);
+        } else {
+          setNickname("");
+        }
       }
     } catch (error) {
       console.error(error);
