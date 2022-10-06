@@ -6,8 +6,8 @@ const ShareText = () => {
     <>
       <Text3D
         font="/Gothic.json"
-        position={[52, 26, -65]}
-        rotation={[Math.PI / 7, -Math.PI/4, Math.PI / 9]}
+        position={[6, 25, -31.7]}
+        rotation={[Math.PI/2, Math.PI/2.5, -Math.PI/2]}
         size={3}
         height={1}
         bevelEnabled={true}

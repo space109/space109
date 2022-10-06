@@ -5,8 +5,8 @@ const ImageLightGroup = () => {
   return (
     <>
       <ImageLight
-        lightFrom={[49, 35, -54.8]}
-        lightTo={[49, 20, -54.8]}
+        lightFrom={[10, 35, -38.4]}
+        lightTo={[10, 20, -38.4]}
         angle={0.4}
         intensity={1}
         penumbra={0.1}

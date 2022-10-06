@@ -7,8 +7,8 @@ export default function Book(props) {
   return (
     <group
       onClick={props.toggleOpen}
-      position={[49, 13.7, -54.6]}
-      rotation={[0, -Math.PI / 4, 0]}
+      position={[12.4, 13.8, -37.6]}
+      rotation={[0, -Math.PI / 2, 0]}
       dispose={null}
       scale={0.03}
       onPointerOver={() => setHover(true)}
