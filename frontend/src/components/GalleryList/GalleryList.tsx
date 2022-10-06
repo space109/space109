@@ -20,9 +20,9 @@ const UL = styled.ul`
 const Box = styled.div`
   box-sizing: border-box;
   width: 100%;
-`
+`;
 
-const GalleryList = ({gallerys, load}:any) => {
+const GalleryList = ({ gallerys, load }: any) => {
   return (
     <Box>
       {/* <UL>
@@ -35,11 +35,11 @@ const GalleryList = ({gallerys, load}:any) => {
         }
       </UL> */}
       <UL>
-        {gallerys ? gallerys.map((gallery:any, i:number) => {
-          return (
-            <GalleryCard key={i} data={gallery} load={load}/>
-          )}) : null
-        }
+        {gallerys
+          ? gallerys.map((gallery: any, i: number) => {
+              return <GalleryCard key={i} data={gallery} load={load} />;
+            })
+          : null}
       </UL>
     </Box>
   );
@@ -128,6 +128,6 @@ GalleryList.defaultProps = {
   //     "thumbnail": "https://s3-us-west-2.amazonaws.com/s.cdpn.io/881020/book03.jpg"
   //   },
   // ]
-}
+};
 
 export default GalleryList;

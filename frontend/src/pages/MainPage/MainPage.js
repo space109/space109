@@ -1,8 +1,20 @@
-import React, { useState, useEffect, useRef, Suspense, forwardRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  Suspense,
+  forwardRef,
+} from "react";
 import styled, { css, keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Html, useGLTF, useProgress, softShadows, OrbitControls } from "@react-three/drei";
+import {
+  Html,
+  useGLTF,
+  useProgress,
+  softShadows,
+  OrbitControls,
+} from "@react-three/drei";
 import { a, useTransition, useSpring } from "@react-spring/web";
 import { useInView } from "react-intersection-observer";
 import { Div, screenSizes } from "../../styles/BaseStyles";
@@ -42,6 +54,21 @@ const flipin = keyframes`
 }
 `;
 
+const Container = styled(Div)`
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1800px;
+
+  margin: 0 auto;
+
+  @media (max-width: 1920px) {
+    width: calc(100vw - 120px);
+  }
+  @media (max-width: 1366px) {
+    width: calc(100vw - 64px);
+  }
+`;
+
 const Center = styled.div`
   margin: 0 auto;
   width: 50%;
@@ -69,24 +96,22 @@ const Center = styled.div`
   animation: ${flipin} 3s alternate infinite linear;
   position: absolute;
 
-  ${({bgColor}) => {
-    if (bgColor === '--ocean-300'){
+  ${({ bgColor }) => {
+    if (bgColor === "--ocean-300") {
       return css`
         color: var(--ocean-200);
-      `
-    }
-    else if (bgColor === '--spinach-300'){
+      `;
+    } else if (bgColor === "--spinach-300") {
       return css`
         color: var(--spinach-200);
-      `
-    }
-    else if (bgColor === '--grape-100'){
+      `;
+    } else if (bgColor === "--grape-100") {
       return css`
         color: var(--navy-100);
-      `
+      `;
     }
   }}
-`
+`;
 
 const BackCenter = styled.div`
   margin: 0 auto;
@@ -114,27 +139,25 @@ const BackCenter = styled.div`
   }
   position: absolute;
   color: transparent;
-  
+
   -webkit-text-stroke: 0.1px var(--grey-100);
 
-  ${({bgColor}) => {
-    if (bgColor === '--ocean-300'){
+  ${({ bgColor }) => {
+    if (bgColor === "--ocean-300") {
       return css`
         -webkit-text-stroke: 0.1px var(--grey-100);
-      `
-    }
-    else if (bgColor === '--spinach-300'){
+      `;
+    } else if (bgColor === "--spinach-300") {
       return css`
         -webkit-text-stroke: 0.1px var(--grey-100);
-      `
-    }
-    else if (bgColor === '--grape-100'){
+      `;
+    } else if (bgColor === "--grape-100") {
       return css`
         -webkit-text-stroke: 0.1px var(--grey-100);
-      `
+      `;
     }
   }}
-`
+`;
 
 const ScrollArea = styled.div`
   position: absolute;
@@ -144,12 +167,12 @@ const ScrollArea = styled.div`
   height: calc(100vh - 120px);
   overflow: auto;
   z-index: 1;
-`
+`;
 
 const NavArea = styled.div`
   height: 120px;
   color: transparent;
-`
+`;
 // const Model = () => {
 //   const gltf = useGLTF("/isabelle.glb");
 //   return <primitive object={gltf.scene} dispose={null}/>;
@@ -160,7 +183,7 @@ const GoGallery = styled.div`
   width: 80%;
   height: 25%;
   box-sizing: border-box;
-`
+`;
 
 const Button = styled.a`
   cursor: pointer;
@@ -171,13 +194,14 @@ const Button = styled.a`
   position: relative;
   font-weight: var(--light);
   font-size: var(--h2);
-  ::before, ::after {
+  ::before,
+  ::after {
     content: "";
     position: absolute;
     width: 40px;
     height: 40px;
     border: inherit;
-    transition: all .5s;
+    transition: all 0.5s;
   }
   ::before {
     top: -15px;
@@ -189,7 +213,8 @@ const Button = styled.a`
     right: -15px;
     border-width: 0 3px 3px 0;
   }
-  :hover::before, :hover::after {
+  :hover::before,
+  :hover::after {
     width: calc(100% + 27px);
     height: calc(100% + 27px);
   }
@@ -213,18 +238,20 @@ const Button = styled.a`
       bottom: -10px;
       right: -10px;
     }
-    :hover::before, :hover::after {
+    :hover::before,
+    :hover::after {
       width: calc(100% + 16px);
       height: calc(100% + 16px);
     }
   }
-` 
+`;
 
-const LastContent = forwardRef(({setClicked}, ref) => {
-
+const LastContent = forwardRef(({ setClicked }, ref) => {
   return (
     <GoGallery ref={ref}>
-      <Button onClick={() => setClicked(true)}>전시 중인 갤러리 관람하러 가기</Button>
+      <Button onClick={() => setClicked(true)}>
+        전시 중인 갤러리 관람하러 가기
+      </Button>
     </GoGallery>
   );
 });
@@ -232,117 +259,141 @@ const LastContent = forwardRef(({setClicked}, ref) => {
 const Lights = () => {
   return (
     <>
-      <ambientLight intensity={0.3} castShadow/>
+      <ambientLight intensity={0.3} castShadow />
       <directionalLight position={[0, 10, 0]} intensity={0.5} />
       <directionalLight position={[10, 0, 0]} intensity={1.5} />
       <directionalLight position={[0, 0, 10]} intensity={1} />
-      <pointLight position={[-10, 0, -20]} intensity={0.5}/>
+      <pointLight position={[-10, 0, -20]} intensity={0.5} />
       <spotLight intensity={1} position={[1000, 0, 0]} />
     </>
   );
-}
+};
 
-const HTMLContent = ({children, bgColor, positionY, domContent, setColor, color, scrollArea}) => {
-
-  const mesh = useRef()
+const HTMLContent = ({
+  children,
+  bgColor,
+  positionY,
+  domContent,
+  setColor,
+  color,
+  scrollArea,
+}) => {
+  const mesh = useRef();
   useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += 0.01));
 
   const [refItem, inView] = useInView({
-    threshold: 0
-  })
+    threshold: 0,
+  });
 
   useEffect(() => {
-    inView && (
+    inView &&
       // scrollArea.current.style.background = `var(${bgColor})`
-      document.body.style.background = `var(${bgColor})`
-    )
+      (document.body.style.background = `var(${bgColor})`);
     if (inView) {
-      if (bgColor === '--ocean-300'){
-        setColor('lightblue')
-      }
-      else if (bgColor === '--spinach-300'){
-        setColor('#648f82')
-      }
-      else if (bgColor === '--grape-100'){
-        setColor('lightyellow')
+      if (bgColor === "--ocean-300") {
+        setColor("lightblue");
+      } else if (bgColor === "--spinach-300") {
+        setColor("#648f82");
+      } else if (bgColor === "--grape-100") {
+        setColor("lightyellow");
       }
     }
-  }, [inView])
+  }, [inView]);
 
   return (
     <>
-    <mesh ref={mesh} position={[56, 6, 10]} scale={50}>
-      <boxGeometry attach='geometry'/>
-      <meshStandardMaterial attach='material' color={color}/>
-    </mesh>
-    {/* <group>
+      <mesh ref={mesh} position={[56, 6, 10]} scale={50}>
+        <boxGeometry attach="geometry" />
+        <meshStandardMaterial attach="material" color={color} />
+      </mesh>
+      {/* <group>
       <mesh rotation={[-Math.PI/2, 0, 0]} position={[0, -25, 0]}>
         <planeGeometry attach='geometry' args={[100, 100]}/>
         <shadowMaterial attach='material' color={"red"}/>
       </mesh>
     </group> */}
-    <Section factor={1.5} offset={1}>
-      <group position={[0, positionY, 0]}>
-        <Html portal={domContent} fullscreen>
-          <BackCenter ref={refItem} bgColor={bgColor}>
-            {children}
-          </BackCenter>
-          <Center bgColor={bgColor}>
-            {children}
-          </Center>
-        </Html>
-      </group>
-    </Section>
+      <Section factor={1.5} offset={1}>
+        <group position={[0, positionY, 0]}>
+          <Html portal={domContent} fullscreen>
+            <BackCenter ref={refItem} bgColor={bgColor}>
+              {children}
+            </BackCenter>
+            <Center bgColor={bgColor}>{children}</Center>
+          </Html>
+        </group>
+      </Section>
     </>
-  )
-}
+  );
+};
 
 const MainPage = () => {
   const domContent = useRef();
   const scrollArea = useRef();
   const onScroll = (e) => {
-    state.top.current = e.target.scrollTop
-  }
-  const [color, setColor] = useState('white');
-  useEffect(() => void onScroll({target: scrollArea.current}), [])
+    state.top.current = e.target.scrollTop;
+  };
+  const [color, setColor] = useState("white");
+  useEffect(() => void onScroll({ target: scrollArea.current }), []);
 
   const [clicked, setClicked] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(clicked) {
-      navigate('/gallery');
+    if (clicked) {
+      navigate("/gallery");
     }
-  }, [clicked])
+  }, [clicked]);
 
   return (
     <>
-    <NavArea/>
-    <Div w="100%" h="calc(100vh - 120px)">
-      <Canvas camera={{position: [0, 0, 120], fov: 70}}>
-        <Lights/>
-        <OrbitControls/>
-        <Suspense fallback={null}>
-          <HTMLContent domContent={domContent} positionY={260} setColor={setColor} bgColor="--ocean-300" scrollArea={scrollArea}>
-            공간 109에서 디지털 작품을 NFT로 만들고 나만의 갤러리에 전시해보세요
-          </HTMLContent>
-          <HTMLContent domContent={domContent} positionY={10} setColor={setColor} bgColor="--spinach-300" scrollArea={scrollArea}>
-            싸피 토큰 SSF를 사용하여 서로의 NFT를 거래해보세요
-          </HTMLContent>
-          <HTMLContent domContent={domContent} positionY={-240} setColor={setColor} 
-            bgColor="--grape-100" color={color}
-            scrollArea={scrollArea}
-          >
-            <LastContent setClicked={setClicked}/>
-          </HTMLContent>
-        </Suspense>
-      </Canvas>
-      <ScrollArea ref={scrollArea} onScroll={onScroll}>
-        <div style={{postion: 'sticky', top: 0}} ref={domContent}></div>
-        <div style={{height: "calc(100vh + 120px)"}} ref={domContent}></div>
-      </ScrollArea>
-    </Div>
+      <NavArea />
+      <Div w="100%" h="calc(100vh - 120px)">
+        <Container>
+          <ScrollArea ref={scrollArea} onScroll={onScroll}>
+            <div style={{ postion: "sticky", top: 0 }} ref={domContent}></div>
+            <div
+              style={{ height: "calc(100vh + 120px)" }}
+              ref={domContent}
+            ></div>
+          </ScrollArea>
+        </Container>
+        <Canvas camera={{ position: [0, 0, 120], fov: 70 }}>
+          <Lights />
+          <OrbitControls />
+          <Suspense fallback={null}>
+            <HTMLContent
+              domContent={domContent}
+              positionY={260}
+              setColor={setColor}
+              bgColor="--ocean-300"
+              scrollArea={scrollArea}
+            >
+              공간 109에서 디지털 작품을 NFT로 만들고 나만의 갤러리에
+              전시해보세요
+            </HTMLContent>
+            <HTMLContent
+              domContent={domContent}
+              positionY={10}
+              setColor={setColor}
+              bgColor="--spinach-300"
+              scrollArea={scrollArea}
+            >
+              싸피 토큰 SSF를 사용하여 서로의 NFT를 거래해보세요
+            </HTMLContent>
+            <HTMLContent
+              domContent={domContent}
+              positionY={-240}
+              setColor={setColor}
+              bgColor="--grape-100"
+              color={color}
+              scrollArea={scrollArea}
+            >
+              <LastContent setClicked={setClicked} />
+            </HTMLContent>
+          </Suspense>
+        </Canvas>
+      </Div>
     </>
   );
 };

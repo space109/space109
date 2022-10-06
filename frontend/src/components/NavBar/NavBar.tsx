@@ -188,9 +188,7 @@ function NavBar({ windowSize }: Props) {
       // });
       // checkNetwork();
       // console.log(nickname);
-      console.log("try");
       getName();
-      getToken();
     }
   }, []);
 
@@ -206,6 +204,10 @@ function NavBar({ windowSize }: Props) {
       closeModal();
     }
   }, [windowSize.width]);
+
+  useEffect(() => {
+    getToken();
+  }, [nickname]);
 
   const goHome = () => {
     navigate("/");
