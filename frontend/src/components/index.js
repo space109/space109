@@ -34,6 +34,7 @@ export {
   MainCharacter,
   Owl,
   LoadingProgress,
+  EdgeWall,
 } from "./3DModels";
 export { NaviButton, SharpButton } from "./Button";
 export { GalleryCard, NftCard } from "./Card";
