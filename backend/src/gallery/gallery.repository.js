@@ -141,7 +141,7 @@ class GalleryRepository {
       result = 0;
       return result;
     } finally {
-      await connection.release();
+      await connection.end();
     }
     return result;
   }
