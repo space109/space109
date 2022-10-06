@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Div, Image, PropStyle, screenSizes } from "../styles/BaseStyles";
 import styled, { keyframes } from "styled-components";
+import { getGalleryThemeList } from "../apis";
 import bg1 from "../assets/1.jpg";
 import bg2 from "../assets/2.jpg";
 import bg3 from "../assets/3.jpg";
@@ -16,9 +17,12 @@ import bg12 from "../assets/12.jpg";
 import bg13 from "../assets/13.jpg";
 import scrollIcon from "../assets/scrollIcon.png";
 import moment from "moment";
-import { DropDown } from "../components";
+import { useNavigate } from "react-router-dom";
 
-type Props = {};
+type Props = {
+  load: any;
+  onClick?: any;
+};
 
 interface CardObjType {
   gallery_id: number;
@@ -27,12 +31,19 @@ interface CardObjType {
   description: string;
   title: string;
   thumbnail: string;
+  nickname: string;
 }
 
 // interface CategoryObjType {
 //   category_id: number,
 //   category_title: string
 // }
+
+const GalleryCard = styled.div`
+  cursor: crosshair;
+  width: 100%;
+  height: 100%;
+`;
 
 const GradientDiv = styled(Div)<PropStyle>`
   background: linear-gradient(
@@ -54,10 +65,17 @@ const GradientCard = styled(GradientDiv)<PropStyle>`
   );
 `;
 
+const Card = styled.div`
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+`;
+
 const HoverDiv = styled(Div)<PropStyle>`
   transition: 0.5s ease;
   &:hover {
     opacity: 0;
+    background: rgba(0, 0, 0, 0);
   }
 `;
 
@@ -121,8 +139,9 @@ const AnimatedTextDiv = styled(Div)<PropStyle>`
   animation: ${FadeIn} 0.85s ease-in alternate;
 `;
 
-export default function MonthlyThemePage({}: Props) {
+export default function MonthlyThemePage({ load, onClick }: Props) {
   const ref = useRef<any>(null);
+  const navigate = useNavigate();
   const [scroll, setScroll] = useState<boolean>(false);
   const [cardColor, setCardColor] = useState<string[]>([
     "--match-100",
@@ -135,6 +154,11 @@ export default function MonthlyThemePage({}: Props) {
     "--milk-coffee-200",
     "--spinach-200",
   ]);
+
+  const shuffleArray = (array: any) => {
+    array.sort(() => Math.random() - 0.5);
+  };
+
   const backgroundImage = [
     0,
     bg1,
@@ -202,7 +226,11 @@ export default function MonthlyThemePage({}: Props) {
     },
     {
       bgTitle: "일상",
-      bgDescription: ["설명", "설명", "설명"],
+      bgDescription: [
+        `"별거 없던 하루"`,
+        "시간이 지나면",
+        "문득 그리워질 추억",
+      ],
     },
     {
       bgTitle: "일러스트",
@@ -213,106 +241,14 @@ export default function MonthlyThemePage({}: Props) {
       bgDescription: ["설명", "설명", "설명"],
     },
   ];
-  // const [category, setCategory] = useState<CategoryObjType[]>([
-  //   {
-  //     category_id: 1,
-  //     category_title: "사물",
-  //   },
-  //   {
-  //     category_id: 2,
-  //     category_title: "팝아트",
-  //   },
-  //   {
-  //     category_id: 3,
-  //     category_title: "봄",
-  //   },
-  //   {
-  //     category_id: 4,
-  //     category_title: "게임",
-  //   },
-  //   {
-  //     category_id: 5,
-  //     category_title: "판타지",
-  //   },
-  //   {
-  //     category_id: 6,
-  //     category_title: "여름",
-  //   },
-  //   {
-  //     category_id: 7,
-  //     category_title: "캘리그라피",
-  //   },
-  //   {
-  //     category_id: 8,
-  //     category_title: "추상",
-  //   },
-  //   {
-  //     category_id: 9,
-  //     category_title: "가을",
-  //   },
-  //   {
-  //     category_id: 10,
-  //     category_title: "일상",
-  //   },
-  //   {
-  //     category_id: 11,
-  //     category_title: "일러스트",
-  //   },
-  //   {
-  //     category_id: 12,
-  //     category_title: "겨울",
-  //   },
-  //   {
-  //     category_id: 13,
-  //     category_title: "기타",
-  //   },
-  // ]);
-  const [dataGallery, setDataGallery] = useState<CardObjType[]>([
-    {
-      gallery_id: 1,
-      oa: "123",
-      category_id: 3,
-      description:
-        "나는 비둘기 나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기 나는 비둘기나는 비둘기나는 비둘기나는 비둘기",
-      title: "몽크의 절규",
-      thumbnail:
-        "https://cdn.imweb.me/upload/S201906191c3595f104fd6/4dacf6c8274de.jpg",
-    },
-    {
-      gallery_id: 3,
-      oa: "wff",
-      category_id: 3,
-      description:
-        "나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기",
-      title: "모나리자",
-      thumbnail:
-        "https://cdn.imweb.me/upload/S201906191c3595f104fd6/4dacf6c8274de.jpg",
-    },
-    {
-      gallery_id: 3,
-      oa: "wff",
-      category_id: 3,
-      description:
-        "나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기",
-      title: "모나리자",
-      thumbnail:
-        "https://cdn.imweb.me/upload/S201906191c3595f104fd6/4dacf6c8274de.jpg",
-    },
-    {
-      gallery_id: 3,
-      oa: "wff",
-      category_id: 3,
-      description:
-        "나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기나는 비둘기",
-      title: "모나리자",
-      thumbnail:
-        "https://cdn.imweb.me/upload/S201906191c3595f104fd6/4dacf6c8274de.jpg",
-    },
-  ]);
-  // const [optionData, setOptionData] = useState<string>('')
-  // const dataFunc = (data:string):void => {
-  //   setOptionData(data)
-  // }
+
+  const [dataGallery, setDataGallery] = useState<CardObjType[]>([]);
+
+  const getTheme = async () => {
+    const datas = await getGalleryThemeList(parseInt(moment().format("MM")));
+    shuffleArray(datas);
+    setDataGallery(datas);
+  };
 
   const clickToScrollDown = () => {
     window.scrollTo({ behavior: "smooth", top: ref.current.offsetTop });
@@ -325,6 +261,13 @@ export default function MonthlyThemePage({}: Props) {
     }
   }, [scroll]);
 
+  const GoGallery = (gallery_id: any): any => {
+    load();
+    setTimeout(() => {
+      navigate(`/virtual-gallery/${gallery_id}`);
+    }, 2000);
+  };
+
   useEffect(() => {
     const timer = setInterval(() => {
       window.addEventListener("scroll", handleScroll);
@@ -334,6 +277,10 @@ export default function MonthlyThemePage({}: Props) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [handleScroll]);
+
+  useEffect(() => {
+    getTheme();
+  }, []);
 
   return (
     <Div
@@ -382,15 +329,26 @@ export default function MonthlyThemePage({}: Props) {
           특별전 갤러리
         </Div>
       </Div>
-      <Div w="100vw" h="100vh" bgColor="--grey-750" ref={ref}>
+      <Div w="100vw" h="100vh" bgColor="--grey-650" ref={ref}>
         <Div display="flex" flexWrap="wrap">
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((data, index) => {
+          {dataGallery.map((data, index) => {
             return (
-              <CardDiv key={index} color="--grey-100" bgColor={cardColor[data]}>
+              <CardDiv
+                key={index}
+                color="--grey-100"
+                bgColor={cardColor[(index + 1) % 9]}
+              >
                 {dataGallery.length > index && (
-                  <Div cursor="crosshair" w="100%" h="100%">
+                  <GalleryCard
+                    onClick={() => {
+                      GoGallery(dataGallery[index].gallery_id);
+                    }}
+                  >
                     <HoverDiv
-                      bgImage={dataGallery[index].thumbnail}
+                      bgImage={
+                        process.env.REACT_APP_BACKEND_HOST +
+                        dataGallery[index].thumbnail
+                      }
                       bgSize="cover"
                       w="100%"
                       h="100%"
@@ -415,17 +373,8 @@ export default function MonthlyThemePage({}: Props) {
                       <Div ml="5%" pt="2%" fontSize="--h6" w="70%" zIndex="3">
                         {dataGallery[index].description}
                       </Div>
-                      <Div
-                        ml="5%"
-                        bottom="10px"
-                        fontSize="--h4"
-                        position="absolute"
-                        zIndex="3"
-                      >
-                        {dataGallery[index].oa}
-                      </Div>
                     </HoverDiv>
-                    <GradientCard w="100%" h="100%" zIndex="2">
+                    <Card>
                       <Div
                         ml="5%"
                         pt="5%"
@@ -443,10 +392,10 @@ export default function MonthlyThemePage({}: Props) {
                         fontSize="--h4"
                         position="absolute"
                       >
-                        {dataGallery[index].oa}
+                        {dataGallery[index].nickname}
                       </Div>
-                    </GradientCard>
-                  </Div>
+                    </Card>
+                  </GalleryCard>
                 )}
               </CardDiv>
             );

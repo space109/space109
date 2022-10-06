@@ -102,12 +102,11 @@ function NftMake(props: any) {
   const [type, setType] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [helpText, setHelpText] = useState<string>("에몽이와 함께하는 즐거운");
-  const [helpMsg, setHelpMsg] = useState("\u00A0");
-  const [color, setColor] = useState("--grey-650");
   const [nameMessage, setNameMessage] = useState<string>("");
   const [descriptionMessage, setDescriptionMessage] = useState<string>("");
   const [fileMessage, setFileMessage] = useState<string>("");
   const [active, setActive] = useState<any>("");
+
   // IPFS 키
   const projectId = process.env.REACT_APP_PROJECT_ID;
   const projectSecretKey = process.env.REACT_APP_PROJECT_SECRET_KEY;
@@ -191,7 +190,7 @@ function NftMake(props: any) {
     setTimeout(() => {
       console.log("끝2");
       setLoading(false);
-      props.setCheck((pre:any) => !pre);
+      props.setCheck((pre: any) => !pre);
     }, 2000);
   };
 
