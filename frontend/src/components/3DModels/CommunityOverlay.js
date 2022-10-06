@@ -166,7 +166,7 @@ const CommunityOverlay = (props) => {
     <>
       <ModalDiv className="community-overlay" overflow="hidden">
         <Div display="flex" justifyContent="center" mt="7%" mb="3%">
-          <LogoImg src="/LogoBlack.png" />
+          <LogoImg src="/favicon.ico" />
         </Div>
         <Img src={closeIcon} alt="" onClick={props.toggleOpen} />
         <Div
@@ -214,7 +214,7 @@ const CommunityOverlay = (props) => {
               if (idx % 3 === 0)
                 return (
                   <InnerDiv>
-                    <TitleDiv>작성자:{item.NICKNAME}</TitleDiv>
+                    <TitleDiv>작성자:{item?.NICKNAME ? item.NICKNAME : "익명"}</TitleDiv>
                     <TextDiv>{item.DESCRIPTION}</TextDiv>
                   </InnerDiv>
                 );

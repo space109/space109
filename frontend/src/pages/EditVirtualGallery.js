@@ -343,8 +343,7 @@ const EditVirtualGallery = () => {
             })}
 
             {/* 로고 이미지 */}
-            {/* <LogoBox position={[52, 25, -68.7]} args={[16, 16, 0.1]} />
-              <LogoBox position={[14, 25, -68.7]} args={[16, 16, 0.1]} /> */}
+        
             <GalleryMap position={[0, 0, 0]} />
             <Floor position={[0, 10, 0]} />
             <Decorations toggleOpen={toggleOpen} />
