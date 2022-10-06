@@ -21,7 +21,6 @@ export default function GalleryMap(props) {
   const SkySkelleton3 = toConvexProps(nodes.SkySkelleton3.geometry);
   const MainEnter01 = toConvexProps(nodes.MainEnter01.geometry);
   const MainEnter02 = toConvexProps(nodes.MainEnter02.geometry);
-
   const MoveFloor_1 = toConvexProps(nodes.MoveFloor_1.geometry);
   const MoveFloor_2 = toConvexProps(nodes.MoveFloor_2.geometry);
   const CenterWall_1 = toConvexProps(nodes.CenterWall_1.geometry);

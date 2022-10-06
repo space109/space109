@@ -159,7 +159,7 @@ const VirtualGallery = () => {
   };
     const ExitHandler = () => {
       if (window.confirm("정말로 퇴장하시겠습니까?")) {
-        navigate("/profile");
+        navigate(-1);
       }
     };
 
@@ -243,7 +243,7 @@ const VirtualGallery = () => {
       </Div>
       <Canvas style={{ background: "grey" }}>
         <Fog />
-        <ambientLight intensity={0.1} />
+        <ambientLight intensity={0.5} />
         {/* <OrbitControls /> */}
         <Physics gravity={[0, -60, 0]}>
           {/* 사각 조명 */}

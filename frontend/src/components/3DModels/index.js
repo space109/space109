@@ -34,4 +34,5 @@ export { default as Plant1 } from "./Plant1";
 export { default as MainCharacter } from "./MainCharacter";
 export { default as Owl } from "./Owl";
 export { default as LoadingProgress } from "./LoadingProgress";
+export { default as EdgeWall } from "./EdgeWall";
 

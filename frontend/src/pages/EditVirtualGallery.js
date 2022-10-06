@@ -23,7 +23,7 @@ import { useAccount, useAxios } from "../hooks";
 
 const EditVirtualGallery = () => {
   const [toggle, setToggle] = useState(false); // 모달 on/off
-  const [toggleIdx, setToggleIdx] = useState(0);
+  const [toggleIdx, setToggleIdx] = useState(20);
   const [countArray, setCountArray] = useState([]);
   const { key } = useParams();
   const sendRequest = useAxios();
@@ -182,7 +182,7 @@ const EditVirtualGallery = () => {
 
   const ExitHandler = () => {
     if (window.confirm("정말로 퇴장하시겠습니까?")) {
-      navigate("/profile");
+      navigate(-1);
     }
   };
 
@@ -318,7 +318,7 @@ const EditVirtualGallery = () => {
         <Suspense fallback={null}>
           {/* 전역 안개, 빛 */}
           <Fog />
-          <ambientLight intensity={0.3} />
+          <ambientLight intensity={0.5} />
           <Physics gravity={[0, -60, 0]}>
             {/* 사각 조명 */}
             <RectAreaLightGroup />
@@ -343,8 +343,7 @@ const EditVirtualGallery = () => {
             })}
 
             {/* 로고 이미지 */}
-            {/* <LogoBox position={[52, 25, -68.7]} args={[16, 16, 0.1]} />
-              <LogoBox position={[14, 25, -68.7]} args={[16, 16, 0.1]} /> */}
+        
             <GalleryMap position={[0, 0, 0]} />
             <Floor position={[0, 10, 0]} />
             <Decorations toggleOpen={toggleOpen} />
