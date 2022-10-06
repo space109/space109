@@ -26,10 +26,10 @@ function App() {
 
     setTimeout(() => {
       setAnimation("end");
-    }, 5000);
+    }, 7000);
     setTimeout(() => {
       setLoading(false);
-    }, 7000);
+    }, 9000);
   };
 
   // 윈도우 사이즈를 저장할 스테이트

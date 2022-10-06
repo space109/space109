@@ -4,12 +4,16 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader';
 
 
 
-const LogoBox = () => {
-  // const img = new TextureLoader().load("/LogoBlack.png")
+const LogoBox = ({
+  position,
+  args,
+  rotation=[0, 0, 0]
+}) => {
+  const img = new TextureLoader().load("/LogoPng.png")
   return (
-    <mesh receiveShadow castShadow position={[33, 50, -70]}>
-      <boxGeometry args={[10, 10, 10]} />
-      <meshPhongMaterial />
+    <mesh receiveShadow castShadow position={position} rotation={rotation}>
+      <boxGeometry args={args} />
+      <meshPhongMaterial map={img} transparent/>
     </mesh>
   );
 };
