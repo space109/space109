@@ -75,6 +75,8 @@ class WalletRepository {
     } catch (e) {
       await connection.rollback();
       return 0;
+    } finally {
+      connection.release();
     }
   }
 }
