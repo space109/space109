@@ -114,7 +114,7 @@ class NftRepository {
       logger.error(e);
       return false;
     } finally {
-      await connection.release();
+      await connection.end();
     }
 
     return true;
