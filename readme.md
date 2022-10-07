@@ -1,6 +1,6 @@
 # **공간109**
 
-![thumbnail](.\exec\thumbnail.jpg)
+![LogoTransBlack](https://user-images.githubusercontent.com/97648026/194471136-dd995b68-0364-459d-ac72-df6edf16504d.png)
 
 ## 서비스 소개
 
