@@ -65,25 +65,25 @@
 
 - 홈페이지 소개
 - 갤러리 페이지로 이동가능
-    
+  
     ![https://user-images.githubusercontent.com/97648026/194745872-9705fe8e-13c5-453b-81a9-1fd6b169e149.gif](https://user-images.githubusercontent.com/97648026/194745872-9705fe8e-13c5-453b-81a9-1fd6b169e149.gif)
     
 
 ### 📄로그인페이지
 
 - 메타마스크를 이용하여 로그인
-    
+  
     ![https://user-images.githubusercontent.com/97648026/194746606-79632524-89d9-410e-aabb-38436312f3b9.gif](https://user-images.githubusercontent.com/97648026/194746606-79632524-89d9-410e-aabb-38436312f3b9.gif)
     
 - 처음 방문하는 유저는 본인의 닉네임을 등록하여 회원가입
-    
+  
     ![https://user-images.githubusercontent.com/97648026/194746603-0dcbb0a0-7739-49db-97ca-78588152a47b.gif](https://user-images.githubusercontent.com/97648026/194746603-0dcbb0a0-7739-49db-97ca-78588152a47b.gif)
     
 
 ### 📄월간테마 페이지
 
 - 월간 테마에 맞는 갤러리들을 랜덤으로 추천
-    
+  
     ![https://user-images.githubusercontent.com/97648026/194745329-d60fccbe-e37f-4295-b6c1-b3a673400d61.gif](https://user-images.githubusercontent.com/97648026/194745329-d60fccbe-e37f-4295-b6c1-b3a673400d61.gif)
     
 
@@ -93,7 +93,7 @@
 - 테마 필터 버튼과 검색 바를 이용하여 필터링
 - 갤러리 썸네일 버튼을 클릭하여 갤러리의 상세 정보 확인
 - 입장하기 버튼 클릭 시 3D 공간으로 입장
-    
+  
     ![https://media.discordapp.net/attachments/1011164237369966598/1028590753603137596/a403b226073c1385.gif?width=840&height=414](https://media.discordapp.net/attachments/1011164237369966598/1028590753603137596/a403b226073c1385.gif?width=840&height=414)
     
 
@@ -103,20 +103,20 @@
     - 본인이 가지고 있는 NFT 확인
     - 판매 중인 NFT 보기를 클릭하여 판매 중인 NFT만 필터링 가능
     - 판매된 NFT가 존재할 경우 내 NFT 페이지에서 판매 알림 확인
-        
+      
         ![https://user-images.githubusercontent.com/97648026/194745331-d87c8967-7199-4ae6-b10b-a6a90058be4e.gif](https://user-images.githubusercontent.com/97648026/194745331-d87c8967-7199-4ae6-b10b-a6a90058be4e.gif)
         
         ![https://media.discordapp.net/attachments/1011164237369966598/1028590427022041109/2f04b4c4b2f517b3.gif?width=840&height=414](https://media.discordapp.net/attachments/1011164237369966598/1028590427022041109/2f04b4c4b2f517b3.gif?width=840&height=414)
-        
+    
 - NFT 디테일 모달
     - NFT를 클릭하여 상세 정보 확인 가능
     - 본인의 NFT를 SSF 토큰으로 판매 신청 가능
-        
-        ![https://media.discordapp.net/attachments/1011164237369966598/1028600355161899089/26c517184d8c714b.gif?width=939&height=459](https://media.discordapp.net/attachments/1011164237369966598/1028600355161899089/26c517184d8c714b.gif?width=939&height=459)
-        
+      
+        ![26c517184d8c714b-min](https://user-images.githubusercontent.com/90893428/198298021-4164c063-ff51-4077-849a-1686fd129815.gif)
+    
 - NFT 생성하기
     - 본인의 디지털 작품을 NFT로 민팅 가능
-        
+      
         ![https://user-images.githubusercontent.com/97648026/194745328-38109454-f519-48ec-9b07-948f09452d0b.gif](https://user-images.githubusercontent.com/97648026/194745328-38109454-f519-48ec-9b07-948f09452d0b.gif)
         
 
@@ -127,9 +127,8 @@
 - `갤러리 비우기` 버튼으로 3D 갤러리 내 걸린 모든 액자 초기화
 - `입장하기` 버튼 클릭 시 본인의 3D 갤러리로 이동
 - `갤러리 편집하기` 버튼 클릭 시 본인의 3D 갤러리 편집 페이지로 이동
-    
-    ![https://media.discordapp.net/attachments/1011164237369966598/1028592683410784276/429c280a45ed1236.gif?width=840&height=411](https://media.discordapp.net/attachments/1011164237369966598/1028592683410784276/429c280a45ed1236.gif?width=840&height=411)
-    
+  
+    ![429c280a45ed1236-min](https://user-images.githubusercontent.com/90893428/198295220-734f1ba7-9632-4d36-8d2a-3460888cabca.gif)
 
 ### 📄3D 갤러리 편집페이지
 
@@ -137,25 +136,25 @@
 - 판매를 위한 NFT와 단순 소유중인 NFT 모두 전시 가능
 - 액자 크기, 위치, 회전 조정
     - 크기
-        
+      
         ![https://user-images.githubusercontent.com/97648026/194747502-7caf1a0d-b7e8-45a4-8366-8b99648c86e9.gif](https://user-images.githubusercontent.com/97648026/194747502-7caf1a0d-b7e8-45a4-8366-8b99648c86e9.gif)
         
     - 위치
-        
+      
         ![https://user-images.githubusercontent.com/97648026/194747501-945b3502-9065-463d-a91d-a7dcba0e1362.gif](https://user-images.githubusercontent.com/97648026/194747501-945b3502-9065-463d-a91d-a7dcba0e1362.gif)
         
     - 회전
-        
+      
         ![https://user-images.githubusercontent.com/97648026/194747504-c3d53d81-8fe5-4f6e-8c02-09386648a87d.gif](https://user-images.githubusercontent.com/97648026/194747504-c3d53d81-8fe5-4f6e-8c02-09386648a87d.gif)
-        
+    
 - 액자에 민팅한 NFT 이미지, PNG, GIF 전시
 - NFT 작품 추가, 삭제, 수정 / 기존 그림이 이미 전시 되어있거나 중복 전시인 경우, 선택 가능
-    
-    ![https://media.discordapp.net/attachments/1011164237369966598/1028595135996510208/2f3f8857bfaa9eba.gif?width=939&height=459](https://media.discordapp.net/attachments/1011164237369966598/1028595135996510208/2f3f8857bfaa9eba.gif?width=939&height=459)
+  
+    ![2f3f8857bfaa9eba-min-min](https://user-images.githubusercontent.com/90893428/198299604-ced325fc-c361-442d-9329-8a738ae4c14d.gif)
     
 - 방명록 작성 / 조회 / 초기화 기능
-    
-    ![https://media.discordapp.net/attachments/1011164237369966598/1028595092363169792/f13035a80feda8ea.gif?width=939&height=459](https://media.discordapp.net/attachments/1011164237369966598/1028595092363169792/f13035a80feda8ea.gif?width=939&height=459)
+  
+    ![f13035a80feda8ea-min](https://user-images.githubusercontent.com/90893428/198298359-2961797a-4664-4290-be13-5c4af4138e2d.gif)
     
 - wasd로 상하좌우 이동, e로 시점 고정, 마우스로 액자 선택, space bar로 점프
 
@@ -163,12 +162,12 @@
 
 - 전시한 액자 관람 / 전시하지 않은 액자는 보이지 않음
 - 판매 중인 NFT 작품 구매 기능
-    
-    ![https://media.discordapp.net/attachments/1011164237369966598/1028590113615265802/ed4db0cf7ae06126.gif?width=840&height=414](https://media.discordapp.net/attachments/1011164237369966598/1028590113615265802/ed4db0cf7ae06126.gif?width=840&height=414)
+  
+    ![ed4db0cf7ae06126-min](https://user-images.githubusercontent.com/90893428/198299617-e7b54384-fbe1-4f21-b861-f50e812bc01f.gif)
     
 - 방명록 조회 / 작성
-    
-    ![https://media.discordapp.net/attachments/1011164237369966598/1028593602668019772/8b8bb191909e7b34.gif?width=939&height=459](https://media.discordapp.net/attachments/1011164237369966598/1028593602668019772/8b8bb191909e7b34.gif?width=939&height=459)
+  
+    ![8b8bb191909e7b34-min](https://user-images.githubusercontent.com/90893428/198298368-eb81ba6d-cdc3-4b6a-89b3-fcdec176b783.gif)
     
 
 ## 🍀회고
